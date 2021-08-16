@@ -1,0 +1,147 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+
+<dictionary>
+
+	<!--VERBS-->
+	<verb names = "?" action = "UnknownVerb">
+		<response id = "unknown-verb" string = "No se lo que estás diciendo." />
+	</verb>
+
+	<verb names = "fin, finalizar, finaliza, terminar, termina, final, acaba, acabar, concluye, concluir, quit, q"
+			action = "Quit">
+			<response id="syntax-fail" string="Solo escribe 'fin' para salir." />
+	</verb>
+
+	<!--TODO: CLEAR, LOAD, SAVE-->
+
+	<verb names = "inventario, i, inv" action = "Inventory">
+		<response id = "inventory-is-empty" string = "No tienes nada en tu poder." />
+		<response id = "syntax-fail" string = "Escribe 'inventario' o 'i' para saber lo que llevas." />
+	</verb>
+
+	<verb names = "examinar, examina, mirar, mira, busca, buscar, revisa, revisar, x, m"
+			action = "LookInside" syntax = "en/dentro/adentro, 1">
+		<response id = "direct-not-found" string = "No encuentro eso." />
+		<response id = "direct-is-the-player" string = "Puedes probar con: inventario ó i." />
+		<response id = "direct-is-not-container" string = "No puedes ver adentro de #1." />
+		<response id = "direct-is-closed" string = "#^1 est@1(á,á,án,án) cerrad@1(o,a,os,as)." />
+		<response id = "container-is-closed" string = "En #1 no hay nada." />
+	</verb>
+
+	<verb names = "examinar, examina, mirar, mira, x, m"
+			action = "ExamineObject" syntax = "1">
+		<response id = "direct-not-found" string = "No hay eso." />
+	</verb>
+
+	<verb names = "examinar, examina, mirar, mira, ver, x, m"
+			action = "LookAround" />
+
+	<verb names = "toma, tomar, agarra, agarrar, recoger, recoge, coge, coger, junta, juntar, obtener, obtiene, sustrae, sustraer, sacar, saca, extrae, estraer"
+		syntax = "1, de/desde/del, 2" action = "TakeFrom">
+
+		<response id = "indirect-not-found" string = "No se de dónde lo quieres sacar." />
+		<response id = "indirect-is-not-container" string = "No se puede sacar cosas de #2." />
+		<response id = "indirect-is-closed" string = "Est@2(á,á,án,án) cerrad@2(o,a,os,as)." />
+		<response id = "direct-not-found" string = "#^2 no contiene eso." />
+		<response id = "direct-taken" string = "Sacas #1 de #2." />
+		<response id = "syntax-fail" string = "Tienes que indicar qué quieres sacar." />
+
+	</verb>
+
+	<verb names = "tomar, toma, agarrar, agarra, recoger, recoge, coger, coge, juntar, junta, obtener, obtiene"
+		syntax = "1" action = "TakeObject">
+		<response id = "direct-not-found" string = "No hay eso." />
+		<response id = "direct-is-the-player" string = "No puedes llevarte a ti mismo." />
+		<response id = "direct-is-fixed" string = "No puedes llevarte #1" />
+		<response id = "direct-is-heavy" string = "#^1 @1(es,es,son,son) muy pesad@1(o,a,os,as) como para que te @1(lo,la,los,las) lleves." />
+		<response id = "direct-taken" string = "Recoges #1." />
+	</verb>
+
+	<verb names = "dejar, deja, soltar, suelta, olvidar, olvida, poner, pon, insertar, inserta, colocar, coloca, situar, situa"
+		syntax = "1, en/dentro/adentro/dentro de/adentro de, 2" action = "LeaveIn">
+		<response id = "indirect-not-found" string = "¿A dónde?" />
+		<response id = "direct-not-found" string = "No tienes eso." />
+		<response id = "direct-is-the-player" string = "¿Meterte eso?" />
+		<response id = "indirect-is-not-container" string = "No puedes meter #1 en #2." />
+		<response id = "indirect-is-closed" string = "#^2 est@2(á,á,án,án) cerrad@1(o,a,os,as)." />
+		<response id = "direct-leaved" string = "Dejas #1 en #2." />
+		<response id = "syntax-fail" string = "Tienes que decir que quieres dejar." />
+	</verb>
+
+	<verb names = "ir, ve, anda, irse" action = "GoTo"
+		syntax = "a/al/hacia, 1">
+		<response id = "exit-not-exists" string = "¿A dónde?" />
+		<response id = "exit-not-found" string = "No puedes ir por ahí." />
+	</verb>
+
+	<verb names = "tirar, tira" action = "PullObject"
+		syntax = "de/del, 1">
+		<response id = "direct-not-found" string = "No existe eso." />
+		<response id = "direct-is-the-player" string = "Tirar de ti mismo ..." />
+		<response id = "direct-is-fixed" string = "No puedes tirar de #1." />
+		<response id = "nothing-happens" string = "Tirando de #1, no ocurre nada." />
+		<response id = "syntax-fail" string = "No se que jalar." />
+	</verb>
+
+	<verb names = "dejar, tirar, deja, tira" action = "LeaveObject"
+			syntax = "1">
+		<response id = "direct-not-found" string = "No tienes eso." />
+		<response id = "direct-left" string = "Lo dejas" />
+	</verb>
+
+	<verb names = "abrir, abre" action = "OpenObject"
+			syntax = "1">
+		<response id = "direct-not-found" string = "No hay eso para abrir." />
+		<response id = "direct-is-the-player" string = "No puedes abrirte a ti mismo." />
+		<response id = "direct-is-not-closable" string = "No se puede abrir eso." />
+		<response id = "direct-is-open" string = "Ya está abierto." />
+		<response id = "direct-was-openned" string = "Listo. Abierto." />
+
+	</verb>
+
+	<verb names = "jala, jalar" action = "PullObject"
+		syntax = "1">
+		<response id = "direct-not-found" string = "No existe eso." />
+		<response id = "direct-is-the-player" string = "Tirar de ti mismo." />
+		<response id = "direct-is-fixed" string = "No puedes tirar de #1." />
+		<response id = "nothing-happens" string = "Tirando de #1, no ocurre nada." />
+		<response id = "syntax-fail" string = "No se que jalar." />
+	</verb>
+
+	<verb names = "empuja, empujar, mover, mueve, desplaza, desplazar" action = "PushObject"
+		syntax = "1">
+		<response id = "direct-not-found" string = "Eso que quieres empujar no está." />
+		<response id = "direct-is-the-player" string = "No puedes empujarte a ti mismo." />
+		<response id = "direct-is-fixed" string = "#^1 est@1(á,án,á,án) fij@1(o,a,os,as)." />
+		<response id = "nothing-happens" string = "No ocurre nada cuando empujas #1." />
+		<response id = "syntax-fail" string = "No se que empujar." />
+	</verb>
+
+	<!--ARTICLES-->
+	<article name = "el" genre = "male" number = "singular" indefinited = "false" />
+	<article name = "la" genre = "female" number = "singular" indefinited = "false" />
+	<article name = "los" genre = "male" number = "plural" indefinited = "false" />
+	<article name = "las" genre = "female" number = "plural" indefinited = "false" />
+
+	<article name = "un" genre = "male" number = "singular" indefinited = "true" />
+	<article name = "una" genre = "female" number = "singular" indefinited = "true" />
+	<article name = "unos" genre = "male" number = "plural" indefinited = "true" />
+	<article name = "unas" genre = "female" number = "plural" indefinited = "true" />
+
+	<!--EXITS-->
+	<exit names = "norte, n" />
+	<exit names = "sur, s" />
+	<exit names = "este, e" />
+	<exit names = "oeste, o, w" />
+
+	<exit names = "noreste, ne" />
+	<exit names = "noroeste, no, nw" />
+	<exit names = "sudeste, sureste, se" />
+	<exit names = "sudoeste, suroeste, so, sw" />
+
+	<exit names = "arriba, arr" />
+	<exit names = "abajo, aba" />
+	<exit names = "adentro, ad" />
+	<exit names = "afuera, af" />
+
+</dictionary>

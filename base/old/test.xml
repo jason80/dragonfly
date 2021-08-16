@@ -1,0 +1,111 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<dictionary>
+
+	<verb names = "?" action = "UnknownVerb">
+		<response id = "unknown-verb" string = "No se lo que estás diciendo." />
+	</verb>
+
+	<verb names = "fin, finalizar, terminar, final, finaliza, quit, q"
+			action = "Quit" />
+
+	<verb names = "ir, ve, anda, irse" action = "GoTo"
+		syntax = "a/al/hacia, 1">
+		<response id = "exit-not-exists" string = "¿A dónde?" />
+		<response id = "exit-not-found" string = "No puedes ir por ahí." />
+	</verb>
+
+	<verb names = "examinar, examina, mirar, mira, ver, x"
+			action = "LookAround" />
+
+	<verb names = "abrir, abre, abri" action = "OpenObject"
+			syntax = "1">
+		<response id = "direct-not-found" string = "No hay eso para abrir." />
+		<response id = "direct-is-the-player" string = "No podés abrirte a vos mismo." />
+		<response id = "direct-is-not-closable" string = "No se puede abrir eso." />
+		<response id = "direct-is-open" string = "Ya está abierto." />
+		<response id = "direct-was-openned" string = "Listo. Abierto." />
+
+	</verb>
+
+	<verb names = "jump" action = "Jump">
+		<response id = "nothing-happens" string = "You begins to jump." />
+	</verb>
+
+	<noun names = "Habitación de Pruebas, habitacion">
+
+		<!--Description-->
+		<after actions = "LookAround" cancel = "false">
+			<response class = "Message">
+				Una habitación que sirve para hacer pruebas.
+			</response>
+		</after>
+
+		<noun names = "player, jugador">
+
+		</noun>
+
+		<noun names = "chest, coffer, boxfish, ark, box">
+			<variable name = "closed" value = "yes" />
+			<noun names = "vase, flagon">
+				<noun names = "keys, key">
+					<set>female, plural</set>
+				</noun>
+			</noun>
+		</noun>
+
+		<noun names = "red door, door, puerta">
+			<set>female, closable, closed</set>
+			<before actions = "OpenObject" cancel = "true">	
+				<if class = "IsSet" instance = "red door" attr = "closed" />
+				<response class = "Message" style = "italic: true">
+					Una extraña fuerza impide que abras ésta puerta.
+				</response>
+			</before>
+		</noun>
+
+		<noun names = "blue door, door, puerta">
+			<set>female, closable, closed</set>
+		</noun>
+
+		<connection exit = "norte" destiny = "jardin" />
+	</noun>
+
+	<noun names = "El Jardín, jardin">
+
+		<!--Descripcion-->
+		<after actions = "LookAround" cancel = "false">
+			<response class = "Message">
+				Un extraño jardín se extiende el patio trasero.
+			</response>
+		</after>
+
+		<connection exit = "sur" destiny = "habitacion" />
+	</noun>
+
+	<article name = "el" genre = "male" number = "singular" indefinited = "false" />
+	<article name = "la" genre = "female" number = "singular" indefinited = "false" />
+	<article name = "los" genre = "male" number = "plural" indefinited = "false" />
+	<article name = "las" genre = "female" number = "plural" indefinited = "false" />
+
+	<article name = "un" genre = "male" number = "singular" indefinited = "true" />
+	<article name = "una" genre = "female" number = "singular" indefinited = "true" />
+	<article name = "unos" genre = "male" number = "plural" indefinited = "true" />
+	<article name = "unas" genre = "female" number = "plural" indefinited = "true" />
+
+	<exit names = "norte, n" />
+	<exit names = "sur, s" />
+	<exit names = "este, e" />
+	<exit names = "oeste, o, w" />
+
+	<exit names = "noreste, ne" />
+	<exit names = "noroeste, no, nw" />
+	<exit names = "sudeste, sureste, se" />
+	<exit names = "sudoeste, suroeste, so, sw" />
+
+	<exit names = "arriba, arr" />
+	<exit names = "abajo, aba" />
+	<exit names = "adentro, ad" />
+	<exit names = "afuera, af" />
+
+</dictionary>

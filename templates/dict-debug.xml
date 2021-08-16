@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dictionary>
+	<verb names = "info" action = "debug.Info" syntax = "1" />
+	<verb names = "tree" action = "debug.Tree"/>
+	<verb names = "attr, attribute" action = "debug.Attr"
+		syntax = "1, set/unset, 2" />
+</dictionary>

@@ -358,6 +358,72 @@ class PushObject(action.Action):
 	def report(self) -> None:
 		self.fireResponse("nothing-happens")
 
+class OpenObject(action.Action):
+	def init(self) -> bool:
+		lst = self.game.player.childs(self.parser.directObjectString)
+		lst.extend(self.game.player.container.childs(self.parser.directObjectString))
+
+		if not lst: return self.fireResponse("direct-not-found")
+
+		self.parser.directObject = self.dictionary.objectChooserDialog.execute(lst)
+
+		if not self.parser.directObject: return False
+
+		self.sendEventLater(self.parser.directObject)
+
+		return True
+
+	def check(self) -> bool:
+
+		if self.parser.directObject == self.game.player:
+			return self.fireResponse("direct-is-the-player")
+		if not self.parser.directObject.isSet("closable"):
+			return self.fireResponse("direct-is-not-closable")
+		if not self.parser.directObject.isSet("closed"):
+			return self.fireResponse("direct-is-open")
+
+		return True
+
+	def carryOut(self) -> None:
+		self.parser.directObject.unset(["closed"])
+		self.sendEventLater(self.parser.directObject)
+
+	def report(self) -> None:
+		self.fireResponse("direct-was-opened")
+
+class CloseObject(action.Action):
+	def init(self) -> bool:
+		lst = self.game.player.childs(self.parser.directObjectString)
+		lst.extend(self.game.player.container.childs(self.parser.directObjectString))
+
+		if not lst: return self.fireResponse("direct-not-found")
+
+		self.parser.directObject = self.dictionary.objectChooserDialog.execute(lst)
+
+		if not self.parser.directObject: return False
+
+		self.sendEventLater(self.parser.directObject)
+
+		return True
+
+	def check(self) -> bool:
+
+		if self.parser.directObject == self.game.player:
+			return self.fireResponse("direct-is-the-player")
+		if not self.parser.directObject.isSet("closable"):
+			return self.fireResponse("direct-is-not-closable")
+		if self.parser.directObject.isSet("closed"):
+			return self.fireResponse("direct-is-closed")
+
+		return True
+
+	def carryOut(self) -> None:
+		self.parser.directObject.set(["closed"])
+		self.sendEventLater(self.parser.directObject)
+
+	def report(self) -> None:
+		self.fireResponse("direct-was-closed")
+
 class GoTo(action.Action):
 
 	def __init__(self) -> None:

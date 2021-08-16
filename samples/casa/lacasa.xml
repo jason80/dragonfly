@@ -10,5 +10,26 @@
 
 		<noun names = "jugador, player" />
 
+		<noun names = "puerta oeste, puerta, puerta-living-pasillo">
+			<set>fixed, female, closable, closed, scene</set>
+			<after actions = "ExamineObject">
+				<response class = "Message">
+					Es una puerta de madera color marrón que lleva a otra estacia de la casa.
+				</response>
+			</after>
+		</noun>
+
+		<connection exit = "oeste" destiny = "pasillo-sur" />
+
+	</noun>
+
+	<noun names = "Pasillo Sur, pasillo-sur">
+		<after actions = "LookAround">
+			<response class = "Message">
+				Éste pasillo conecta con otras habitaciones de la casa. El mismo continua hacia el norte, mientras que al oeste se puede ver el comedor.
+			</response>
+		</after>
+
+		<connection exit = "este" destiny = "living" />
 	</noun>
 </dictionary>

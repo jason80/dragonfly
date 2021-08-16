@@ -13,7 +13,7 @@ class LaCasa(dfbase.Game):
 		self.player = self.dictionary.nouns("player")[0]
 
 		self.setProperty("look-around", "always")
-		self.setProperty("show-parsing-process", "true")
+		self.setProperty("show-parsing-process", "false")
 
 if __name__ == "__main__":
 	game = LaCasa()

@@ -104,7 +104,7 @@
 		<response id = "direct-is-the-player" string = "No puedes cerrarte a ti mismo." />
 		<response id = "direct-is-not-closable" string = "No se puede cerrar #1." />
 		<response id = "direct-is-open" string = "#^1 ya est@1(á,án,á,án) cerrad@1(o,a,os,as)." />
-		<response id = "direct-was-openned" string = "Cierras #1." />
+		<response id = "direct-was-closed" string = "Cierras #1." />
 	</verb>
 
 	<verb names = "jala, jalar" action = "PullObject"

@@ -1,4 +1,5 @@
 from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
+from dfexcept import DragonflyException
 
 import action
 from output.console import Console
@@ -35,5 +36,43 @@ class Message(action.ActionResponse):
 		element.setAttribute("new-line", "true" if self.__newLine else "false")
 
 		element.appendChild(doc.createTextNode(self.__message))
+
+		return element
+
+class Attr(action.ActionResponse):
+	def __init__(self) -> None:
+		self.__instance = ""
+		self.__set = ""
+		self.__unset = ""
+
+	def execute(self, action: "action.Action") -> None:
+		objList = action.dictionary.nouns(self.__instance)
+		if not objList:
+			raise DragonflyException(f'On Set response: noun "{self.__instance}" not found in dictionary.')
+
+		obj = objList[0]
+
+		sets = []
+		for s in self.__set.split(","):
+			sets.append(s.strip())
+
+		unsets = []
+		for u in self.__unset.split(","):
+			unsets.append(u.strip())
+
+		obj.set(sets)
+		obj.unset(unsets)
+
+	def load(self, element: QDomElement) -> None:
+		self.__instance = element.attribute("instance")
+		self.__set = element.attribute("set", defaultValue="")
+		self.__unset = element.attribute("unset", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+
+		element.setAttribute("instance", self.__instance)
+		if self.__set: element.setAttribute("set", self.__set)
+		if self.__unset: element.setAttribute("unset", self.__unset)
 
 		return element

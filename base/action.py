@@ -1,13 +1,15 @@
+import typing
 from abc import ABC, abstractmethod
 
 from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
+
 import dfbase
-import syntax.parser
 import entities
 import helper.forname
+import syntax.parser
+from dfexcept import DragonflyException
 from output.console import Console
 
-import typing
 
 class Action(ABC):
 	def __init__(self) -> None:
@@ -85,7 +87,7 @@ class Action(ABC):
 
 	def fireResponse(self, id: str) -> bool:
 		if not self.__verb.hasResponse(id):
-			raise f"Verb {self.__verb} has not response: {id}."
+			raise DragonflyException(f"Verb {self.__verb} has not response: {id}.")
 
 		Console.println(self.__verb.getResponse(id))
 		return False

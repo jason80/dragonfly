@@ -4,7 +4,7 @@
 	<noun names = "La Sala de Estar, living">
 		<after actions = "LookAround">
 			<response class = "Message">
-				La sala de estar es el living de la casa. Hay algunos sillones dispuestos rodeando una mesita de té. En una pared destaca el hogar de la sala. Al sur se encuentra la puerta de entrada y al oeste, otra puerta lleva a alguna habitación.
+				La sala de estar es el living de la casa. Hay algunos sillones dispuestos rodeando una mesita de té. En una pared destaca el hogar de la sala. Al sur se encuentra la puerta de entrada y al oeste, otra puerta conduce a otro lugar.
 			</response>
 		</after>
 
@@ -17,9 +17,23 @@
 					Es una puerta de madera color marrón que lleva a otra estacia de la casa.
 				</response>
 			</after>
+
+			<after actions = "OpenObject">
+				<response class = "Attr" instance = "puerta-pasillo-living" unset = "closed" />
+			</after>
+			<after actions = "CloseObject">
+				<response class = "Attr" instance = "puerta-pasillo-living" set = "closed" />
+			</after>
 		</noun>
 
 		<connection exit = "oeste" destiny = "pasillo-sur" />
+		<before actions = "GoTo" cancel = "true">
+			<if class = "DirectEqualsExit" exit = "oeste"/>
+			<if class = "IsSet" instance = "puerta-living-pasillo" attr = "closed" />
+			<response class = "Message">
+				La puerta está cerrada.
+			</response>
+		</before>
 
 	</noun>
 
@@ -30,6 +44,29 @@
 			</response>
 		</after>
 
+		<noun names = "puerta este, puerta, puerta-pasillo-living">
+			<set>fixed, female, closable, closed, scene</set>
+			<after actions = "ExamineObject">
+				<response class = "Message">
+					Es una puerta de madera color marrón que lleva a otra estacia de la casa.
+				</response>
+			</after>
+
+			<after actions = "OpenObject">
+				<response class = "Attr" instance = "puerta-living-pasillo" unset = "closed" />
+			</after>
+			<after actions = "CloseObject">
+				<response class = "Attr" instance = "puerta-living-pasillo" set = "closed" />
+			</after>
+		</noun>
+
 		<connection exit = "este" destiny = "living" />
+		<before actions = "GoTo" cancel = "true">
+			<if class = "DirectEqualsExit" exit = "este" />
+			<if class = "IsSet" instance = "puerta-pasillo-living" attr = "closed" />
+			<response class = "Message">
+				La puerta está cerrada.
+			</response>
+		</before>
 	</noun>
 </dictionary>

@@ -40,6 +40,18 @@ class Game(ABC):
 		self.__parser = syntax.parser.Parser(self)
 		self.__player = None
 
+		self.__properties = dict()
+
+	@property
+	def properties(self) -> typing.Dict:
+		return self.__properties
+
+	def getProperty(self, name: str) -> str:
+		return self.__properties[name]
+	
+	def setProperty(self, name: str, value: str) -> None:
+		self.__properties[name] = value
+
 	@property
 	def execWorker(self) -> ExecWorker:
 		return self.__execWorker
@@ -69,7 +81,35 @@ class Game(ABC):
 
 	def run(self):
 
+		print("*** Dragonfly Library ***")
+		print("Initializing ...")
+
+		# Defaults
+		self.setProperty("show-parsing-process", "false")
+		self.setProperty("look-around", "never")
+
 		self.init()
+
+		if self.getProperty("show-parsing-process") == "true":
+			print("[Parser] showing parsing process.")
+			self.parser.showParsingProcess = True
+		elif self.getProperty("show-parsing-process") == "false":
+			print("[Parser] hiding parsing process.")
+			self.parser.showParsingProcess = False
+		else:
+			raise DragonflyException("Game Property: show-parsing-process expect true/false value.")
+
+		# Visibility behavior
+		if self.getProperty("look-around") == "on-start" or self.getProperty("look-around") == "always":
+			lookVerb = self.dictionary.verbByAction("LookAround")
+			self.execute(lookVerb.name)
+		elif self.getProperty("look-around") == "never":
+			pass
+		else:
+			print("Warn: Expected never/on-start/always value on disable-prologue property. Assuming never.")
+			self.setProperty("look-around", "never")
+
+		print(f"Visibility behavior: look-around = {self.getProperty('look-around')}")
 
 		self.__console.show()
 

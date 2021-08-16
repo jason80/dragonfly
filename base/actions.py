@@ -390,10 +390,11 @@ class GoTo(action.Action):
 		# Move the player
 		self.game.player.container = nouns[0]
 
-		# TODO: visibility behavior
-		# Look around verb
-		v = self.dictionary.verbByAction("LookAround")
-		self.game.execute(v.name)
+		# Visibility behavior
+		if self.game.getProperty("look-around") == "always":
+			# Look around verb
+			v = self.dictionary.verbByAction("LookAround")
+			self.game.execute(v.name)
 		
 		self.sendEventLater(self.game.player.container)
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dictionary>
+	<noun names = "La Sala de Estar, living">
+		<after actions = "LookAround">
+			<response class = "Message">
+				La sala de estar es el living de la casa. Hay algunos sillones dispuestos rodeando una mesita de té. En una pared destaca el hogar de la sala. Al sur se encuentra la puerta de entrada y al oeste, otra puerta lleva a alguna habitación.
+			</response>
+		</after>
+
+		<noun names = "jugador, player" />
+
+	</noun>
+</dictionary>

@@ -76,3 +76,27 @@ class Attr(action.ActionResponse):
 		if self.__unset: element.setAttribute("unset", self.__unset)
 
 		return element
+
+class AppendName(action.ActionResponse):
+	def __init__(self) -> None:
+		self.__instance = ""
+		self.__name = ""
+
+	def execute(self, action: "action.Action") -> None:
+		objList = action.dictionary.nouns(self.__instance)
+		if not objList:
+			raise DragonflyException(f'On AppendName response: noun "{self.__instance}" not found in dictionary.')
+		
+		obj = objList[0]
+		obj.appendName(self.__name)
+
+	def load(self, element: QDomElement) -> None:
+		self.__instance = element.attribute("instance", defaultValue="")
+		self.__name = element.attribute("name", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.__instance)
+		element.setAttribute("name", self.__name)
+
+		return element

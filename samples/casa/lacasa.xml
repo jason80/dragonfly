@@ -44,7 +44,7 @@
 			</response>
 		</after>
 
-		<noun names = "puerta este, puerta, puerta-pasillo-living">
+		<noun names = "puerta del living, puerta este, puerta, puerta-pasillo-living">
 			<set>fixed, female, closable, closed, scene</set>
 			<after actions = "ExamineObject">
 				<response class = "Message">
@@ -68,5 +68,10 @@
 				La puerta está cerrada.
 			</response>
 		</before>
+
+		<after actions = "GoTo">
+			<!--<if class = "DirectEqualsExit" exit = "oeste" />-->
+			<response class = "AppendName" instance = "puerta-living-pasillo" name = "puerta al pasillo" />
+		</after>
 	</noun>
 </dictionary>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dictionary>
+	<noun names = "auxiliar">
+		<noun names = "llave">
+			<set>female</set>
+
+			<after actions = "ExamineObject">
+				<response class = "Message">
+					Una pequeña llave de bronce.
+				</response>
+			</after>
+		</noun>
+	</noun>
+</dictionary>

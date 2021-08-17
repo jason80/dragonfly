@@ -36,7 +36,7 @@ class DirectEqualsExit(action.Condition):
 	def check(self, action: "action.Action") -> bool:
 		e = action.dictionary.exit(self.__exit)
 		if not e:
-			raise DragonflyException(f'On DirectEqualsExit condition: exit "{self.__exit} not found in dictionary."')
+			raise DragonflyException(f'On DirectEqualsExit condition: exit "{self.__exit}" not found in dictionary.')
 
 		return e.responds(action.parser.directObjectString)
 
@@ -48,3 +48,27 @@ class DirectEqualsExit(action.Condition):
 		element.setAttribute("exit", self.__exit)
 		return element
 		
+class Contains(action.Condition):
+	def __init__(self) -> None:
+		super().__init__()
+		self.__container = ""
+		self.__instance = ""
+
+	def check(self, action: "action.Action") -> bool:
+		cont = action.dictionary.nouns(self.__container)
+		if not cont:
+			raise DragonflyException(f'On Contains condition: container "{self.__container}" not found in dictionary.')
+
+		return cont[0].contains(self.__instance)
+
+	def load(self, element: QDomElement):
+		self.__instance = element.attribute("instance", defaultValue="")
+		self.__container = element.attribute("container", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+
+		element.setAttribute("instance", self.__instance)
+		element.setAttribute("container", self.__container)
+
+		return element

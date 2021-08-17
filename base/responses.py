@@ -2,6 +2,7 @@ from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
 from dfexcept import DragonflyException
 
 import action
+import entities
 from output.console import Console
 
 class Message(action.ActionResponse):
@@ -99,4 +100,34 @@ class AppendName(action.ActionResponse):
 		element.setAttribute("instance", self.__instance)
 		element.setAttribute("name", self.__name)
 
+		return element
+
+class Move(action.ActionResponse):
+	def __init__(self) -> None:
+		self.__instance = ""
+		self.__destiny = ""
+
+	def getObj(self, action: "action.Action", name: str) -> "entities.Noun":
+		objList = action.dictionary.nouns(name)
+		if not objList: return None
+		return objList[0]
+
+	def execute(self, action: "action.Action") -> None:
+		obj = self.getObj(action, self.__instance)
+		if not obj: raise DragonflyException(f'On Move response: noun "{self.__instance}" not found in dictionary.')
+
+		dest = self.getObj(action, self.__destiny)
+		if not dest: raise DragonflyException(f'On Move response: destiny "{self.__destiny}" not found in dictionary.')
+
+		obj.container = dest
+
+	def load(self, element: QDomElement) -> None:
+		self.__instance = element.attribute("instance", defaultValue="")
+		self.__destiny = element.attribute("destiny", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.__instance)
+		element.setAttribute("destiny", self.__destiny)
+		
 		return element

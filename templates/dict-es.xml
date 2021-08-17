@@ -89,6 +89,30 @@
 		<response id = "direct-left" string = "Lo dejas" />
 	</verb>
 
+	<verb names = "abrir, abre" action = "OpenWith"
+			syntax = "1, con/mediante, 2">
+		<response id = "direct-not-found" string = "Eso que quieres abrir no existe." />
+		<response id = "indirect-not-found" string = "No tienes eso para abrir." />
+		<response id = "direct-is-the-player" string = "No puedes abrirte a ti mismo." />
+		<response id = "indirect-is-the-player" string = "No eres una llave." />
+		<response id = "direct-is-not-closable" string = "No se puede abrir #1" />
+		<response id = "direct-is-open" string = "#^1 ya est@1(á,án,á,án) abiert@1(o,a,os,as)." />
+		<response id = "direct-was-opened" string = "Abres #1 con #2." />
+		<response id = "syntax-fail" string = "Prueba con 'abrir objeto' o 'abrir objeto con otro'." />
+	</verb>
+
+	<verb names = "cerrar, cierra" action = "CloseWith"
+			syntax = "1, con/mediante, 2">
+		<response id = "direct-not-found" string = "Eso que quieres cerrar no existe." />
+		<response id = "indirect-not-found" string = "No tienes eso para cerrar." />
+		<response id = "direct-is-the-player" string = "No puedes cerrarte a ti mismo." />
+		<response id = "indirect-is-the-player" string = "No eres una llave." />
+		<response id = "direct-is-not-closable" string = "No se puede cerrar #1" />
+		<response id = "direct-is-closed" string = "#^1 ya est@1(á,án,á,án) cerrad@1(o,a,os,as)." />
+		<response id = "direct-was-opened" string = "Cierras #1 con #2." />
+		<response id = "syntax-fail" string = "Prueba con 'cerrar objeto' o 'cerrar objeto con otro'." />
+	</verb>
+
 	<verb names = "abrir, abre" action = "OpenObject"
 			syntax = "1">
 		<response id = "direct-not-found" string = "No hay eso para abrir." />

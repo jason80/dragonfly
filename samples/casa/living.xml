@@ -43,10 +43,20 @@
 				</response>
 			</before>
 
-			<after actions = "OpenObject, OpenWith">
+			<before actions = "OpenWith" cancel = "true">
+				<if class = "IsSet" instance = "puerta-living-pasillo" attr = "con-llave" />
+				<if class = "IndirectEquals" instance = "llave" />
+				<response class = "Attr" instance = "puerta-living-pasillo" unset = "closed, con-llave" />
+				<response class = "Attr" instance = "puerta-pasillo-living" unset = "closed" />
+				<response class = "Message">
+					Abres la puerta.
+				</response>
+			</before>
+
+			<after actions = "OpenObject">
 				<response class = "Attr" instance = "puerta-pasillo-living" unset = "closed" />
 			</after>
-			<after actions = "CloseObject, CloseWith">
+			<after actions = "CloseObject">
 				<response class = "Attr" instance = "puerta-pasillo-living" set = "closed" />
 			</after>
 		</noun>

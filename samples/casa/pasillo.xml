@@ -16,10 +16,10 @@
 				</response>
 			</after>
 
-			<after actions = "OpenObject, OpenWith">
+			<after actions = "OpenObject">
 				<response class = "Attr" instance = "puerta-living-pasillo" unset = "closed" />
 			</after>
-			<after actions = "CloseObject, CloseWith">
+			<after actions = "CloseObject">
 				<response class = "Attr" instance = "puerta-living-pasillo" set = "closed" />
 			</after>
 		</noun>

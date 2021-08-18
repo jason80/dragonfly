@@ -97,7 +97,7 @@
 		<response id = "indirect-is-the-player" string = "No eres una llave." />
 		<response id = "direct-is-not-closable" string = "No se puede abrir #1" />
 		<response id = "direct-is-open" string = "#^1 ya est@1(á,án,á,án) abiert@1(o,a,os,as)." />
-		<response id = "direct-was-opened" string = "Abres #1 con #2." />
+		<response id = "nothing-happens" string = "No puedes abrir #1 con eso." />
 		<response id = "syntax-fail" string = "Prueba con 'abrir objeto' o 'abrir objeto con otro'." />
 	</verb>
 
@@ -109,7 +109,7 @@
 		<response id = "indirect-is-the-player" string = "No eres una llave." />
 		<response id = "direct-is-not-closable" string = "No se puede cerrar #1" />
 		<response id = "direct-is-closed" string = "#^1 ya est@1(á,án,á,án) cerrad@1(o,a,os,as)." />
-		<response id = "direct-was-opened" string = "Cierras #1 con #2." />
+		<response id = "nothing-happens" string = "No puedes cerrar #1 con eso." />
 		<response id = "syntax-fail" string = "Prueba con 'cerrar objeto' o 'cerrar objeto con otro'." />
 	</verb>
 

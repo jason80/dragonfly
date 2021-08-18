@@ -501,13 +501,11 @@ class OpenWith(action.Action):
 		return True
 
 	def carryOut(self) -> None:
-		self.parser.directObject.unset(["closed"])
-
 		self.sendEventLater(self.parser.directObject)
 		self.sendEventLater(self.parser.indirectObject)
 
 	def report(self) -> None:
-		self.fireResponse("direct-was-opened")
+		self.fireResponse("nothing-happens")
 
 class CloseWith(action.Action):
 	def init(self) -> bool:
@@ -550,13 +548,11 @@ class CloseWith(action.Action):
 		return True
 
 	def carryOut(self) -> None:
-		self.parser.directObject.set(["closed"])
-
 		self.sendEventLater(self.parser.directObject)
 		self.sendEventLater(self.parser.indirectObject)
 
 	def report(self) -> None:
-		self.fireResponse("direct-was-closed")
+		self.fireResponse("nothing-happens")
 
 class GoTo(action.Action):
 

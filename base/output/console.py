@@ -1,8 +1,10 @@
-from PyQt5.QtGui import QColor, QFont
-from output.styles import ConsoleStyles
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QFrame, QLineEdit, QMainWindow, QTextEdit, QVBoxLayout, QWidget
 import dfexcept
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QColor, QFont
+from PyQt5.QtWidgets import (QFrame, QLineEdit, QMainWindow, QTextEdit,
+                             QVBoxLayout, QWidget)
+
+from output.styles import ConsoleStyles
 
 
 class Console(QMainWindow):
@@ -32,6 +34,7 @@ class Console(QMainWindow):
 		self.textOutput.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		self.textOutput.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		self.textOutput.setFrameShape(QFrame.NoFrame)
+		self.textOutput.setTextInteractionFlags(Qt.NoTextInteraction)
 
 		# Input
 		self.textInput = QLineEdit(self.centralWidget)

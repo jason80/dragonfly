@@ -65,6 +65,12 @@ class Console(QMainWindow):
 		msg = self.__replaceObjects(d["msg"])
 
 		self.textOutput.insertPlainText(msg)
+
+		# Move scroll to bottom
+		sb = self.textOutput.verticalScrollBar()
+		sb.setValue(sb.maximum())
+
+		# Reset to default style
 		self.instance.resetStyle()
 
 	def __replaceObjects(self, text: str) -> str:

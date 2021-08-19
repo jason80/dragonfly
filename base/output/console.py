@@ -29,6 +29,8 @@ class Console(QMainWindow):
 		self.verticalLayout.addWidget(self.textOutput)
 		self.textOutput.setReadOnly(True)
 		self.textOutput.setFocusPolicy(Qt.NoFocus)
+		self.textOutput.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+		self.textOutput.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		self.textOutput.setFrameShape(QFrame.NoFrame)
 
 		# Input

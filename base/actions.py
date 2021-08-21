@@ -82,6 +82,19 @@ class Quit(action.Action):
 	def report(self) -> None:
 		pass
 
+class Clear(action.Action):
+	def init(self) -> bool:
+		return True
+
+	def check(self) -> bool:
+		return True
+
+	def carryOut(self) -> None:
+		Console.clear()
+
+	def report(self) -> None:
+		pass
+
 class Inventory(action.Action):
 	def init(self) -> bool:
 		self.sendEventLater(self.game.player)

@@ -12,7 +12,9 @@
 			<response id="syntax-fail" string="Solo escribe 'fin' para salir." />
 	</verb>
 
-	<!--TODO: CLEAR, LOAD, SAVE-->
+	<verb names = "limpiar, borrar, limpia, borra, clear, cls" action = "Clear" />
+
+	<!--TODO: LOAD, SAVE-->
 
 	<verb names = "inventario, i, inv" action = "Inventory">
 		<response id = "inventory-is-empty" string = "No tienes nada en tu poder." />

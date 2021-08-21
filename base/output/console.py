@@ -61,6 +61,8 @@ class Console(QMainWindow):
 
 		# Internal print
 		self.game.execWorker.console_print.connect(self.__internalPrint)
+		# Internal cloear output
+		self.game.execWorker.console_clear.connect(self.textOutput.clear)
 
 		# History
 		self.history = History()
@@ -166,6 +168,9 @@ class Console(QMainWindow):
 
 	def println(string: str, style: str = "") -> None:
 		Console.print(string + "\n", style)
+
+	def clear() -> None:
+		Console.instance.game.execWorker.console_clear.emit()
 
 	def input() -> str:
 		Console.instance.inputMode = True

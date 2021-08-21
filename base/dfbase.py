@@ -17,6 +17,7 @@ import checks
 class ExecWorker(QThread):
 
 	console_print = pyqtSignal(dict)
+	console_clear = pyqtSignal()
 
 	def __init__(self, game: "Game") -> None:
 		super().__init__()

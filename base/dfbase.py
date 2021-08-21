@@ -25,7 +25,8 @@ class ExecWorker(QThread):
 	def run(self) -> None:
 		while True:
 			line = output.console.Console.input()
-			output.console.Console.println(line) # Console echo
+			output.console.Console.println("")
+			output.console.Console.println(line, "family: 'Courier'") # Console echo
 			self.game.execute(line)
 
 class Game(ABC):

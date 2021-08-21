@@ -105,6 +105,8 @@ class Game(ABC):
 		missing = checks.MissingCheck(self)
 		missing.check()
 
+		print(f'Player: "{self.player.name}" located in "{self.player.container.name}".')
+
 		# Visibility behavior
 		if self.getProperty("look-around") == "on-start" or self.getProperty("look-around") == "always":
 			lookVerb = self.dictionary.verbByAction("LookAround")
@@ -116,6 +118,8 @@ class Game(ABC):
 			self.setProperty("look-around", "never")
 
 		print(f"Visibility behavior: look-around = {self.getProperty('look-around')}")
+
+		print("Running ...")
 
 		self.__console.show()
 

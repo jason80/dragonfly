@@ -218,6 +218,32 @@ class TakeObject(action.Action):
 	def report(self) -> None:
 		self.fireResponse("direct-taken")
 
+class LeaveObject(action.Action):
+	def init(self) -> bool:
+		lst = self.game.player.childs(self.parser.directObjectString)
+		if not lst: return self.fireResponse("direct-not-found")
+
+		self.parser.directObject = self.dictionary.objectChooserDialog.execute(lst)
+		if not self.parser.directObject: return False
+
+		self.sendEventLater(self.parser.directObject)
+
+		return True
+
+	def check(self) -> bool:
+		return True
+
+	def carryOut(self) -> None:
+		noun = self.parser.directObject
+		noun.container = self.game.player.container
+		noun.set(["leaved"])
+
+		self.sendEventLater(noun)
+
+	def report(self) -> None:
+		self.fireResponse("direct-left")
+
+
 class TakeFrom(action.Action):
 	def init(self) -> bool:
 
@@ -596,28 +622,3 @@ class GoTo(action.Action):
 
 	def report(self) -> None:
 		pass
-
-class LeaveObject(action.Action):
-	def init(self) -> bool:
-		lst = self.game.player.childs(self.parser.directObjectString)
-		if not lst: return self.fireResponse("direct-not-found")
-
-		self.parser.directObject = self.dictionary.objectChooserDialog.execute(lst)
-		if not self.parser.directObject: return False
-
-		self.sendEventLater(self.parser.directObject)
-
-		return True
-
-	def check(self) -> bool:
-		return True
-
-	def carryOut(self) -> None:
-		noun = self.parser.directObject
-		noun.container = self.game.player.container
-		noun.set(["leaved"])
-
-		self.sendEventLater(noun)
-
-	def report(self) -> None:
-		self.fireResponse("direct-left")

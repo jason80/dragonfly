@@ -92,6 +92,25 @@ class DirectEquals(action.Condition):
 		element.setAttribute("instance", self.__instance)
 		return element
 
+class DirectNotEquals(action.Condition):
+	def __init__(self) -> None:
+		super().__init__()
+		self.__instance = ""
+
+	def check(self, action: "action.Action") -> bool:
+		obj = action.parser.directObject
+		if not obj: return True
+
+		return not obj.responds(self.__instance)
+
+	def load(self, element: QDomElement):
+		self.__instance = element.attribute("instance", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.__instance)
+		return element
+
 class IndirectEquals(action.Condition):
 	def __init__(self) -> None:
 		super().__init__()
@@ -102,6 +121,25 @@ class IndirectEquals(action.Condition):
 		if not obj: return False
 
 		return obj.responds(self.__instance)
+
+	def load(self, element: QDomElement):
+		self.__instance = element.attribute("instance", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.__instance)
+		return element
+
+class IndirectNotEquals(action.Condition):
+	def __init__(self) -> None:
+		super().__init__()
+		self.__instance = ""
+
+	def check(self, action: "action.Action") -> bool:
+		obj = action.parser.indirectObject
+		if not obj: return True
+
+		return not obj.responds(self.__instance)
 
 	def load(self, element: QDomElement):
 		self.__instance = element.attribute("instance", defaultValue="")

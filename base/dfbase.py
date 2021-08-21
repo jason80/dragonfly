@@ -12,6 +12,7 @@ import entities
 import syntax.parser
 import helper.forname
 import output.console
+import checks
 
 class ExecWorker(QThread):
 
@@ -98,6 +99,11 @@ class Game(ABC):
 			self.parser.showParsingProcess = False
 		else:
 			raise DragonflyException("Game Property: show-parsing-process expect true/false value.")
+
+		# Missing check
+		print("Executing missing check ...")
+		missing = checks.MissingCheck(self)
+		missing.check()
 
 		# Visibility behavior
 		if self.getProperty("look-around") == "on-start" or self.getProperty("look-around") == "always":

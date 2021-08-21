@@ -1,10 +1,23 @@
+from PyQt5 import QtGui
 import dfexcept
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QFont
 from PyQt5.QtWidgets import (QFrame, QLineEdit, QMainWindow, QTextEdit,
                              QVBoxLayout, QWidget)
+from output.history import History
 
 from output.styles import ConsoleStyles
+
+class ConsoleLineEdit(QLineEdit):
+
+	def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
+		if event.key() == Qt.Key_Up:
+			self.setText(Console.instance.history.up())
+		
+		if event.key() == Qt.Key_Down:
+			self.setText(Console.instance.history.down())
+		
+		return super().keyPressEvent(event)
 
 
 class Console(QMainWindow):
@@ -37,7 +50,7 @@ class Console(QMainWindow):
 		self.textOutput.setTextInteractionFlags(Qt.NoTextInteraction)
 
 		# Input
-		self.textInput = QLineEdit(self.centralWidget)
+		self.textInput = ConsoleLineEdit(self.centralWidget)
 		self.verticalLayout.addWidget(self.textInput)
 		self.textInput.setFrame(False)
 
@@ -48,6 +61,9 @@ class Console(QMainWindow):
 
 		# Internal print
 		self.game.execWorker.console_print.connect(self.__internalPrint)
+
+		# History
+		self.history = History()
 
 	def __consoleReturnPressed(self) -> None:
 		self.inputMode = False
@@ -158,5 +174,9 @@ class Console(QMainWindow):
 			pass
 
 		line = Console.instance.textInput.text()
+
+		# Add to history
+		Console.instance.history.store(line)
+
 		Console.instance.textInput.clear()
 		return line

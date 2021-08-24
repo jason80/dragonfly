@@ -1,0 +1,20 @@
+import dfbase
+
+class Project:
+	def __init__(self) -> None:
+		self.__dictionary = dfbase.Dictionary(None)
+		self.__active = False
+
+	@property
+	def dictionary(self) -> dfbase.Dictionary:
+		return self.__dictionary
+
+	@dictionary.setter
+	def dictionary(self, dict: dfbase.Dictionary) -> None:
+		self.__dictionary = dict
+
+	@property
+	def active(self) -> bool:
+		return self.__active
+		
+	

@@ -1,5 +1,5 @@
 import typing
-from PyQt5.QtWidgets import QDialog, QLineEdit, QPushButton, QWidget
+from PyQt5.QtWidgets import QDialog, QFileDialog, QLineEdit, QPushButton, QWidget
 from PyQt5 import uic
 
 class NewProjectDialog(QDialog):
@@ -18,6 +18,6 @@ class NewProjectDialog(QDialog):
 		self.btnSelectPath.clicked.connect(self.selectPath)
 
 	def selectPath(self) -> None:
-		print("Select path")
+		self.edtPath.setText(QFileDialog.getExistingDirectory(self, "Select Directory", ".", QFileDialog.DontUseNativeDialog))
 
 

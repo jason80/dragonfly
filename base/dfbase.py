@@ -331,3 +331,9 @@ class Dictionary:
 		doc.save(outstream, 4)
 		outstream.flush()
 		file.close()
+
+	def clear(self) -> None:
+		self.__nouns.clear()
+		self.__verbs.clear()
+		self.__exits.clear()
+		self.__articles.clear()

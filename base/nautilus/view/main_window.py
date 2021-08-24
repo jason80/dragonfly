@@ -7,13 +7,16 @@ class MainWindow(QMainWindow):
 	def __init__(self, nautilus: "nautilus.app.Nautilus") -> None:
 		super().__init__()
 
+		self.__nautilus = nautilus
+
 		# Menus
 		self.actionNewProject = QAction()
 		self.actionCloseProject = QAction()
 
 		uic.loadUi("base/nautilus/view/main-window.ui", self)
 
-		self.__nautilus = nautilus
+		# Signals
+		self.actionNewProject.triggered.connect(self.__nautilus.project.new)
 
 		self.show()
 

@@ -1,5 +1,6 @@
 import dfbase
 import nautilus.app
+import nautilus.view.new_project_dialog
 
 class Project:
 	def __init__(self, nautilus: nautilus.app.Nautilus) -> None:
@@ -24,6 +25,10 @@ class Project:
 		return self.__active
 		
 	def new(self) -> None:
+
+		dialog = nautilus.view.new_project_dialog.NewProjectDialog(self.nautilus.mainWindow)
+		dialog.exec()
+
 		self.__dictionary.clear()
 		self.__active = True
 

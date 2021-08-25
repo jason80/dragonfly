@@ -1,3 +1,5 @@
+from PyQt5.QtCore import QFile, QIODevice, QTextStream
+from PyQt5.QtXml import QDomDocument
 import dfbase
 import nautilus.app
 import nautilus.view.new_project_dialog
@@ -66,6 +68,51 @@ class Project:
 		self.__dictionary.clear()
 		self.__active = True
 
+		self.save()
+
 		print(f"Project created '{self.__title}'.")
 		print(f"Location: '{self.__path}'.")
+
+	def load(self):
+		doc = QDomDocument()
+		file = QFile(f"{self.__path}/nautilus.xml")
+		if not file.open(QIODevice.ReadOnly or QIODevice.Text):
+			# TODO: Error
+			pass
+
+		if not doc.setContent(file):
+			file.close()
+			# TODO: Error
+
+		file.close()
+
+		root = doc.firstChildElement()
+
+		if root.tagName() != "nautilus": return None # TODO: Error
+
+		self.__title = root.attribute("title")
+		self.__author = root.attribute("author")
 		
+	def save(self):
+		doc = QDomDocument()
+
+		p_inst = doc.createProcessingInstruction("xml", 'version="1.0" encoding="UTF-8"')
+		doc.appendChild(p_inst)
+
+		root = doc.createElement("nautilus")
+		doc.appendChild(root)
+
+		# Save info
+		root.setAttribute("title", self.__title)
+		root.setAttribute("author", self.__author)
+
+		# Write file
+		file = QFile(self.__path + "/" + "nautilus.xml")
+		if not file.open(QFile.WriteOnly or QFile.Truncate):
+			# TODO: Error
+			pass
+
+		outstream = QTextStream(file)
+		doc.save(outstream, 4)
+		outstream.flush()
+		file.close()

@@ -1,4 +1,5 @@
 from PyQt5.QtCore import QFile, QIODevice, QTextStream
+from PyQt5.QtWidgets import QFileDialog
 from PyQt5.QtXml import QDomDocument
 import dfbase
 import nautilus.app
@@ -75,16 +76,29 @@ class Project:
 
 		self.nautilus.mainWindow.update()
 
+	def open(self):
+		self.__path = QFileDialog.getExistingDirectory(self.nautilus.mainWindow, "Select Directory", ".", QFileDialog.DontUseNativeDialog)
+
+		self.load()
+
+		self.__active = True
+
+		print(f"Project loaded '{self.__title}'.")
+		print(f"Location: '{self.__path}'.")
+
+		self.nautilus.mainWindow.update()
+
 	def load(self):
 		doc = QDomDocument()
 		file = QFile(f"{self.__path}/nautilus.xml")
 		if not file.open(QIODevice.ReadOnly or QIODevice.Text):
 			# TODO: Error
-			pass
+			print(f'Cannot open file "{self.__path}/nautilus.xml".')
 
 		if not doc.setContent(file):
 			file.close()
 			# TODO: Error
+			print(f'Cannot parse file "{self.__path}/nautilus.xml".')
 
 		file.close()
 

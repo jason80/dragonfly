@@ -11,12 +11,14 @@ class MainWindow(QMainWindow):
 
 		# Menus
 		self.actionNewProject = QAction()
+		self.actionOpenProject = QAction()
 		self.actionCloseProject = QAction()
 
 		uic.loadUi("base/nautilus/view/main-window.ui", self)
 
 		# Signals
 		self.actionNewProject.triggered.connect(self.__nautilus.project.new)
+		self.actionOpenProject.triggered.connect(self.__nautilus.project.open)
 
 		# Update UI
 		self.update()

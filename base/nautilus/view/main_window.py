@@ -18,8 +18,25 @@ class MainWindow(QMainWindow):
 		# Signals
 		self.actionNewProject.triggered.connect(self.__nautilus.project.new)
 
+		# Update UI
+		self.update()
+
 		self.show()
 
 	@property
 	def nautilus(self) -> "nautilus.app.Nautilus":
 		return self.__nautilus
+
+	def update(self):
+
+		active = self.nautilus.project.active
+
+		# Window Title
+		gameTitle = f" [{self.nautilus.project.title}]" if active else ""
+		self.setWindowTitle(f"Nautilus{gameTitle}")
+
+		self.actionCloseProject.setEnabled(False)
+
+		if active:
+			self.actionCloseProject.setEnabled(True)
+		

@@ -73,6 +73,8 @@ class Project:
 		print(f"Project created '{self.__title}'.")
 		print(f"Location: '{self.__path}'.")
 
+		self.nautilus.mainWindow.update()
+
 	def load(self):
 		doc = QDomDocument()
 		file = QFile(f"{self.__path}/nautilus.xml")
@@ -92,8 +94,15 @@ class Project:
 
 		self.__title = root.attribute("title")
 		self.__author = root.attribute("author")
+
+		# Load dictionary
+		self.__dictionary.clear()
+		self.__dictionary.load(f"{self.__path}/dictionary.xml")
 		
 	def save(self):
+
+		# Write project file
+
 		doc = QDomDocument()
 
 		p_inst = doc.createProcessingInstruction("xml", 'version="1.0" encoding="UTF-8"')
@@ -107,7 +116,7 @@ class Project:
 		root.setAttribute("author", self.__author)
 
 		# Write file
-		file = QFile(self.__path + "/" + "nautilus.xml")
+		file = QFile(f"{self.__path}/nautilus.xml")
 		if not file.open(QFile.WriteOnly or QFile.Truncate):
 			# TODO: Error
 			pass
@@ -116,3 +125,6 @@ class Project:
 		doc.save(outstream, 4)
 		outstream.flush()
 		file.close()
+
+		# Write dictionary file
+		self.__dictionary.save(f"{self.__path}/dictionary.xml")

@@ -8,6 +8,10 @@ class Project:
 		self.__dictionary = dfbase.Dictionary(None)
 		self.__active = False
 
+		self.__title = ""
+		self.__author = ""
+		self.__path = ""
+
 	@property
 	def dictionary(self) -> "dfbase.Dictionary":
 		return self.__dictionary
@@ -23,13 +27,45 @@ class Project:
 	@property
 	def active(self) -> bool:
 		return self.__active
+
+	@property
+	def title(self) -> str:
+		return self.__title
+
+	@title.setter
+	def title(self, title: str) -> None:
+		self.__title = title
+
+	@property
+	def author(self) -> str:
+		return self.__author
+
+	@author.setter
+	def author(self, author: str) -> None:
+		self.__author = author
+
+	@property
+	def path(self) -> str:
+		return self.__path
+
+	@path.setter
+	def path(self, path: str) -> None:
+		self.__path = path
 		
 	def new(self) -> None:
 
 		dialog = nautilus.view.new_project_dialog.NewProjectDialog(self.nautilus.mainWindow)
 		dialog.exec()
 
+		if dialog.cancel: return None
+
+		self.__title = dialog.edtTitle.text().strip()
+		self.__author = dialog.edtAuthor.text().strip()
+		self.__path = dialog.edtPath.text().strip()
+
 		self.__dictionary.clear()
 		self.__active = True
 
-		print("New Project")
+		print(f"Project created '{self.__title}'.")
+		print(f"Location: '{self.__path}'.")
+		

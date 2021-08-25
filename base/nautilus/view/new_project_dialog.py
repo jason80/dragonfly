@@ -16,6 +16,17 @@ class NewProjectDialog(QDialog):
 
 		# Signals
 		self.btnSelectPath.clicked.connect(self.selectPath)
+		self.btnCreate.clicked.connect(self.createPressed)
+
+		self.__cancel = True
+
+	@property
+	def cancel(self) -> bool:
+		return self.__cancel
+
+	def createPressed(self):
+		self.__cancel = False
+		self.close()
 
 	def selectPath(self) -> None:
 		self.edtPath.setText(QFileDialog.getExistingDirectory(self, "Select Directory", ".", QFileDialog.DontUseNativeDialog))

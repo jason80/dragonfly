@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QAction, QMainWindow
+from PyQt5.QtWidgets import QAction, QMainWindow, QSplitter
 from PyQt5 import uic
 
 import nautilus.app
@@ -14,11 +14,19 @@ class MainWindow(QMainWindow):
 		self.actionOpenProject = QAction()
 		self.actionCloseProject = QAction()
 
+		# Splitters
+		self.vSplitter = QSplitter()
+		self.hSplitter = QSplitter()
+
 		uic.loadUi("base/nautilus/view/main-window.ui", self)
 
 		# Signals
 		self.actionNewProject.triggered.connect(self.__nautilus.project.new)
 		self.actionOpenProject.triggered.connect(self.__nautilus.project.open)
+
+		# Sizes
+		self.vSplitter.setSizes([200, 400])
+		self.hSplitter.setSizes([600, 200])
 
 		# Update UI
 		self.update()

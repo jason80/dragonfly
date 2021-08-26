@@ -13,14 +13,57 @@
   <property name="windowTitle">
    <string>Nautilus</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QSplitter" name="hSplitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QSplitter" name="vSplitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="tabPosition">
+         <enum>QTabWidget::North</enum>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <property name="elideMode">
+         <enum>Qt::ElideNone</enum>
+        </property>
+        <widget class="QWidget" name="nounsTab">
+         <attribute name="title">
+          <string>Nouns</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="verbsTab">
+         <attribute name="title">
+          <string>Verbs</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="exitsTab">
+         <attribute name="title">
+          <string>Exits</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="widget" native="true"/>
+      </widget>
+      <widget class="QPlainTextEdit" name="plainTextEdit"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">

@@ -38,6 +38,11 @@
          <attribute name="title">
           <string>Nouns</string>
          </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QTreeView" name="nounsTree"/>
+          </item>
+         </layout>
         </widget>
         <widget class="QWidget" name="verbsTab">
          <attribute name="title">

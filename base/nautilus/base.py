@@ -5,10 +5,19 @@ import dfbase
 import nautilus.app
 import nautilus.view.new_project_dialog
 
+class NautilusGame(dfbase.Game):
+
+	def __init__(self) -> None:
+		super().__init__()
+
+	def init(self) -> None:
+		pass
+
 class Project:
 	def __init__(self, nautilus: nautilus.app.Nautilus) -> None:
 		self.__nautilus = nautilus
-		self.__dictionary = dfbase.Dictionary(None)
+		self.__game = NautilusGame()
+		self.__dictionary = dfbase.Dictionary(self.__game)
 		self.__active = False
 
 		self.__title = ""

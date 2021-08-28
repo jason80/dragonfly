@@ -40,7 +40,11 @@
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QTreeView" name="nounsTree"/>
+           <widget class="QTreeView" name="nounsTree">
+            <property name="headerHidden">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -68,7 +72,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">

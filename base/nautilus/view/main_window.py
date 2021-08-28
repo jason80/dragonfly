@@ -1,7 +1,10 @@
-from PyQt5.QtWidgets import QAction, QMainWindow, QSplitter
+import typing
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QAction, QMainWindow, QSplitter, QTreeView
 from PyQt5 import uic
-
+import entities
 import nautilus.app
+from nautilus.view.tree_view import TreeModel, TreeNode
 
 class MainWindow(QMainWindow):
 	def __init__(self, nautilus: "nautilus.app.Nautilus") -> None:
@@ -18,6 +21,10 @@ class MainWindow(QMainWindow):
 		self.vSplitter = QSplitter()
 		self.hSplitter = QSplitter()
 
+		# Nouns tree
+		self.nounsTree = QTreeView()
+		self.nounsTreeModel = TreeModel([])
+
 		uic.loadUi("base/nautilus/view/main-window.ui", self)
 
 		# Signals
@@ -29,7 +36,9 @@ class MainWindow(QMainWindow):
 		self.hSplitter.setSizes([600, 200])
 
 		# Update UI
+
 		self.update()
+		self.displayNouns()
 
 		self.show()
 
@@ -49,4 +58,26 @@ class MainWindow(QMainWindow):
 
 		if active:
 			self.actionCloseProject.setEnabled(True)
+
+		self.displayNouns()
 		
+	def displayNouns(self):
+
+		"""def appendNoun(lst: typing.List[TreeNode], noun: entities.Noun) -> None:
+			node = TreeNode(noun)
+			for n in noun.childs():
+				node.addChild()"""
+		def addNoun(node: TreeNode, noun: entities.Noun) -> None:
+			for n in noun.childs():
+				child = TreeNode(n)
+				node.addChild(child)
+				addNoun(child, n)
+
+		root = []
+		for noun in self.nautilus.project.dictionary.nouns():
+			if noun.container: continue
+			node = TreeNode(noun)
+			root.append(node)
+			addNoun(node, noun)
+
+		self.nounsTree.setModel(TreeModel(root))

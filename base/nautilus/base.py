@@ -8,7 +8,7 @@ import nautilus.view.new_project_dialog
 class NautilusGame(dfbase.Game):
 
 	def __init__(self) -> None:
-		super().__init__()
+		super().__init__(testMode=True)
 
 	def init(self) -> None:
 		pass
@@ -17,7 +17,7 @@ class Project:
 	def __init__(self, nautilus: nautilus.app.Nautilus) -> None:
 		self.__nautilus = nautilus
 		self.__game = NautilusGame()
-		self.__dictionary = dfbase.Dictionary(self.__game)
+		self.__dictionary = self.__game.dictionary
 		self.__active = False
 
 		self.__title = ""

@@ -19,6 +19,12 @@ class NounWidget(QWidget):
 		self.btnEditVariable = QPushButton()
 		self.btnRemoveVariable = QPushButton()
 
+		# Events
+		self.lstBefore = QListView()
+		self.btnAddBefore = QPushButton()
+		self.btnEditBefore = QPushButton()
+		self.btnRemoveBefore = QPushButton()
+
 		# List of containers
 		self.containerList = [None]
 		for n in noun.dictionary.nouns():
@@ -42,8 +48,14 @@ class NounWidget(QWidget):
 		self.variablesModel = QStringListModel()
 		self.loadVariables()
 
+		# List of events
+		self.beforeModel = QStringListModel()
+		self.loadBefore()
+
 		self.edtNames.setText(", ".join(self.noun.names))
 		self.edtAttrs.setText(", ".join(self.noun.attributes))
+
+		
 
 		# Signals
 		self.btnAddVariable.clicked.connect(self.addVariable)
@@ -97,3 +109,10 @@ class NounWidget(QWidget):
 		removeKey = index.data().split("=")[0]
 		self.noun.variables.pop(removeKey)
 		self.loadVariables()
+
+	def loadBefore(self):
+		beforeList = []
+		for b in self.noun.beforeEvents:
+			beforeList.append(str(b))
+		self.beforeModel = QStringListModel(beforeList)
+		self.lstBefore.setModel(self.beforeModel)

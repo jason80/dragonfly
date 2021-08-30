@@ -144,6 +144,14 @@ class Noun(Entity):
 	def variables(self) -> typing.Dict:
 		return self.__variables
 
+	@property
+	def beforeEvents(self) -> typing.List["action.ActionEvent"]:
+		return self.__before
+	
+	@property
+	def afterEvents(self) -> typing.List["action.ActionEvent"]:
+		return self.__after
+
 	def getVariable(self, name: str) -> str:
 		return self.__variables[name]
 

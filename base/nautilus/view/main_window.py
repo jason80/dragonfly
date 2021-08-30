@@ -1,10 +1,11 @@
 import typing
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QAction, QMainWindow, QSplitter, QTreeView
+from PyQt5.QtWidgets import QAction, QMainWindow, QSplitter, QTreeView, QWidget
 from PyQt5 import uic
 import entities
 import nautilus.app
 from nautilus.view.tree_view import TreeModel, TreeNode
+import nautilus.view.widgets
 
 class MainWindow(QMainWindow):
 	def __init__(self, nautilus: "nautilus.app.Nautilus") -> None:
@@ -25,11 +26,15 @@ class MainWindow(QMainWindow):
 		self.nounsTree = QTreeView()
 		self.nounsTreeModel = TreeModel([])
 
+		# Work widget
+		self.workWidget = QWidget()
+
 		uic.loadUi("base/nautilus/view/main-window.ui", self)
 
 		# Signals
 		self.actionNewProject.triggered.connect(self.__nautilus.project.new)
 		self.actionOpenProject.triggered.connect(self.__nautilus.project.open)
+		self.nounsTree.clicked.connect(self.nounsTreeClicked)
 
 		# Sizes
 		self.vSplitter.setSizes([200, 400])
@@ -60,6 +65,17 @@ class MainWindow(QMainWindow):
 			self.actionCloseProject.setEnabled(True)
 
 		self.displayNouns()
+
+	def nounsTreeClicked(self):
+		selected = self.nounsTree.selectedIndexes()
+		if selected:
+			index = selected[0]
+			noun = self.nounsTreeModel.getItem(index)
+			
+			self.workWidget.close()
+			self.workWidget = nautilus.view.widgets.NounWidget(self.vSplitter, noun)
+			self.vSplitter.addWidget(self.workWidget)
+			self.vSplitter.update()
 		
 	def displayNouns(self):
 

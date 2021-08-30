@@ -59,7 +59,9 @@
          </attribute>
         </widget>
        </widget>
-       <widget class="QWidget" name="widget" native="true"/>
+       <widget class="QWidget" name="workWidget" native="true">
+        <layout class="QGridLayout" name="gridLayout"/>
+       </widget>
       </widget>
       <widget class="QPlainTextEdit" name="plainTextEdit"/>
      </widget>

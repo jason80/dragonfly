@@ -85,3 +85,11 @@ class TreeModel(QAbstractItemModel):
 		if role == Qt.DisplayRole:
 			return str(node.data())
 		return None
+
+	def getItem(self, index: QModelIndex):
+		if index.isValid():
+			node = index.internalPointer()
+			if node:
+				return node.data()
+
+		return self.__root.data()

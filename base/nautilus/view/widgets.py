@@ -1,5 +1,6 @@
 import typing
-from PyQt5.QtWidgets import QComboBox, QLineEdit, QWidget
+from PyQt5.QtCore import QStringListModel
+from PyQt5.QtWidgets import QComboBox, QInputDialog, QLineEdit, QListView, QPushButton, QWidget
 from PyQt5 import uic
 import entities
 
@@ -11,6 +12,12 @@ class NounWidget(QWidget):
 		self.edtNames = QLineEdit()
 		self.edtAttrs = QLineEdit()
 		self.cbContainer = QComboBox()
+
+		# Variables
+		self.lstVariables = QListView()
+		self.btnAddVariable = QPushButton()
+		self.btnEditVariable = QPushButton()
+		self.btnRemoveVariable = QPushButton()
 
 		# List of containers
 		self.containerList = [None]
@@ -31,5 +38,62 @@ class NounWidget(QWidget):
 				self.cbContainer.setCurrentIndex(i)
 				break
 
+		# List of variables
+		self.variablesModel = QStringListModel()
+		self.loadVariables()
+
 		self.edtNames.setText(", ".join(self.noun.names))
 		self.edtAttrs.setText(", ".join(self.noun.attributes))
+
+		# Signals
+		self.btnAddVariable.clicked.connect(self.addVariable)
+		self.btnEditVariable.clicked.connect(self.editVariable)
+		self.btnRemoveVariable.clicked.connect(self.removeVariable)
+
+	def loadVariables(self) -> None:
+
+		keys = self.noun.variables.keys()
+		variables = []
+		for k in keys:
+			variables.append(f"{k}={self.noun.getVariable(k)}")
+
+		self.variablesModel = QStringListModel(variables)
+		self.lstVariables.setModel(self.variablesModel)
+
+	def addVariable(self) -> None:
+		text, ok = QInputDialog.getText(self, "Add Variable", "variable=value")
+		if not ok: return
+
+		var = text.split("=")
+		if len(var) != 2: return
+
+		self.noun.setVariable(var[0].strip(), var[1].strip())
+
+		self.loadVariables()
+
+	def editVariable(self) -> None:
+		index = self.lstVariables.currentIndex()
+		if index.row() == -1: return
+
+		removeKey = index.data().split("=")[0]
+
+		text, ok = QInputDialog.getText(self, "Edit Variable", "variable=value",
+					text=index.data())
+		if not ok: return
+
+		var = text.split("=")
+		if len(var) != 2: return
+
+		self.noun.variables.pop(removeKey)
+
+		self.noun.setVariable(var[0].strip(), var[1].strip())
+
+		self.loadVariables()
+
+	def removeVariable(self):
+		index = self.lstVariables.currentIndex()
+		if index.row() == -1: return
+
+		removeKey = index.data().split("=")[0]
+		self.noun.variables.pop(removeKey)
+		self.loadVariables()

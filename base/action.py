@@ -100,6 +100,13 @@ class ActionEvent:
 		self.__responses = []
 		self.__conditions = []
 
+	def __str__(self) -> str:
+		lst = []
+		for a in self.__actions:
+			lst.append(str(a))
+
+		return ", ".join(lst)
+
 	@property
 	def actions(self) -> typing.List:
 		return self.__actions

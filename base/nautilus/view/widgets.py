@@ -26,6 +26,10 @@ class NounWidget(QWidget):
 		self.btnAddBefore = QPushButton()
 		self.btnEditBefore = QPushButton()
 		self.btnRemoveBefore = QPushButton()
+		self.lstAfter = QListView()
+		self.btnAddAfter = QPushButton()
+		self.btnEditAfter = QPushButton()
+		self.btnRemoveAfter = QPushButton()
 
 		# List of containers
 		self.containerList = [None]
@@ -54,6 +58,9 @@ class NounWidget(QWidget):
 		self.beforeModel = QStringListModel()
 		self.loadBefore()
 
+		self.afterModel = QStringListModel()
+		self.loadAfter()
+
 		self.edtNames.setText(", ".join(self.noun.names))
 		self.edtAttrs.setText(", ".join(self.noun.attributes))
 
@@ -65,6 +72,10 @@ class NounWidget(QWidget):
 		self.btnAddBefore.clicked.connect(self.addBefore)
 		self.btnEditBefore.clicked.connect(self.editBefore)
 		self.btnRemoveBefore.clicked.connect(self.removeBefore)
+
+		self.btnAddAfter.clicked.connect(self.addAfter)
+		self.btnEditAfter.clicked.connect(self.editAfter)
+		self.btnRemoveAfter.clicked.connect(self.removeAfter)
 
 	def loadVariables(self) -> None:
 
@@ -151,3 +162,41 @@ class NounWidget(QWidget):
 		event = self.noun.beforeEvents.pop(index.row())
 
 		self.loadBefore()
+
+	def loadAfter(self) -> None:
+		afterList = []
+		for a in self.noun.afterEvents:
+			afterList.append(str(a))
+		self.afterModel = QStringListModel(afterList)
+		self.lstAfter.setModel(self.afterModel)
+
+	def addAfter(self) -> None:
+		event = action.ActionEvent()
+		dialog = EventDialog(self, event)
+
+		if dialog.cancel: return
+
+		event = dialog.actionEvent
+		self.noun.addAfter(event)
+
+		self.loadAfter()
+
+	def editAfter(self) -> None:
+		index = self.lstAfter.currentIndex()
+		if index.row() == -1: return
+
+		event = self.noun.afterEvents[index.row()]
+
+		dialog = EventDialog(self, event)
+		
+		if dialog.cancel: return
+
+		self.loadAfter()
+
+	def removeAfter(self) -> None:
+		index = self.lstAfter.currentIndex()
+		if index.row() == -1: return
+
+		event = self.noun.afterEvents.pop(index.row())
+
+		self.loadAfter()

@@ -103,7 +103,9 @@ class ActionEvent:
 	def __str__(self) -> str:
 		lst = []
 		for a in self.__actions:
-			lst.append(str(a))
+			if a.__module__ != "actions":
+				lst.append(f"{a.__module__}.{a.__name__}")
+			else: lst.append(f"{a.__name__}")
 
 		return ", ".join(lst)
 
@@ -114,6 +116,10 @@ class ActionEvent:
 	@property
 	def cancel(self) -> bool:
 		return self.__cancel
+
+	@cancel.setter
+	def cancel(self, cancel: bool) -> None:
+		self.__cancel = cancel
 
 	def match(self, action: Action) -> bool:
 		return action.__class__ in self.__actions

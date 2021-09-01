@@ -2,7 +2,9 @@ import typing
 from PyQt5.QtCore import QStringListModel
 from PyQt5.QtWidgets import QComboBox, QInputDialog, QLineEdit, QListView, QPushButton, QWidget
 from PyQt5 import uic
+import action
 import entities
+from nautilus.view.event_dialog import EventDialog
 
 class NounWidget(QWidget):
 	def __init__(self, parent: typing.Optional['QWidget'], noun: "entities.Noun") -> None:
@@ -55,12 +57,14 @@ class NounWidget(QWidget):
 		self.edtNames.setText(", ".join(self.noun.names))
 		self.edtAttrs.setText(", ".join(self.noun.attributes))
 
-		
-
 		# Signals
 		self.btnAddVariable.clicked.connect(self.addVariable)
 		self.btnEditVariable.clicked.connect(self.editVariable)
 		self.btnRemoveVariable.clicked.connect(self.removeVariable)
+
+		self.btnAddBefore.clicked.connect(self.addBefore)
+		self.btnEditBefore.clicked.connect(self.editBefore)
+		self.btnRemoveBefore.clicked.connect(self.removeBefore)
 
 	def loadVariables(self) -> None:
 
@@ -116,3 +120,34 @@ class NounWidget(QWidget):
 			beforeList.append(str(b))
 		self.beforeModel = QStringListModel(beforeList)
 		self.lstBefore.setModel(self.beforeModel)
+
+	def addBefore(self) -> None:
+		event = action.ActionEvent()
+		dialog = EventDialog(self, event)
+
+		if dialog.cancel: return
+
+		event = dialog.actionEvent
+		self.noun.addBefore(event)
+
+		self.loadBefore()
+
+	def editBefore(self) -> None:
+		index = self.lstBefore.currentIndex()
+		if index.row() == -1: return
+
+		event = self.noun.beforeEvents[index.row()]
+
+		dialog = EventDialog(self, event)
+		
+		if dialog.cancel: return
+
+		self.loadBefore()
+
+	def removeBefore(self) -> None:
+		index = self.lstBefore.currentIndex()
+		if index.row() == -1: return
+
+		event = self.noun.beforeEvents.pop(index.row())
+
+		self.loadBefore()

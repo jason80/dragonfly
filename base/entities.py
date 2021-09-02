@@ -295,7 +295,7 @@ class Noun(Entity):
 			element.appendChild(e.save(doc, "before"))
 
 		# Events after
-		for e in self.__before:
+		for e in self.__after:
 			element.appendChild(e.save(doc, "after"))
 
 		# Connections

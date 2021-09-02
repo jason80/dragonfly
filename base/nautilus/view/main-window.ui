@@ -74,7 +74,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -89,6 +89,7 @@
     </widget>
     <addaction name="menu_New"/>
     <addaction name="actionOpenProject"/>
+    <addaction name="actionSaveProject"/>
     <addaction name="actionCloseProject"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
@@ -114,6 +115,11 @@
   <action name="actionOpenProject">
    <property name="text">
     <string>&amp;Open Project</string>
+   </property>
+  </action>
+  <action name="actionSaveProject">
+   <property name="text">
+    <string>&amp;Save Project</string>
    </property>
   </action>
  </widget>

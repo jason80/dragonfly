@@ -151,3 +151,5 @@ class Project:
 
 		# Write dictionary file
 		self.__dictionary.save(f"{self.__path}/dictionary.xml")
+
+		self.nautilus.mainWindow.update()

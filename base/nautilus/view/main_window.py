@@ -16,6 +16,7 @@ class MainWindow(QMainWindow):
 		# Menus
 		self.actionNewProject = QAction()
 		self.actionOpenProject = QAction()
+		self.actionSaveProject = QAction()
 		self.actionCloseProject = QAction()
 
 		# Splitters
@@ -34,6 +35,7 @@ class MainWindow(QMainWindow):
 		# Signals
 		self.actionNewProject.triggered.connect(self.__nautilus.project.new)
 		self.actionOpenProject.triggered.connect(self.__nautilus.project.open)
+		self.actionSaveProject.triggered.connect(self.__nautilus.project.save)
 		self.nounsTree.clicked.connect(self.nounsTreeClicked)
 
 		# Sizes
@@ -60,9 +62,11 @@ class MainWindow(QMainWindow):
 		self.setWindowTitle(f"Nautilus{gameTitle}")
 
 		self.actionCloseProject.setEnabled(False)
+		self.actionSaveProject.setEnabled(False)
 
 		if active:
 			self.actionCloseProject.setEnabled(True)
+			self.actionSaveProject.setEnabled(True)
 
 		self.displayNouns()
 

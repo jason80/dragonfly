@@ -8,20 +8,20 @@ from output.console import Console
 class Message(action.ActionResponse):
 
 	def __init__(self) -> None:
-		self.__message = ""
-		self.__style = ""
-		self.__newLine = True
+		self.message = ""
+		self.style = ""
+		self.newLine = True
 
 	def execute(self, action: "action.Action") -> None:
-		if self.__newLine: Console.println(self.__message, self.__style)
-		else: Console.print(self.__message, self.__style)
+		if self.newLine: Console.println(self.message, self.style)
+		else: Console.print(self.message, self.style)
 
 	def load(self, element: QDomElement) -> None:
 
-		self.__style = element.attribute("style")
+		self.style = element.attribute("style")
 		nl = element.attribute("new-line", defaultValue = "true")
-		if nl == "true": self.__newLine = True
-		elif nl == "false": self.__newLine = False
+		if nl == "true": self.newLine = True
+		elif nl == "false": self.newLine = False
 		else:
 			# Error
 			pass
@@ -29,32 +29,32 @@ class Message(action.ActionResponse):
 		for i in range(element.childNodes().count()):
 			node = element.childNodes().at(i)
 			if node.nodeType() == QDomNode.TextNode:
-				self.__message = node.toText().data().strip()
+				self.message = node.toText().data().strip()
 
 	def save(self, doc: QDomDocument) -> QDomElement:
 		element = super().save(doc)
-		element.setAttribute("style", self.__style)
-		element.setAttribute("new-line", "true" if self.__newLine else "false")
+		element.setAttribute("style", self.style)
+		element.setAttribute("new-line", "true" if self.newLine else "false")
 
-		element.appendChild(doc.createTextNode(self.__message))
+		element.appendChild(doc.createTextNode(self.message))
 
 		return element
 
 class Attr(action.ActionResponse):
 	def __init__(self) -> None:
-		self.__instance = ""
-		self.__set = ""
-		self.__unset = ""
+		self.instance = ""
+		self.set = ""
+		self.unset = ""
 
 	def execute(self, action: "action.Action") -> None:
-		objList = action.dictionary.nouns(self.__instance)
+		objList = action.dictionary.nouns(self.instance)
 		if not objList:
-			raise DragonflyException(f'On Set response: noun "{self.__instance}" not found in dictionary.')
+			raise DragonflyException(f'On Set response: noun "{self.instance}" not found in dictionary.')
 
 		obj = objList[0]
 
 		sets = []
-		for s in self.__set.split(","):
+		for s in self.set.split(","):
 			sets.append(s.strip())
 
 		unsets = []
@@ -65,47 +65,47 @@ class Attr(action.ActionResponse):
 		obj.unset(unsets)
 
 	def load(self, element: QDomElement) -> None:
-		self.__instance = element.attribute("instance")
-		self.__set = element.attribute("set", defaultValue="")
-		self.__unset = element.attribute("unset", defaultValue="")
+		self.instance = element.attribute("instance")
+		self.set = element.attribute("set", defaultValue="")
+		self.unset = element.attribute("unset", defaultValue="")
 
 	def save(self, doc: QDomDocument) -> QDomElement:
 		element = super().save(doc)
 
-		element.setAttribute("instance", self.__instance)
-		if self.__set: element.setAttribute("set", self.__set)
-		if self.__unset: element.setAttribute("unset", self.__unset)
+		element.setAttribute("instance", self.instance)
+		if self.set: element.setAttribute("set", self.set)
+		if self.unset: element.setAttribute("unset", self.unset)
 
 		return element
 
 class AppendName(action.ActionResponse):
 	def __init__(self) -> None:
-		self.__instance = ""
-		self.__name = ""
+		self.instance = ""
+		self.name = ""
 
 	def execute(self, action: "action.Action") -> None:
-		objList = action.dictionary.nouns(self.__instance)
+		objList = action.dictionary.nouns(self.instance)
 		if not objList:
-			raise DragonflyException(f'On AppendName response: noun "{self.__instance}" not found in dictionary.')
+			raise DragonflyException(f'On AppendName response: noun "{self.instance}" not found in dictionary.')
 		
 		obj = objList[0]
-		obj.appendName(self.__name)
+		obj.appendName(self.name)
 
 	def load(self, element: QDomElement) -> None:
-		self.__instance = element.attribute("instance", defaultValue="")
-		self.__name = element.attribute("name", defaultValue="")
+		self.instance = element.attribute("instance", defaultValue="")
+		self.name = element.attribute("name", defaultValue="")
 
 	def save(self, doc: QDomDocument) -> QDomElement:
 		element = super().save(doc)
-		element.setAttribute("instance", self.__instance)
-		element.setAttribute("name", self.__name)
+		element.setAttribute("instance", self.instance)
+		element.setAttribute("name", self.name)
 
 		return element
 
 class Move(action.ActionResponse):
 	def __init__(self) -> None:
-		self.__instance = ""
-		self.__destiny = ""
+		self.instance = ""
+		self.destiny = ""
 
 	def getObj(self, action: "action.Action", name: str) -> "entities.Noun":
 		objList = action.dictionary.nouns(name)
@@ -113,21 +113,21 @@ class Move(action.ActionResponse):
 		return objList[0]
 
 	def execute(self, action: "action.Action") -> None:
-		obj = self.getObj(action, self.__instance)
-		if not obj: raise DragonflyException(f'On Move response: noun "{self.__instance}" not found in dictionary.')
+		obj = self.getObj(action, self.instance)
+		if not obj: raise DragonflyException(f'On Move response: noun "{self.instance}" not found in dictionary.')
 
-		dest = self.getObj(action, self.__destiny)
-		if not dest: raise DragonflyException(f'On Move response: destiny "{self.__destiny}" not found in dictionary.')
+		dest = self.getObj(action, self.destiny)
+		if not dest: raise DragonflyException(f'On Move response: destiny "{self.destiny}" not found in dictionary.')
 
 		obj.container = dest
 
 	def load(self, element: QDomElement) -> None:
-		self.__instance = element.attribute("instance", defaultValue="")
-		self.__destiny = element.attribute("destiny", defaultValue="")
+		self.instance = element.attribute("instance", defaultValue="")
+		self.destiny = element.attribute("destiny", defaultValue="")
 
 	def save(self, doc: QDomDocument) -> QDomElement:
 		element = super().save(doc)
-		element.setAttribute("instance", self.__instance)
-		element.setAttribute("destiny", self.__destiny)
+		element.setAttribute("instance", self.instance)
+		element.setAttribute("destiny", self.destiny)
 		
 		return element

@@ -141,6 +141,13 @@ class ActionEvent:
 		for r in self.__responses:
 			r.execute(action)
 
+	@property
+	def responses(self) -> typing.List["ActionResponse"]:
+		return self.__responses
+
+	@property
+	def conditions(self) -> typing.List["Condition"]:
+		return self.__conditions
 
 	def load(self, element: QDomElement) -> None:
 		# Load action list

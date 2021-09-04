@@ -6,7 +6,7 @@ import helper.reflect
 import helper.forname
 
 class EventElementDialog(QDialog):
-	def __init__(self, parent: typing.Optional[QWidget], element: typing.Any, module) -> None:
+	def __init__(self, parent: typing.Optional[QWidget], title: str, element: typing.Any, module) -> None:
 		super().__init__(parent=parent)
 		self.__element = element
 		self.__module = module
@@ -20,6 +20,8 @@ class EventElementDialog(QDialog):
 		self.attrsComponents = []
 
 		uic.loadUi("base/nautilus/view/event-element-dialog.ui", self)
+
+		self.setWindowTitle(title)
 
 		# Load classes
 		i = 0

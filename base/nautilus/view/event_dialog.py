@@ -79,7 +79,8 @@ class EventDialog(QDialog):
 		self.lstResponses.setModel(self.responsesModel)
 
 	def addResponse(self) -> None:
-		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, None, responses)
+		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, 
+								"New Response", None, responses)
 		if dialog.cancel: return None
 
 		self.__actionEvent.addResponse(dialog.element)
@@ -91,7 +92,8 @@ class EventDialog(QDialog):
 		if index.row() == -1: return
 
 		response = self.__actionEvent.responses[index.row()]
-		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, response, responses)
+		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, 
+							"Edit Response", response, responses)
 		if dialog.cancel: return None
 
 		self.__actionEvent.responses[index.row()] = dialog.element

@@ -12,6 +12,10 @@ class Message(action.ActionResponse):
 		self.style = ""
 		self.newLine = True
 
+	def __str__(self) -> str:
+		result = "println" if self.newLine else "print"
+		return f'{result} "{self.message}"'
+
 	def execute(self, action: "action.Action") -> None:
 		if self.newLine: Console.println(self.message, self.style)
 		else: Console.print(self.message, self.style)
@@ -45,6 +49,15 @@ class Attr(action.ActionResponse):
 		self.instance = ""
 		self.set = ""
 		self.unset = ""
+
+	def __str__(self) -> str:
+		lst = []
+		if self.set:
+			lst.append(f'set "{self.set}"')
+		if self.unset:
+			lst.append(f'unset "{self.set}"')
+
+		return " & ".join(lst) + " to " + self.instance
 
 	def execute(self, action: "action.Action") -> None:
 		objList = action.dictionary.nouns(self.instance)
@@ -83,6 +96,9 @@ class AppendName(action.ActionResponse):
 		self.instance = ""
 		self.name = ""
 
+	def __str__(self) -> str:
+		return f'Append name "{self.name}" to "{self.instance}"'
+
 	def execute(self, action: "action.Action") -> None:
 		objList = action.dictionary.nouns(self.instance)
 		if not objList:
@@ -106,6 +122,9 @@ class Move(action.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""
 		self.destiny = ""
+
+	def __str__(self) -> str:
+		return f'Move "{self.instance}" to "{self.destiny}"'
 
 	def getObj(self, action: "action.Action", name: str) -> "entities.Noun":
 		objList = action.dictionary.nouns(name)

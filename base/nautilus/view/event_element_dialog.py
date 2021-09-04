@@ -21,13 +21,22 @@ class EventElementDialog(QDialog):
 
 		uic.loadUi("base/nautilus/view/event-element-dialog.ui", self)
 
+		# Load classes
+		i = 0
+		index = 0
+		for c in helper.reflect.getClasses(module):
+			self.cbElementType.addItem(c.__name__)
+			if self.__element:
+				if c.__name__ == self.__element.__class__.__name__:
+					index = i
+					print(c.__name__)
+			i += 1
+
+		self.cbElementType.setCurrentIndex(index)
+
 		# Signals
 		self.cbElementType.currentIndexChanged.connect(self.typeChanged)
 		self.btnSave.clicked.connect(self.save)
-
-		# Load classes
-		for c in helper.reflect.getClasses(module):
-			self.cbElementType.addItem(c.__name__)
 
 		self.loadAttributes()
 		

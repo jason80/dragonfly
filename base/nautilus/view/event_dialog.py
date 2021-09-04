@@ -1,4 +1,5 @@
 import typing
+from PyQt5.QtCore import QStringListModel
 from PyQt5.QtWidgets import QCheckBox, QDialog, QLineEdit, QListView, QPushButton, QWidget
 from PyQt5 import uic
 
@@ -34,6 +35,8 @@ class EventDialog(QDialog):
 
 		# Signals
 		self.btnAddResponse.clicked.connect(self.addResponse)
+		self.btnEditResponse.clicked.connect(self.editResponse)
+		self.btnRemoveResponse.clicked.connect(self.removeResponse)
 
 		self.btnSave.clicked.connect(self.save)
 
@@ -50,6 +53,10 @@ class EventDialog(QDialog):
 		# Cancel
 		self.chkCancel.setChecked(self.__actionEvent.cancel)
 
+		# Responses
+		self.responsesModel = QStringListModel()
+		self.loadResponses()
+
 		self.exec()
 
 	@property
@@ -60,9 +67,44 @@ class EventDialog(QDialog):
 	def actionEvent(self) -> action.ActionEvent:
 		return self.__actionEvent
 
+	def loadResponses(self) -> None:
+
+		if not self.__actionEvent: return None
+
+		responseList = []
+		for r in self.__actionEvent.responses:
+			responseList.append(str(r))
+
+		self.responsesModel = QStringListModel(responseList)
+		self.lstResponses.setModel(self.responsesModel)
+
 	def addResponse(self) -> None:
 		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, None, responses)
 		if dialog.cancel: return None
+
+		self.__actionEvent.addResponse(dialog.element)
+
+		self.loadResponses()
+
+	def editResponse(self) -> None:
+		index = self.lstResponses.currentIndex()
+		if index.row() == -1: return
+
+		response = self.__actionEvent.responses[index.row()]
+		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, response, responses)
+		if dialog.cancel: return None
+
+		self.__actionEvent.responses[index.row()] = dialog.element
+
+		self.loadResponses()
+
+	def removeResponse(self) -> None:
+		index = self.lstResponses.currentIndex()
+		if index.row() == -1: return
+
+		self.__actionEvent.responses.pop(index.row())
+
+		self.loadResponses()
 
 	def save(self):
 		self.__cancel = False

@@ -4,6 +4,8 @@ from PyQt5 import uic
 
 import action
 import helper.forname
+import nautilus.view.event_element_dialog
+import responses
 
 class EventDialog(QDialog):
 	def __init__(self, parent: typing.Optional[QWidget], event: action.ActionEvent) -> None:
@@ -31,6 +33,8 @@ class EventDialog(QDialog):
 		uic.loadUi("base/nautilus/view/event-dialog.ui", self)
 
 		# Signals
+		self.btnAddResponse.clicked.connect(self.addResponse)
+
 		self.btnSave.clicked.connect(self.save)
 
 		# Load event
@@ -55,6 +59,10 @@ class EventDialog(QDialog):
 	@property
 	def actionEvent(self) -> action.ActionEvent:
 		return self.__actionEvent
+
+	def addResponse(self) -> None:
+		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, None, responses)
+		if dialog.cancel: return None
 
 	def save(self):
 		self.__cancel = False

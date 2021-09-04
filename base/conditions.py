@@ -9,6 +9,9 @@ class IsSet(action.Condition):
 		self.__instance = ""
 		self.__attr = ""
 
+	def __str__(self) -> str:
+		return f'Is set "{self.__attr}" on "{self.__instance}"'
+
 	def check(self, action: "action.Action") -> bool:
 		# Gets the noun
 		noun = action.dictionary.nouns(self.__instance)
@@ -32,6 +35,8 @@ class DirectEqualsExit(action.Condition):
 		super().__init__()
 		self.__exit = ""
 
+	def __str__(self) -> str:
+		return f'Direct equals exit: "{self.__exit}"'
 
 	def check(self, action: "action.Action") -> bool:
 		e = action.dictionary.exit(self.__exit)
@@ -53,6 +58,9 @@ class Contains(action.Condition):
 		super().__init__()
 		self.__container = ""
 		self.__instance = ""
+
+	def __str__(self) -> str:
+		return f'"{self.__container}" contains "{self.__instance}"'
 
 	def check(self, action: "action.Action") -> bool:
 		cont = action.dictionary.nouns(self.__container)
@@ -78,6 +86,9 @@ class DirectEquals(action.Condition):
 		super().__init__()
 		self.__instance = ""
 
+	def __str__(self) -> str:
+		return f'Direct equals "{self.__instance}"'
+
 	def check(self, action: "action.Action") -> bool:
 		obj = action.parser.directObject
 		if not obj: return False
@@ -96,6 +107,9 @@ class DirectNotEquals(action.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.__instance = ""
+
+	def __str__(self) -> str:
+		return f'Direct not equals "{self.__instance}"'
 
 	def check(self, action: "action.Action") -> bool:
 		obj = action.parser.directObject
@@ -116,6 +130,9 @@ class IndirectEquals(action.Condition):
 		super().__init__()
 		self.__instance = ""
 
+	def __str__(self) -> str:
+		return f'Indirect equals "{self.__instance}"'
+
 	def check(self, action: "action.Action") -> bool:
 		obj = action.parser.indirectObject
 		if not obj: return False
@@ -134,6 +151,9 @@ class IndirectNotEquals(action.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.__instance = ""
+
+	def __str__(self) -> str:
+		return f'Indirect equals "{self.__instance}"'
 
 	def check(self, action: "action.Action") -> bool:
 		obj = action.parser.indirectObject

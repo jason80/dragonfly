@@ -3,10 +3,9 @@ from PyQt5.QtCore import QStringListModel
 from PyQt5.QtWidgets import QCheckBox, QDialog, QLineEdit, QListView, QPushButton, QWidget
 from PyQt5 import uic
 
-import action
+import action, responses, conditions
 import helper.forname
 import nautilus.view.event_element_dialog
-import responses
 
 class EventDialog(QDialog):
 	def __init__(self, parent: typing.Optional[QWidget], event: action.ActionEvent) -> None:
@@ -38,6 +37,10 @@ class EventDialog(QDialog):
 		self.btnEditResponse.clicked.connect(self.editResponse)
 		self.btnRemoveResponse.clicked.connect(self.removeResponse)
 
+		self.btnAddCondition.clicked.connect(self.addCondition)
+		self.btnEditCondition.clicked.connect(self.editCondition)
+		self.btnRemoveCondition.clicked.connect(self.removeCondition)
+
 		self.btnSave.clicked.connect(self.save)
 
 		# Load event
@@ -56,6 +59,10 @@ class EventDialog(QDialog):
 		# Responses
 		self.responsesModel = QStringListModel()
 		self.loadResponses()
+
+		# Conditions
+		self.conditionsModel = QStringListModel()
+		self.loadConditions()
 
 		self.exec()
 
@@ -107,6 +114,46 @@ class EventDialog(QDialog):
 		self.__actionEvent.responses.pop(index.row())
 
 		self.loadResponses()
+
+	def addCondition(self) -> None:
+		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, 
+								"New Condition", None, conditions)
+		if dialog.cancel: return None
+
+		self.__actionEvent.addCondition(dialog.element)
+
+		self.loadConditions()
+
+	def loadConditions(self) -> None:
+		if not self.__actionEvent: return None
+
+		conditionList = []
+		for r in self.__actionEvent.conditions:
+			conditionList.append(str(r))
+
+		self.conditionsModel = QStringListModel(conditionList)
+		self.lstConditions.setModel(self.conditionsModel)
+
+	def editCondition(self) -> None:
+		index = self.lstConditions.currentIndex()
+		if index.row() == -1: return
+
+		condition = self.__actionEvent.conditions[index.row()]
+		dialog = nautilus.view.event_element_dialog.EventElementDialog(self, 
+							"Edit Condition", condition, conditions)
+		if dialog.cancel: return None
+
+		self.__actionEvent.conditions[index.row()] = dialog.element
+
+		self.loadConditions()
+
+	def removeCondition(self) -> None:
+		index = self.lstConditions.currentIndex()
+		if index.row() == -1: return
+
+		self.__actionEvent.conditions.pop(index.row())
+
+		self.loadConditions()
 
 	def save(self):
 		self.__cancel = False

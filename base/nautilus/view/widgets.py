@@ -81,6 +81,7 @@ class NounWidget(QWidget):
 		# Signals
 
 		self.edtNames.editingFinished.connect(self.namesEdited)
+		self.edtAttrs.editingFinished.connect(self.attrsEdited)
 
 		self.btnAddVariable.clicked.connect(self.addVariable)
 		self.btnEditVariable.clicked.connect(self.editVariable)
@@ -106,6 +107,15 @@ class NounWidget(QWidget):
 
 		for n in strNames.split(","):
 			self.noun.names.append(n.strip())
+
+	def attrsEdited(self) -> None:
+		strAttrs = self.edtAttrs.text().strip()
+		if not strAttrs: return
+
+		self.noun.attributes.clear()
+
+		for a in strAttrs.split(","):
+			self.noun.set([a.strip()])
 
 	def loadVariables(self) -> None:
 

@@ -6,14 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>492</width>
-    <height>651</height>
+    <width>530</width>
+    <height>716</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="19" column="4">
+    <widget class="QPushButton" name="btnAddConnection">
+     <property name="text">
+      <string>Add Connection</string>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0" colspan="5">
     <widget class="Line" name="line">
      <property name="orientation">
@@ -42,7 +49,7 @@
      </property>
     </widget>
    </item>
-   <item row="18" column="0">
+   <item row="22" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -202,6 +209,34 @@
    </item>
    <item row="15" column="0" rowspan="3" colspan="4">
     <widget class="QListView" name="lstAfter">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="0">
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string>Connections:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="20" column="4">
+    <widget class="QPushButton" name="btnEditConnection">
+     <property name="text">
+      <string>Edit Connection</string>
+     </property>
+    </widget>
+   </item>
+   <item row="21" column="4">
+    <widget class="QPushButton" name="btnRemoveConnection">
+     <property name="text">
+      <string>Remove Connection</string>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="0" rowspan="3" colspan="4">
+    <widget class="QListView" name="lstConnections">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>

@@ -1,10 +1,14 @@
 import typing
-from PyQt5.QtCore import QStringListModel
-from PyQt5.QtWidgets import QComboBox, QInputDialog, QLineEdit, QListView, QPushButton, QWidget
-from PyQt5 import uic
+
 import action
 import entities
+import movement
 from nautilus.view.event_dialog import EventDialog
+from PyQt5 import uic
+from PyQt5.QtCore import QStringListModel
+from PyQt5.QtWidgets import (QComboBox, QInputDialog, QLineEdit, QListView,
+                             QPushButton, QWidget)
+
 
 class NounWidget(QWidget):
 	def __init__(self, parent: typing.Optional['QWidget'], noun: "entities.Noun") -> None:
@@ -30,6 +34,12 @@ class NounWidget(QWidget):
 		self.btnAddAfter = QPushButton()
 		self.btnEditAfter = QPushButton()
 		self.btnRemoveAfter = QPushButton()
+
+		# Connections
+		self.lstConnections = QListView()
+		self.btnAddConnection = QPushButton()
+		self.btnEditConnection = QPushButton()
+		self.btnRemoveConnection = QPushButton()
 
 		# List of containers
 		self.containerList = [None]
@@ -61,6 +71,10 @@ class NounWidget(QWidget):
 		self.afterModel = QStringListModel()
 		self.loadAfter()
 
+		# List of connections
+		self.connModel = QStringListModel()
+		self.loadConnections()
+
 		self.edtNames.setText(", ".join(self.noun.names))
 		self.edtAttrs.setText(", ".join(self.noun.attributes))
 
@@ -76,6 +90,10 @@ class NounWidget(QWidget):
 		self.btnAddAfter.clicked.connect(self.addAfter)
 		self.btnEditAfter.clicked.connect(self.editAfter)
 		self.btnRemoveAfter.clicked.connect(self.removeAfter)
+
+		self.btnAddConnection.clicked.connect(self.addConnection)
+		self.btnEditConnection.clicked.connect(self.editConnection)
+		self.btnRemoveConnection.clicked.connect(self.removeConnection)
 
 	def loadVariables(self) -> None:
 
@@ -200,3 +218,52 @@ class NounWidget(QWidget):
 		event = self.noun.afterEvents.pop(index.row())
 
 		self.loadAfter()
+
+	def loadConnections(self) -> None:
+		connList = []
+		for c in self.noun.connections:
+			connList.append(str(c))
+
+		self.connModel = QStringListModel(connList)
+		self.lstConnections.setModel(self.connModel)
+
+	def addConnection(self) -> None:
+		text, ok = QInputDialog.getText(self, "Add Connection", "exit=destiny")
+		if not ok: return
+
+		conn = text.split("=")
+		if len(conn) != 2: return
+
+		connection = movement.Connection()
+		connection.exit = conn[0].strip()
+		connection.destiny = conn[1].strip()
+
+		self.noun.addConnection(connection)
+
+		self.loadConnections()
+
+	def editConnection(self) -> None:
+		index = self.lstConnections.currentIndex()
+		if index.row() == -1: return
+
+		connection = self.noun.connections[index.row()]
+
+		text, ok = QInputDialog.getText(self, "Edit Connection", "exit=destiny",
+					text=f"{connection.exit}={connection.destiny}")
+		if not ok: return
+
+		conn = text.split("=")
+		if len(conn) != 2: return
+
+		connection.exit = conn[0].strip()
+		connection.destiny = conn[1].strip()
+
+		self.loadConnections()
+
+	def removeConnection(self):
+		index = self.lstConnections.currentIndex()
+		if index.row() == -1: return
+
+		self.noun.connections.pop(index.row())
+
+		self.loadConnections()

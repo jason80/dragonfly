@@ -3,6 +3,7 @@ import typing
 import action
 import entities
 import movement
+import nautilus.app
 from nautilus.view.event_dialog import EventDialog
 from PyQt5 import uic
 from PyQt5.QtCore import QStringListModel
@@ -11,9 +12,10 @@ from PyQt5.QtWidgets import (QComboBox, QInputDialog, QLineEdit, QListView,
 
 
 class NounWidget(QWidget):
-	def __init__(self, parent: typing.Optional['QWidget'], noun: "entities.Noun") -> None:
+	def __init__(self, parent: typing.Optional['QWidget'], nautilus: "nautilus.app.Nautilus", noun: "entities.Noun") -> None:
 		super().__init__(parent=parent)
 
+		self.nautilus = nautilus
 		self.noun = noun
 		self.edtNames = QLineEdit()
 		self.edtAttrs = QLineEdit()
@@ -99,6 +101,8 @@ class NounWidget(QWidget):
 		self.btnEditConnection.clicked.connect(self.editConnection)
 		self.btnRemoveConnection.clicked.connect(self.removeConnection)
 
+		self.cbContainer.currentIndexChanged.connect(self.containerChanged)
+
 	def namesEdited(self) -> None:
 		strNames = self.edtNames.text().strip()
 		if not strNames: return
@@ -116,6 +120,10 @@ class NounWidget(QWidget):
 
 		for a in strAttrs.split(","):
 			self.noun.set([a.strip()])
+
+	def containerChanged(self):
+		self.noun.container = self.containerList[self.cbContainer.currentIndex()]
+		self.nautilus.mainWindow.displayNouns()
 
 	def loadVariables(self) -> None:
 

@@ -77,7 +77,8 @@ class MainWindow(QMainWindow):
 			noun = self.nounsTreeModel.getItem(index)
 			
 			self.workWidget.close()
-			self.workWidget = nautilus.view.widgets.NounWidget(self.vSplitter, noun)
+			self.workWidget = nautilus.view.widgets.NounWidget(self.vSplitter, 
+								self.__nautilus, noun)
 			self.vSplitter.addWidget(self.workWidget)
 			self.vSplitter.update()
 		

@@ -29,7 +29,7 @@
          <enum>QTabWidget::North</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="elideMode">
          <enum>Qt::ElideNone</enum>
@@ -52,6 +52,11 @@
          <attribute name="title">
           <string>Verbs</string>
          </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QListView" name="verbList"/>
+          </item>
+         </layout>
         </widget>
         <widget class="QWidget" name="exitsTab">
          <attribute name="title">

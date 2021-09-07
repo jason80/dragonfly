@@ -297,3 +297,16 @@ class NounWidget(QWidget):
 		self.noun.connections.pop(index.row())
 
 		self.loadConnections()
+
+class VerbWidget(QWidget):
+	def __init__(self, parent: typing.Optional['QWidget'], nautilus: "nautilus.app.Nautilus", verb: "entities.Verb") -> None:
+		super().__init__(parent=parent)
+
+		self.nautilus = nautilus
+		self.verb = verb
+
+		self.edtNames = QLineEdit()
+		self.edtAction = QLineEdit()
+		self.edtSyntax = QLineEdit()
+
+		uic.loadUi("base/nautilus/view/verb-widget.ui", self)

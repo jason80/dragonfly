@@ -1,6 +1,6 @@
 import typing
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QAction, QMainWindow, QSplitter, QTreeView, QWidget
+from PyQt5.QtCore import QStringListModel, Qt
+from PyQt5.QtWidgets import QAction, QListView, QMainWindow, QSplitter, QTreeView, QWidget
 from PyQt5 import uic
 import entities
 import nautilus.app
@@ -27,6 +27,10 @@ class MainWindow(QMainWindow):
 		self.nounsTree = QTreeView()
 		self.nounsTreeModel = TreeModel([])
 
+		# Verb list
+		self.verbList = QListView()
+		self.verbListModel = QStringListModel()
+
 		# Work widget
 		self.workWidget = QWidget()
 
@@ -46,6 +50,7 @@ class MainWindow(QMainWindow):
 
 		self.update()
 		self.displayNouns()
+		self.displayVerbs()
 
 		self.show()
 
@@ -69,6 +74,7 @@ class MainWindow(QMainWindow):
 			self.actionSaveProject.setEnabled(True)
 
 		self.displayNouns()
+		self.displayVerbs()
 
 	def nounsTreeClicked(self):
 		selected = self.nounsTree.selectedIndexes()
@@ -97,3 +103,11 @@ class MainWindow(QMainWindow):
 			addNoun(node, noun)
 
 		self.nounsTree.setModel(TreeModel(root))
+
+	def displayVerbs(self):
+		strVerbs = []
+		for verb in self.nautilus.project.dictionary.verbs():
+			strVerbs.append(str(verb))
+
+		self.verbListModel = QStringListModel(strVerbs)
+		self.verbList.setModel(self.verbListModel)

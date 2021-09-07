@@ -83,11 +83,6 @@ class MainWindow(QMainWindow):
 			self.vSplitter.update()
 		
 	def displayNouns(self):
-
-		"""def appendNoun(lst: typing.List[TreeNode], noun: entities.Noun) -> None:
-			node = TreeNode(noun)
-			for n in noun.childs():
-				node.addChild()"""
 		def addNoun(node: TreeNode, noun: entities.Noun) -> None:
 			for n in noun.childs():
 				child = TreeNode(n)

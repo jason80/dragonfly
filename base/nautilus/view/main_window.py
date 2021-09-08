@@ -1,6 +1,6 @@
 import typing
 from PyQt5.QtCore import QStringListModel, Qt
-from PyQt5.QtWidgets import QAction, QListView, QMainWindow, QSplitter, QTreeView, QWidget
+from PyQt5.QtWidgets import QAction, QListView, QMainWindow, QScrollArea, QSplitter, QTreeView, QWidget
 from PyQt5 import uic
 import entities
 import nautilus.app
@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
 
 		# Work widget
 		self.workWidget = QWidget()
+		self.workScroll = QScrollArea()
 
 		uic.loadUi("base/nautilus/view/main-window.ui", self)
 
@@ -87,8 +88,8 @@ class MainWindow(QMainWindow):
 			self.workWidget.close()
 			self.workWidget = nautilus.view.widgets.NounWidget(self.vSplitter, 
 								self.__nautilus, noun)
-			self.vSplitter.addWidget(self.workWidget)
-			self.vSplitter.update()
+			self.workScroll.setWidget(self.workWidget)
+			self.workScroll.update()
 
 	def verbListClicked(self):
 		index = self.verbList.currentIndex()
@@ -97,8 +98,8 @@ class MainWindow(QMainWindow):
 		self.workWidget.close()
 		self.workWidget = nautilus.view.widgets.VerbWidget(self.vSplitter, 
 			self.__nautilus, self.nautilus.project.dictionary.verbs()[index.row()])
-		self.vSplitter.addWidget(self.workWidget)
-		self.vSplitter.update()
+		self.workScroll.setWidget(self.workWidget)
+		self.workScroll.update()
 		
 	def displayNouns(self):
 		def addNoun(node: TreeNode, noun: entities.Noun) -> None:

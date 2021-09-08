@@ -4,6 +4,7 @@ import action
 import entities
 import movement
 import nautilus.app
+import helper.forname
 from nautilus.view.event_dialog import EventDialog
 from PyQt5 import uic
 from PyQt5.QtCore import QStringListModel
@@ -321,12 +322,38 @@ class VerbWidget(QWidget):
 		self.edtAction.setText(verb.action.__name__)
 
 		# Signals
+		self.edtNames.editingFinished.connect(self.namesEdited)
+		self.edtSyntax.editingFinished.connect(self.syntaxEdited)
+		self.edtAction.editingFinished.connect(self.actionEdited)
+
 		self.btnAddResponse.clicked.connect(self.addResponse)
 		self.btnEditResponse.clicked.connect(self.editResponse)
 		self.btnRemoveResponse.clicked.connect(self.removeResponse)
 
 		self.responsesModel = QStringListModel()
 		self.loadResponses()
+
+	def namesEdited(self):
+		strNames = self.edtNames.text().strip()
+		if not strNames: return
+
+		self.verb.names.clear()
+
+		for n in strNames.split(","):
+			self.verb.names.append(n.strip())
+	
+	def syntaxEdited(self):
+		strSyntax = self.edtSyntax.text().strip()
+		if not strSyntax: return
+
+		self.verb.syntax.clear()
+
+		for n in strSyntax.split(","):
+			self.verb.syntax.append(n.strip())
+
+	def actionEdited(self):
+		strAction = self.edtAction.text().strip()
+		self.verb.action = helper.forname.getClass(strAction, "actions")
 
 	def loadResponses(self) -> None:
 		keys = self.verb.responses.keys()

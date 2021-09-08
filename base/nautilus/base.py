@@ -154,4 +154,7 @@ class Project:
 		# Write dictionary file
 		self.__dictionary.save(f"{self.__path}/dictionary.xml")
 
+		print(f"Project saved '{self.__title}'.")
+		print(f"Location: '{self.__path}'.")
+
 		self.nautilus.mainWindow.update()

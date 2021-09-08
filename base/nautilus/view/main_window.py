@@ -40,7 +40,9 @@ class MainWindow(QMainWindow):
 		self.actionNewProject.triggered.connect(self.__nautilus.project.new)
 		self.actionOpenProject.triggered.connect(self.__nautilus.project.open)
 		self.actionSaveProject.triggered.connect(self.__nautilus.project.save)
+
 		self.nounsTree.clicked.connect(self.nounsTreeClicked)
+		self.verbList.clicked.connect(self.verbListClicked)
 
 		# Sizes
 		self.vSplitter.setSizes([200, 400])
@@ -87,6 +89,16 @@ class MainWindow(QMainWindow):
 								self.__nautilus, noun)
 			self.vSplitter.addWidget(self.workWidget)
 			self.vSplitter.update()
+
+	def verbListClicked(self):
+		index = self.verbList.currentIndex()
+		if index.row() == -1: return
+
+		self.workWidget.close()
+		self.workWidget = nautilus.view.widgets.VerbWidget(self.vSplitter, 
+			self.__nautilus, self.nautilus.project.dictionary.verbs()[index.row()])
+		self.vSplitter.addWidget(self.workWidget)
+		self.vSplitter.update()
 		
 	def displayNouns(self):
 		def addNoun(node: TreeNode, noun: entities.Noun) -> None:

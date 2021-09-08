@@ -337,6 +337,9 @@ class Verb(Entity):
 		"""Set the verb's syntax."""
 		self.__syntax = syntax
 
+	@property
+	def responses(self) -> typing.Dict:
+		return self.__responses
 
 	def getResponse(self, id: str) -> str:
 		return self.__responses[id] if id in self.__responses else ""

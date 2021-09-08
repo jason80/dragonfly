@@ -309,4 +309,68 @@ class VerbWidget(QWidget):
 		self.edtAction = QLineEdit()
 		self.edtSyntax = QLineEdit()
 
+		self.lstResponses = QListView()
+		self.btnAddResponse = QPushButton()
+		self.btnEditResponse = QPushButton()
+		self.btnRemoveResponse = QPushButton()
+
 		uic.loadUi("base/nautilus/view/verb-widget.ui", self)
+
+		self.edtNames.setText(", ".join(verb.names))
+		self.edtSyntax.setText(", ".join(verb.syntax))
+		self.edtAction.setText(verb.action.__name__)
+
+		# Signals
+		self.btnAddResponse.clicked.connect(self.addResponse)
+		self.btnEditResponse.clicked.connect(self.editResponse)
+		self.btnRemoveResponse.clicked.connect(self.removeResponse)
+
+		self.responsesModel = QStringListModel()
+		self.loadResponses()
+
+	def loadResponses(self) -> None:
+		keys = self.verb.responses.keys()
+		responses = []
+		for k in keys:
+			responses.append(f"{k}={self.verb.getResponse(k)}")
+
+		self.responsesModel = QStringListModel(responses)
+		self.lstResponses.setModel(self.responsesModel)
+
+	def addResponse(self):
+		text, ok = QInputDialog.getText(self, "Add Response", "response=text")
+		if not ok: return
+
+		res = text.split("=")
+		if len(res) != 2: return
+
+		self.verb.setResponse(res[0].strip(), res[1].strip())
+
+		self.loadResponses()
+
+	def editResponse(self):
+		index = self.lstResponses.currentIndex()
+		if index.row() == -1: return
+
+		removeKey = index.data().split("=")[0]
+
+		text, ok = QInputDialog.getText(self, "Edit Response", "response=text",
+					text=index.data())
+		if not ok: return
+
+		res = text.split("=")
+		if len(res) != 2: return
+
+		self.verb.responses.pop(removeKey)
+
+		self.verb.setResponse(res[0].strip(), res[1].strip())
+
+		self.loadResponses()
+
+	def removeResponse(self):
+		index = self.lstResponses.currentIndex()
+		if index.row() == -1: return
+
+		removeKey = index.data().split("=")[0]
+		self.verb.responses.pop(removeKey)
+		self.loadResponses()

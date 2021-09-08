@@ -1,4 +1,4 @@
-import typing, sys
+import typing, sys, os
 from PyQt5.QtWidgets import QApplication
 
 import nautilus.base
@@ -12,6 +12,15 @@ class Nautilus(QApplication):
 		self.__project = nautilus.base.Project(self)
 
 		self.__mainWindow = nautilus.view.main_window.MainWindow(self)
+
+		# Initial path
+		self.__initialPath = f'{os.getenv("HOME")}/nautilus-projects'
+		if not os.path.exists(self.__initialPath):
+			os.makedirs(self.__initialPath)
+
+	@property
+	def initialPath(self) -> str:
+		return self.__initialPath
 
 	@property
 	def mainWindow(self) -> "nautilus.view.main_window.MainWindow":

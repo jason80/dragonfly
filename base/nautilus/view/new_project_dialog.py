@@ -1,4 +1,4 @@
-import typing
+import typing, os
 from PyQt5.QtWidgets import QDialog, QFileDialog, QLineEdit, QPushButton, QWidget
 from PyQt5 import uic
 
@@ -13,6 +13,8 @@ class NewProjectDialog(QDialog):
 		self.btnSelectPath = QPushButton()
 
 		uic.loadUi("base/nautilus/view/new-project.ui", self)
+
+		self.edtPath.setText(parent.nautilus.initialPath)
 
 		# Signals
 		self.btnSelectPath.clicked.connect(self.selectPath)
@@ -29,6 +31,6 @@ class NewProjectDialog(QDialog):
 		self.close()
 
 	def selectPath(self) -> None:
-		self.edtPath.setText(QFileDialog.getExistingDirectory(self, "Select Directory", ".", QFileDialog.DontUseNativeDialog))
+		self.edtPath.setText(QFileDialog.getExistingDirectory(self, "Select Directory", self.edtPath.text().strip(), QFileDialog.DontUseNativeDialog))
 
 

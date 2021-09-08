@@ -86,7 +86,9 @@ class Project:
 		self.nautilus.mainWindow.update()
 
 	def open(self):
-		self.__path = QFileDialog.getExistingDirectory(self.nautilus.mainWindow, "Select Directory", ".", QFileDialog.DontUseNativeDialog)
+		self.__path = QFileDialog.getExistingDirectory(self.nautilus.mainWindow, "Select Directory", self.__nautilus.initialPath, QFileDialog.DontUseNativeDialog)
+
+		if not self.__path: return
 
 		self.load()
 

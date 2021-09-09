@@ -1,6 +1,6 @@
 import typing
 from PyQt5.QtCore import QStringListModel, Qt
-from PyQt5.QtWidgets import QAction, QListView, QMainWindow, QScrollArea, QSplitter, QTreeView, QWidget
+from PyQt5.QtWidgets import QAction, QInputDialog, QListView, QMainWindow, QScrollArea, QSplitter, QTreeView, QWidget
 from PyQt5 import uic
 import entities
 import nautilus.app
@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
 		self.actionOpenProject = QAction()
 		self.actionSaveProject = QAction()
 		self.actionCloseProject = QAction()
+		self.actionNewNoun = QAction()
 
 		# Splitters
 		self.vSplitter = QSplitter()
@@ -41,6 +42,8 @@ class MainWindow(QMainWindow):
 		self.actionNewProject.triggered.connect(self.__nautilus.project.new)
 		self.actionOpenProject.triggered.connect(self.__nautilus.project.open)
 		self.actionSaveProject.triggered.connect(self.__nautilus.project.save)
+
+		self.actionNewNoun.triggered.connect(self.newNoun)
 
 		self.nounsTree.clicked.connect(self.nounsTreeClicked)
 		self.verbList.clicked.connect(self.verbListClicked)
@@ -71,10 +74,12 @@ class MainWindow(QMainWindow):
 
 		self.actionCloseProject.setEnabled(False)
 		self.actionSaveProject.setEnabled(False)
+		self.actionNewNoun.setEnabled(False)
 
 		if active:
 			self.actionCloseProject.setEnabled(True)
 			self.actionSaveProject.setEnabled(True)
+			self.actionNewNoun.setEnabled(True)
 
 		self.displayNouns()
 		self.displayVerbs()
@@ -124,3 +129,22 @@ class MainWindow(QMainWindow):
 
 		self.verbListModel = QStringListModel(strVerbs)
 		self.verbList.setModel(self.verbListModel)
+
+	def newNoun(self) -> None:
+		text, ok = QInputDialog.getText(self, "New Noun", "Enter the noun's names:")
+		if not ok: return
+
+		names = text.split()
+		nameList = []
+		for n in names:
+			if n.strip():
+				nameList.append(n.strip())
+
+		if not nameList: return
+
+		noun = entities.Noun()
+		noun.game = self.__nautilus.project.dictionary.game
+		noun.names = nameList
+
+		self.__nautilus.project.dictionary.addNoun(noun)
+		self.displayNouns()

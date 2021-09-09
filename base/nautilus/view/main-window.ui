@@ -73,8 +73,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>73</width>
-           <height>295</height>
+           <width>69</width>
+           <height>294</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout"/>
@@ -92,7 +92,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -104,6 +104,7 @@
       <string>&amp;New</string>
      </property>
      <addaction name="actionNewProject"/>
+     <addaction name="actionNewNoun"/>
     </widget>
     <addaction name="menu_New"/>
     <addaction name="actionOpenProject"/>
@@ -138,6 +139,11 @@
   <action name="actionSaveProject">
    <property name="text">
     <string>&amp;Save Project</string>
+   </property>
+  </action>
+  <action name="actionNewNoun">
+   <property name="text">
+    <string>&amp;Noun</string>
    </property>
   </action>
  </widget>

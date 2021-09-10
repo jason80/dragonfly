@@ -319,7 +319,8 @@ class VerbWidget(QWidget):
 
 		self.edtNames.setText(", ".join(verb.names))
 		self.edtSyntax.setText(", ".join(verb.syntax))
-		self.edtAction.setText(verb.action.__name__)
+		if verb.action:
+			self.edtAction.setText(verb.action.__name__)
 
 		# Signals
 		self.edtNames.editingFinished.connect(self.namesEdited)

@@ -19,6 +19,7 @@ class MainWindow(QMainWindow):
 		self.actionSaveProject = QAction()
 		self.actionCloseProject = QAction()
 		self.actionNewNoun = QAction()
+		self.actionNewVerb = QAction()
 
 		# Splitters
 		self.vSplitter = QSplitter()
@@ -44,6 +45,7 @@ class MainWindow(QMainWindow):
 		self.actionSaveProject.triggered.connect(self.__nautilus.project.save)
 
 		self.actionNewNoun.triggered.connect(self.newNoun)
+		self.actionNewVerb.triggered.connect(self.newVerb)
 
 		self.nounsTree.clicked.connect(self.nounsTreeClicked)
 		self.verbList.clicked.connect(self.verbListClicked)
@@ -75,11 +77,13 @@ class MainWindow(QMainWindow):
 		self.actionCloseProject.setEnabled(False)
 		self.actionSaveProject.setEnabled(False)
 		self.actionNewNoun.setEnabled(False)
+		self.actionNewVerb.setEnabled(False)
 
 		if active:
 			self.actionCloseProject.setEnabled(True)
 			self.actionSaveProject.setEnabled(True)
 			self.actionNewNoun.setEnabled(True)
+			self.actionNewVerb.setEnabled(True)
 
 		self.displayNouns()
 		self.displayVerbs()
@@ -134,7 +138,7 @@ class MainWindow(QMainWindow):
 		text, ok = QInputDialog.getText(self, "New Noun", "Enter the noun's names:")
 		if not ok: return
 
-		names = text.split()
+		names = text.split(',')
 		nameList = []
 		for n in names:
 			if n.strip():
@@ -148,3 +152,22 @@ class MainWindow(QMainWindow):
 
 		self.__nautilus.project.dictionary.addNoun(noun)
 		self.displayNouns()
+
+	def newVerb(self) -> None:
+		text, ok = QInputDialog.getText(self, "New Verb", "Enter the verb's names:")
+		if not ok: return
+
+		names = text.split(',')
+		nameList = []
+		for n in names:
+			if n.strip():
+				nameList.append(n.strip())
+
+		if not nameList: return
+
+		verb = entities.Verb()
+		verb.game = self.__nautilus.project.dictionary.game
+		verb.names = nameList
+
+		self.__nautilus.project.dictionary.addVerb(verb)
+		self.displayVerbs()

@@ -1,6 +1,6 @@
 import typing
 from PyQt5.QtCore import QStringListModel, Qt
-from PyQt5.QtWidgets import QAction, QInputDialog, QListView, QMainWindow, QScrollArea, QSplitter, QTreeView, QWidget
+from PyQt5.QtWidgets import QAction, QInputDialog, QListView, QMainWindow, QPlainTextEdit, QScrollArea, QSplitter, QTreeView, QWidget
 from PyQt5 import uic
 import entities
 import nautilus.app
@@ -36,6 +36,9 @@ class MainWindow(QMainWindow):
 		# Work widget
 		self.workWidget = QWidget()
 		self.workScroll = QScrollArea()
+
+		# Log
+		self.edtLog = QPlainTextEdit()
 
 		uic.loadUi("base/nautilus/view/main-window.ui", self)
 

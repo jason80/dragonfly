@@ -18,6 +18,9 @@ class Nautilus(QApplication):
 		if not os.path.exists(self.__initialPath):
 			os.makedirs(self.__initialPath)
 
+		self.log("--- Nautilus ---")
+
+
 	@property
 	def initialPath(self) -> str:
 		return self.__initialPath
@@ -29,6 +32,10 @@ class Nautilus(QApplication):
 	@property
 	def project(self) -> "nautilus.base.Project":
 		return self.__project
+
+	def log(self, msg: str) -> None:
+		self.__mainWindow.edtLog.appendPlainText(msg)
+		print(msg)
 
 if __name__ == "__main__":
 	app = Nautilus(sys.argv)

@@ -81,7 +81,14 @@
         </widget>
        </widget>
       </widget>
-      <widget class="QPlainTextEdit" name="plainTextEdit"/>
+      <widget class="QPlainTextEdit" name="edtLog">
+       <property name="font">
+        <font>
+         <family>Noto Sans Mono</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>

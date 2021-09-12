@@ -80,8 +80,11 @@ class Project:
 
 		self.save()
 
-		print(f"Project created '{self.__title}'.")
-		print(f"Location: '{self.__path}'.")
+		self.nautilus.log(f"Project created '{self.__title}'.")
+		self.nautilus.log(f"Location: '{self.__path}'.")
+
+		#print(f"Project created '{self.__title}'.")
+		#print(f"Location: '{self.__path}'.")
 
 		self.nautilus.mainWindow.update()
 
@@ -94,8 +97,11 @@ class Project:
 
 		self.__active = True
 
-		print(f"Project loaded '{self.__title}'.")
-		print(f"Location: '{self.__path}'.")
+		self.nautilus.log(f"Project loaded '{self.__title}'.")
+		self.nautilus.log(f"Location: '{self.__path}'.")
+
+		#print(f"Project loaded '{self.__title}'.")
+		#print(f"Location: '{self.__path}'.")
 
 		self.nautilus.mainWindow.update()
 
@@ -154,7 +160,10 @@ class Project:
 		# Write dictionary file
 		self.__dictionary.save(f"{self.__path}/dictionary.xml")
 
-		print(f"Project saved '{self.__title}'.")
-		print(f"Location: '{self.__path}'.")
+		self.nautilus.log(f"Project saved '{self.__title}'.")
+		self.nautilus.log(f"Location: '{self.__path}'.")		
+
+		#print(f"Project saved '{self.__title}'.")
+		#print(f"Location: '{self.__path}'.")
 
 		self.nautilus.mainWindow.update()

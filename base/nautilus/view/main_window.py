@@ -21,6 +21,8 @@ class MainWindow(QMainWindow):
 		self.actionNewNoun = QAction()
 		self.actionNewVerb = QAction()
 
+		self.actionDebug = QAction()
+
 		# Splitters
 		self.vSplitter = QSplitter()
 		self.hSplitter = QSplitter()
@@ -49,6 +51,8 @@ class MainWindow(QMainWindow):
 
 		self.actionNewNoun.triggered.connect(self.newNoun)
 		self.actionNewVerb.triggered.connect(self.newVerb)
+
+		self.actionDebug.triggered.connect(self.debug)
 
 		self.nounsTree.clicked.connect(self.nounsTreeClicked)
 		self.verbList.clicked.connect(self.verbListClicked)
@@ -81,12 +85,14 @@ class MainWindow(QMainWindow):
 		self.actionSaveProject.setEnabled(False)
 		self.actionNewNoun.setEnabled(False)
 		self.actionNewVerb.setEnabled(False)
+		self.actionDebug.setEnabled(False)
 
 		if active:
 			self.actionCloseProject.setEnabled(True)
 			self.actionSaveProject.setEnabled(True)
 			self.actionNewNoun.setEnabled(True)
 			self.actionNewVerb.setEnabled(True)
+			self.actionDebug.setEnabled(True)
 
 		self.displayNouns()
 		self.displayVerbs()
@@ -174,3 +180,7 @@ class MainWindow(QMainWindow):
 
 		self.__nautilus.project.dictionary.addVerb(verb)
 		self.displayVerbs()
+
+	def debug(self) -> None:
+		self.__nautilus.project.run(debug=True)
+		

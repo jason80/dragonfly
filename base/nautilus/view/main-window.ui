@@ -29,7 +29,7 @@
          <enum>QTabWidget::North</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <property name="elideMode">
          <enum>Qt::ElideNone</enum>
@@ -121,7 +121,14 @@
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuRun">
+    <property name="title">
+     <string>&amp;Run</string>
+    </property>
+    <addaction name="actionDebug"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menuRun"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNewProject">
@@ -157,6 +164,14 @@
   <action name="actionNewVerb">
    <property name="text">
     <string>&amp;Verb</string>
+   </property>
+  </action>
+  <action name="actionDebug">
+   <property name="text">
+    <string>&amp;Debug</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
    </property>
   </action>
  </widget>

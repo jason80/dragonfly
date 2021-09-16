@@ -4,6 +4,7 @@ from PyQt5.QtXml import QDomDocument
 import dfbase
 import nautilus.app
 import nautilus.view.new_project_dialog
+import nautilus.codegen
 
 class NautilusGame(dfbase.Game):
 
@@ -22,6 +23,7 @@ class Project:
 
 		self.__title = ""
 		self.__author = ""
+		self.__mainClass = "NautilusGame"
 		self.__path = ""
 
 	@property
@@ -55,6 +57,14 @@ class Project:
 	@author.setter
 	def author(self, author: str) -> None:
 		self.__author = author
+
+	@property
+	def mainClass(self) -> str:
+		return self.__mainClass
+
+	@mainClass.setter
+	def mainClass(self, mainClass: str) -> None:
+		self.__mainClass = mainClass
 
 	@property
 	def path(self) -> str:
@@ -125,6 +135,7 @@ class Project:
 
 		self.__title = root.attribute("title")
 		self.__author = root.attribute("author")
+		self.__mainClass = root.attribute("main-class")
 
 		# Load dictionary
 		self.__dictionary.clear()
@@ -145,6 +156,7 @@ class Project:
 		# Save info
 		root.setAttribute("title", self.__title)
 		root.setAttribute("author", self.__author)
+		root.setAttribute("main-class", self.__mainClass)
 
 		# Write file
 		file = QFile(f"{self.__path}/nautilus.xml")
@@ -167,3 +179,8 @@ class Project:
 		#print(f"Location: '{self.__path}'.")
 
 		self.nautilus.mainWindow.update()
+
+	def run(self, debug: bool) -> None:
+		nautilus.codegen.generateMainClass(self.__nautilus)
+		nautilus.codegen.generateInitials(self.__nautilus, debug)
+		

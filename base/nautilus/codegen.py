@@ -13,7 +13,7 @@ def generateMainClass(nautilus: nautilus.app.Nautilus) -> None:
 
 class {project.mainClass}(dfbase.Game):
 	def __init__(self):
-		super().init(800, 600)
+		super().__init__(800, 600)
 
 	def init(self):
 		initials.runInitials(self)
@@ -32,11 +32,11 @@ def generateInitials(nautilus: nautilus.app.Nautilus, debug: bool) -> None:
 
 	nautilus.log(f'Generating "{nautilus.project.path}/initials.py".')
 
-	dbgLine = "game.dictionary.load('templates/dict-debug.xml')" if debug else ""
+	dbgLine = f"game.dictionary.load('{os.getenv('DFPATH')}/templates/dict-debug.xml')" if debug else ""
 
 	content = f"""import dfbase
 
-def initials(game: dfbase.Game) -> None:
+def runInitials(game: dfbase.Game) -> None:
 	{dbgLine}
 	game.dictionary.load('dictionary.xml')
 

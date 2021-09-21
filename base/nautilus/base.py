@@ -5,6 +5,7 @@ import dfbase
 import nautilus.app
 import nautilus.view.new_project_dialog
 import nautilus.codegen
+import os
 
 class NautilusGame(dfbase.Game):
 
@@ -183,4 +184,6 @@ class Project:
 	def run(self, debug: bool) -> None:
 		nautilus.codegen.generateMainClass(self.__nautilus)
 		nautilus.codegen.generateInitials(self.__nautilus, debug)
+
+		os.system(f'cd {self.__path};python3 {self.__path}/game.py')
 		

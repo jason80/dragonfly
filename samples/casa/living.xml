@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dictionary>
+	<noun names = "La Sala de Estar, living">
+		<after actions = "LookAround">
+			<response class = "Message">
+				La sala de estar es el living de la casa. Hay algunos sillones dispuestos rodeando una mesita de té. En una pared destaca el hogar de la sala. Al sur se encuentra la puerta de entrada y al oeste, otra puerta conduce a otro lugar.
+			</response>
+		</after>
+
+		<noun names = "jugador, player" />
+
+		<noun names = "hogar, chimenea">
+			<set>fixed, scene</set>
+
+			<after actions = "ExamineObject">
+				<response class = "Message">
+					El hogar de ladrillo y marmol tiene un fuego consumido.
+				</response>
+			</after>
+
+			<after actions = "ExamineObject" cancel = "true">
+				<if class = "Contains" container = "auxiliar" instance = "llave" />
+				<response class = "Move" instance = "llave" destiny = "living" />
+				<response class = "Message">
+					Entre las cenizas logras ver algo como una llave.
+				</response>
+			</after>
+		</noun>
+
+		<noun names = "puerta oeste, puerta, puerta-living-pasillo">
+			<set>fixed, female, closable, closed, scene, con-llave</set>
+			<after actions = "ExamineObject">
+				<response class = "Message">
+					Es una puerta de madera color marrón que lleva a otra estacia de la casa.
+				</response>
+			</after>
+
+			<before actions = "OpenObject" cancel = "true">
+				<if class = "IsSet" instance = "puerta-living-pasillo" attr = "con-llave" />
+				<response class = "Message">
+					Parece que está con llave.
+				</response>
+			</before>
+
+			<before actions = "OpenWith" cancel = "true">
+				<if class = "IsSet" instance = "puerta-living-pasillo" attr = "con-llave" />
+				<if class = "IndirectEquals" instance = "llave" />
+				<response class = "Attr" instance = "puerta-living-pasillo" unset = "closed, con-llave" />
+				<response class = "Attr" instance = "puerta-pasillo-living" unset = "closed" />
+				<response class = "Message">
+					Abres la puerta.
+				</response>
+			</before>
+
+			<after actions = "OpenObject">
+				<response class = "Attr" instance = "puerta-pasillo-living" unset = "closed" />
+			</after>
+			<after actions = "CloseObject">
+				<response class = "Attr" instance = "puerta-pasillo-living" set = "closed" />
+			</after>
+		</noun>
+
+		<connection exit = "oeste" destiny = "pasillo-sur" />
+		<before actions = "GoTo" cancel = "true">
+			<if class = "DirectEqualsExit" exit = "oeste"/>
+			<if class = "IsSet" instance = "puerta-living-pasillo" attr = "closed" />
+			<response class = "Message">
+				La puerta está cerrada.
+			</response>
+		</before>
+
+	</noun>
+</dictionary>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>760</width>
+    <height>291</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Edit Event</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="7" column="6">
+    <widget class="QPushButton" name="btnUpResponse">
+     <property name="text">
+      <string>Up</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="3">
+    <widget class="QPushButton" name="btnDownCondition">
+     <property name="text">
+      <string>Down</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2" colspan="2">
+    <widget class="QPushButton" name="btnRemoveCondition">
+     <property name="text">
+      <string>Remove</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="5">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Responses:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4" rowspan="7">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="6">
+    <widget class="QCheckBox" name="chkCancel">
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Conditions:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="7">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="6">
+    <widget class="QPushButton" name="btnSave">
+     <property name="text">
+      <string>Save</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Actions:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="5" rowspan="4">
+    <widget class="QListView" name="lstResponses"/>
+   </item>
+   <item row="0" column="1" colspan="5">
+    <widget class="QLineEdit" name="edtActions"/>
+   </item>
+   <item row="5" column="2" colspan="2">
+    <widget class="QPushButton" name="btnEditCondition">
+     <property name="text">
+      <string>Edit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2" colspan="2">
+    <widget class="QPushButton" name="btnAddCondition">
+     <property name="text">
+      <string>Add</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="QPushButton" name="btnUpCondition">
+     <property name="text">
+      <string>Up</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" rowspan="4" colspan="2">
+    <widget class="QListView" name="lstConditions"/>
+   </item>
+   <item row="7" column="7">
+    <widget class="QPushButton" name="btnDownResponse">
+     <property name="text">
+      <string>Down</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="6" colspan="2">
+    <widget class="QPushButton" name="btnAddResponse">
+     <property name="text">
+      <string>Add</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="6" colspan="2">
+    <widget class="QPushButton" name="btnEditResponse">
+     <property name="text">
+      <string>Edit</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="6" colspan="2">
+    <widget class="QPushButton" name="btnRemoveResponse">
+     <property name="text">
+      <string>Remove</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0" colspan="8">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>edtActions</tabstop>
+  <tabstop>chkCancel</tabstop>
+  <tabstop>lstConditions</tabstop>
+  <tabstop>btnAddCondition</tabstop>
+  <tabstop>btnEditCondition</tabstop>
+  <tabstop>btnRemoveCondition</tabstop>
+  <tabstop>btnUpCondition</tabstop>
+  <tabstop>btnDownCondition</tabstop>
+  <tabstop>lstResponses</tabstop>
+  <tabstop>btnAddResponse</tabstop>
+  <tabstop>btnEditResponse</tabstop>
+  <tabstop>btnRemoveResponse</tabstop>
+  <tabstop>btnUpResponse</tabstop>
+  <tabstop>btnDownResponse</tabstop>
+  <tabstop>btnSave</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

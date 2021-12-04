@@ -557,6 +557,7 @@ class ExitWidget(QWidget):
 		self.exit = exit
 
 		self.edtNames = QLineEdit()
+		self.btnRemoveExit = QPushButton()
 
 		uic.loadUi("base/nautilus/view/exit-widget.ui", self)
 
@@ -564,6 +565,7 @@ class ExitWidget(QWidget):
 
 		# Signals
 		self.edtNames.editingFinished.connect(self.namesEdited)
+		self.btnRemoveExit.clicked.connect(self.removeExit)
 
 	def namesEdited(self):
 		strNames = self.edtNames.text().strip()
@@ -573,3 +575,15 @@ class ExitWidget(QWidget):
 
 		for n in strNames.split(","):
 			self.exit.names.append(n.strip())
+
+	def removeExit(self):
+		qm = QMessageBox()
+		ret = qm.question(self, 'Nautilus', 'Remove exit ?', qm.Yes | qm.No)
+
+		if ret == qm.No: return
+
+		dict = self.nautilus.project.dictionary
+		dict.exits().remove(self.exit)
+
+		self.nautilus.mainWindow.workWidget.close()
+		self.nautilus.mainWindow.displayExits()

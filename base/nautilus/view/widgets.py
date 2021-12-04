@@ -412,6 +412,7 @@ class NounWidget(QWidget):
 		dict = self.nautilus.project.dictionary
 		dict.cascadeRemoveNoun(self.noun)
 
+		self.nautilus.mainWindow.workWidget.close()
 		self.nautilus.mainWindow.displayNouns()
 
 class VerbWidget(QWidget):
@@ -545,6 +546,7 @@ class VerbWidget(QWidget):
 		dict = self.nautilus.project.dictionary
 		dict.verbs().remove(self.verb)
 
+		self.nautilus.mainWindow.workWidget.close()
 		self.nautilus.mainWindow.displayVerbs()
 
 class ExitWidget(QWidget):

@@ -168,3 +168,35 @@ class Move(action.Action):
 
 	def responses(self) -> typing.Tuple[str]:
 		return ()
+
+class Root(action.Action):
+	def __init__(self) -> None:
+		super().__init__()
+		self.__object = None
+
+	def init(self) -> bool:
+
+		name = self.parser.directObjectString
+		lst = self.dictionary.nouns(name)
+
+		if not lst:
+			Console.println(f'Root: "{name}" not found in dictionary.', "family: 'Courier'")
+			return False
+
+		self.__object = self.dictionary.objectChooserDialog.execute(lst)
+		if not self.__object: return False
+
+		return True
+
+	def check(self) -> bool:
+		return True
+
+	def carryOut(self) -> None:
+		self.__object.container = None
+		Console.println(f'"{self.__object.name}" moved to ROOT.', "family: 'Courier'")
+
+	def report(self) -> None:
+		pass
+
+	def responses(self) -> typing.Tuple[str]:
+		return ()

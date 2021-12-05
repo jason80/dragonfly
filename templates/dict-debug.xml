@@ -6,4 +6,5 @@
 	<verb names = "attr, attribute" action = "debug.Attr"
 		syntax = "1, set/unset, 2" />
 	<verb names = "move, mv" action = "debug.Move" syntax = "1, to, 2" />
+	<verb names = "root" action = "debug.Root" syntax = "1" />
 </dictionary>

@@ -158,6 +158,8 @@
     <addaction name="separator"/>
     <addaction name="actionProperties"/>
     <addaction name="separator"/>
+    <addaction name="actionImport"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuRun">
@@ -221,6 +223,11 @@
   <action name="actionNewExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import</string>
    </property>
   </action>
  </widget>

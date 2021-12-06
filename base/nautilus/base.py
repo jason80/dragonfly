@@ -5,6 +5,7 @@ from PyQt5.QtXml import QDomDocument, QDomNode
 import dfbase
 import nautilus.app
 import nautilus.view.new_project_dialog
+import nautilus.view.import_dialog
 import nautilus.codegen
 
 class NautilusGame(dfbase.Game):
@@ -243,4 +244,17 @@ class Project:
 
 		self.__nautilus.log(f'Returning to project dir.')
 		os.chdir(cdir)
+		
+	def importDictionary(self) -> None:
+		dialog = nautilus.view.import_dialog.ImportDialog(self.__nautilus.mainWindow)
+		
+		if dialog.cancel: return
+
+		path = os.getenv("DFPATH") + "/templates/" + dialog.selected
+		self.dictionary.load(path)
+
+		self.nautilus.log(f'Imported from "{path}".')
+
+
+		self.nautilus.mainWindow.update()
 		

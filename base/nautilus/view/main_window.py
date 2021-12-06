@@ -25,6 +25,7 @@ class MainWindow(QMainWindow):
 		self.actionNewNoun = QAction()
 		self.actionNewVerb = QAction()
 		self.actionNewExit = QAction()
+		self.actionImport = QAction()
 
 		# Buttons
 		self.btnUpVerb = QToolButton()
@@ -63,6 +64,8 @@ class MainWindow(QMainWindow):
 		self.actionSaveProject.triggered.connect(self.__nautilus.project.save)
 
 		self.actionProperties.triggered.connect(self.gameProperties)
+
+		self.actionImport.triggered.connect(self.__nautilus.project.importDictionary)
 
 		self.actionNewNoun.triggered.connect(self.newNoun)
 		self.actionNewVerb.triggered.connect(self.newVerb)
@@ -109,6 +112,7 @@ class MainWindow(QMainWindow):
 		self.actionNewExit.setEnabled(False)
 		self.actionDebug.setEnabled(False)
 		self.actionProperties.setEnabled(False)
+		self.actionImport.setEnabled(False)
 
 		if active:
 			self.actionCloseProject.setEnabled(True)
@@ -118,6 +122,7 @@ class MainWindow(QMainWindow):
 			self.actionNewExit.setEnabled(True)
 			self.actionDebug.setEnabled(True)
 			self.actionProperties.setEnabled(True)
+			self.actionImport.setEnabled(True)
 
 		self.displayNouns()
 		self.displayVerbs()

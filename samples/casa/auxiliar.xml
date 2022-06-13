@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<dictionary>
+<dragonfly>
 	<noun names = "auxiliar">
 		<noun names = "llave">
 			<set>female</set>
@@ -12,4 +12,4 @@
 			</after>
 		</noun>
 	</noun>
-</dictionary>
+</dragonfly>

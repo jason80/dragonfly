@@ -1,0 +1,46 @@
+
+<!ELEMENT dragonfly (include*, verb*, article*, exit*, noun*, connection*)>
+
+<!-- Include -->
+<!ELEMENT include (#PCDATA)>
+<!ATTLIST include path CDATA #REQUIRED>
+
+<!-- Verb -->
+<!ELEMENT verb (response*, noun*)>
+<!ATTLIST verb names CDATA #REQUIRED>
+<!ATTLIST verb action CDATA #REQUIRED>
+<!ATTLIST verb syntax CDATA #IMPLIED>
+<!ELEMENT response (#PCDATA)>
+<!ATTLIST response id CDATA #IMPLIED>
+<!ATTLIST response string CDATA #IMPLIED>
+<!ATTLIST response class CDATA #IMPLIED>
+
+<!-- Article -->
+<!ELEMENT article (#PCDATA)>
+<!ATTLIST article name CDATA #REQUIRED>
+<!ATTLIST article genre CDATA #REQUIRED>
+<!ATTLIST article number CDATA #REQUIRED>
+<!ATTLIST article indefinited (true|false) "true">
+
+<!-- Exit -->
+<!ELEMENT exit (#PCDATA)>
+<!ATTLIST exit names CDATA #REQUIRED>
+
+<!-- Noun -->
+<!ELEMENT noun (set*, after*, before*)>
+<!ATTLIST noun names CDATA #REQUIRED>
+<!ELEMENT set (#PCDATA)>
+<!-- Events -->
+<!ELEMENT after (response*, if*)>
+<!ATTLIST after actions CDATA #REQUIRED>
+<!ATTLIST after cancel (true|false) "true">
+<!ELEMENT before (response*, if*)>
+<!ATTLIST before actions CDATA #REQUIRED>
+<!ATTLIST before cancel (true|false) "true">
+<!ELEMENT if (#PCDATA)>
+<!ATTLIST if class CDATA #REQUIRED>
+
+<!-- Connection -->
+<!ELEMENT connection (#PCDATA)>
+<!ATTLIST connection exit CDATA #REQUIRED>
+<!ATTLIST connection destiny CDATA #REQUIRED>

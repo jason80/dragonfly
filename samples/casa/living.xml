@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<dictionary>
+<dragonfly>
 	<noun names = "La Sala de Estar, living">
 		<after actions = "LookAround">
 			<response class = "Message">
@@ -71,4 +71,4 @@
 		</before>
 
 	</noun>
-</dictionary>
+</dragonfly>

@@ -395,12 +395,16 @@ class Dictionary:
 
 		root = doc.firstChildElement()
 
-		if root.tagName() != "dictionary": return None # Error
+		if root.tagName() != "dragonfly": return None # Error
 
 		for i in range(root.childNodes().count()):
 			node = root.childNodes().at(i)
 			if node.nodeType() == QDomNode.ElementNode:
 				element = node.toElement()
+
+				if element.nodeName() == "include":
+					print(f'Including "{element.attribute("path")}"...')
+					self.load(element.attribute("path"))
 
 				if element.nodeName() == "noun":
 					noun = entities.Noun()

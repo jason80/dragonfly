@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<dictionary>
+<dragonfly>
 	<noun names = "Pasillo Sur, pasillo-sur">
 		<after actions = "LookAround">
 			<response class = "Message">
@@ -38,4 +38,4 @@
 			<response class = "AppendName" instance = "puerta-living-pasillo" name = "puerta al pasillo" />
 		</after>
 	</noun>
-</dictionary>
+</dragonfly>

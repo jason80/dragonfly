@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 
-<dictionary>
+<dragonfly>
 
 	<!--VERBS-->
 	<verb names = "?" action = "UnknownVerb">
@@ -178,4 +178,4 @@
 	<exit names = "adentro, ad" />
 	<exit names = "afuera, af" />
 
-</dictionary>
+</dragonfly>

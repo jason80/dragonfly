@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!DOCTYPE dragonfly SYSTEM "https://raw.githubusercontent.com/jason80/dragonfly/main/templates/dragonfly.dtd">
+
 <dragonfly>
 	<verb names = "info" action = "debug.Info" syntax = "1" />
 	<verb names = "tree" action = "debug.Tree"/>

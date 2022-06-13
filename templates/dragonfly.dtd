@@ -1,5 +1,10 @@
 
-<!ELEMENT dragonfly (include*, verb*, article*, exit*, noun*, connection*)>
+<!ELEMENT dragonfly (property*, include*, verb*, article*, exit*, noun*)>
+
+<!-- Property -->
+<!ELEMENT property (#PCDATA)>
+<!ATTLIST property name CDATA #REQUIRED>
+<!ATTLIST property value CDATA #REQUIRED>
 
 <!-- Include -->
 <!ELEMENT include (#PCDATA)>
@@ -27,9 +32,14 @@
 <!ATTLIST exit names CDATA #REQUIRED>
 
 <!-- Noun -->
-<!ELEMENT noun (set*, after*, before*)>
+<!ELEMENT noun (set*, variable*, noun*, after*, before*, connection*)>
 <!ATTLIST noun names CDATA #REQUIRED>
+<!-- Set -->
 <!ELEMENT set (#PCDATA)>
+<!-- Variable -->
+<!ELEMENT variable (#PCDATA)>
+<!ATTLIST variable name CDATA #REQUIRED>
+<!ATTLIST variable value CDATA #REQUIRED>
 <!-- Events -->
 <!ELEMENT after (response*, if*)>
 <!ATTLIST after actions CDATA #REQUIRED>
@@ -39,7 +49,6 @@
 <!ATTLIST before cancel (true|false) "true">
 <!ELEMENT if (#PCDATA)>
 <!ATTLIST if class CDATA #REQUIRED>
-
 <!-- Connection -->
 <!ELEMENT connection (#PCDATA)>
 <!ATTLIST connection exit CDATA #REQUIRED>

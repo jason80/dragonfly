@@ -147,6 +147,10 @@ class Game(ABC):
 
 		self.init()
 
+		# Sets player
+		if self.getProperty("player"):
+			self.player = self.dictionary.nouns(self.getProperty("player"))[0]
+
 		if self.getProperty("show-parsing-process") == "true":
 			print("[Parser] showing parsing process.")
 			self.parser.showParsingProcess = True
@@ -401,6 +405,9 @@ class Dictionary:
 			node = root.childNodes().at(i)
 			if node.nodeType() == QDomNode.ElementNode:
 				element = node.toElement()
+
+				if element.nodeName() == "property":
+					self.game.setProperty(element.attribute("name"), element.attribute("value"))
 
 				if element.nodeName() == "include":
 					print(f'Including "{element.attribute("path")}"...')

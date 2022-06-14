@@ -30,6 +30,34 @@ class IsSet(action.Condition):
 		element.setAttribute("attr", self.attr)
 		return element
 
+class IsNotSet(action.Condition):
+	def __init__(self) -> None:
+		super().__init__()
+
+		self.instance = ""
+		self.attr = ""
+
+	def __str__(self) -> str:
+		return f'Is not set "{self.attr}" on "{self.instance}"'
+
+	def check(self, action: "action.Action") -> bool:
+		# Gets the noun
+		noun = action.dictionary.nouns(self.instance)
+		if not noun:
+			raise DragonflyException(f'On IsNotSet condition: instance "{self.instance}" not found in dictionary.')
+	
+		return not noun[0].isSet(self.attr)
+
+	def load(self, element: QDomElement):
+		self.instance = element.attribute("instance")
+		self.attr = element.attribute("attr")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.instance)
+		element.setAttribute("attr", self.attr)
+		return element
+
 class DirectEqualsExit(action.Condition):
 	def __init__(self) -> None:
 		super().__init__()

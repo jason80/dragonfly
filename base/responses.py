@@ -3,6 +3,7 @@ from dfexcept import DragonflyException
 
 import action
 import entities
+from helpsystem import Help
 from output.console import Console
 
 class Message(action.ActionResponse):
@@ -148,5 +149,55 @@ class Move(action.ActionResponse):
 		element = super().save(doc)
 		element.setAttribute("instance", self.instance)
 		element.setAttribute("destiny", self.destiny)
+		
+		return element
+
+class Tip(action.ActionResponse):
+	def __init__(self) -> None:
+		self.message = ""
+
+	def __str__(self) -> str:
+		return f'Show tip "{self.message}"'
+
+	def execute(self, action: "action.Action") -> None:
+		Help.tip(self.message)
+		pass
+
+	def load(self, element: QDomElement) -> None:
+		for i in range(element.childNodes().count()):
+			node = element.childNodes().at(i)
+			if node.nodeType() == QDomNode.TextNode:
+				self.message = node.toText().data().strip()
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.appendChild(doc.createTextNode(self.message))
+		
+		return element
+
+class TipOnce(action.ActionResponse):
+	def __init__(self) -> None:
+		self.message = ""
+		self.instance = ""
+
+	def __str__(self) -> str:
+		return f'Show tip "{self.message} once"'
+
+	def execute(self, action: "action.Action") -> None:
+		objList = action.dictionary.nouns(self.instance)
+		if not objList: return None
+		Help.tipOnce(objList[0], self.message)
+
+	def load(self, element: QDomElement) -> None:
+		self.instance = element.attribute("instance", defaultValue="")
+		for i in range(element.childNodes().count()):
+			node = element.childNodes().at(i)
+			if node.nodeType() == QDomNode.TextNode:
+				self.message = node.toText().data().strip()
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.instance)
+		element.appendChild(doc.createTextNode(self.message))
 		
 		return element

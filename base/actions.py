@@ -323,9 +323,7 @@ class TakeFrom(action.Action):
 		if not self.parser.directObject: return False
 
 		# Send the before event now
-		self.parser.directObject.doBefore(self)
-
-		return True
+		return self.parser.directObject.doBefore(self)
 
 	def carryOut(self) -> None:
 		# Move the noun to the player's inventory

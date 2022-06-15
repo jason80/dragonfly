@@ -201,3 +201,25 @@ class TipOnce(action.ActionResponse):
 		element.appendChild(doc.createTextNode(self.message))
 		
 		return element
+
+class Execute(action.ActionResponse):
+	def __init__(self) -> None:
+		self.sentence = ""
+
+	def __str__(self) -> str:
+		return f'Execute "{self.sentence}" sentence'
+
+	def execute(self, action: "action.Action") -> None:
+		action.game.execute(self.sentence)
+
+	def load(self, element: QDomElement) -> None:
+		for i in range(element.childNodes().count()):
+			node = element.childNodes().at(i)
+			if node.nodeType() == QDomNode.TextNode:
+				self.sentence = node.toText().data().strip()
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.appendChild(doc.createTextNode(self.sentence))
+
+		return element

@@ -1,5 +1,5 @@
 
-<!ELEMENT dragonfly (property*, include*, verb*, article*, exit*, noun*)>
+<!ELEMENT dragonfly (property | include | verb | article | exit | noun)*>
 
 <!-- Property -->
 <!ELEMENT property (#PCDATA)>
@@ -11,7 +11,7 @@
 <!ATTLIST include path CDATA #REQUIRED>
 
 <!-- Verb -->
-<!ELEMENT verb (response*, noun*)>
+<!ELEMENT verb (response | noun)*>
 <!ATTLIST verb names CDATA #REQUIRED>
 <!ATTLIST verb action CDATA #REQUIRED>
 <!ATTLIST verb syntax CDATA #IMPLIED>
@@ -32,7 +32,7 @@
 <!ATTLIST exit names CDATA #REQUIRED>
 
 <!-- Noun -->
-<!ELEMENT noun (set*, variable*, noun*, after*, before*, connection*)>
+<!ELEMENT noun (set | variable | noun | after | before | connection)*>
 <!ATTLIST noun names CDATA #REQUIRED>
 <!-- Set -->
 <!ELEMENT set (#PCDATA)>
@@ -41,10 +41,10 @@
 <!ATTLIST variable name CDATA #REQUIRED>
 <!ATTLIST variable value CDATA #REQUIRED>
 <!-- Events -->
-<!ELEMENT after (response*, if*)>
+<!ELEMENT after (if*, response*)>
 <!ATTLIST after actions CDATA #REQUIRED>
 <!ATTLIST after cancel (true|false) "true">
-<!ELEMENT before (response*, if*)>
+<!ELEMENT before (if*, response*)>
 <!ATTLIST before actions CDATA #REQUIRED>
 <!ATTLIST before cancel (true|false) "true">
 <!ELEMENT if (#PCDATA)>

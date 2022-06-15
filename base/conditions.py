@@ -109,6 +109,34 @@ class Contains(action.Condition):
 
 		return element
 
+class NotContains(action.Condition):
+	def __init__(self) -> None:
+		super().__init__()
+		self.container = ""
+		self.instance = ""
+
+	def __str__(self) -> str:
+		return f'"{self.container}" not contains "{self.instance}"'
+
+	def check(self, action: "action.Action") -> bool:
+		cont = action.dictionary.nouns(self.container)
+		if not cont:
+			raise DragonflyException(f'On NotContains condition: container "{self.container}" not found in dictionary.')
+
+		return not cont[0].contains(self.instance)
+
+	def load(self, element: QDomElement):
+		self.instance = element.attribute("instance", defaultValue="")
+		self.container = element.attribute("container", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+
+		element.setAttribute("instance", self.instance)
+		element.setAttribute("container", self.container)
+
+		return element
+
 class DirectEquals(action.Condition):
 	def __init__(self) -> None:
 		super().__init__()

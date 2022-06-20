@@ -153,6 +153,27 @@
 		<response id = "syntax-fail" string = "No se que empujar." />
 	</verb>
 
+	<verb names="fuma, fumar, pita, pitar" action="SmokeObject"
+		syntax="1">
+		<response id="direct-not-found" string="No hay eso."/>
+		<response id="direct-is-the-player" string="No tienes pinta de cigarrillos."/>
+		<response id="nothing-happens" string="No tiene sentido hacer eso."/>
+	</verb>
+
+	<verb names="encender, enciende, prender, prende" action="TurnOnObject"
+		syntax="1">
+		<response id="direct-not-found" string="No hay eso que encender."/>
+		<response id="direct-is-the-player" string="No eres una linterna."/>
+		<response id="nothing-happens" string="No se puede encender eso."/>
+	</verb>
+
+	<verb names="apagar, apaga" action="TurnOffObject"
+		syntax="1">
+		<response id="direct-not-found" string="No hay eso que apagar."/>
+		<response id="direct-is-the-player" string="No eres una linterna."/>
+		<response id="nothing-happens" string="No se puede apagar eso."/>
+	</verb>
+
 	<!--ARTICLES-->
 	<article name = "el" genre = "male" number = "singular" indefinited = "false" />
 	<article name = "la" genre = "female" number = "singular" indefinited = "false" />

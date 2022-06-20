@@ -707,3 +707,12 @@ class GoTo(action.Action):
 	
 	def responses(self) -> typing.Tuple[str]:
 		return ("exit-not-exists", "exit-not-found", )
+
+class SmokeObject(DefaultAction):
+	pass
+
+class TurnOnObject(DefaultAction):
+	pass
+
+class TurnOffObject(DefaultAction):
+	pass

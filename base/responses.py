@@ -1,9 +1,12 @@
+from shutil import move
 from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
 from dfexcept import DragonflyException
 
 import action
 import entities
+import movement
 from helpsystem import Help
+from movement import Connection
 from output.console import Console
 
 class Message(action.ActionResponse):
@@ -222,4 +225,35 @@ class Execute(action.ActionResponse):
 		element = super().save(doc)
 		element.appendChild(doc.createTextNode(self.sentence))
 
+		return element
+
+class AddConnection(action.ActionResponse):
+	def __init__(self) -> None:
+		self.instance = ""
+		self.exit = ""
+		self.destiny = ""
+
+	def __str__(self) -> str:
+		return f'Add connection to {self.instance}: {self.exit} -> {self.destiny}'
+
+	def execute(self, action: "action.Action") -> None:
+		objList = action.dictionary.nouns(self.instance)
+		if not objList: raise DragonflyException(f'On AddConnection response: noun "{self.instance}" not found in dictionary.')
+
+		conn = movement.Connection()
+		conn.exit = self.exit
+		conn.destiny = self.destiny
+		objList[0].addConnection(conn)
+
+	def load(self, element: QDomElement) -> None:
+		self.instance = element.attribute("instance", defaultValue="")
+		self.exit = element.attribute("exit", defaultValue="")
+		self.destiny = element.attribute("destiny", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.instance)
+		element.setAttribute("exit", self.exit)
+		element.setAttribute("destiny", self.destiny)
+		
 		return element

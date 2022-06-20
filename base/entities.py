@@ -338,11 +338,19 @@ class Noun(Entity):
 		return self.__connections
 
 	def addConnection(self, conn: movement.Connection) -> None:
-		"""Add a new connection to noun.
+		"""Add a new connection to noun. If the exit exists, replace the destiny with the new instance.
 
 		Args:
 			conn (movement.Connection): a new connection.
 		"""
+
+		exit = self.dictionary.exit(conn.exit)
+
+		for c in self.connections:
+			if exit.responds(c.exit):
+				c.destiny = conn.destiny
+				return None
+
 		self.__connections.append(conn)
 
 	def connection(self, exit: "Exit") -> movement.Connection:

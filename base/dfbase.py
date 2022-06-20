@@ -45,11 +45,30 @@ class Game(ABC):
 			self.__execWorker = ExecWorker(self)
 			self.__console = output.console.Console(self, consoleWidth, consoleHeight)
 
+		self.__title = ""
+		self.__author = ""
+
 		self.__dictionary = Dictionary(self)
 		self.__parser = syntax.parser.Parser(self)
 		self.__player = None
 
 		self.__properties = dict()
+
+	@property
+	def title(self) -> str:
+		return self.__title
+
+	@title.setter
+	def title(self, title: str) -> None:
+		self.__title = title
+
+	@property
+	def author(self) -> str:
+		return self.__author
+
+	@author.setter
+	def author(self, author: str) -> None:
+		self.__author = author
 
 	@property
 	def properties(self) -> typing.Dict:
@@ -144,6 +163,7 @@ class Game(ABC):
 		# Defaults
 		self.setProperty("show-parsing-process", "false")
 		self.setProperty("look-around", "never")
+		self.setProperty("hide-title", "false")
 
 		self.init()
 
@@ -166,6 +186,15 @@ class Game(ABC):
 		missing.check()
 
 		print(f'Player: "{self.player.name}" located in "{self.player.container.name}".')
+
+		# Game Title
+		if self.getProperty("hide-title") == "false":
+			self.__showTitle()
+		elif self.getProperty("hide-title") == "true":
+			print("Hidding game title ...")
+		else:
+			print("Warn: Expected true/false value on hide-title property. Assuming false.")
+			self.__showTitle()
 
 		# Visibility behavior
 		if self.getProperty("look-around") == "on-start" or self.getProperty("look-around") == "always":
@@ -191,6 +220,11 @@ class Game(ABC):
 		"""Close the game and console.
 		"""
 		self.__execWorker.console_quit.emit()
+
+	def __showTitle(self):
+		output.console.Console.println(self.__title, "size: 20; bold: true")
+		output.console.Console.println(self.author, "size: 12")
+		output.console.Console.println(" ", "size: 80")
 
 class Dictionary:
 	"""Contains a list of nouns, verbs and exits."""
@@ -405,6 +439,10 @@ class Dictionary:
 			node = root.childNodes().at(i)
 			if node.nodeType() == QDomNode.ElementNode:
 				element = node.toElement()
+
+				if element.nodeName() == "game":
+					self.game.title = element.attribute("title")
+					self.game.author = element.attribute("author")
 
 				if element.nodeName() == "property":
 					self.game.setProperty(element.attribute("name"), element.attribute("value"))

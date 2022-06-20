@@ -1,5 +1,5 @@
 
-<!ELEMENT dragonfly (property | include | verb | article | exit | noun)*>
+<!ELEMENT dragonfly (property | include | game | verb | article | exit | noun)*>
 
 <!-- Property -->
 <!ELEMENT property (#PCDATA)>
@@ -9,6 +9,11 @@
 <!-- Include -->
 <!ELEMENT include (#PCDATA)>
 <!ATTLIST include path CDATA #REQUIRED>
+
+<!-- Game -->
+<!ELEMENT game (#PCDATA)>
+<!ATTLIST game title CDATA #REQUIRED>
+<!ATTLIST game author CDATA #REQUIRED>
 
 <!-- Verb -->
 <!ELEMENT verb (response | noun)*>

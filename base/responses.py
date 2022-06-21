@@ -257,3 +257,17 @@ class AddConnection(action.ActionResponse):
 		element.setAttribute("destiny", self.destiny)
 		
 		return element
+
+class ShowTitle(action.ActionResponse):
+	def __str__(self) -> str:
+		return "Show game title"
+
+	def execute(self, action: "action.Action") -> None:
+		action.game.showTitle()
+
+	def load(self, element: QDomElement) -> None:
+		pass
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		return super().save()
+		

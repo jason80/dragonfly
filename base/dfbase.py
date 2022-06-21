@@ -189,12 +189,12 @@ class Game(ABC):
 
 		# Game Title
 		if self.getProperty("hide-title") == "false":
-			self.__showTitle()
+			self.showTitle()
 		elif self.getProperty("hide-title") == "true":
 			print("Hidding game title ...")
 		else:
 			print("Warn: Expected true/false value on hide-title property. Assuming false.")
-			self.__showTitle()
+			self.showTitle()
 
 		# Visibility behavior
 		if self.getProperty("look-around") == "on-start" or self.getProperty("look-around") == "always":
@@ -221,7 +221,7 @@ class Game(ABC):
 		"""
 		self.__execWorker.console_quit.emit()
 
-	def __showTitle(self):
+	def showTitle(self):
 		output.console.Console.println(self.__title, "size: 20; bold: true")
 		output.console.Console.println(self.author, "size: 12")
 		output.console.Console.println(" ", "size: 80")

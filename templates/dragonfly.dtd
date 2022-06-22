@@ -1,5 +1,4 @@
-
-<!ELEMENT dragonfly (property | include | game | verb | article | exit | noun)*>
+<!ELEMENT dragonfly ANY>
 
 <!-- Property -->
 <!ELEMENT property (#PCDATA)>
@@ -16,7 +15,7 @@
 <!ATTLIST game author CDATA #REQUIRED>
 
 <!-- Verb -->
-<!ELEMENT verb (response | noun)*>
+<!ELEMENT verb ANY>
 <!ATTLIST verb names CDATA #REQUIRED>
 <!ATTLIST verb action CDATA #REQUIRED>
 <!ATTLIST verb syntax CDATA #IMPLIED>
@@ -24,6 +23,14 @@
 <!ATTLIST response id CDATA #IMPLIED>
 <!ATTLIST response string CDATA #IMPLIED>
 <!ATTLIST response class CDATA #IMPLIED>
+<!ATTLIST response style CDATA #IMPLIED>
+<!ATTLIST response new-line (true|false) "true">
+<!ATTLIST response instance CDATA #IMPLIED>
+<!ATTLIST response set CDATA #IMPLIED>
+<!ATTLIST response unset CDATA #IMPLIED>
+<!ATTLIST response name CDATA #IMPLIED>
+<!ATTLIST response destiny CDATA #IMPLIED>
+<!ATTLIST response exit CDATA #IMPLIED>
 
 <!-- Article -->
 <!ELEMENT article (#PCDATA)>
@@ -37,7 +44,7 @@
 <!ATTLIST exit names CDATA #REQUIRED>
 
 <!-- Noun -->
-<!ELEMENT noun (set | variable | noun | after | before | connection)*>
+<!ELEMENT noun ANY>
 <!ATTLIST noun names CDATA #REQUIRED>
 <!-- Set -->
 <!ELEMENT set (#PCDATA)>
@@ -46,14 +53,19 @@
 <!ATTLIST variable name CDATA #REQUIRED>
 <!ATTLIST variable value CDATA #REQUIRED>
 <!-- Events -->
-<!ELEMENT after (if*, response*)>
+<!ELEMENT after ANY>
 <!ATTLIST after actions CDATA #REQUIRED>
 <!ATTLIST after cancel (true|false) "true">
-<!ELEMENT before (if*, response*)>
+<!ELEMENT before ANY>
 <!ATTLIST before actions CDATA #REQUIRED>
 <!ATTLIST before cancel (true|false) "true">
+<!-- Conditions -->
 <!ELEMENT if (#PCDATA)>
 <!ATTLIST if class CDATA #REQUIRED>
+<!ATTLIST if instance CDATA #IMPLIED>
+<!ATTLIST if attr CDATA #IMPLIED>
+<!ATTLIST if exit CDATA #IMPLIED>
+<!ATTLIST if container CDATA #IMPLIED>
 <!-- Connection -->
 <!ELEMENT connection (#PCDATA)>
 <!ATTLIST connection exit CDATA #REQUIRED>

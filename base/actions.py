@@ -482,46 +482,6 @@ class OpenObject(action.Action):
 		return ("direct-not-found", "direct-is-the-player", "direct-is-not-closable",
 					"direct-is-open", "direct-was-opened", )
 
-class OpenObject(action.Action):
-
-	def __init__(self) -> None:
-		super().__init__()
-
-	def init(self) -> bool:
-		lst = self.game.player.childs(self.parser.directObjectString)
-		lst.extend(self.game.player.container.childs(self.parser.directObjectString))
-
-		if not lst: return self.fireResponse("direct-not-found")
-
-		self.parser.directObject = self.dictionary.objectChooserDialog.execute(lst)
-		if not self.parser.directObject: return False
-		
-		self.sendEventLater(self.parser.directObject)
-
-		return True
-
-	def check(self) -> bool:
-		if self.parser.directObject == self.game.player:
-			return self.fireResponse("direct-is-the-player")
-		if not self.parser.directObject.isSet("closable"):
-			return self.fireResponse("direct-is-not-closable")
-		if not self.parser.directObject.isSet("closed"):
-			return self.fireResponse("direct-is-open")
-
-		return True
-
-	def carryOut(self):
-		self.parser.directObject.unset(["closed"])
-		self.sendEventLater(self.parser.directObject)
-
-	def report(self):
-		self.fireResponse("direct-was-openned")
-
-	def responses(self) -> typing.Tuple[str]:
-		return ("direct-not-found", "direct-is-the-player", "direct-is-not-closable",
-					"direct-is-open", "direct-was-openned", )
-
-
 class CloseObject(action.Action):
 	def init(self) -> bool:
 		lst = self.game.player.childs(self.parser.directObjectString)

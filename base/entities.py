@@ -1,4 +1,5 @@
 import typing
+import copy
 
 from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
 from dfexcept import DragonflyException
@@ -367,6 +368,29 @@ class Noun(Entity):
 			if exit.responds(c.exit): return c
 		return None
 
+	def clone(self, container: "Noun") -> None:
+		"""Clone the object on dictionary inner especified container.
+
+		Utilice clone to add generic objects like floor, walls and roof.
+
+		Args:
+			container (Noun): Destiny for cloned instance.
+		"""
+		noun = copy.copy(self)
+		noun.names = self.names
+		noun.game = self.game
+		noun.container = container
+
+		self.dictionary.addNoun(noun)
+
+		noun.set(self.attributes)
+
+		for k in self.variables:
+			noun.setVariable(self.getVariable(k))
+
+		for n in self.childs():
+			n.clone(noun)
+
 	def load(self, element: QDomElement):
 		"""Load the noun from xml element.
 
@@ -418,6 +442,15 @@ class Noun(Entity):
 					conn = movement.Connection()
 					conn.load(child)
 					self.addConnection(conn)
+
+				# Clones
+				if child.nodeName() == "clone":
+					lst = self.dictionary.nouns(child.attribute("instance"))
+					if not lst:
+						pass # TODO: error
+					cl = lst[0]
+
+					cl.clone(self)
 
 	def save(self, doc: QDomDocument) -> QDomElement:
 		"""Save the noun to xml element.

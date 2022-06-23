@@ -70,3 +70,6 @@
 <!ELEMENT connection (#PCDATA)>
 <!ATTLIST connection exit CDATA #REQUIRED>
 <!ATTLIST connection destiny CDATA #REQUIRED>
+<!-- Clone -->
+<!ELEMENT clone (#PCDATA)>
+<!ATTLIST clone instance CDATA #REQUIRED>

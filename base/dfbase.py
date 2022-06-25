@@ -164,6 +164,7 @@ class Game(ABC):
 		self.setProperty("show-parsing-process", "false")
 		self.setProperty("look-around", "never")
 		self.setProperty("hide-title", "false")
+		self.setProperty("player", "")
 
 		self.init()
 

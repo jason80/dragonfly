@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dragonfly>
+
+	<noun names="El Pasillo, pasillo">
+
+		<!-- Descripción del pasillo -->
+		<after actions="LookAround">
+			<response class="Message">
+				A lo largo del pasillo, puedes ver unas puertas. Una hacia el norte y otra, mas alejada, hacia el este.
+			</response>
+		</after>
+
+		<!-- La Puerta Este: (Pasillo a living).
+			Ésta pueta es análoga a la que está en el living (oeste).
+			En Dragonfly dos objetos no pueden compartir el mismo hijo, por eso
+			se debe crear una puerta por cada lugar:
+			- La puerta-living-pasillo ubicada en el living
+			- La puerta-pasillo-living ubicada en el pasillo.
+
+			Cuando se abre una, se abre la otra.
+			Cuando se cierra una, se cierra la otra.
+		-->
+		<noun names="puerta este, puerta, este, puerta-pasillo-living">
+			<set>female, fixed, closable, closed, scene</set>
+
+			<!-- Tiene la misma descripción que la del living
+					(se supone que es la misma puerta para el jugador) -->	
+			<after actions="ExamineObject">
+				<response class="Message">
+					La puerta este conduce a algún lugar de la casa.
+				</response>
+			</after>
+
+			<!-- DESPUÉS de ABRIR PUERTA-->
+			<after actions="OpenObject">
+				<!-- Quitar atributo closed de la puerta del living -->
+				<response class="Attr" unset="closed" instance="puerta-living-pasillo" />
+			</after>
+
+			<!-- DESPUÉS de cerrarla-->
+			<after actions="CloseObject">
+				<!-- Establecer el atributo closed de la puerta del living -->
+				<response class="Attr" set="closed" instance="puerta-living-pasillo" />
+			</after>
+		</noun>
+
+		<!-- Las otras puertas tienen el mismo funcionamiento -->
+		<noun names="puerta norte, puerta, norte, puerta-pasillo-dormitorio">
+
+			<set>female, fixed, closable, closed, scene</set>
+
+			<after actions="ExamineObject">
+				<response class="Message">
+					La puerta es de madera.
+				</response>
+			</after>
+
+			<after actions="OpenObject">
+				<response class="Attr" unset="closed" instance="puerta-dormitorio-pasillo" />
+			</after>
+
+			<after actions="CloseObject">
+				<response class="Attr" set="closed" instance="puerta-dormitorio-pasillo" />
+			</after>
+
+		</noun>
+
+		<!-- Conexiones -->
+		<connection exit="este" destiny="living" />
+		<connection exit="norte" destiny="dormitorio"/>
+
+		<!-- No deja pasar al jugador si la puerta-pasillo-living está cerrada -->
+		<before actions="GoTo" cancel="true">
+			<if class="DirectEqualsExit" exit="este" />
+			<if class="IsSet" attr="closed" instance="puerta-pasillo-living" />
+			<response class="Message">
+				Primero debes abrir la puerta.
+			</response>
+		</before>
+		<before actions="GoTo" cancel="true">
+			<if class="DirectEqualsExit" exit="norte" />
+			<if class="IsSet" attr="closed" instance="puerta-pasillo-dormitorio" />
+			<response class="Message">
+				Primero abre la puerta.
+			</response>
+		</before>
+	</noun>
+</dragonfly>

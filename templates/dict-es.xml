@@ -29,7 +29,7 @@
 		<response id = "direct-is-the-player" string = "Puedes probar con: inventario ó i." />
 		<response id = "direct-is-not-container" string = "No puedes ver adentro de #1." />
 		<response id = "direct-is-closed" string = "#^1 est@1(á,á,án,án) cerrad@1(o,a,os,as)." />
-		<response id = "container-is-closed" string = "En #1 no hay nada." />
+		<response id = "container-is-empty" string = "No hay nada en #1." />
 	</verb>
 
 	<verb names = "examinar, examina, mirar, mira, x, m"

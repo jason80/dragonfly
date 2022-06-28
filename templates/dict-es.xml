@@ -4,6 +4,19 @@
 
 <dragonfly>
 
+	<!-- DIALOGS -->
+	<see-list-dialog initial-message="Puedes ver: "
+					separator=", "
+					and-separator=" y " />
+	<inventory-dialog initial-message="Tienes en tu poder: "
+					separator=", "
+					and-separator=" y " />
+	<look-inside-dialog initial-message="Adentro hay: "
+					separator=", "
+					and-separator=" y " />
+	<object-chooser-dialog message="¿Cual?" cancel="No importa."
+					error="Por favor, elije una opción correcta." />
+
 	<!--VERBS-->
 	<verb names = "?" action = "UnknownVerb">
 		<response id = "unknown-verb" string = "No se lo que estás diciendo." />

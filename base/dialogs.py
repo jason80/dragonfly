@@ -1,5 +1,6 @@
 
 from output.console import Console
+from PyQt5.QtXml import QDomElement
 import typing
 import entities
 
@@ -67,3 +68,11 @@ class ObjectChooserDialog:
 	def printError(self):
 		Console.println("")
 		Console.println(self.__error)
+
+def loadListDialog(element: QDomElement) -> ListDialog:
+	return ListDialog(element.attribute("initial-message"),
+		element.attribute("separator"), element.attribute("and-separator"))
+
+def loadObjectChooserDialog(element: QDomElement) -> ObjectChooserDialog:
+	return ObjectChooserDialog(element.attribute("message"),
+		element.attribute("cancel"), element.attribute("error"))

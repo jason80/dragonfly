@@ -452,6 +452,17 @@ class Dictionary:
 					print(f'Including "{element.attribute("path")}"...')
 					self.load(element.attribute("path"))
 
+				# Dialogs
+				if element.nodeName() == "see-list-dialog":
+					self.seeListDialog = dialogs.loadListDialog(element)
+				if element.nodeName() == "inventory-dialog":
+					self.inventoryDialog = dialogs.loadListDialog(element)
+				if element.nodeName() == "look-inside-dialog":
+					self.lookInsideDialog = dialogs.loadListDialog(element)
+				if element.nodeName() == "object-chooser-dialog":
+					self.objectChooserDialog = dialogs.loadObjectChooserDialog(element)
+					
+
 				if element.nodeName() == "noun":
 					noun = entities.Noun()
 					noun.game = self.__game

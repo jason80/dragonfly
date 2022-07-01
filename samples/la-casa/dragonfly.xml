@@ -27,5 +27,6 @@
 	<include path="./living.xml"/> <!-- Aquí se encuentra el jugador -->
 	<include path="./pasillo.xml"/>
 	<include path="./dormitorio.xml" />
+	<include path="./toilette.xml" />
 
 </dragonfly>

@@ -66,9 +66,59 @@
 
 		</noun>
 
+		<!-- La puerta hacia el baño -->
+		<noun names="puerta oeste, oeste, puerta, puerta-pasillo-toilette">
+			<set>female, fixed, closable, closed, scene, conllave</set>
+			<!-- Se establece el atributo personalizado "conllave" para indicar
+				mas adelante a la acción "abrir" que la puerta está con llave. -->
+			<after actions="ExamineObject">
+				<response class="Message">
+					Es una puerta de madera.
+				</response>
+			</after>
+
+			<!-- Antes de abrir, verifica si está con llave -->
+			<before actions="OpenObject" cancel="true">
+				<if class="IsSet" attr="conllave" instance="puerta-pasillo-toilette" />
+				<response class="Message">
+					La puerta está con llave.
+				</response>
+			</before>
+
+			<!-- ANTES de abrir la puerta con el objeto directo,
+				cancelar si ese objeto directo NO es la "llave" -->
+			<before actions="OpenWith" cancel="true">
+				<if class="IndirectNotEquals" instance="llave" />
+				<response class="Message">
+					No puedes abrir la puerta con eso.
+				</response>
+			</before>
+
+			<before actions="OpenWith" cancel="true">
+				<!-- Si está cerrada y la abro con la llave-->
+				<if class="IndirectEquals" instance="llave" />
+				<if class="IsSet" attr="closed" instance="puerta-pasillo-toilette" />
+				<!-- Abro la puerta del pasillo y del baño -->
+				<response class="Attr" unset="closed" instance="puerta-pasillo-toilette" />
+				<response class="Attr" unset="closed" instance="puerta-toilette-pasillo" />
+				<response class="Message">
+					Abres la puerta.
+				</response>
+			</before>
+			
+			<!-- Después de abrir o cerrar la puerta, abre o cierra "la del baño". -->
+			<after actions="OpenObject, OpenWith">
+				<response class="Attr" unset="closed" instance="puerta-toilette-pasillo" />
+			</after>
+			<after actions="CloseObject, CloseWith">
+				<response class="Attr" set="closed" instance="puerta-toilette-pasillo" />
+			</after>
+		</noun>
+
 		<!-- Conexiones -->
 		<connection exit="este" destiny="living" />
 		<connection exit="norte" destiny="dormitorio"/>
+		<connection exit="oeste" destiny="toilette" />
 
 		<!-- No deja pasar al jugador si la puerta-pasillo-living está cerrada -->
 		<before actions="GoTo" cancel="true">
@@ -81,6 +131,13 @@
 		<before actions="GoTo" cancel="true">
 			<if class="DirectEqualsExit" exit="norte" />
 			<if class="IsSet" attr="closed" instance="puerta-pasillo-dormitorio" />
+			<response class="Message">
+				Primero abre la puerta.
+			</response>
+		</before>
+		<before actions="GoTo" cancel="true">
+			<if class="DirectEqualsExit" exit="oeste" />
+			<if class="IsSet" attr="closed" instance="puerta-pasillo-toilette" />
 			<response class="Message">
 				Primero abre la puerta.
 			</response>

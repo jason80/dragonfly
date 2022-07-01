@@ -75,6 +75,19 @@
 					Es del mismo material de la mesita y está abierto.
 				</response>
 			</after>
+
+			<!-- La llave dentro del cajón -->
+			<!-- Así como el jugador está adentro del lugar, se pueden colocar
+				objetos dentro de otros. Eso ocurre con la llave dentro del cajón -->
+			<!-- La llave es del baño pero el jugador todavía no lo sabe -->
+			<noun names="llave">
+				<set>female</set>
+				<after actions="ExamineObject">
+					<response class="Message">
+						Una pequeña llave de bronce.
+					</response>
+				</after>
+			</noun>
 		</noun>
 
 		<!-- Lámpara -->

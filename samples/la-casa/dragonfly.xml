@@ -28,5 +28,7 @@
 	<include path="./pasillo.xml"/>
 	<include path="./dormitorio.xml" />
 	<include path="./toilette.xml" />
+	<include path="./comedor.xml" />
+	<include path="./cocina.xml" /> 
 
 </dragonfly>

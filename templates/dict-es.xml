@@ -166,6 +166,13 @@
 		<response id = "syntax-fail" string = "No se que empujar." />
 	</verb>
 
+	<verb names="leer, lee, interpretar, interpreta, relee, releer" action="ReadObject"
+		syntax="1">
+		<response id="direct-not-found" string="Eso que quieres leer no existe."/>
+		<response id="direct-is-the-player" string="No soy un libro."/>
+		<response id="nothing-happens" string="No se puede leer eso."/>
+	</verb>
+
 	<verb names="fuma, fumar, pita, pitar" action="SmokeObject"
 		syntax="1">
 		<response id="direct-not-found" string="No hay eso."/>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dragonfly>
+	<noun names="La Cocina, cocina">
+		<after actions="LookAround">
+			<response class="Message">
+				En la cocina hay mesadas y un horno. Por el sur se vuelve al comedor a través de la puerta vainvén.
+			</response>
+		</after>
+
+		<noun names="puerta vaivén, puerta, vaiven">
+			<set>female, scene, definited</set>
+			<after actions="ExamineObject">
+				<response class="Message">
+					La puerta vaiven separa el comedor de la cocina.
+				</response>
+			</after>
+
+			<before actions="TakeObject" cancel="true">
+				<response class="Message">No me puedo llevar la puerta vaivén.</response>
+			</before>
+
+			<before actions="OpenObject, OpenWith, CloseObject, CloseWith" cancel="true">
+				<response class="Message">Es vaivén ...</response>
+			</before>
+		</noun>
+
+		<connection exit="sur" destiny="comedor" />
+	</noun>
+</dragonfly>

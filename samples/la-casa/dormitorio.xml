@@ -13,7 +13,7 @@
 		<!-- La única puerta -->
 		<noun names="puerta, puerta sur, sur, puerta-dormitorio-pasillo">
 
-			<set>female, fixed, closable, closed, scene</set>
+			<set>female, fixed, closable, closed, definited, scene</set>
 	
 			<after actions="ExamineObject">
 				<response class="Message">

@@ -47,7 +47,7 @@
 
 		<!-- La puerta del baño -->
 		<noun names="puerta, este, puerta este, puerta-toilette-pasillo">
-			<set>female, fixed, closable, closed, scene</set>
+			<set>female, fixed, closable, closed, definited, scene</set>
 			<after actions="ExamineObject">
 				<response class="Message">
 					La puerta de madera separa el baño del pasillo.

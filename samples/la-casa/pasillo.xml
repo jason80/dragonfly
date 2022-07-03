@@ -22,7 +22,7 @@
 			Cuando se cierra una, se cierra la otra.
 		-->
 		<noun names="puerta este, puerta, este, puerta-pasillo-living">
-			<set>female, fixed, closable, closed, scene</set>
+			<set>female, fixed, closable, closed, scene, definited</set>
 
 			<!-- Tiene la misma descripción que la del living
 					(se supone que es la misma puerta para el jugador) -->	
@@ -48,7 +48,7 @@
 		<!-- Las otras puertas tienen el mismo funcionamiento -->
 		<noun names="puerta norte, puerta, norte, puerta-pasillo-dormitorio">
 
-			<set>female, fixed, closable, closed, scene</set>
+			<set>female, fixed, closable, closed, scene, definited</set>
 
 			<after actions="ExamineObject">
 				<response class="Message">
@@ -68,7 +68,7 @@
 
 		<!-- La puerta hacia el baño -->
 		<noun names="puerta oeste, oeste, puerta, puerta-pasillo-toilette">
-			<set>female, fixed, closable, closed, scene, conllave</set>
+			<set>female, fixed, closable, closed, scene, definited, conllave</set>
 			<!-- Se establece el atributo personalizado "conllave" para indicar
 				mas adelante a la acción "abrir" que la puerta está con llave. -->
 			<after actions="ExamineObject">
@@ -104,6 +104,16 @@
 				<response class="Message">
 					Abres la puerta.
 				</response>
+
+				<!-- Ahora se sabe que la llave es del baño, entonces se puede 
+						agregar el nombre a la llave -->
+				<!-- AppendName agrega un nombre a un objeto. Dicho nombre se
+					volverá principal. Si el nombre ya existe, no agrega nada. -->
+				<response class="AppendName" instance="llave" name="llave del baño"/>
+				<!-- También queda bien que nos refiramos al objeto como "la llave del baño" y
+						no como "una llave del baño" para eso se establece el atributo
+						"definited" a la llave -->
+				<response class="Attr" set="definited" instance="llave" />
 			</before>
 			
 			<!-- Después de abrir o cerrar la puerta, abre o cierra "la del baño". -->

@@ -668,6 +668,9 @@ class GoTo(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("exit-not-exists", "exit-not-found", )
 
+class ReadObject(DefaultAction):
+	pass
+
 class SmokeObject(DefaultAction):
 	pass
 

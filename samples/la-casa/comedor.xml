@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dragonfly>
+	<noun names="El Comedor, comedor">
+		<after actions="LookAround">
+			<response class="Message">
+				En el comedor se dispone una gran mesa con un conjuto de sillas, y está separado del living por una arcada. Al norte se ve la cocina a través de una puerta vaivén.
+			</response>
+		</after>
+
+		<noun names="mesa, meson, tabla, mesa-comedor">
+			<set>female, heavy, scene</set>
+			<after actions="ExamineObject">
+				<response class="Message">
+					Una enorme mesa de madera es la protagonista del comedor.
+				</response>
+			</after>
+
+			<!-- Hay una nota escondida dentro de la mesa. Cuando el jugador
+					examine la mesa, la nota deberá aparecer en el lugar -->
+			<after actions="ExamineObject">
+				<if class="Contains" container="mesa-comedor" instance="nota" />
+				<response class="Move" instance="nota" destiny="comedor" />
+			</after>
+			<after actions="ExamineObject">
+				<if class="Contains" container="comedor" instance="nota" />
+				<response class="Message">
+					Sobre ella puedes ver una pequeña nota.
+				</response>
+			</after>
+
+			<noun names="nota, papel, mensaje, manuscrito, escrito">
+				<set>female, scene</set>
+				<after actions="ExamineObject">
+					<response class="Message">
+						Es un pequeño trozo de papel escrito a mano.
+					</response>
+				</after>
+
+				<!-- Antes de LEER la nota CANCELAR-->
+				<before actions="ReadObject" cancel="true">
+					<!-- Mostrar lo que está escrito -->
+					<response class="Message">
+						La nota dice: "Texto de la nota".
+					</response>
+				</before>
+
+				<!-- Cuando se recoge la nota deja de pertenecer a la escena -->
+				<after actions="TakeObject">
+					<response class="Attr" unset="scene" instance="nota" />
+				</after>
+
+				<!-- Cuando se deja en ésta habitación, vuelve a pertenecer a la escena -->
+				<after actions="LeaveObject">
+					<if class="Contains" container="comedor" instance="nota" />
+					<response class="Attr" set="scene" instance="nota" />
+				</after>
+			</noun>
+		</noun>
+
+		<noun names="sillas, silla, sillon, sillones">
+			<set>female, plural, scene</set>
+			<after actions="ExamineObject">
+				<response class="Message">
+					Son seis sillas de madera dispuestas al rededor de la gran mesa.
+				</response>
+			</after>
+
+			<before actions="TakeObject" cancel="true">
+				<response class="Message">
+					No soy un burro de carga.
+				</response>
+			</before>
+		</noun>
+
+		<noun names="puerta vaivén, puerta, vaiven">
+			<set>female, scene, definited</set>
+			<after actions="ExamineObject">
+				<response class="Message">
+					La puerta vaiven separa el comedor de la cocina.
+				</response>
+			</after>
+
+			<before actions="TakeObject" cancel="true">
+				<response class="Message">No me puedo llevar la puerta vaivén.</response>
+			</before>
+
+			<!-- La puerta es de tipo vaivén y no tiene sentido abrir o cerrar -->
+			<before actions="OpenObject, OpenWith, CloseObject, CloseWith" cancel="true">
+				<response class="Message">Es vaivén ...</response>
+			</before>
+		</noun>
+
+		<connection exit="oeste" destiny="living" />
+		<connection exit="norte" destiny="cocina" />
+	</noun>
+</dragonfly>

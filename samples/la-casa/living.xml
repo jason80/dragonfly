@@ -18,7 +18,7 @@
 				Te encuetras en el living una lujosa casa. Puedes ver sillones, un ennegrecido hogar en la pared, unos extraños cuadros.
 			</response>
 			<response class="Message"> <!-- También RESPONDER con el mesaje-->
-				Al sur se encuentra la puerta que conduce a la calle. y al oeste hay otra puerta.
+				Al sur se encuentra la puerta que conduce a la calle, al este está el comedor, y al oeste hay otra puerta.
 			</response>
 		</after>
 
@@ -86,12 +86,13 @@
 
 		<!-- La Puerta de Salida-->
 		<noun names="puerta de salida, puerta sur, puerta, porton">
-			<set>female, fixed, closable, closed, scene</set>
+			<set>female, fixed, closable, closed, definited, scene</set>
 			<!-- female: indica a dragonfly que la puerta es femenino. -->
 			<!-- closable: el objeto puerta es cerrable; reacciona a los verbos
 				"abrir" y "cerrar" -->
 			<!-- closed: el objeto está cerrado (si éste atributo no está presente,
 				el objeto se considera abierto -->
+			<!-- definited: hace que sea "la puerta de salida" y no "una puerta de salida"-->
 
 			<!-- Descripción de la puerta-->
 			<after actions="ExamineObject">
@@ -114,7 +115,7 @@
 
 		<!-- Finalmente, la puerta oeste-->
 		<noun names="puerta oeste, puerta, oeste, puerta-living-pasillo">
-			<set>female, fixed, closable, closed, scene</set>
+			<set>female, fixed, closable, closed, definited, scene</set>
 
 			<after actions="ExamineObject">
 				<response class="Message">
@@ -143,6 +144,9 @@
 		<connection exit="oeste" destiny="pasillo" />
 		<!-- Cuando el jugador intente "ir hacia el oeste", se moverá el objeto "jugador"
 				al lugar destino "pasillo" pero antes ... -->
+
+		<!-- Conexión con el comedor -->
+		<connection exit="este" destiny="comedor" />
 
 		<!-- ... con el siguiente evento se evita que el jugador cruce hacia el pasillo
 				si no está abierta la puerta -->

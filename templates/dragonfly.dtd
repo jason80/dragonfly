@@ -9,6 +9,27 @@
 <!ELEMENT include (#PCDATA)>
 <!ATTLIST include path CDATA #REQUIRED>
 
+<!-- Dialogs-->
+<!ELEMENT see-list-dialog (#PCDATA)>
+<!ATTLIST see-list-dialog initial-message CDATA #REQUIRED>
+<!ATTLIST see-list-dialog separator CDATA #REQUIRED>
+<!ATTLIST see-list-dialog and-separator CDATA #REQUIRED>
+
+<!ELEMENT inventory-dialog (#PCDATA)>
+<!ATTLIST inventory-dialog initial-message CDATA #REQUIRED>
+<!ATTLIST inventory-dialog separator CDATA #REQUIRED>
+<!ATTLIST inventory-dialog and-separator CDATA #REQUIRED>
+
+<!ELEMENT look-inside-dialog (#PCDATA)>
+<!ATTLIST look-inside-dialog initial-message CDATA #REQUIRED>
+<!ATTLIST look-inside-dialog separator CDATA #REQUIRED>
+<!ATTLIST look-inside-dialog and-separator CDATA #REQUIRED>
+
+<!ELEMENT object-chooser-dialog (#PCDATA)>
+<!ATTLIST object-chooser-dialog message CDATA #REQUIRED>
+<!ATTLIST object-chooser-dialog cancel CDATA #REQUIRED>
+<!ATTLIST object-chooser-dialog error CDATA #REQUIRED>
+
 <!-- Game -->
 <!ELEMENT game (#PCDATA)>
 <!ATTLIST game title CDATA #REQUIRED>

@@ -1,7 +1,4 @@
-
-
 import typing
-
 
 class ConsoleStyles:
 	def __init__(self) -> None:

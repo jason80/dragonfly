@@ -1,8 +1,9 @@
-import typing, action
-from dfexcept import DragonflyException
-from output.console import Console
+import typing
+import dragonfly
+from dragonfly import DragonflyException
+from dragonfly.output import Console
 
-class SingleAction(action.Action):
+class SingleAction(dragonfly.Action):
 	"""Single action takes no arguments. Usually represents verb like "jump", "scream".
 		By default, SingleAction fires response: "nothing-happens"
 
@@ -25,7 +26,7 @@ class SingleAction(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("nothing-happens",)
 
-class DefaultAction(action.Action):
+class DefaultAction(dragonfly.Action):
 	"""DefaultAction takes one argument (direct object).
 	By default, fires response "nothing-happens"
 
@@ -62,7 +63,7 @@ class DefaultAction(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("nothing-happens", "direct-not-found", "direct-is-the-player", )
 
-class UnknownVerb(action.Action):
+class UnknownVerb(dragonfly.Action):
 	def init(self) -> bool:
 		return True
 
@@ -78,7 +79,7 @@ class UnknownVerb(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("unknown-verb", )
 
-class Quit(action.Action):
+class Quit(dragonfly.Action):
 	def init(self) -> bool:
 		return True
 
@@ -94,7 +95,7 @@ class Quit(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
-class Clear(action.Action):
+class Clear(dragonfly.Action):
 	def init(self) -> bool:
 		return True
 
@@ -110,7 +111,7 @@ class Clear(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
-class Inventory(action.Action):
+class Inventory(dragonfly.Action):
 	def init(self) -> bool:
 		self.sendEventLater(self.game.player)
 		return True
@@ -132,7 +133,7 @@ class Inventory(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("inventory-is-empty", )
 
-class ExamineObject(action.Action):
+class ExamineObject(dragonfly.Action):
 	def init(self) -> bool:
 
 		lst = self.game.player.childs(self.parser.directObjectString)
@@ -159,7 +160,7 @@ class ExamineObject(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("direct-not-found", )
 
-class LookAround(action.Action):
+class LookAround(dragonfly.Action):
 	def init(self) -> bool:
 		self.place = self.game.player.container
 		self.sendEventLater(self.place)
@@ -186,7 +187,7 @@ class LookAround(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
-class LookInside(action.Action):
+class LookInside(dragonfly.Action):
 	def init(self) -> bool:
 
 		lst = self.game.player.childs(self.parser.directObjectString)
@@ -227,7 +228,7 @@ class LookInside(action.Action):
 		return ("direct-not-found", "direct-is-the-player", "direct-is-not-container",
 					"direct-is-closed", "container-is-empty", )
 
-class TakeObject(action.Action):
+class TakeObject(dragonfly.Action):
 	def init(self) -> bool:
 		# Get the object from the current place
 		lst = self.game.player.container.childs(self.parser.directObjectString)
@@ -263,7 +264,7 @@ class TakeObject(action.Action):
 		return ("direct-not-found", "direct-is-the-player", "direct-is-fixed",
 					"direct-is-heavy", "direct-taken", )
 
-class LeaveObject(action.Action):
+class LeaveObject(dragonfly.Action):
 	def init(self) -> bool:
 		lst = self.game.player.childs(self.parser.directObjectString)
 		if not lst: return self.fireResponse("direct-not-found")
@@ -292,7 +293,7 @@ class LeaveObject(action.Action):
 		return ("direct-not-found", "direct-left", )
 
 
-class TakeFrom(action.Action):
+class TakeFrom(dragonfly.Action):
 	def init(self) -> bool:
 
 		lst = self.game.player.childs(self.parser.indirectObjectString)
@@ -339,7 +340,7 @@ class TakeFrom(action.Action):
 		return ("indirect-not-found", "indirect-is-not-container", "indirect-is-closed",
 					"direct-not-found", "direct-taken", )
 
-class LeaveIn(action.Action):
+class LeaveIn(dragonfly.Action):
 	def init(self) -> bool:
 		# The direct object in inventory (object)
 		lst = self.game.player.childs(self.parser.directObjectString)
@@ -386,7 +387,7 @@ class LeaveIn(action.Action):
 		return ("direct-not-found", "indirect-not-found", "indirect-is-the-player",
 					"indirect-is-not-container", "indirect-is-closed", "direct-leaved", )
 
-class PullObject(action.Action):
+class PullObject(dragonfly.Action):
 	def init(self) -> bool:
 
 		lst = self.game.player.container.childs(self.parser.directObjectString)
@@ -415,7 +416,7 @@ class PullObject(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("direct-not-found", "direct-is-the-player", "direct-is-fixed", "nothing-happens", )
 
-class PushObject(action.Action):
+class PushObject(dragonfly.Action):
 	def init(self) -> bool:
 
 		lst = self.game.player.container.childs(self.parser.directObjectString)
@@ -445,7 +446,7 @@ class PushObject(action.Action):
 		return ("direct-not-found", "direct-is-the-player", "direct-is-fixed",
 						"nothing-happens", )
 
-class OpenObject(action.Action):
+class OpenObject(dragonfly.Action):
 	def init(self) -> bool:
 		lst = self.game.player.childs(self.parser.directObjectString)
 		lst.extend(self.game.player.container.childs(self.parser.directObjectString))
@@ -482,7 +483,7 @@ class OpenObject(action.Action):
 		return ("direct-not-found", "direct-is-the-player", "direct-is-not-closable",
 					"direct-is-open", "direct-was-opened", )
 
-class CloseObject(action.Action):
+class CloseObject(dragonfly.Action):
 	def init(self) -> bool:
 		lst = self.game.player.childs(self.parser.directObjectString)
 		lst.extend(self.game.player.container.childs(self.parser.directObjectString))
@@ -519,7 +520,7 @@ class CloseObject(action.Action):
 		return ("direct-not-found", "direct-is-the-player", "direct-is-not-closable",
 						"direct-is-closed", "direct-was-closed", )
 
-class OpenWith(action.Action):
+class OpenWith(dragonfly.Action):
 	def init(self) -> bool:
 
 		# Direct object in inventory or current place
@@ -570,7 +571,7 @@ class OpenWith(action.Action):
 		return ("direct-not-found", "direct-is-the-player", "indirect-is-the-player",
 					"direct-is-not-closable", "direct-is-open", "nothing-happens", )
 
-class CloseWith(action.Action):
+class CloseWith(dragonfly.Action):
 	def init(self) -> bool:
 
 		# Direct object in inventory or current place
@@ -622,7 +623,7 @@ class CloseWith(action.Action):
 					"indirect-is-the-player", "direct-is-not-closable",
 							"direct-is-closed", "nothing-happens", )
 
-class GoTo(action.Action):
+class GoTo(dragonfly.Action):
 
 	def __init__(self) -> None:
 		super().__init__()

@@ -1,8 +1,8 @@
-
-from output.console import Console
-from PyQt5.QtXml import QDomElement
 import typing
-import entities
+from PyQt5.QtXml import QDomElement
+
+import dragonfly
+from dragonfly.output import Console
 
 class ListDialog:
 	def __init__(self, initialMessage: str, separator: str, andSeparator: str) -> None:
@@ -10,7 +10,7 @@ class ListDialog:
 		self.__separator = separator
 		self.__andSeparator = andSeparator
 
-	def execute(self, nouns: typing.List["entities.Noun"]):
+	def execute(self, nouns: typing.List["dragonfly.Noun"]):
 		result = f"{self.__initialMessage} "
 
 		for i in range(len(nouns)):
@@ -30,7 +30,7 @@ class ObjectChooserDialog:
 		self.__cancel = cancel
 		self.__error = error
 
-	def execute(self, objects: typing.List["entities.Noun"]) -> "entities.Noun":
+	def execute(self, objects: typing.List["dragonfly.Noun"]) -> "dragonfly.Noun":
 		if len(objects) == 1: return objects[0]
 
 		success = False

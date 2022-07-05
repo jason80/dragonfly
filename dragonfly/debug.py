@@ -1,15 +1,13 @@
 import typing
-from output.console import Console
-import entities
-from typing import List
-import action
+import dragonfly
+from dragonfly.output import Console
 
-class Info(action.Action):
+class Info(dragonfly.Action):
 
 	def __init__(self) -> None:
 		super().__init__()
 
-		self.nounList = List[entities.Noun]
+		self.nounList = typing.List[dragonfly.Noun]
 
 	def init(self) -> bool:
 
@@ -32,7 +30,7 @@ class Info(action.Action):
 	def report(self) -> None:
 		pass
 
-	def printNounInfo(self, noun: "entities.Noun") -> None:
+	def printNounInfo(self, noun: "dragonfly.Noun") -> None:
 		Console.println("-" * 20, "family: 'Courier'")
 		Console.println(f"Names: {noun.names}", "family: 'Courier'")
 		Console.println(f"Container: {noun.container.name if noun.container else 'None'}", "family: 'Courier'")
@@ -48,7 +46,7 @@ class Info(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
-class Tree(action.Action):
+class Tree(dragonfly.Action):
 
 	def __init__(self) -> None:
 		super().__init__()
@@ -71,7 +69,7 @@ class Tree(action.Action):
 	def report(self) -> None:
 		pass
 
-	def printNode(self, noun: entities.Noun, indent: str = "") -> None:
+	def printNode(self, noun: dragonfly.Noun, indent: str = "") -> None:
 		Console.println(f"{indent}{noun.names}", "family: 'Courier'")
 		for n in noun.childs():
 			self.printNode(n, indent + "   ")
@@ -79,7 +77,7 @@ class Tree(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
-class Attr(action.Action):
+class Attr(dragonfly.Action):
 
 	def __init__(self) -> None:
 		super().__init__()
@@ -126,7 +124,7 @@ class Attr(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
-class Move(action.Action):
+class Move(dragonfly.Action):
 	def __init__(self) -> None:
 		super().__init__()
 		
@@ -169,7 +167,7 @@ class Move(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
-class Root(action.Action):
+class Root(dragonfly.Action):
 	def __init__(self) -> None:
 		super().__init__()
 		self.__object = None

@@ -1,12 +1,11 @@
 from PyQt5 import QtGui
-import dfexcept
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor, QFont
 from PyQt5.QtWidgets import (QFrame, QLineEdit, QMainWindow, QTextEdit,
                              QVBoxLayout, QWidget)
-from output.history import History
 
-from output.styles import ConsoleStyles
+import dragonfly
+import dragonfly.output
 
 class ConsoleLineEdit(QLineEdit):
 
@@ -31,7 +30,7 @@ class Console(QMainWindow):
 
 		self.game = game
 
-		self.__styles = ConsoleStyles()
+		self.__styles = dragonfly.output.ConsoleStyles()
 
 		self.centralWidget = QWidget(self)
 		self.setCentralWidget(self.centralWidget)
@@ -67,7 +66,7 @@ class Console(QMainWindow):
 		self.game.execWorker.console_quit.connect(self.close)
 
 		# History
-		self.history = History()
+		self.history = dragonfly.output.History()
 
 	def __consoleReturnPressed(self) -> None:
 		self.inputMode = False
@@ -140,7 +139,7 @@ class Console(QMainWindow):
 							continue
 							
 						else:
-							raise dfexcept.DragonflyException('Console: expected character "(" followed by @.')
+							raise dragonfly.DragonflyException('Console: expected character "(" followed by @.')
 				if capitalize:
 					result += f"{objName[0].upper()}{objName[1:]}"
 				else:
@@ -155,7 +154,7 @@ class Console(QMainWindow):
 	def __replaceGenderNumber(self, obj, params: str, capitalize: bool) -> str:
 		members = params.split(",")
 		if len(members) != 4:
-			raise dfexcept.DragonflyException("Console: expeted 4 parameters followed by @.")
+			raise dragonfly.DragonflyException("Console: expeted 4 parameters followed by @.")
 
 		if not obj.isSet("female") and not obj.isSet("plural"): return members[0]
 		if obj.isSet("female") and not obj.isSet("plural"): return members[1]

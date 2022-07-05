@@ -3,10 +3,10 @@
 <!DOCTYPE dragonfly SYSTEM "https://raw.githubusercontent.com/jason80/dragonfly/main/templates/dragonfly.dtd">
 
 <dragonfly>
-	<verb names = "info" action = "debug.Info" syntax = "1" />
-	<verb names = "tree" action = "debug.Tree"/>
-	<verb names = "attr, attribute" action = "debug.Attr"
+	<verb names = "info" action = "dragonfly.debug.Info" syntax = "1" />
+	<verb names = "tree" action = "dragonfly.debug.Tree"/>
+	<verb names = "attr, attribute" action = "dragonfly.debug.Attr"
 		syntax = "1, set/unset, 2" />
-	<verb names = "move, mv" action = "debug.Move" syntax = "1, to, 2" />
-	<verb names = "root" action = "debug.Root" syntax = "1" />
+	<verb names = "move, mv" action = "dragonfly.debug.Move" syntax = "1, to, 2" />
+	<verb names = "root" action = "dragonfly.debug.Root" syntax = "1" />
 </dragonfly>

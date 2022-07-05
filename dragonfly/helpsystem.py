@@ -1,6 +1,5 @@
-import output.console
-
-import entities
+import dragonfly
+from dragonfly.output import Console
 
 class Help:
 
@@ -14,9 +13,9 @@ class Help:
 		Args:
 			msg (str): String message
 		"""
-		output.console.Console.println(f'<{msg}>', 'family: "Sans"; italic: True')
+		Console.println(f'<{msg}>', 'family: "Sans"; italic: True')
 
-	def tipOnce(noun: entities.Noun, msg: str) -> None:
+	def tipOnce(noun: dragonfly.Noun, msg: str) -> None:
 		"""Show tip message for helping once, while is not set 'tip' on noun instance.
 
 		Args:

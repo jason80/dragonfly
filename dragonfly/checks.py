@@ -1,14 +1,10 @@
 from typing import List
 
-from dfexcept import DragonflyException
-import dfbase
-import entities
-#import action
-#import responses
-import helper.forname
+import dragonfly
+import dragonfly.helper
 
 class MissingCheck:
-	def __init__(self, game: "dfbase.Game") -> None:
+	def __init__(self, game: "dragonfly.Game") -> None:
 		self.game = game
 		self.dict = self.game.dictionary
 
@@ -17,7 +13,7 @@ class MissingCheck:
 
 		# Find places
 		if not self.dict.nouns():
-			room = entities.Noun()
+			room = dragonfly.Noun()
 			room.game = self.game
 			room.names = ["The First Room", "room"]
 
@@ -32,7 +28,7 @@ class MissingCheck:
 
 		# Find player
 		if not self.game.player:
-			player = entities.Noun()
+			player = dragonfly.Noun()
 			player.game = self.game
 			player.names = ["player"]
 			player.container = self.dict.nouns()[0]
@@ -49,11 +45,11 @@ class MissingCheck:
 	def __createIfNotExists(self, cls: str, names: List[str]):
 		verb = self.dict.verbByAction(cls)
 		if not verb:
-			verb = entities.Verb()
+			verb = dragonfly.Verb()
 			verb.names = names
-			verb.action, error = helper.forname.getClass(cls, defaultModule = "actions")
+			verb.action, error = dragonfly.helper.getClass(cls, defaultModule = "dragonfly.actions")
 			if not verb.action:
-				raise DragonflyException(error)
+				raise dragonfly.DragonflyException(error)
 			self.dict.addVerb(verb)
 			self.__report(f"created verb {str(verb)}")
 

@@ -2,13 +2,9 @@ import typing
 import copy
 
 from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
-from dfexcept import DragonflyException
 
-import action
-import dfbase
-import helper.forname
-import helper.text
-import movement
+import dragonfly
+import dragonfly.helper
 
 
 class Entity():
@@ -23,19 +19,19 @@ class Entity():
 		return str(self.__names)
 
 	@property
-	def game(self) -> "dfbase.Game":
+	def game(self) -> "dragonfly.Game":
 		"""Return the game instance.
 		"""
 		return self.__game
 
 	@game.setter
-	def game(self, g: "dfbase.Game") -> None:
+	def game(self, g: "dragonfly.Game") -> None:
 		"""Set the game instance."""
 		self.__game = g
 		self.__dictionary = g.dictionary
 
 	@property
-	def dictionary(self) -> "dfbase.Dictionary":
+	def dictionary(self) -> "dragonfly.Dictionary":
 		"""Return the dictionary instance.
 		"""
 		return self.__dictionary
@@ -60,7 +56,7 @@ class Entity():
 	def responds(self, name: str) -> bool:
 		"""Returns True if the entity responds to the name."""
 		for n in self.__names:
-			if helper.text.isEquals(n, name): return True
+			if dragonfly.helper.isEquals(n, name): return True
 			#if n.lower() == name.lower(): return True
 
 		return False
@@ -203,47 +199,47 @@ class Noun(Entity):
 		self.__variables[name] = value
 
 	@property
-	def beforeEvents(self) -> typing.List["action.ActionEvent"]:
+	def beforeEvents(self) -> typing.List["dragonfly.ActionEvent"]:
 		"""Return the list of the Before events.
 
 		Returns:
-			actions.ActionEvent: Before ActionEvent list.
+			dragonfly.ActionEvent: Before ActionEvent list.
 		"""
 		return self.__before
 	
 	@property
-	def afterEvents(self) -> typing.List["action.ActionEvent"]:
+	def afterEvents(self) -> typing.List["dragonfly.ActionEvent"]:
 		"""Return the list of the After events.
 
 		Returns:
-			actions.ActionEvent: After ActionEvent list.
+			dragonfly.ActionEvent: After ActionEvent list.
 		"""
 		return self.__after
 
-	def addBefore(self, actionEvent: "action.ActionEvent") -> None:
+	def addBefore(self, actionEvent: "dragonfly.ActionEvent") -> None:
 		"""Add a new Before action evento to the list.
 
 		Args:
-			actionEvent (action.ActionEvent): Before ActionEvent.
+			actionEvent (dragonfly.ActionEvent): Before ActionEvent.
 		"""
 		self.__before.append(actionEvent)
 
-	def addAfter(self, actionEvent: "action.ActionEvent") -> None:
+	def addAfter(self, actionEvent: "dragonfly.ActionEvent") -> None:
 		"""Add a new After action evento to the list.
 
 		Args:
-			actionEvent (action.ActionEvent): After ActionEvent.
+			actionEvent (dragonfly.ActionEvent): After ActionEvent.
 		"""
 		self.__after.append(actionEvent)
 
-	def __doEvent(self, action: "action.Action", eventList: typing.List["action.ActionEvent"]) -> bool:
+	def __doEvent(self, action: "dragonfly.Action", eventList: typing.List["dragonfly.ActionEvent"]) -> bool:
 		"""Perform ActionEvent match with the Action, check if it meets the condition, and executes
 		the event.
 
 		eventList argument allows especify Before or After events.
 
 		Args:
-			action (action.Action): target Action.
+			action (dragonfly.Action): target Action.
 			eventList (typing.List[action.ActionEvent]): list of the events.
 
 		Returns:
@@ -262,7 +258,7 @@ class Noun(Entity):
 
 		return result
 
-	def doBefore(self, action: "action.Action") -> bool:
+	def doBefore(self, action: "dragonfly.Action") -> bool:
 		"""Perform Before ActionEvent match with the Action, check if it meets the condition, and executes
 		the event.
 
@@ -274,7 +270,7 @@ class Noun(Entity):
 		"""
 		return self.__doEvent(action, self.__before)
 
-	def doAfter(self, action: "action.Action") -> bool:
+	def doAfter(self, action: "dragonfly.Action") -> bool:
 		"""Perform After ActionEvent match with the Action, check if it meets the condition, and executes
 		the event.
 
@@ -330,19 +326,19 @@ class Noun(Entity):
 		return self.the if self.isSet("definited") else self.a
 
 	@property
-	def connections(self) -> typing.List[movement.Connection]:
+	def connections(self) -> typing.List["dragonfly.Connection"]:
 		"""Return the list of all connections of the noun.
 
 		Returns:
-			typing.List[movement.Connection]: the list of the connections.
+			typing.List[dragonfly.Connection]: the list of the connections.
 		"""
 		return self.__connections
 
-	def addConnection(self, conn: movement.Connection) -> None:
+	def addConnection(self, conn: "dragonfly.Connection") -> None:
 		"""Add a new connection to noun. If the exit exists, replace the destiny with the new instance.
 
 		Args:
-			conn (movement.Connection): a new connection.
+			conn (dragonfly.Connection): a new connection.
 		"""
 
 		exit = self.dictionary.exit(conn.exit)
@@ -354,14 +350,14 @@ class Noun(Entity):
 
 		self.__connections.append(conn)
 
-	def connection(self, exit: "Exit") -> movement.Connection:
+	def connection(self, exit: "Exit") -> "dragonfly.Connection":
 		"""Return a connection indicating the associated exit.
 
 		Args:
 			exit (Exit): The exit to match connection.
 
 		Returns:
-			movement.Connection: the connection associated to exit. If not exists any connection
+			dragonfly.Connection: the connection associated to exit. If not exists any connection
 							with the exit, return None.
 		"""
 		for c in self.__connections:
@@ -428,18 +424,18 @@ class Noun(Entity):
 
 				# Events
 				if child.nodeName() == "before":
-					event = action.ActionEvent()
+					event = dragonfly.ActionEvent()
 					event.load(child)
 					self.addBefore(event)
 
 				if child.nodeName() == "after":
-					event = action.ActionEvent()
+					event = dragonfly.ActionEvent()
 					event.load(child)
 					self.addAfter(event)
 
 				# Connections
 				if child.nodeName() == "connection":
-					conn = movement.Connection()
+					conn = dragonfly.Connection()
 					conn.load(child)
 					self.addConnection(conn)
 
@@ -582,9 +578,9 @@ class Verb(Entity):
 
 		# Verb base
 		actionString = element.attribute("action")
-		self.action, error = helper.forname.getClass(actionString, defaultModule = "actions")
+		self.action, error = dragonfly.helper.getClass(actionString, defaultModule = "dragonfly.actions")
 		if not self.action:
-			raise DragonflyException(error)
+			raise dragonfly.DragonflyException(error)
 		if element.attribute("syntax"):
 			for member in element.attribute("syntax").split(","):
 				self.syntax.append(member.strip())

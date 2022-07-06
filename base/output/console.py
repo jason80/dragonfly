@@ -166,10 +166,10 @@ class Console(QMainWindow):
 
 	# Static
 	def print(string: str, style: str = "") -> None:
-		Console.instance.game.execWorker.console_print.emit({"msg": string, "style": style})
+		Console.instance.game.execWorker.console_print.emit({"msg": string + " ", "style": style})
 
 	def println(string: str, style: str = "") -> None:
-		Console.print(string + "\n", style)
+		Console.instance.game.execWorker.console_print.emit({"msg": string + "\n", "style": style})
 
 	def clear() -> None:
 		Console.instance.game.execWorker.console_clear.emit()

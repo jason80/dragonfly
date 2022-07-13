@@ -14,6 +14,7 @@ class Parser:
 
 		self.__dObjStr = ""
 		self.__iObjStr = ""
+		self.__parameters = ""
 		self.__dObj = None
 		self.__iObj = None
 		self.__keyword = ""
@@ -41,6 +42,10 @@ class Parser:
 	@property
 	def indirectObjectString(self) -> str:
 		return self.__iObjStr
+
+	@property
+	def parameters(self) -> str:
+		return self.__parameters
 
 	@property
 	def directObject(self) -> "entities.Noun":
@@ -76,8 +81,13 @@ class Parser:
 			self.debug("token list is empty.")
 			return None
 
+		strVerb = tokens[0]
+
+		if strVerb.endswith(":"):
+			strVerb = tokens[0][:-1] # Remove ":"
+
 		# Filter the verbs
-		verbs = self.dictionary.verbs(tokens[0])
+		verbs = self.dictionary.verbs(strVerb)
 
 		# Verb not found
 		if not verbs:
@@ -116,6 +126,7 @@ class Parser:
 			self.__dObjStr = ""
 			self.__iObjStr = ""
 			self.__keyword = ""
+			self.__parameters = ""
 
 			action = self.checkSyntax(v, tokens)
 			if action: break # Syntax not match
@@ -159,11 +170,11 @@ class Parser:
 
 		syntax = verb.syntax
 
-		# CASE 0
-		#TODO: multiparameter verb
+		# CASE 0: Multiparameter verb
 		if syntax:
 			if syntax[-1] == "...":
-				pass
+				self.debug("Multiparameter verb:")
+				return self.checkMultiparameterVerb(action, tokens)
 
 		# CASE 1: Verb without parameters
 		if not syntax:
@@ -292,3 +303,56 @@ class Parser:
 	def debug(self, msg: str) -> None:
 		if self.__showParsingProcess:
 			Console.println(f"Parser: {msg}", "family: 'Courier'")
+
+	def checkMultiparameterVerb(self, action: "action.Action", tokens: typing.List[str]) -> "action.Action":
+		"""Check multiparameter sentence like talk action
+
+		Args:
+			action (action.Action): Action instance
+			tokens (typing.List[str]): Sentence tokens
+
+		Returns:
+			action.Action: Action instance if and only if tokens are valid.
+		"""
+		verb = action.verb
+		syntax = verb.syntax
+
+		joined = " ".join(tokens)
+		pair = joined.split(":")
+
+		# ":" separator not found
+		if len(pair) != 2: return False
+
+		# CASE 1: Verb with only multiparameters
+		if len(syntax) == 1:
+			if not verb.responds(pair[0]):
+				# Maybe a direct object found
+				return False
+			self.__parameters = pair[1].strip()
+			return action
+
+		# CASE 2: Verb with keyword, direct object and multiparameters
+		if len(syntax) == 3:
+			leftTokens = pair[0].split(" ")
+
+			# Expected direct object indicator
+			if syntax[1] != "1":
+				raise DragonflyException(f"Syntax error on verb: {verb.name}.")
+
+			# Not enough elements
+			if len(leftTokens) < 3: return None
+
+			# Search for a keyword
+			if not self.checkKeyword(leftTokens[1], syntax[0]): return None
+
+			self.__keyword = leftTokens[1]
+
+			# Get direct object
+			for tk in range(2, len(leftTokens)):
+				self.__dObjStr += leftTokens[tk]
+
+			# Get multiparameters
+			self.__parameters = pair[1].strip()
+
+			return action
+			

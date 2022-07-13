@@ -115,10 +115,17 @@ class Console(QMainWindow):
 					capitalize = True
 					i += 1
 
+				# Direct Object
 				if text[i] == "1":
 					obj = self.game.parser.directObject
+				# Indirect Object
 				elif text[i] == "2":
 					obj = self.game.parser.indirectObject
+				# All parameters
+				elif text[i] == "3":
+					result += self.game.parser.parameters
+					i += 1
+					continue
 
 				if not obj: result += "(NONE)"
 				else:

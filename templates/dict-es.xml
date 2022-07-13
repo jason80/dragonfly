@@ -176,7 +176,7 @@
 	<verb names="fuma, fumar, pita, pitar" action="SmokeObject"
 		syntax="1">
 		<response id="direct-not-found" string="No hay eso."/>
-		<response id="direct-is-the-player" string="No tienes pinta de cigarrillos."/>
+		<response id="direct-is-the-player" string="No tienes pinta de cigarrillo."/>
 		<response id="nothing-happens" string="No tiene sentido hacer eso."/>
 	</verb>
 
@@ -192,6 +192,19 @@
 		<response id="direct-not-found" string="No hay eso que apagar."/>
 		<response id="direct-is-the-player" string="No eres una linterna."/>
 		<response id="nothing-happens" string="No se puede apagar eso."/>
+	</verb>
+
+	<verb names="hablar, habla, decir, di, deci, pronuncia, pronunciar" action="TalkTo"
+		syntax="con/a/al, 1, ...">
+		<response id="direct-not-found" string="Ese al que quieres hablar no está."/>
+		<response id="direct-is-the-player" string="No estoy loco para hablar conmigo mismo."/>
+		<response id="direct-is-not-speaker" string="#^1 no habl@1(a,a,an,an)."/>
+		<response id="nothing-happens" string="#^1 no respond@1(e,e,en,en)."/>
+	</verb>
+
+	<verb names="hablar, habla, decir, di, deci, pronuncia, pronunciar" action="Talk"
+		syntax="...">
+		<response id="player-says" string="Tu dices: &quot;%3&quot;" />
 	</verb>
 
 	<!--ARTICLES-->

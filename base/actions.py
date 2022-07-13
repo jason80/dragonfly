@@ -668,6 +668,59 @@ class GoTo(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("exit-not-exists", "exit-not-found", )
 
+class Talk(action.Action):
+	def init(self) -> bool:
+		self.place = self.game.player.container
+		self.sendEventLater(self.place)
+
+		return True
+		
+	def check(self) -> bool:
+		return True
+
+	def carryOut(self) -> None:
+		self.fireResponse("player-says")
+
+		self.sendEventLater(self.place)
+
+	def report(self) -> None:
+		pass
+
+	def responses(self) -> typing.Tuple[str]:
+		return ("player-says")
+
+class TalkTo(action.Action):
+	def init(self) -> bool:
+		# Direct object in inventory or current place
+		lst = self.game.player.childs(self.parser.directObjectString)
+		lst.extend(self.game.player.container.childs(self.parser.directObjectString))
+
+		if not lst: return self.fireResponse("direct-not-found")
+
+		self.parser.directObject = self.dictionary.objectChooserDialog.execute(lst)
+		if not self.parser.directObject: return False
+
+		self.sendEventLater(self.parser.directObject)
+
+		return True
+	
+	def check(self) -> bool:
+		if self.parser.directObject == self.game.player:
+			return self.fireResponse("direct-is-the-player")
+		if not self.parser.directObject.isSet("speaker"):
+			return self.fireResponse("direct-is-not-speaker")
+		return True
+
+	def carryOut(self) -> None:
+		self.sendEventLater(self.parser.directObject)
+
+	def report(self) -> None:
+		self.fireResponse("nothing-happens")
+
+	def responses(self) -> typing.Tuple[str]:
+		return ("direct-not-found", "direct-is-the-player", "direct-is-not-speaker",
+					"nothing-happens", )
+
 class ReadObject(DefaultAction):
 	pass
 

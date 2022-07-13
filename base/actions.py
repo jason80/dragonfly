@@ -1,3 +1,5 @@
+from email import parser
+from html import entities
 import typing, action
 from dfexcept import DragonflyException
 from output.console import Console
@@ -720,6 +722,47 @@ class TalkTo(action.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ("direct-not-found", "direct-is-the-player", "direct-is-not-speaker",
 					"nothing-happens", )
+
+class GiveTo(action.Action):
+	def init(self) -> bool:
+
+		# Direct Object in inventory
+		lst = self.game.player.childs(self.parser.directObjectString)
+		if not lst: return self.fireResponse("direct-not-found")
+		self.parser.directObject = self.dictionary.objectChooserDialog.execute(lst)
+		if not self.parser.directObject: return False
+
+		# Indirect Object in the place
+		lst = self.game.player.container.childs(self.parser.indirectObjectString)
+		if not lst: return self.fireResponse("indirect-not-found")
+		self.parser.indirectObject = self.dictionary.objectChooserDialog.execute(lst)
+		if not self.parser.indirectObject: return False
+
+		self.sendEventLater(self.parser.directObject)
+		self.sendEventLater(self.parser.indirectObject)
+
+		return True
+
+	def check(self) -> bool:
+		if self.game.player == self.parser.indirectObject:
+			return self.fireResponse("indirect-is-the-player")
+		if not self.parser.indirectObject.isSet("interactive"):
+			return self.fireResponse("indirect-is-not-interactive")
+		return True
+
+	def carryOut(self) -> None:
+		# Move direct inner indirect
+		self.parser.directObject.container = self.parser.indirectObject
+
+		self.sendEventLater(self.parser.directObject)
+		self.sendEventLater(self.parser.indirectObject)
+
+	def report(self) -> None:
+		self.fireResponse("given-to-indirect")
+
+	def responses(self) -> typing.Tuple[str]:
+		return ("direct-not-found", "indirect-not-found", "indirect-is-the-player",
+				"indirect-is-not-interactive", "given-to-indirect")
 
 class ReadObject(DefaultAction):
 	pass

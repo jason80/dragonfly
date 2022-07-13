@@ -207,6 +207,15 @@
 		<response id="player-says" string="Tu dices: &quot;%3&quot;" />
 	</verb>
 
+	<verb names="dar, dale, entregar, entrega, entregale, ofrecer, ofrece, ofrecele, prestar, presta, prestale" action="GiveTo"
+		syntax="1, a/al, 2">
+		<response id="direct-not-found" string="No hay eso que quieres entregar."/>
+		<response id="indirect-not-found" string="No se encuentra aquí."/>
+		<response id="indirect-is-the-player" string="Ya l@1(o,a,os,as) tienes."/>
+		<response id="indirect-is-not-interactive" string="No puedes darle #1 a #2."/>
+		<response id="given-to-indirect" string="Le das #1 a #2."/>
+	</verb>
+
 	<!--ARTICLES-->
 	<article name = "el" genre = "male" number = "singular" indefinited = "false" />
 	<article name = "la" genre = "female" number = "singular" indefinited = "false" />

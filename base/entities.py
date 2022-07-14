@@ -295,9 +295,14 @@ class Noun(Entity):
 			str: The name with the article.
 		"""
 		result = ""
-		for a in self.dictionary.articles():
-			if a.female == self.isSet("female") and a.plural == self.isSet("plural") and not a.indefinited:
-				result = a.name + " " + self.name
+
+		# If is a propper noun:
+		if self.isSet("propper"):
+			result = self.name
+		else:
+			for a in self.dictionary.articles():
+				if a.female == self.isSet("female") and a.plural == self.isSet("plural") and not a.indefinited:
+					result = a.name + " " + self.name
 
 		return result
 

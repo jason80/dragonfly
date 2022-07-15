@@ -1,7 +1,6 @@
+import dragonfly
 
-import dfbase
-
-class GameLauncher(dfbase.Game):
+class GameLauncher(dragonfly.Game):
 	def __init__(self) -> None:
 		super().__init__(800, 600)
 

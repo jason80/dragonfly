@@ -3,12 +3,10 @@ from abc import ABC, abstractmethod
 
 from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
 
-import dfbase
-import entities
-import helper.forname
-import syntax.parser
-from dfexcept import DragonflyException
-from output.console import Console
+import dragonfly
+import dragonfly.helper
+import dragonfly.syntax
+from dragonfly.output import Console
 
 
 class Action(ABC):
@@ -18,27 +16,27 @@ class Action(ABC):
 		self.__sendingEvents = []
 
 	@property
-	def game(self) -> "dfbase.Game":
+	def game(self) -> "dragonfly.Game":
 		return self.__game
 
 	@game.setter
-	def game(self, game: "dfbase.Game") -> None:
+	def game(self, game: "dragonfly.Game") -> None:
 		self.__game = game
 
 	@property
-	def dictionary(self) -> "dfbase.Dictionary":
+	def dictionary(self) -> "dragonfly.Dictionary":
 		return self.__game.dictionary
 
 	@property
-	def parser(self) -> "syntax.Parser":
+	def parser(self) -> "dragonfly.syntax.Parser":
 		return self.__game.parser
 
 	@property
-	def verb(self) -> "entities.Verb":
+	def verb(self) -> "dragonfly.Verb":
 		return self.__verb
 
 	@verb.setter
-	def verb(self, verb: "entities.Verb") -> None:
+	def verb(self, verb: "dragonfly.Verb") -> None:
 		self.__verb = verb
 
 	@abstractmethod
@@ -82,12 +80,12 @@ class Action(ABC):
 		# Report the result
 		self.report()
 
-	def sendEventLater(self, noun: "entities.Noun") -> None:
+	def sendEventLater(self, noun: "dragonfly.Noun") -> None:
 		self.__sendingEvents.append(noun)
 
 	def fireResponse(self, id: str) -> bool:
 		if not self.__verb.hasResponse(id):
-			raise DragonflyException(f"Verb {self.__verb} has not response: {id}.")
+			raise dragonfly.DragonflyException(f"Verb {self.__verb} has not response: {id}.")
 
 		Console.println(self.__verb.getResponse(id))
 		return False
@@ -156,9 +154,9 @@ class ActionEvent:
 	def load(self, element: QDomElement) -> None:
 		# Load action list
 		for a in element.attribute("actions").split(","):
-			aClass, error = helper.forname.getClass(a.strip(), defaultModule="actions")
+			aClass, error = dragonfly.helper.getClass(a.strip(), defaultModule="dragonfly.actions")
 			if not aClass:
-				raise DragonflyException(error)
+				raise dragonfly.DragonflyException(error)
 			self.__actions.append(aClass)
 			
 		self.__cancel = element.attribute("cancel") == "true"
@@ -169,17 +167,17 @@ class ActionEvent:
 			if child.nodeType() == QDomNode.ElementNode:
 				e = child.toElement()
 				if e.nodeName() == "response":
-					responseClass, error = helper.forname.getClass(e.attribute("class"), defaultModule="responses")
+					responseClass, error = dragonfly.helper.getClass(e.attribute("class"), defaultModule="responses")
 					if not responseClass:
-						raise DragonflyException(error)
+						raise dragonfly.DragonflyException(error)
 					response = responseClass()
 					response.load(e)
 					self.addResponse(response)
 
 				if e.nodeName() == "if":
-					condClass, error = helper.forname.getClass(e.attribute("class"), defaultModule="conditions")
+					condClass, error = dragonfly.helper.getClass(e.attribute("class"), defaultModule="conditions")
 					if not condClass:
-						raise DragonflyException(error)
+						raise dragonfly.DragonflyException(error)
 					cond = condClass()
 					cond.load(e)
 					self.addCondition(cond)

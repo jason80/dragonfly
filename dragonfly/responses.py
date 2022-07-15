@@ -1,15 +1,11 @@
-from shutil import move
 from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
-from dfexcept import DragonflyException
 
-import action
-import entities
-import movement
-from helpsystem import Help
-from movement import Connection
-from output.console import Console
+import dragonfly
+from dragonfly.output import Console
+from dragonfly import Help
+from dragonfly import DragonflyException
 
-class Message(action.ActionResponse):
+class Message(dragonfly.ActionResponse):
 
 	def __init__(self) -> None:
 		self.message = ""
@@ -20,7 +16,7 @@ class Message(action.ActionResponse):
 		result = "println" if self.newLine else "print"
 		return f'{result} "{self.message}"'
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		if self.newLine: Console.println(self.message, self.style)
 		else: Console.print(self.message, self.style)
 
@@ -48,7 +44,7 @@ class Message(action.ActionResponse):
 
 		return element
 
-class Attr(action.ActionResponse):
+class Attr(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""
 		self.set = ""
@@ -63,7 +59,7 @@ class Attr(action.ActionResponse):
 
 		return " & ".join(lst) + " to " + self.instance
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		objList = action.dictionary.nouns(self.instance)
 		if not objList:
 			raise DragonflyException(f'On Set response: noun "{self.instance}" not found in dictionary.')
@@ -95,7 +91,7 @@ class Attr(action.ActionResponse):
 
 		return element
 
-class AppendName(action.ActionResponse):
+class AppendName(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""
 		self.name = ""
@@ -103,7 +99,7 @@ class AppendName(action.ActionResponse):
 	def __str__(self) -> str:
 		return f'Append name "{self.name}" to "{self.instance}"'
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		objList = action.dictionary.nouns(self.instance)
 		if not objList:
 			raise DragonflyException(f'On AppendName response: noun "{self.instance}" not found in dictionary.')
@@ -122,7 +118,7 @@ class AppendName(action.ActionResponse):
 
 		return element
 
-class Move(action.ActionResponse):
+class Move(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""
 		self.destiny = ""
@@ -130,12 +126,12 @@ class Move(action.ActionResponse):
 	def __str__(self) -> str:
 		return f'Move "{self.instance}" to "{self.destiny}"'
 
-	def getObj(self, action: "action.Action", name: str) -> "entities.Noun":
+	def getObj(self, action: "dragonfly.Action", name: str) -> "dragonfly.Noun":
 		objList = action.dictionary.nouns(name)
 		if not objList: return None
 		return objList[0]
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		obj = self.getObj(action, self.instance)
 		if not obj: raise DragonflyException(f'On Move response: noun "{self.instance}" not found in dictionary.')
 
@@ -155,14 +151,14 @@ class Move(action.ActionResponse):
 		
 		return element
 
-class Tip(action.ActionResponse):
+class Tip(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.message = ""
 
 	def __str__(self) -> str:
 		return f'Show tip "{self.message}"'
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		Help.tip(self.message)
 		pass
 
@@ -178,7 +174,7 @@ class Tip(action.ActionResponse):
 		
 		return element
 
-class TipOnce(action.ActionResponse):
+class TipOnce(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.message = ""
 		self.instance = ""
@@ -186,7 +182,7 @@ class TipOnce(action.ActionResponse):
 	def __str__(self) -> str:
 		return f'Show tip "{self.message} once"'
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		objList = action.dictionary.nouns(self.instance)
 		if not objList: return None
 		Help.tipOnce(objList[0], self.message)
@@ -205,14 +201,14 @@ class TipOnce(action.ActionResponse):
 		
 		return element
 
-class Execute(action.ActionResponse):
+class Execute(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.sentence = ""
 
 	def __str__(self) -> str:
 		return f'Execute "{self.sentence}" sentence'
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		action.game.execute(self.sentence)
 
 	def load(self, element: QDomElement) -> None:
@@ -227,7 +223,7 @@ class Execute(action.ActionResponse):
 
 		return element
 
-class AddConnection(action.ActionResponse):
+class AddConnection(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""
 		self.exit = ""
@@ -236,11 +232,11 @@ class AddConnection(action.ActionResponse):
 	def __str__(self) -> str:
 		return f'Add connection to {self.instance}: {self.exit} -> {self.destiny}'
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		objList = action.dictionary.nouns(self.instance)
 		if not objList: raise DragonflyException(f'On AddConnection response: noun "{self.instance}" not found in dictionary.')
 
-		conn = movement.Connection()
+		conn = dragonfly.Connection()
 		conn.exit = self.exit
 		conn.destiny = self.destiny
 		objList[0].addConnection(conn)
@@ -258,11 +254,11 @@ class AddConnection(action.ActionResponse):
 		
 		return element
 
-class ShowTitle(action.ActionResponse):
+class ShowTitle(dragonfly.ActionResponse):
 	def __str__(self) -> str:
 		return "Show game title"
 
-	def execute(self, action: "action.Action") -> None:
+	def execute(self, action: "dragonfly.Action") -> None:
 		action.game.showTitle()
 
 	def load(self, element: QDomElement) -> None:

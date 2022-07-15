@@ -1,14 +1,10 @@
-from dfexcept import DragonflyException
+import dragonfly
 import typing
 
-import action
-import dfbase
-import entities
-from output.console import Console
-
+from dragonfly.output import Console
 
 class Parser:
-	def __init__(self, game: "dfbase.Game") -> None:
+	def __init__(self, game: "dragonfly.Game") -> None:
 		self.__game = game
 		self.__showParsingProcess = False
 
@@ -20,7 +16,7 @@ class Parser:
 		self.__keyword = ""
 
 	@property
-	def game(self) -> "dfbase.Game":
+	def game(self) -> "dragonfly.Game":
 		return self.__game
 
 	@property
@@ -32,7 +28,7 @@ class Parser:
 		self.__showParsingProcess = val
 
 	@property
-	def dictionary(self) -> "dfbase.Dictionary":
+	def dictionary(self) -> "dragonfly.Dictionary":
 		return self.__game.dictionary
 
 	@property
@@ -48,19 +44,19 @@ class Parser:
 		return self.__parameters
 
 	@property
-	def directObject(self) -> "entities.Noun":
+	def directObject(self) -> "dragonfly.Noun":
 		return self.__dObj
 
 	@directObject.setter
-	def directObject(self, noun: "entities.Noun") -> None:
+	def directObject(self, noun: "dragonfly.Noun") -> None:
 		self.__dObj = noun
 
 	@property
-	def indirectObject(self) -> "entities.Noun":
+	def indirectObject(self) -> "dragonfly.Noun":
 		return self.__iObj
 
 	@indirectObject.setter
-	def indirectObject(self, noun: "entities.Noun") -> None:
+	def indirectObject(self, noun: "dragonfly.Noun") -> None:
 		self.__iObj = noun
 
 	@property
@@ -161,7 +157,7 @@ class Parser:
 		action.execute()
 
 
-	def checkSyntax(self, verb: "entities.Verb", tokens: typing.List[str]) -> "action.Action":
+	def checkSyntax(self, verb: "dragonfly.Verb", tokens: typing.List[str]) -> "dragonfly.Action":
 		# Instantiate the verb's action
 		actionClass = verb.action
 		action = actionClass()
@@ -193,12 +189,12 @@ class Parser:
 				self.__dObjStr = " ".join(tokens[1:])
 				return action
 			else:
-				raise DragonflyException(f"Syntax error on verb: {verb.name}.")
+				raise dragonfly.DragonflyException(f"Syntax error on verb: {verb.name}.")
 
 		# CASE 3: Wait keyword and direct object
 		if len(syntax) == 2:
 			if syntax[0] == "1" or syntax[0] == "2":
-				raise DragonflyException(f"Syntax error on verb: {verb.name}.")
+				raise dragonfly.DragonflyException(f"Syntax error on verb: {verb.name}.")
 
 			if syntax[1] == "1":
 				if len(tokens) <= 1: return None
@@ -213,7 +209,7 @@ class Parser:
 					return None
 
 			else:
-				raise DragonflyException(f"Syntax error on verb: {verb.name}.")
+				raise dragonfly.DragonflyException(f"Syntax error on verb: {verb.name}.")
 
 		# CASE 4: Wait for 3 things
 		if len(syntax) == 3:
@@ -253,7 +249,7 @@ class Parser:
 					# Ok
 					return action
 				else:
-					raise DragonflyException(f"Syntax error on verb: {verb.name}.")
+					raise dragonfly.DragonflyException(f"Syntax error on verb: {verb.name}.")
 
 			# CASE 4B: Keyword, object, object
 			if syntax[0] != "1" and syntax[1] != "2":
@@ -304,7 +300,7 @@ class Parser:
 		if self.__showParsingProcess:
 			Console.println(f"Parser: {msg}", "family: 'Courier'")
 
-	def checkMultiparameterVerb(self, action: "action.Action", tokens: typing.List[str]) -> "action.Action":
+	def checkMultiparameterVerb(self, action: "dragonfly.Action", tokens: typing.List[str]) -> "action.Action":
 		"""Check multiparameter sentence like talk action
 
 		Args:
@@ -337,7 +333,7 @@ class Parser:
 
 			# Expected direct object indicator
 			if syntax[1] != "1":
-				raise DragonflyException(f"Syntax error on verb: {verb.name}.")
+				raise dragonfly.DragonflyException(f"Syntax error on verb: {verb.name}.")
 
 			# Not enough elements
 			if len(leftTokens) < 3: return None

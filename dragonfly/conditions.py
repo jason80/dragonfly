@@ -1,8 +1,9 @@
-from dfexcept import DragonflyException
 from PyQt5.QtXml import QDomDocument, QDomElement
-import action
 
-class IsSet(action.Condition):
+import dragonfly
+from dragonfly import DragonflyException
+
+class IsSet(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 
@@ -12,7 +13,7 @@ class IsSet(action.Condition):
 	def __str__(self) -> str:
 		return f'Is set "{self.attr}" on "{self.instance}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		# Gets the noun
 		noun = action.dictionary.nouns(self.instance)
 		if not noun:
@@ -30,7 +31,7 @@ class IsSet(action.Condition):
 		element.setAttribute("attr", self.attr)
 		return element
 
-class IsNotSet(action.Condition):
+class IsNotSet(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 
@@ -40,7 +41,7 @@ class IsNotSet(action.Condition):
 	def __str__(self) -> str:
 		return f'Is not set "{self.attr}" on "{self.instance}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		# Gets the noun
 		noun = action.dictionary.nouns(self.instance)
 		if not noun:
@@ -58,7 +59,7 @@ class IsNotSet(action.Condition):
 		element.setAttribute("attr", self.attr)
 		return element
 
-class DirectEqualsExit(action.Condition):
+class DirectEqualsExit(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.exit = ""
@@ -66,7 +67,7 @@ class DirectEqualsExit(action.Condition):
 	def __str__(self) -> str:
 		return f'Direct equals exit: "{self.exit}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		e = action.dictionary.exit(self.exit)
 		if not e:
 			raise DragonflyException(f'On DirectEqualsExit condition: exit "{self.exit}" not found in dictionary.')
@@ -81,7 +82,7 @@ class DirectEqualsExit(action.Condition):
 		element.setAttribute("exit", self.exit)
 		return element
 		
-class Contains(action.Condition):
+class Contains(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.container = ""
@@ -90,7 +91,7 @@ class Contains(action.Condition):
 	def __str__(self) -> str:
 		return f'"{self.container}" contains "{self.instance}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		cont = action.dictionary.nouns(self.container)
 		if not cont:
 			raise DragonflyException(f'On Contains condition: container "{self.container}" not found in dictionary.')
@@ -109,7 +110,7 @@ class Contains(action.Condition):
 
 		return element
 
-class NotContains(action.Condition):
+class NotContains(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.container = ""
@@ -118,7 +119,7 @@ class NotContains(action.Condition):
 	def __str__(self) -> str:
 		return f'"{self.container}" not contains "{self.instance}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		cont = action.dictionary.nouns(self.container)
 		if not cont:
 			raise DragonflyException(f'On NotContains condition: container "{self.container}" not found in dictionary.')
@@ -137,7 +138,7 @@ class NotContains(action.Condition):
 
 		return element
 
-class DirectEquals(action.Condition):
+class DirectEquals(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.instance = ""
@@ -145,7 +146,7 @@ class DirectEquals(action.Condition):
 	def __str__(self) -> str:
 		return f'Direct equals "{self.instance}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		obj = action.parser.directObject
 		if not obj: return False
 
@@ -159,7 +160,7 @@ class DirectEquals(action.Condition):
 		element.setAttribute("instance", self.instance)
 		return element
 
-class DirectNotEquals(action.Condition):
+class DirectNotEquals(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.instance = ""
@@ -167,7 +168,7 @@ class DirectNotEquals(action.Condition):
 	def __str__(self) -> str:
 		return f'Direct not equals "{self.instance}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		obj = action.parser.directObject
 		if not obj: return True
 
@@ -181,7 +182,7 @@ class DirectNotEquals(action.Condition):
 		element.setAttribute("instance", self.instance)
 		return element
 
-class IndirectEquals(action.Condition):
+class IndirectEquals(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.instance = ""
@@ -189,7 +190,7 @@ class IndirectEquals(action.Condition):
 	def __str__(self) -> str:
 		return f'Indirect equals "{self.instance}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		obj = action.parser.indirectObject
 		if not obj: return False
 
@@ -203,7 +204,7 @@ class IndirectEquals(action.Condition):
 		element.setAttribute("instance", self.instance)
 		return element
 
-class IndirectNotEquals(action.Condition):
+class IndirectNotEquals(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
 		self.instance = ""
@@ -211,7 +212,7 @@ class IndirectNotEquals(action.Condition):
 	def __str__(self) -> str:
 		return f'Indirect equals "{self.instance}"'
 
-	def check(self, action: "action.Action") -> bool:
+	def check(self, action: "dragonfly.Action") -> bool:
 		obj = action.parser.indirectObject
 		if not obj: return True
 

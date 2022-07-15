@@ -1,4 +1,3 @@
-from dfexcept import DragonflyException
 import sys
 import typing
 from abc import ABC, abstractmethod
@@ -7,12 +6,12 @@ from PyQt5.QtCore import QFile, QIODevice, QTextStream, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtXml import QDomDocument, QDomNode
 
-import dialogs
-import entities
-import syntax.parser
-import helper.forname
-import output.console
-import checks
+import dragonfly
+import dragonfly.output
+import dragonfly.syntax
+import dragonfly.checks
+import dragonfly.dialogs
+import dragonfly.helper
 
 class ExecWorker(QThread):
 	"""ExecWorker is a thread that runs alongside the nautilus application.
@@ -31,9 +30,9 @@ class ExecWorker(QThread):
 	def run(self) -> None:
 		"""Loop contains: expect input, print echo and execute."""
 		while True:
-			line = output.console.Console.input()
-			output.console.Console.println("")
-			output.console.Console.println(line, "family: 'Courier'") # Console echo
+			line = dragonfly.output.Console.input()
+			dragonfly.output.Console.println("")
+			dragonfly.output.console.Console.println(line, "family: 'Courier'") # Console echo
 			self.game.execute(line)
 
 class Game(ABC):
@@ -43,13 +42,13 @@ class Game(ABC):
 		if not testMode:
 			self.__app = QApplication(sys.argv)
 			self.__execWorker = ExecWorker(self)
-			self.__console = output.console.Console(self, consoleWidth, consoleHeight)
+			self.__console = dragonfly.output.Console(self, consoleWidth, consoleHeight)
 
 		self.__title = ""
 		self.__author = ""
 
 		self.__dictionary = Dictionary(self)
-		self.__parser = syntax.parser.Parser(self)
+		self.__parser = dragonfly.syntax.Parser(self)
 		self.__player = None
 
 		self.__properties = dict()
@@ -118,7 +117,7 @@ class Game(ABC):
 		return self.__dictionary
 
 	@property
-	def parser(self) -> "syntax.parser.Parser":
+	def parser(self) -> "dragonfly.syntax.Parser":
 		"""Return the parser.
 
 		Returns:
@@ -127,7 +126,7 @@ class Game(ABC):
 		return self.__parser
 
 	@property
-	def player(self) -> "entities.Noun":
+	def player(self) -> "dragonfly.syntax.Noun":
 		"""Return the game's player.
 
 		Returns:
@@ -136,7 +135,7 @@ class Game(ABC):
 		return self.__player
 	
 	@player.setter
-	def player(self, player: "entities.Noun") -> None:
+	def player(self, player: "dragonfly.Noun") -> None:
 		"""Set the game player.
 
 		Args:
@@ -179,11 +178,11 @@ class Game(ABC):
 			print("[Parser] hiding parsing process.")
 			self.parser.showParsingProcess = False
 		else:
-			raise DragonflyException("Game Property: show-parsing-process expect true/false value.")
+			raise dragonfly.DragonflyException("Game Property: show-parsing-process expect true/false value.")
 
 		# Missing check
 		print("Executing missing check ...")
-		missing = checks.MissingCheck(self)
+		missing = dragonfly.checks.MissingCheck(self)
 		missing.check()
 
 		print(f'Player: "{self.player.name}" located in "{self.player.container.name}".')
@@ -223,9 +222,9 @@ class Game(ABC):
 		self.__execWorker.console_quit.emit()
 
 	def showTitle(self):
-		output.console.Console.println(self.__title, "size: 20; bold: true")
-		output.console.Console.println(self.author, "size: 12")
-		output.console.Console.println(" ", "size: 80")
+		dragonfly.output.Console.println(self.__title, "size: 20; bold: true")
+		dragonfly.output.console.Console.println(self.author, "size: 12")
+		dragonfly.output.console.Console.println(" ", "size: 80")
 
 class Dictionary:
 	"""Contains a list of nouns, verbs and exits."""
@@ -236,10 +235,10 @@ class Dictionary:
 		self.__articles = []
 		self.__exits = []
 
-		self.__seeListDialog = dialogs.ListDialog("You can see: ", ", ", " and ")
-		self.__objectChooserDialog = dialogs.ObjectChooserDialog("Which one?", "Never mind.", "Please, enter the correct option.")
-		self.__inventoryDialog = dialogs.ListDialog("You have: ", ", ", " and ")
-		self.__lookInsideDialog = dialogs.ListDialog("Inside there is: ", ", ", " and ")
+		self.__seeListDialog = dragonfly.dialogs.ListDialog("You can see: ", ", ", " and ")
+		self.__objectChooserDialog = dragonfly.ObjectChooserDialog("Which one?", "Never mind.", "Please, enter the correct option.")
+		self.__inventoryDialog = dragonfly.ListDialog("You have: ", ", ", " and ")
+		self.__lookInsideDialog = dragonfly.ListDialog("Inside there is: ", ", ", " and ")
 
 	def __str__(self) -> str:
 		result = "Nouns:\n"
@@ -270,54 +269,54 @@ class Dictionary:
 		return self.__game
 
 	@property
-	def seeListDialog(self) -> "dialogs.ListDialog":
+	def seeListDialog(self) -> "dragonfly.dialogs.ListDialog":
 		"""Return the See List Dialog of the game.
 		"""
 		return self.__seeListDialog
 
 	@seeListDialog.setter
-	def seeListDialog(self, dialog: "dialogs.ListDialog"):
+	def seeListDialog(self, dialog: "dragonfly.dialogs.ListDialog"):
 		"""Set the See List Dialog of the game.
 		"""
 		self.__seeListDialog = dialog
 
 	@property
-	def objectChooserDialog(self) -> "dialogs.ObjectChooserDialog":
+	def objectChooserDialog(self) -> "dragonfly.dialogs.ObjectChooserDialog":
 		"""Return the Object Chooser Dialog of the game.
 		"""
 		return self.__objectChooserDialog
 
 	@objectChooserDialog.setter
-	def objectChooserDialog(self, dialog: "dialogs.ObjectChooserDialog") -> None:
+	def objectChooserDialog(self, dialog: "dragonfly.dialogs.ObjectChooserDialog") -> None:
 		"""Set the Object Chooser Dialog of the game.
 		"""
 		self.__objectChooserDialog = dialog
 
 	@property
-	def inventoryDialog(self) -> "dialogs.ListDialog":
+	def inventoryDialog(self) -> "dragonfly.dialogs.ListDialog":
 		"""Return the Inventory Dialog of the game.
 		"""
 		return self.__inventoryDialog
 
 	@inventoryDialog.setter
-	def inventoryDialog(self, dialog: "dialogs.ListDialog") -> None:
+	def inventoryDialog(self, dialog: "dragonfly.dialogs.ListDialog") -> None:
 		"""Set the Inventory Dialog of the game.
 		"""
 		self.__inventoryDialog = dialog
 
 	@property
-	def lookInsideDialog(self) -> "dialogs.ListDialog":
+	def lookInsideDialog(self) -> "dragonfly.dialogs.ListDialog":
 		"""Return the Look Inside Dialog of the game.
 		"""
 		return self.__lookInsideDialog
 
 	@lookInsideDialog.setter
-	def lookInsideDialog(self, dialog: "dialogs.ListDialog") -> None:
+	def lookInsideDialog(self, dialog: "dragonfly.dialogs.ListDialog") -> None:
 		"""Set the Look Inside Dialog of the game.
 		"""
 		self.__lookInsideDialog = dialog
 
-	def nouns(self, name: str = "") -> typing.List["entities.Noun"]:
+	def nouns(self, name: str = "") -> typing.List["dragonfly.Noun"]:
 		"""Return a list of the nouns wich responds to name."""
 		if name == "": return self.__nouns
 		result = []
@@ -326,7 +325,7 @@ class Dictionary:
 
 		return result
 
-	def verbs(self, name: str = "") -> typing.List["entities.Verb"]:
+	def verbs(self, name: str = "") -> typing.List["dragonfly.Verb"]:
 		"""Return a list of the verbs wich responds to name.
 		"""
 		if name == "": return self.__verbs
@@ -336,20 +335,20 @@ class Dictionary:
 
 		return result
 
-	def verbByAction(self, actionClassName: str) -> "entities.Verb":
+	def verbByAction(self, actionClassName: str) -> "dragonfly.Verb":
 		"""Return a first ocurrence of the verb indicating the action class name.
 		Action class name must be fully name (module.Class), for otherwise use 'actions'
 		module by default.
 		"""
-		actionClass, error = helper.forname.getClass(actionClassName, defaultModule="actions")
+		actionClass, error = dragonfly.helper.getClass(actionClassName, defaultModule="dragonfly.actions")
 		if not actionClass:
-			raise DragonflyException(error)
+			raise dragonfly.DragonflyException(error)
 		for v in self.__verbs:
 			if v.action == actionClass: return v
 
 		return None
 
-	def article(self, name: str) -> "entities.Article":
+	def article(self, name: str) -> "dragonfly.Article":
 		"""Return article instance y name.
 		"""
 		for a in self.__articles:
@@ -358,7 +357,7 @@ class Dictionary:
 
 		return None
 
-	def exit(self, name: str) -> "entities.Exit":
+	def exit(self, name: str) -> "dragonfly.Exit":
 		"""Return exit instance by name.
 		"""
 		for e in self.__exits:
@@ -366,48 +365,48 @@ class Dictionary:
 
 		return None
 
-	def exits(self) -> typing.List["entities.Exit"]:
+	def exits(self) -> typing.List["dragonfly.Exit"]:
 		"""Return a list of exits.
 		"""
 		return self.__exits
 
-	def articles(self) -> typing.List["entities.Article"]:
+	def articles(self) -> typing.List["dragonfly.Article"]:
 		"""Return the complete article list.
 		"""
 		return self.__articles
 
-	def addNoun(self, noun: "entities.Noun") -> None:
+	def addNoun(self, noun: "dragonfly.Noun") -> None:
 		"""Add a new noun to dictionary.
 		Args:
-			noun (entities.Noun): A new noun instance.
+			noun (dragonfly.Noun): A new noun instance.
 		"""
 		self.__nouns.append(noun)
 
-	def addVerb(self, verb: "entities.Verb") -> None:
+	def addVerb(self, verb: "dragonfly.Verb") -> None:
 		"""Add a new verb to dictionary.
 		Args:
-			verb (entities.Verb): A new verb instance.
+			verb (dragonfly.Verb): A new verb instance.
 		"""
 		self.__verbs.append(verb)
 
-	def addArticle(self, article: "entities.Article") -> None:
+	def addArticle(self, article: "dragonfly.Article") -> None:
 		"""Add a new article to dictionary,
 		Args:
-			article (entities.Article): A new article instance.
+			article (dragonfly.Article): A new article instance.
 		"""
 		self.__articles.append(article)
 
-	def addExit(self, exit: "entities.Exit") -> None:
+	def addExit(self, exit: "dragonfly.Exit") -> None:
 		"""Add a new exit to dictionary,
 		Args:
-			exit (entities.Exit): A new exit instance.
+			exit (dragonfly.Exit): A new exit instance.
 		"""
 		self.__exits.append(exit)
 
-	def cascadeRemoveNoun(self, noun: "entities.Noun") -> None:
+	def cascadeRemoveNoun(self, noun: "dragonfly.Noun") -> None:
 		"""Remove the noun and recursively remove his childs.
 		Args:
-			noun (entities.Noun): noun to remove.
+			noun (dragonfly.Noun): noun to remove.
 		"""
 		for c in noun.childs():
 			self.cascadeRemoveNoun(c)
@@ -424,11 +423,11 @@ class Dictionary:
 		doc = QDomDocument()
 		file = QFile(path)
 		if not file.open(QIODevice.ReadOnly or QIODevice.Text):
-			raise DragonflyException(f'Loading dictionary: Cannot load file: "{path}".')
+			raise dragonfly.DragonflyException(f'Loading dictionary: Cannot load file: "{path}".')
 
 		if not doc.setContent(file):
 			file.close()
-			raise DragonflyException(f'Loading dictionary: Cannot load content from xml file: "{path}".')
+			raise dragonfly.DragonflyException(f'Loading dictionary: Cannot load content from xml file: "{path}".')
 
 		file.close()
 
@@ -454,34 +453,34 @@ class Dictionary:
 
 				# Dialogs
 				if element.nodeName() == "see-list-dialog":
-					self.seeListDialog = dialogs.loadListDialog(element)
+					self.seeListDialog = dragonfly.dialogs.loadListDialog(element)
 				if element.nodeName() == "inventory-dialog":
-					self.inventoryDialog = dialogs.loadListDialog(element)
+					self.inventoryDialog = dragonfly.dialogs.loadListDialog(element)
 				if element.nodeName() == "look-inside-dialog":
-					self.lookInsideDialog = dialogs.loadListDialog(element)
+					self.lookInsideDialog = dragonfly.dialogs.loadListDialog(element)
 				if element.nodeName() == "object-chooser-dialog":
-					self.objectChooserDialog = dialogs.loadObjectChooserDialog(element)
+					self.objectChooserDialog = dragonfly.dialogs.loadObjectChooserDialog(element)
 					
 
 				if element.nodeName() == "noun":
-					noun = entities.Noun()
+					noun = dragonfly.Noun()
 					noun.game = self.__game
 					self.addNoun(noun)
 					noun.load(element)
 
 				if element.nodeName() == "verb":
-					verb = entities.Verb()
+					verb = dragonfly.Verb()
 					verb.game = self.__game
 					self.addVerb(verb)
 					verb.load(element)
 
 				if element.nodeName() == "article":
-					article = entities.Article()
+					article = dragonfly.Article()
 					article.load(element)
 					self.addArticle(article)
 
 				if element.nodeName() == "exit":
-					e = entities.Exit()
+					e = dragonfly.Exit()
 					e.load(element)
 					self.addExit(e)
 
@@ -519,7 +518,7 @@ class Dictionary:
 		# Write file
 		file = QFile(path)
 		if not file.open(QFile.WriteOnly or QFile.Truncate):
-			raise DragonflyException(f'Cannot write file: "{path}"')
+			raise dragonfly.DragonflyException(f'Cannot write file: "{path}"')
 
 		outstream = QTextStream(file)
 		doc.save(outstream, 4)

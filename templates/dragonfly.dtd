@@ -1,4 +1,6 @@
-<!ELEMENT dragonfly ANY>
+<!ELEMENT dragonfly (property | include | see-list-dialog | inventory-dialog |
+			look-inside-dialog | object-chooser-dialog | game | verb | article |
+			exit | noun)* >
 
 <!-- Property -->
 <!ELEMENT property (#PCDATA)>
@@ -36,7 +38,7 @@
 <!ATTLIST game author CDATA #REQUIRED>
 
 <!-- Verb -->
-<!ELEMENT verb ANY>
+<!ELEMENT verb (response*)>
 <!ATTLIST verb names CDATA #REQUIRED>
 <!ATTLIST verb action CDATA #REQUIRED>
 <!ATTLIST verb syntax CDATA #IMPLIED>
@@ -65,7 +67,7 @@
 <!ATTLIST exit names CDATA #REQUIRED>
 
 <!-- Noun -->
-<!ELEMENT noun ANY>
+<!ELEMENT noun (set | variable | after | before | clone | connection | noun)*>
 <!ATTLIST noun names CDATA #REQUIRED>
 <!-- Set -->
 <!ELEMENT set (#PCDATA)>
@@ -74,10 +76,10 @@
 <!ATTLIST variable name CDATA #REQUIRED>
 <!ATTLIST variable value CDATA #REQUIRED>
 <!-- Events -->
-<!ELEMENT after ANY>
+<!ELEMENT after (if*, response*)>
 <!ATTLIST after actions CDATA #REQUIRED>
 <!ATTLIST after cancel (true|false) "true">
-<!ELEMENT before ANY>
+<!ELEMENT before (if*, response*)>
 <!ATTLIST before actions CDATA #REQUIRED>
 <!ATTLIST before cancel (true|false) "true">
 <!-- Conditions -->

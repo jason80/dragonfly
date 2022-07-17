@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE dragonfly SYSTEM "https://raw.githubusercontent.com/jason80/dragonfly/main/templates/dragonfly.dtd">
+<!DOCTYPE dragonfly SYSTEM "./dragonfly.dtd">
 
 <dragonfly>
 	<verb names = "info" action = "dragonfly.debug.Info" syntax = "1" />

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+
 <dragonfly>
 	<!-- Los sustantivos del juego son los objetos. Pueden ser simples
 	como una linterna o un papel, el jugador, hasta un lugar como un baño o un

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+
 <!-- Todo archivo Dragonfly es de formato XML. Debe declararse el encabezado y su
  		elemento raíz siempre se debe llamar "dragonfly" -->	
 

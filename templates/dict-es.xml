@@ -194,6 +194,20 @@
 		<response id="nothing-happens" string="No se puede apagar eso."/>
 	</verb>
 
+	<verb names="tocar, toca, acariciar, acaricia" action="TouchObject"
+		syntax="1">
+		<response id="direct-not-found" string="No existe eso."/>
+		<response id="direct-is-the-player" string="No tengo esa necesidad ..."/>
+		<response id="nothing-happens" string="No sucede nada."/>
+	</verb>
+
+	<verb names="golpea, golpear" action="HitObject"
+		syntax="1">
+		<response id="direct-not-found" string="No existe eso."/>
+		<response id="direct-is-the-player" string="Todavia no he llegado a esa instancia."/>
+		<response id="nothing-happens" string="No sucede nada."/>
+	</verb>
+
 	<verb names="hablar, habla, decir, di, deci, pronuncia, pronunciar" action="TalkTo"
 		syntax="con/a/al, 1, ...">
 		<response id="direct-not-found" string="Ese al que quieres hablar no está."/>

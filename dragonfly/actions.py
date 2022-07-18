@@ -775,3 +775,9 @@ class TurnOnObject(DefaultAction):
 
 class TurnOffObject(DefaultAction):
 	pass
+
+class HitObject(DefaultAction):
+	pass
+
+class TouchObject(DefaultAction):
+	pass

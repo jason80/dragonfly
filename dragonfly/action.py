@@ -8,7 +8,6 @@ import dragonfly.helper
 import dragonfly.syntax
 from dragonfly.output import Console
 
-
 class Action(ABC):
 	def __init__(self) -> None:
 		self.__game = None
@@ -164,6 +163,21 @@ class ActionEvent:
 		# Load responses and conditions
 		for i in range(element.childNodes().count()):
 			child = element.childNodes().at(i)
+
+			# simple text found: create a message response:
+			if child.nodeType() == QDomNode.TextNode:
+				text = child.toText().data().strip()
+				if not text: continue
+
+				messageClass, error = dragonfly.helper.getClass("Message", defaultModule="responses")
+				if not messageClass:
+					raise dragonfly.DragonflyException(error)
+				
+				message = messageClass()
+				message.message = text
+				self.addResponse(message)
+
+			# condition and response found:
 			if child.nodeType() == QDomNode.ElementNode:
 				e = child.toElement()
 				if e.nodeName() == "response":

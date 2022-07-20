@@ -76,10 +76,10 @@
 <!ATTLIST variable name CDATA #REQUIRED>
 <!ATTLIST variable value CDATA #REQUIRED>
 <!-- Events -->
-<!ELEMENT after (if*, response*)>
+<!ELEMENT after (#PCDATA | if | response)*>
 <!ATTLIST after actions CDATA #REQUIRED>
 <!ATTLIST after cancel (true|false) "true">
-<!ELEMENT before (if*, response*)>
+<!ELEMENT before (#PCDATA | if | response)*>
 <!ATTLIST before actions CDATA #REQUIRED>
 <!ATTLIST before cancel (true|false) "true">
 <!-- Conditions -->

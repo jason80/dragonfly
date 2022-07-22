@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+
+<dragonfly>
+	<noun names="El Árbol Naranja, arbol-naranja">
+		<after actions="LookAround">
+			En éste lugar el sendero se curva hacia el este. Y se vuelve por el sur.
+			<response class="Message">
+				Hay un árbol que destaca de los demás, tiene el tronco naranja.
+			</response>
+		</after>
+
+		<clone instance="sendero-principal" />
+
+		<noun names="árboles, vegetación, hierba, hierbas">
+			<set>plural, fixed, scene</set>
+			<after actions="ExamineObject">
+				Entre enormes árboles y enmarañada vegetación, es imposible ver y transitar fuera del sendero.
+			</after>
+		</noun>
+
+		<noun names="árbol, naranja, tronco">
+			<set>fixed, scene</set>
+			<after actions="ExamineObject">
+				El tronco naranja aparece ni bien el sendero se curba hacia el este.
+			</after>
+		</noun>
+
+		<connection exit="sur" destiny="claro" />
+		<connection exit="este" destiny="orilla-rio" />
+	</noun>
+</dragonfly>

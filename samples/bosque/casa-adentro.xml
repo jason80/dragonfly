@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+
+<dragonfly>
+	<noun names="Dentro de La Cabaña, casa-adentro">
+		<after actions="LookAround">
+			Es una posilga. Hay estanterias llenas de frascos, mesas repletas de ingredientes indescriptibles. En el centro, un grán caldero.
+			<response class="Message">
+				Detrás tuyo está la puerta que te lleva afuera.
+			</response>
+		</after>
+
+		<after actions="LookAround">
+			<if class="Contains" container="casa-adentro" instance="bruja" />
+			Una bruja está junto al caldero.
+		</after>
+		<!-- Puerta -->
+		<noun names="puerta, porton, puerta-adentro">
+			<set>female, fixed, scene, closable, closed</set>
+
+			<after actions="ExamineObject">
+				<if class="IsSet" instance="puerta-adentro" attr="closed" />
+				La puerta es de madera y está cerrada.
+			</after>
+
+			<after actions="ExamineObject">
+				<if class="IsNotSet" instance="puerta-adentro" attr="closed" />
+				La puerta es de madera y está abierta.
+			</after>
+
+			<after actions="OpenObject">
+				<response class="Attr" instance="puerta-afuera" unset="closed" />
+			</after>
+
+			<after actions="CloseObject">
+				<response class="Attr" instance="puerta-afuera" set="closed" />
+			</after>
+			
+			<before actions="TouchObject, HitObject" cancel="true">
+				¡Ya estás adentro!
+			</before>
+		</noun>
+
+
+		<!-- Cosas -->
+		<noun names="bienes de la bruja, estanterias, estanteria, frascos, frasco, ingredientes, ingrediente, mesa, mesas">
+			<set>plural, fixed, scene</set>
+			<after actions="ExamineObject">
+				Es interminable la cantidad de cosas, es inútil ahondar en ellas.
+			</after>
+		</noun>
+
+		<before actions="GoTo" cancel="true">
+			<if class="DirectEqualsExit" exit="afuera" />
+			<if class="IsSet" attr="closed" instance="puerta-afuera" />
+			La puerta está cerrada.
+		</before>
+
+		<connection exit="afuera" destiny="casa-afuera" />
+	</noun>
+</dragonfly>

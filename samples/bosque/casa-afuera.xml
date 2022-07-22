@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+
+<dragonfly>
+	<noun names="La Cabaña, casa-afuera">
+		<after actions="LookAround">
+			Una misteriosa cabaña se presenta en la escena, y el camino continua hacia el norte. Por el sur se vuelve al río.
+		</after>
+
+		<noun names="cabaña, casa, casita, rancho">
+			<set>female, fixed, scene</set>
+
+			<after actions="ExamineObject">
+				La torcida cabaña de troncos está a un lado del sendero, tiene una puerta pero carece de ventanas.
+			</after>
+		</noun>
+
+		<noun names="puerta, porton, puerta-afuera">
+			<set>female, fixed, scene, closable, closed</set>
+
+			<after actions="ExamineObject">
+				<if class="IsSet" instance="puerta-afuera" attr="closed" />
+				La puerta es de madera y está cerrada.
+			</after>
+
+			<after actions="ExamineObject">
+				<if class="IsNotSet" instance="puerta-afuera" attr="closed" />
+				La puerta es de madera y está abierta.
+			</after>
+
+			<!--<before actions="OpenObject, OpenWith, PushObject, PullObject" cancel="true">
+				No se abre, debe estar atrancada.
+			</before>-->
+			<after actions="OpenObject">
+				<response class="Attr" instance="puerta-adentro" unset="closed" />
+			</after>
+
+			<after actions="CloseObject">
+				<response class="Attr" instance="puerta-adentro" set="closed" />
+			</after>
+			
+			<before actions="TouchObject, HitObject" cancel="true">
+				Nadie responde.
+			</before>
+
+		</noun>
+
+		<before actions="GoTo" cancel="true">
+			<if class="DirectEqualsExit" exit="adentro" />
+			<if class="IsSet" attr="closed" instance="puerta-afuera" />
+			La puerta está cerrada.
+		</before>
+
+		<connection exit="sur" destiny="orilla-rio"/>
+		<connection exit="norte" destiny="claro" />
+		<connection exit="adentro" destiny="casa-adentro" />
+	</noun>
+</dragonfly>

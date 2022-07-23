@@ -41,12 +41,39 @@
 			</before>
 		</noun>
 
+		<!-- Caldero -->
+		<noun names="caldero, olla, liquido, fuego">
+			<set>heavy, scene</set>
+			<after actions="ExamineObject">
+				Un líquido burbujeante se está cocinando en el gran caldero de metal.
+			</after>
+
+			<before actions="PushObject, PullObject, TouchObject"
+						cancel="true">
+				Ni de broma, está caliente.
+			</before>
+		</noun>
 
 		<!-- Cosas -->
 		<noun names="bienes de la bruja, estanterias, estanteria, frascos, frasco, ingredientes, ingrediente, mesa, mesas">
 			<set>plural, fixed, scene</set>
 			<after actions="ExamineObject">
 				Es interminable la cantidad de cosas, es inútil ahondar en ellas.
+			</after>
+		</noun>
+
+		<!-- La bruja -->
+		<noun names="bruja">
+			<set>female, fixed, speaker, scene</set>
+			<after actions="ExamineObject">
+				La arapienta bruja está removiendo el contenido del caldero.
+				<response class="TipOnce" instance="bruja">
+					Dile algo a la bruja con: 'habla a la bruja: hola'
+				</response>
+			</after>
+
+			<after actions="TalkTo" cancel="true">
+				
 			</after>
 		</noun>
 

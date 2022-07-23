@@ -317,14 +317,19 @@ class Parser:
 		pair = joined.split(":")
 
 		# ":" separator not found
-		if len(pair) != 2: return False
+		if len(pair) != 2:
+			self.debug("Separator ':' not found.")
+			return False
 
 		# CASE 1: Verb with only multiparameters
 		if len(syntax) == 1:
 			if not verb.responds(pair[0]):
 				# Maybe a direct object found
+				self.debug(f"verb: '{verb.name}' is not '{pair[0]}.'")
+				self.debug("Maybe direct object found.")
 				return False
 			self.__parameters = pair[1].strip()
+			self.debug(f"Parameters: '{self.__parameters}'.")
 			return action
 
 		# CASE 2: Verb with keyword, direct object and multiparameters
@@ -342,13 +347,15 @@ class Parser:
 			if not self.checkKeyword(leftTokens[1], syntax[0]): return None
 
 			self.__keyword = leftTokens[1]
+			self.debug(f"Keyword: '{self.__keyword}'.")
 
 			# Get direct object
 			for tk in range(2, len(leftTokens)):
-				self.__dObjStr += leftTokens[tk]
+				self.__dObjStr += leftTokens[tk] + " "
 
 			# Get multiparameters
 			self.__parameters = pair[1].strip()
+			self.debug(f"Parameters: '{self.__parameters}'.")
 
 			return action
 			

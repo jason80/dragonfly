@@ -14,6 +14,9 @@
 			<if class="Contains" container="casa-adentro" instance="bruja" />
 			Una bruja está junto al caldero.
 		</after>
+
+		<noun names="jugador, player"></noun>
+
 		<!-- Puerta -->
 		<noun names="puerta, porton, puerta-adentro">
 			<set>female, fixed, scene, closable, closed</set>
@@ -73,7 +76,7 @@
 			</after>
 
 			<after actions="TalkTo" cancel="true">
-				
+				<response class="RunConversation" owner = "bruja" />
 			</after>
 		</noun>
 

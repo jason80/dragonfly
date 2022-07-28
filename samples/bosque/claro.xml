@@ -16,7 +16,7 @@
 			<response class="Attr" set="described" instance="claro"/>
 		</after>
 
-		<noun names="jugador, player"></noun>
+		<!--<noun names="jugador, player"></noun>-->
 
 		<noun names="sendero, camino, sendero-principal">
 			<set>fixed, scene</set>

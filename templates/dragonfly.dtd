@@ -1,6 +1,6 @@
 <!ELEMENT dragonfly (property | include | see-list-dialog | inventory-dialog |
 			look-inside-dialog | object-chooser-dialog | game | verb | article |
-			exit | noun)* >
+			exit | noun | conversation)* >
 
 <!-- Property -->
 <!ELEMENT property (#PCDATA)>
@@ -54,6 +54,7 @@
 <!ATTLIST response name CDATA #IMPLIED>
 <!ATTLIST response destiny CDATA #IMPLIED>
 <!ATTLIST response exit CDATA #IMPLIED>
+<!ATTLIST response owner CDATA #IMPLIED>
 
 <!-- Article -->
 <!ELEMENT article (#PCDATA)>
@@ -96,3 +97,11 @@
 <!-- Clone -->
 <!ELEMENT clone (#PCDATA)>
 <!ATTLIST clone instance CDATA #REQUIRED>
+
+<!-- Conversation-->
+<!ELEMENT conversation (topics*, default?)>
+<!ATTLIST conversation owner CDATA #REQUIRED>
+<!-- Topics -->
+<!ELEMENT topics (#PCDATA | if | response)*>
+<!ATTLIST topics match CDATA #REQUIRED>
+<!ELEMENT default (#PCDATA)>

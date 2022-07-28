@@ -12,6 +12,7 @@ import dragonfly.syntax
 import dragonfly.checks
 import dragonfly.dialogs
 import dragonfly.helper
+import dragonfly.conversation
 
 class ExecWorker(QThread):
 	"""ExecWorker is a thread that runs alongside the nautilus application.
@@ -234,6 +235,7 @@ class Dictionary:
 		self.__verbs = []
 		self.__articles = []
 		self.__exits = []
+		self.__conversations = []
 
 		self.__seeListDialog = dragonfly.dialogs.ListDialog("You can see: ", ", ", " and ")
 		self.__objectChooserDialog = dragonfly.ObjectChooserDialog("Which one?", "Never mind.", "Please, enter the correct option.")
@@ -375,6 +377,17 @@ class Dictionary:
 		"""
 		return self.__articles
 
+	@property
+	def conversations(self) -> typing.List["dragonfly.Conversation"]:
+		return self.__conversations
+
+	def conversation(self, owner: str) -> "dragonfly.Conversation":
+		for c in self.conversations:
+			if c.owner == owner: return c
+
+		raise dragonfly.DragonflyException(
+			f'Conversation: owner "{owner}" not found in dictionary.')
+
 	def addNoun(self, noun: "dragonfly.Noun") -> None:
 		"""Add a new noun to dictionary.
 		Args:
@@ -402,6 +415,9 @@ class Dictionary:
 			exit (dragonfly.Exit): A new exit instance.
 		"""
 		self.__exits.append(exit)
+
+	def addConversation(self, conv: "dragonfly.Conversation"):
+		self.__conversations.append(conv)
 
 	def cascadeRemoveNoun(self, noun: "dragonfly.Noun") -> None:
 		"""Remove the noun and recursively remove his childs.
@@ -483,6 +499,11 @@ class Dictionary:
 					e = dragonfly.Exit()
 					e.load(element)
 					self.addExit(e)
+
+				if element.nodeName() == "conversation":
+					c = dragonfly.Conversation()
+					c.load(element)
+					self.addConversation(c)
 
 	def save(self, path: str) -> None:
 		"""Save the dictionary to xml document.

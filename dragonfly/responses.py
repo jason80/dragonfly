@@ -267,3 +267,21 @@ class ShowTitle(dragonfly.ActionResponse):
 	def save(self, doc: QDomDocument) -> QDomElement:
 		return super().save()
 		
+class RunConversation(dragonfly.ActionResponse):
+	def __init__(self) -> None:
+		self.owner = ""
+		
+	def __str__(self) -> str:
+		return f"Run Conversation with '{self.owner}'"
+
+	def execute(self, action: dragonfly.Action) -> None:
+		c = action.dictionary.conversation(self.owner)
+		c.start(action)
+
+	def load(self, element: QDomElement) -> None:
+		self.owner = element.attribute("owner")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("owner")
+		return element

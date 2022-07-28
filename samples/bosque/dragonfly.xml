@@ -11,10 +11,12 @@
 	<include path="casa-afuera.xml" />
 	<include path="casa-adentro.xml" />
 
+	<include path="convers.xml" />
+
 	<game title="En El Bosque" author="Javier Candales (Jasón)" />
 	<property name="player" value="jugador" />
 	<property name="look-around" value="always" />
-	<property name="show-parsing-process" value="true" />
+	<!--<property name="show-parsing-process" value="true" />-->
 
 
 </dragonfly>

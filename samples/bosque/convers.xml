@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+
+<dragonfly>
+	<conversation owner="bruja">
+		<topics match="hola, buen, dia">
+			La bruja dice: Hola, Necesito que me consigas algo.
+		</topics>
+		<default>
+			La bruja dice: No se que estás diciendo.
+		</default>
+	</conversation>
+
+</dragonfly>

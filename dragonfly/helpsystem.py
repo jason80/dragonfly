@@ -13,7 +13,7 @@ class Help:
 		Args:
 			msg (str): String message
 		"""
-		Console.println(f'<{msg}>', 'family: "Sans"; italic: True')
+		Console.println(f'<{msg}>', 'family: "Sans"; italic: True; bold: False; size: 12')
 
 	def tipOnce(noun: dragonfly.Noun, msg: str) -> None:
 		"""Show tip message for helping once, while is not set 'tip' on noun instance.

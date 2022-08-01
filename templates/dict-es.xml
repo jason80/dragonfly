@@ -252,9 +252,9 @@
 	<exit names = "sudeste, sureste, se" />
 	<exit names = "sudoeste, suroeste, so, sw" />
 
-	<exit names = "arriba, arr" />
-	<exit names = "abajo, aba" />
-	<exit names = "adentro, ad" />
-	<exit names = "afuera, af" />
+	<exit names = "arriba, arr, sube, subir, subi" />
+	<exit names = "abajo, aba, baja, bajar" />
+	<exit names = "adentro, ad, entra, entrar" />
+	<exit names = "afuera, af, sal, salir, sali" />
 
 </dragonfly>

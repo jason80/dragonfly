@@ -91,6 +91,9 @@ class Noun(Entity):
 	"""Nouns represents the objects of the game. Can be contained by other nouns.
 		and has attributes and variables.
 	"""
+
+	id_max = 0
+
 	def __init__(self, container: "Noun" = None) -> None:
 		super().__init__()
 		self.__container = container
@@ -102,6 +105,10 @@ class Noun(Entity):
 
 		self.__connections = []
 
+		# Generate an id
+		Noun.id_max += 1
+		self.__id = Noun.id_max
+
 	def __str__(self) -> str:
 		result = super().__str__()
 		if self.__container != None:
@@ -111,6 +118,10 @@ class Noun(Entity):
 			result += f" attrs: {', '.join(self.__attrs)}"
 		
 		return result
+
+	@property
+	def id(self) -> int:
+		return self.__id
 
 	@property
 	def container(self) -> "Noun":

@@ -29,7 +29,13 @@
 
 	<verb names = "limpiar, borrar, limpia, borra, clear, cls" action = "Clear" />
 
-	<!--TODO: LOAD, SAVE-->
+	<verb names = "guardar, guarda, salvar, salva, save" action="SaveGame">
+		<response id="game-saved" string="Juego salvado."/>
+	</verb>
+
+	<verb names = "cargar, carga, recupera, recuperar, load" action="LoadGame">
+		<response id="game-loaded" string="Juego cargado."/>
+	</verb>
 
 	<verb names = "inventario, i, inv" action = "Inventory">
 		<response id = "inventory-is-empty" string = "No tengo nada en mi poder." />

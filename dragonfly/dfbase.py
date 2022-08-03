@@ -8,6 +8,7 @@ from PyQt5.QtXml import QDomDocument, QDomNode
 
 import dragonfly
 import dragonfly.output
+from dragonfly.persistence import Persistence
 import dragonfly.syntax
 import dragonfly.checks
 import dragonfly.dialogs
@@ -227,6 +228,14 @@ class Game(ABC):
 		dragonfly.output.console.Console.println(self.author, "size: 12")
 		dragonfly.output.console.Console.println(" ", "size: 80")
 
+	def saveGame(self):
+		persist = Persistence(f"{self.title}.sav")
+		persist.saveGame(self.dictionary)
+
+	def loadGame(self):
+		persist = Persistence(f"{self.title}.sav")
+		persist.loadGame(self.dictionary)
+
 class Dictionary:
 	"""Contains a list of nouns, verbs and exits."""
 	def __init__(self, game: "Game") -> None:
@@ -317,6 +326,12 @@ class Dictionary:
 		"""Set the Look Inside Dialog of the game.
 		"""
 		self.__lookInsideDialog = dialog
+
+	def nounByID(self, id: int) -> "dragonfly.Noun":
+		for n in self.__nouns:
+			if n.id == id: return n
+
+		return None
 
 	def nouns(self, name: str = "") -> typing.List["dragonfly.Noun"]:
 		"""Return a list of the nouns wich responds to name."""

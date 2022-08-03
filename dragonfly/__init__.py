@@ -7,6 +7,7 @@ from .entities import Entity, Article, Noun, Exit, Verb
 from .helpsystem import Help
 from .movement import Connection
 from .conversation import Conversation
+from .persistence import Persistence
 
 from .actions import *
 from .debug import *

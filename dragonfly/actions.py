@@ -112,6 +112,38 @@ class Clear(dragonfly.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
+class SaveGame(dragonfly.Action):
+	def init(self) -> bool:
+		return True
+
+	def check(self) -> bool:
+		return True
+
+	def carryOut(self) -> None:
+		self.game.saveGame()
+
+	def report(self) -> None:
+		self.fireResponse("game-saved")
+
+	def responses(self) -> typing.Tuple[str]:
+		return ("game-saved", )
+
+class LoadGame(dragonfly.Action):
+	def init(self) -> bool:
+		return True
+
+	def check(self) -> bool:
+		return True
+
+	def carryOut(self) -> None:
+		self.game.loadGame()
+
+	def report(self) -> None:
+		self.fireResponse("game-loaded")
+
+	def responses(self) -> typing.Tuple[str]:
+		return ("game-loaded", )
+
 class Inventory(dragonfly.Action):
 	def init(self) -> bool:
 		self.sendEventLater(self.game.player)
@@ -292,7 +324,6 @@ class LeaveObject(dragonfly.Action):
 
 	def responses(self) -> typing.Tuple[str]:
 		return ("direct-not-found", "direct-left", )
-
 
 class TakeFrom(dragonfly.Action):
 	def init(self) -> bool:

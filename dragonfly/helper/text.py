@@ -1,4 +1,6 @@
 def noAccents(text: str) -> str:
+	"""Returns the 'text' without the acents for sentence comparision.
+	"""
 	copy = ""
 
 	for c in text:
@@ -19,4 +21,9 @@ def noAccents(text: str) -> str:
 	return copy
 
 def isEquals(text1: str, text2: str) -> bool:
+	"""Compare both texts regardless the accentuation.
+
+	Returns:
+		bool: True if and only if both text are equals.
+	"""
 	return noAccents(text1.strip().lower()) == noAccents(text2.strip().lower())

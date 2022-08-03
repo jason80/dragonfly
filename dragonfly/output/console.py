@@ -8,8 +8,11 @@ import dragonfly
 import dragonfly.output
 
 class ConsoleLineEdit(QLineEdit):
-
+	"""Line text box in the main console.
+	"""
 	def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
+		"""Occurs when the player hits a key in line edit on main console.
+		"""
 		if event.key() == Qt.Key_Up:
 			self.setText(Console.instance.history.up())
 		
@@ -20,7 +23,8 @@ class ConsoleLineEdit(QLineEdit):
 
 
 class Console(QMainWindow):
-
+	"""The main console.
+	"""
 	instance = None
 
 	def __init__(self, game, consoleWidth: int, consoleHeight: int) -> None:
@@ -69,9 +73,16 @@ class Console(QMainWindow):
 		self.history = dragonfly.output.History()
 
 	def __consoleReturnPressed(self) -> None:
+		"""Occurs when the player hit enter.
+		"""
 		self.inputMode = False
 
 	def setStyle(self, style: str) -> None:
+		"""Set the style for console.
+
+		Args:
+			style (str): Style string.
+		"""
 		self.__styles.parse(style)
 
 		self.textOutput.setFontFamily(self.__styles.current["family"])
@@ -81,9 +92,16 @@ class Console(QMainWindow):
 		self.textOutput.setTextColor(QColor(self.__styles.current["color"]))
 
 	def resetStyle(self) -> None:
+		"""Return style to default.
+		"""
 		self.__styles.reset()
 
 	def __internalPrint(self, d: dict) -> None:
+		"""Insert text in the output.
+
+		Args:
+			d (dict): Message pack: style + message
+		"""
 		self.setStyle(d["style"])
 
 		msg = self.__replaceObjects(d["msg"])
@@ -98,6 +116,46 @@ class Console(QMainWindow):
 		self.instance.resetStyle()
 
 	def __replaceObjects(self, text: str) -> str:
+		"""Replace the special commands with the objects.
+
+		Special commands 1:
+		#: definited (the)
+		#: indefinited (a)
+		1: direct object
+		2: indirect object
+		3: parameters
+		^: capitalize
+
+		Examples:
+		"#1" --> "the table"
+		"%1" --> "a chair"
+		"#^1" --> "The chair"
+
+		Special commands 2:
+		@: replace with the concrete text
+		(a,b,c,d):
+		a: singular male
+		a: singular female
+		a: plural male
+		a: plural female
+
+		1: direct object
+		2: indirect object
+		^: capitalize
+
+		Examples:
+		"#^1 @1(is,is,are,are) in the box" --> "The ball is in the box"
+		(suppose that the ball is male plural)
+
+		Args:
+			text (str): text to be replace.
+
+		Raises:
+			dragonfly.DragonflyException: Occurs when not possible parse the special commands.
+
+		Returns:
+			str: Replaced text.
+		"""
 		result = ""
 		
 		i = 0
@@ -159,6 +217,19 @@ class Console(QMainWindow):
 		return result
 
 	def __replaceGenderNumber(self, obj, params: str, capitalize: bool) -> str:
+		"""Select the param depending the gender and the number of the noun.
+
+		Args:
+			obj (_type_): the noun.
+			params (str): list of parameters (comma separated).
+			capitalize (bool): force capitalization.
+
+		Raises:
+			dragonfly.DragonflyException: parameters error.
+
+		Returns:
+			str: Replaced text.
+		"""
 		members = params.split(",")
 		if len(members) != 4:
 			raise dragonfly.DragonflyException("Console: expeted 4 parameters followed by @.")

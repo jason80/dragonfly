@@ -4,6 +4,7 @@
 
 <dragonfly>
 	<verb names = "info" action = "dragonfly.debug.Info" syntax = "1" />
+	<verb names = "tree" action="dragonfly.debug.TreeObject" syntax="1" />
 	<verb names = "tree" action = "dragonfly.debug.Tree"/>
 	<verb names = "attr, attribute" action = "dragonfly.debug.Attr"
 		syntax = "1, set/unset, 2" />

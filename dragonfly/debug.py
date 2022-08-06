@@ -77,6 +77,15 @@ class Tree(dragonfly.Action):
 	def responses(self) -> typing.Tuple[str]:
 		return ()
 
+class TreeObject(Tree):
+	def init(self) -> bool:
+		for n in self.dictionary.nouns(self.parser.directObjectString):
+			self.nounList.append(n)
+
+		if not self.nounList:
+			Console.println("Tree: No results.", "family: 'Courier'")
+		return True
+
 class Attr(dragonfly.Action):
 
 	def __init__(self) -> None:

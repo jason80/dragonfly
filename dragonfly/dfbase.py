@@ -229,11 +229,17 @@ class Game(ABC):
 		dragonfly.output.console.Console.println(" ", "size: 80")
 
 	def saveGame(self):
-		persist = Persistence(f"{self.title}.sav")
+		filename = ""
+		if not self.title: filename = "Untitled.sav"
+		else: filename = self.title + ".sav"
+		persist = Persistence(filename)
 		persist.saveGame(self.dictionary)
 
 	def loadGame(self):
-		persist = Persistence(f"{self.title}.sav")
+		filename = ""
+		if not self.title: filename = "Untitled.sav"
+		else: filename = self.title + ".sav"
+		persist = Persistence(filename)
 		persist.loadGame(self.dictionary)
 
 class Dictionary:

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 import dragonfly
 import dragonfly.helper
@@ -41,12 +41,20 @@ class MissingCheck:
 		# Check missing verbs
 		self.__createIfNotExists("Quit", ["quit", "q"])
 		self.__createIfNotExists("LookAround", ["look"])
+		self.__createIfNotExists("Clear", ["clear", "cls"])
+		self.__createIfNotExists("LoadGame", ["load"], {"game-loaded": "Game loaded."})
+		self.__createIfNotExists("SaveGame", ["save"], {"game-saved": "Game saved."})
 
-	def __createIfNotExists(self, cls: str, names: List[str]):
+	def __createIfNotExists(self, cls: str, names: List[str], responses: Dict[str, str] = {}):
 		verb = self.dict.verbByAction(cls)
 		if not verb:
 			verb = dragonfly.Verb()
 			verb.names = names
+			
+			# Responses
+			for k in responses.keys():
+				verb.responses[k] = responses[k]
+
 			verb.action, error = dragonfly.helper.getClass(cls, defaultModule = "dragonfly.actions")
 			if not verb.action:
 				raise dragonfly.DragonflyException(error)

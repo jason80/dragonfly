@@ -359,6 +359,10 @@ class Noun(Entity):
 
 		exit = self.dictionary.exit(conn.exit)
 
+		if not exit:
+			raise dragonfly.DragonflyException(
+				f'Adding connection: Exit "{conn.exit}" not found in dictionary.')
+
 		for c in self.connections:
 			if exit.responds(c.exit):
 				c.destiny = conn.destiny

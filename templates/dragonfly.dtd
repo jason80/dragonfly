@@ -1,4 +1,4 @@
-<!ELEMENT dragonfly (property | include | see-list-dialog | inventory-dialog |
+<!ELEMENT dragonfly (property | include | see-list-dialog | propper-list-dialog | inventory-dialog |
 			look-inside-dialog | object-chooser-dialog | game | verb | article |
 			exit | noun | conversation)* >
 
@@ -16,6 +16,12 @@
 <!ATTLIST see-list-dialog initial-message CDATA #REQUIRED>
 <!ATTLIST see-list-dialog separator CDATA #REQUIRED>
 <!ATTLIST see-list-dialog and-separator CDATA #REQUIRED>
+
+<!ELEMENT propper-list-dialog (#PCDATA)>
+<!ATTLIST propper-list-dialog singular CDATA #REQUIRED>
+<!ATTLIST propper-list-dialog plural CDATA #REQUIRED>
+<!ATTLIST propper-list-dialog separator CDATA #REQUIRED>
+<!ATTLIST propper-list-dialog and-separator CDATA #REQUIRED>
 
 <!ELEMENT inventory-dialog (#PCDATA)>
 <!ATTLIST inventory-dialog initial-message CDATA #REQUIRED>

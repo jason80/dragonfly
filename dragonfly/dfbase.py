@@ -253,6 +253,7 @@ class Dictionary:
 		self.__conversations = []
 
 		self.__seeListDialog = dragonfly.dialogs.ListDialog("You can see: ", ", ", " and ")
+		self.__propperListDialog = dragonfly.dialogs.PropperListDialog("is here", "are here", ", ", " and ")
 		self.__objectChooserDialog = dragonfly.ObjectChooserDialog("Which one?", "Never mind.", "Please, enter the correct option.")
 		self.__inventoryDialog = dragonfly.ListDialog("You have: ", ", ", " and ")
 		self.__lookInsideDialog = dragonfly.ListDialog("Inside there is: ", ", ", " and ")
@@ -296,6 +297,18 @@ class Dictionary:
 		"""Set the See List Dialog of the game.
 		"""
 		self.__seeListDialog = dialog
+
+	@property
+	def propperListDialog(self) -> "dragonfly.dialogs.PropperListDialog":
+		"""Return the PropperListDialog used by LookAround action
+		"""
+		return self.__propperListDialog
+	
+	@propperListDialog.setter
+	def propperListDialog(self, dialog: "dragonfly.dialogs.PropperListDialog") -> None:
+		"""Set the PropperListDialog used by LookAround action
+		"""
+		self.__propperListDialog = dialog
 
 	@property
 	def objectChooserDialog(self) -> "dragonfly.dialogs.ObjectChooserDialog":
@@ -491,6 +504,8 @@ class Dictionary:
 				# Dialogs
 				if element.nodeName() == "see-list-dialog":
 					self.seeListDialog = dragonfly.dialogs.loadListDialog(element)
+				if element.nodeName() == "propper-list-dialog":
+					self.propperListDialog = dragonfly.dialogs.loadPropperListDialog(element)
 				if element.nodeName() == "inventory-dialog":
 					self.inventoryDialog = dragonfly.dialogs.loadListDialog(element)
 				if element.nodeName() == "look-inside-dialog":

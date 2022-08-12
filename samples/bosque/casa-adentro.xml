@@ -10,11 +10,6 @@
 			</response>
 		</after>
 
-		<after actions="LookAround">
-			<if class="Contains" container="casa-adentro" instance="bruja" />
-			Una bruja está junto al caldero.
-		</after>
-
 		<noun names="jugador, player"></noun>
 
 		<!-- Puerta -->
@@ -67,7 +62,7 @@
 
 		<!-- La bruja -->
 		<noun names="bruja">
-			<set>female, fixed, speaker, scene</set>
+			<set>female, fixed, speaker, interactive</set>
 			<after actions="ExamineObject">
 				La arapienta bruja está removiendo el contenido del caldero.
 				<response class="TipOnce" instance="bruja">
@@ -78,6 +73,17 @@
 			<after actions="TalkTo" cancel="true">
 				<response class="RunConversation" owner = "bruja" />
 			</after>
+
+			<before actions="GiveTo" cancel="true">
+				<if class="DirectNotEquals" instance="hongo" />
+				La bruja dice: ¿Qué es eso? No necesito %1.
+			</before>
+
+			<after actions="GiveTo" cancel="true">
+				<if class="DirectEquals" instance="hongo" />
+				¡Gracias!
+			</after>
+
 		</noun>
 
 		<before actions="GoTo" cancel="true">

@@ -15,6 +15,12 @@
 			<after actions="ExamineObject">
 				Con un torrente bastante fuerte, el ancho río se complica para cruzar.
 			</after>
+
+			<noun names="hongo, seta">
+				<after actions="ExamineObject">
+					Es de color azul y despide un aroma extraño.
+				</after>
+			</noun>
 		</noun>
 
 		<connection exit="oeste" destiny="arbol-naranja" />

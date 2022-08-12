@@ -1,4 +1,5 @@
 import typing
+from unittest import result
 from PyQt5.QtXml import QDomElement
 
 import dragonfly
@@ -22,8 +23,33 @@ class ListDialog:
 
 			result += nouns[i].article
 
-		Console.println(result)
+		Console.println(f'{result}.')
+
+class PropperListDialog:
+	def __init__(self, singular: str, plural: str, separator: str, andSeparator: str) -> None:
+		self.__singular = singular
+		self.__plural = plural
+		self.__separator = separator
+		self.__andSeparator = andSeparator
 		
+	def execute(self, nouns: typing.List["dragonfly.Noun"]) -> None:
+		sufix = self.__singular
+		result = ""
+
+		for i in range(len(nouns)):
+			if i != 0:
+				if i == len(nouns) - 1:
+					result += self.__andSeparator
+				else:
+					result += self.__separator
+
+			result += nouns[i].name
+			if nouns[i].isSet("plural"): sufix = self.__plural
+
+		if len(nouns) > 1: sufix = self.__plural
+
+		Console.println(f'{result} {sufix}.')
+
 class ObjectChooserDialog:
 	def __init__(self, message: str, cancel: str, error: str) -> None:
 		self.__message = message
@@ -72,6 +98,11 @@ class ObjectChooserDialog:
 def loadListDialog(element: QDomElement) -> ListDialog:
 	return ListDialog(element.attribute("initial-message"),
 		element.attribute("separator"), element.attribute("and-separator"))
+
+def loadPropperListDialog(element: QDomElement) -> PropperListDialog:
+	return PropperListDialog(element.attribute("singular"),
+		element.attribute("plural"), element.attribute("separator"),
+		element.attribute("and-separator"))
 
 def loadObjectChooserDialog(element: QDomElement) -> ObjectChooserDialog:
 	return ObjectChooserDialog(element.attribute("message"),

@@ -210,12 +210,19 @@ class LookAround(dragonfly.Action):
 
 	def report(self) -> None:
 		nouns = []
+		proppers = []
 		for n in self.place.childs():
 			if n == self.game.player: continue
 			if n.isSet("scene"): continue
-			nouns.append(n)
+			if n.isSet("propper"): proppers.append(n)
+			else: nouns.append(n)
 
-		if nouns: self.dictionary.seeListDialog.execute(nouns)
+		if nouns:
+			Console.println("")
+			self.dictionary.seeListDialog.execute(nouns)
+		if proppers:
+			Console.println("")
+			self.dictionary.propperListDialog.execute(proppers)
 	
 	def responses(self) -> typing.Tuple[str]:
 		return ()

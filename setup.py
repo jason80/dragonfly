@@ -5,7 +5,7 @@ setup(
     version='0.0.1',    
     description='An interactive fiction and adventure games library',
     url='https://github.com/jason80/dragonfly',
-    author='Javier Candales (Jasoón)',
+    author='Javier Candales (Jasón)',
     author_email='javier_candales@yahoo.com.ar',
     license='GPL',
     packages=['dragonfly', 'dragonfly.output', 'dragonfly.syntax', 'dragonfly.helper'],

@@ -207,3 +207,41 @@ class Root(dragonfly.Action):
 
 	def responses(self) -> typing.Tuple[str]:
 		return ()
+
+class VerbInfo(dragonfly.Action):
+	def __init__(self) -> None:
+		super().__init__()
+		self.verbList = []
+
+	def init(self) -> bool:
+		name = self.parser.directObjectString
+
+		if name == "all":
+			self.verbList = self.dictionary.verbs()
+		else:
+			self.verbList = self.dictionary.verbs(name)
+
+		if not self.verbList:
+			Console.println(f'Verb: "{name}" not found in dictionary.', "family: 'Courier'")
+			Console.println(f'Verb: use: "verb all" to list all verbs.', "family: 'Courier'")
+			return False
+		return True
+
+	def check(self) -> bool:
+		return True
+
+	def carryOut(self) -> None:
+		Console.println('---------------------------', "family: 'Courier'")
+		for v in self.verbList:
+			self.__verbInfo(v)
+			Console.println('---------------------------', "family: 'Courier'")
+
+	def report(self) -> None:
+		pass
+
+	def responses(self) -> typing.Tuple[str]:
+		return ()
+
+	def __verbInfo(self, verb: dragonfly.Verb) -> None:
+		Console.println(f'Action: "{verb.action.__name__}" Syntax: "{verb.syntax}":', "family: 'Courier'")
+		Console.println(f'{verb.names}', "family: 'Courier'")

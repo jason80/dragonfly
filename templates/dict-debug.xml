@@ -10,4 +10,5 @@
 		syntax = "1, set/unset, 2" />
 	<verb names = "move, mv" action = "dragonfly.debug.Move" syntax = "1, to, 2" />
 	<verb names = "root" action = "dragonfly.debug.Root" syntax = "1" />
+	<verb names = "verb" action="dragonfly.debug.VerbInfo" syntax = "1" />
 </dragonfly>

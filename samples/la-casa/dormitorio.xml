@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+<dragonfly>
+	<noun names="El Dormitorio, dormitorio">
+		<after actions="LookAround">
+			Dos camas y una mesita de luz conforman ésta estancia. Por el sur se vuelve al living.
+		</after>
+
+		<!-- Se declaran los objetos que aparecen en "escena" -->
+		<noun names="camas, cama, camastros, camastro, catres, catre">
+			<set>female, plural, fixed, scene</set>
+			<after actions="ExamineObject">
+				Las camas están vacias, ni siquiera tienen colchón.
+			</after>
+		</noun>
+		<noun names="mesita, mesita de luz, luz, mesa, mesa de luz">
+			<set>female, fixed, scene</set>
+			<after actions="ExamineObject">
+				No hay nada sobre la mesita de luz.
+			</after>
+		</noun>
+
+		<!-- Si no se declara la salida "sur", el jugador no podrá volver al living.
+			De esa manera se establece una conexión bidireccional. -->
+		<connection exit="sur" destiny="living" />
+	</noun>
+</dragonfly>

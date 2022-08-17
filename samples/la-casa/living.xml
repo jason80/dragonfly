@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+<dragonfly>
+	<!-- En Dragonfly los sustantivos son los objetos del juego: los lugares,
+			los diferentes objetos, el jugador, etc. son Nouns. -->
+	<!-- Por lo tanto Nouns = Objetos -->
+	<!-- Los objetos tienen la propiedad multinombre y "responden" a cada uno 
+		de esos nombres. Generalmente, el primer nombre es mas importante porque 
+		es el nombre que se muestra. Igualmente, todos los nombres le dan identidad
+		al objeto. -->
+	<noun names="El Living, living">
+		<!-- Descripción: -->
+		<!-- DESPUÉS de "mirar alrededor". -->
+		<after actions="LookAround">
+			<!-- Responder con un mensaje: -->
+			En éste lugar puedes encontrar una pequeña mesa rodeada de sillones. Hacia el norte se encuentra el dormitorio.
+		</after>
+
+		<!-- Los mensajes son respuestas de tipo Message. Lo anterior es una forma de
+			mostrar un mensaje, pero Dragonfly detecta que es un "response".
+			Se puede hacer de forma explícita de la siguiente manera:
+		<after actions="LookAround">
+			<response class="Message">
+				En éste lugar puedes encontrar una pequeña mesa rodeada de sillones.
+			</response>
+		</after>
+		-->
+
+
+		<!-- Los sillones y la mesa son objetos que están dentro del living -->
+		<!-- El jugador se puede referir al objeto con los diferentes nombres: -->
+		<noun names="sillones, sillon, silla">
+			<!-- Con set se puede establecer atributos al objeto -->
+			<!-- son "los sillones" asi que el objeto es plural -->
+			<!-- es "la mesa" entonces es femenino (female) -->
+			<!-- fixed: el jugador no podrá llevarse el objeto -->
+			<!-- scene: significa que el objeto pertenece a la escena y no
+				se mostrará automáticamente al "mirar alrededor"-->
+			<set>plural, fixed, scene</set>
+			
+			<!--Descripción:
+				Cuando el jugador EXAMINE el objeto MOSTRAR el mensaje -->
+			<after actions="ExamineObject">
+				Son cuatro sillas de madera de pino.
+			</after>
+		</noun>
+		<noun names="mesita, tabla, mesa">
+			<set>female, fixed, scene</set>
+			<after actions="ExamineObject">
+				La mesita de caoba está en el centro del living.
+			</after>
+		</noun>
+
+		<!-- No puede faltar el jugador dentro del living. Cualquier objeto
+			en Dragonfly podría ser el jugador. Hay que establecer cuál es con
+			la propiedad "player" como se hace en el archivo "dragonfly.xml" -->
+		<noun names="jugador, player" />
+
+		<!-- Hacia el norte hay un dormitorio.
+			"connection" asocia una "salida" con un objeto destino. Ese
+			destino es el dormitorio que está definido en "dormitorio.xml" y la salida
+			es "norte". -->
+		<!-- El jugador podrá trasladarse al dormitorio con solo escribir
+			"ir hacia el norte" o simplemente "norte" -->
+		<connection exit="norte" destiny="dormitorio" />
+	</noun>
+</dragonfly>

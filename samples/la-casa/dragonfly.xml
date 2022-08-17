@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+
+<!-- Todo archivo Dragonfly tiene una etiqueta raiz llamada "dragonfly" -->
+<dragonfly>
+	<!-- Dentro pueden ser declarados: objetos (nouns), verbos, artículos, salidas, etc. -->
+	<!-- En éste ejemplo, se describe una casa con cuatro estancias, el jugador, y diferentes
+		objetos -->
+
+	<!-- "game" establece el título y el autor del juego -->
+	<game title="La Casa" author="Javier Candales (Jasón)" />
+
+	<!-- Establece quién es el jugador -->
+	<property name="player" value="jugador" />
+
+	<!-- La propiedad look-around determina si el jugador mirará alrededor de forma automática,
+		en el momento en que el mismo llega a un lugar.
+		Valores:
+		never: nunca mira alrededor.
+		on-start: al principio del juego.
+		always: siempre que el jugador llegue al lugar.
+	-->
+	<property name="look-around" value="always" />
+
+	<!-- Muestra información del análisis sintáctico. -->
+	<property name="show-parsing-precess" value="false" />
+
+	<!-- Incluye el diccionario español -->
+	<include path="../../templates/dict-es.xml" />
+	<!-- Incluye el diccionario de depuración -->
+	<include path="../../templates/dict-debug.xml" />
+
+	<!-- Los diferentes lugares están separados en archivos -->
+	<include path="living.xml" />
+	<include path="dormitorio.xml"></include>
+</dragonfly>

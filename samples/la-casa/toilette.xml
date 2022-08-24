@@ -1,78 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
-
 <dragonfly>
-	<noun names="El Baño, toilette, toilet">
-		<!-- En la descripción se deben indicar todos los objetos que pertenecen a 
-			la escena porque, si no tienen el atribito "scene", la accion LookAround
-			lo hará automáticamente como el caso de la escoba. -->
+	<noun names="El Toilette, toilette">
 		<after actions="LookAround">
-			<response class="Message">
-				El reluciente baño tiene un inodoro y una pileta para lavarse las manos.
-			</response>
+			Un pulcro baño personal tiene una pileta de manos y un inodoro.
 		</after>
 
-		<!-- La pileta -->
-		<noun names="pileta, lavabo, canilla">
-			<set>female, fixed, scene</set>
+		<noun names="pileta, lavabo, lavamanos">
+			<set>female, fixed, scene, container</set>
+
 			<after actions="ExamineObject">
-				<response class="Message">
-					No hay nada interesante en la pileta.
-				</response>
+				La pileta de manos es blanca y está bastante limpia.
 			</after>
+
+			<!-- 
+				La frase "Alguien dejó una llave adentro." solo se mostrará si
+				se examina la pileta y la pileta contiene la llave.
+			-->
+			<after actions="ExamineObject">
+				<if class="Contains" container="pileta" instance="llave" />
+				Alguien dejó una llave adentro.
+			</after>
+
+			<!-- La llave se encuentra dentro de la pileta de manos.
+					El jugador debe "sacar la llave de la pileta" para
+					obtenerla. -->
+			<noun names="llave">
+				<set>female</set>
+
+				<after actions="ExamineObject">
+					Una pequeña llave de bronze.
+				</after>
+			</noun>
 		</noun>
 
-		<!-- El inodoro -->
-		<noun names="inodoro, wc">
+		<noun names="inodoro, wc, water, retrete">
 			<set>fixed, scene</set>
+
 			<after actions="ExamineObject">
-				<response class="Message">
-					Es un simple inodoro.
-				</response>
+				El inodoro está igual de limpio que la pileta.
 			</after>
 		</noun>
 
-		<!-- La escoba -->
-		<noun names="escoba">
-			<!-- El jugador podrá llevarse la escoba -->
-			<!-- Al no tener el atributo "scene" la acción LookAround del baño
-				mostrará la escoba después de la descripción del lugar asi como 
-				todos los objetos que no pertenezcan a la escena. -->
-			<set>female</set>
-			<after actions="ExamineObject">
-				<response class="Message">
-					La escoba es de paja y tiene el palo de madera.
-				</response>
-			</after>
-		</noun>
-
-		<!-- La puerta del baño -->
-		<noun names="puerta, este, puerta este, puerta-toilette-pasillo">
-			<set>female, fixed, closable, closed, definited, scene</set>
-			<after actions="ExamineObject">
-				<response class="Message">
-					La puerta de madera separa el baño del pasillo.
-				</response>
-			</after>
-
-			<after actions="OpenObject">
-				<response class="Attr" unset="closed" instance="puerta-pasillo-toilette" />
-			</after>
-			<after actions="CloseObject">
-				<response class="Attr" set="closed" instance="puerta-pasillo-toilette" />
-			</after>
-		</noun>
-
-		<connection exit="este" destiny="pasillo" />
-
-		<before actions="GoTo" cancel="true">
-			<if class="DirectEqualsExit" exit="este" />
-			<if class="IsSet" attr="closed" instance="puerta-toilette-pasillo" />
-			<response class="Message">
-				Primero debes abrir la puerta del baño.
-			</response>
-		</before>
+		<connection exit="este" destiny="dormitorio"></connection>
 	</noun>
-	
 </dragonfly>

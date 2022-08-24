@@ -1,72 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
-
 <dragonfly>
+
+	<!-- En eśta sala está la puerta de salida. Si el jugador consigue abrirla y
+		salir por el oeste, gana el juego. -->
 	<noun names="La Cocina, cocina">
 		<after actions="LookAround">
-			<response class="Message">
-				En la cocina hay mesadas y un horno microondas. Por el sur se vuelve al comedor a través de la puerta vainvén.
-			</response>
+			Una ámplia sala rodeada de mesadas, mecheros, y un horno. Por el éste se vuelve al living y en el oeste está la puerta de salida.
 		</after>
 
-		<!-- Las mesadas -->
-		<noun names="mesadas, mesas">
+		<noun names="mesadas, mesada, mechero, mecheros, hornalla, hornallas">
 			<set>female, plural, fixed, scene</set>
 
 			<after actions="ExamineObject">
-				<response class="Message">
-					No hay nada interesante en las mesadas
-				</response>
+				Las mesadas, mecheros y el horno conforman la cocina y no tienen nada de interesante.
 			</after>
 		</noun>
 
-		<!-- El horno de microondas -->
-		<noun names="horno microondas, horno, microondas">
-			<set>heavy, scene, container, closable, closed, bloqueado</set>
-			<!-- bloqueado: atributo personalizado que indicará el bloqueo del microondas -->
+		<noun names="horno">
+			<set>fixed, scene, container</set>
 
 			<after actions="ExamineObject">
-				<response class="Message">
-					El horno de microondas está sobre una de las mesadas. Tine un display con un teclado numérico.
-				</response>
+				Un grán horno se encuentra entre las mesadas.
 			</after>
-
-			<!-- ANTES de ABRIR el microondas -->
-			<before actions="OpenObject, OpenWith" cancel="true">
-				<!-- CANCELAR SI existe el atributo "bloqueado" -->
-				<if class="IsSet" attr="bloqueado" instance="microondas" />
-				<response class="Message">
-					Está bloqueado. Extraño ...
-				</response>
-			</before>
-
-			<!-- ANTES de ENCENDER o APAGAR el microondas -->
-			<before actions="TurnOnObject, TurnOffObject" cancel="true">
-				<response class="Message">
-					No parece responder.
-				</response>
-			</before>
 		</noun>
 
-		<!-- La puerta vaivén -->
-		<noun names="puerta vaivén, puerta, vaiven">
-			<set>female, scene, definited</set>
+		<!-- 
+			La puerta de salida
+		-->
+		<noun names="puerta, puerta de salida, salida, oeste">
+			<set>female, closable, closed, scene, con-llave</set>
+			<!-- 
+				closable: el objeto responde a "abrir" y "cerrar"
+				closed: inicialmente está cerrado
+				con-llave: un atributo personalizado para indicar que está con llave.
+			-->
+
+			<!-- Descripción de la puerta -->
 			<after actions="ExamineObject">
-				<response class="Message">
-					La puerta vaiven separa el comedor de la cocina.
-				</response>
+				La puerta es de madera y da al exterior de la casa.
 			</after>
 
-			<before actions="TakeObject" cancel="true">
-				<response class="Message">No me puedo llevar la puerta vaivén.</response>
+			<!-- ANTES de ABRIR puerta, CANCELAR ...-->
+			<before actions="OpenObject" cancel="true">
+				<!-- Si la puerta está "con llave" -->
+				<if class="IsSet" instance="puerta" attr="con-llave" />
+				La puerta está cerrada con llave.
 			</before>
 
-			<before actions="OpenObject, OpenWith, CloseObject, CloseWith" cancel="true">
-				<response class="Message">Es vaivén ...</response>
+			<!-- ANTES de ABRIR la puerta CON algo que no sea la llave, CANCELAR ...-->
+			<before actions="OpenWith" cancel="true">
+				<!-- Objeto indirecto no es la llave-->
+				<if class="IndirectNotEquals" instance="llave" />
+				No puedes abrir la puerta con eso.
 			</before>
+
+			<!-- ANTES de ABRIR la puerta CON la llave, CANCELAR -->
+			<before actions="OpenWith" cancel="true">
+				<!-- Si el objeto indirecto es la llave y ...-->
+				<if class="IndirectEquals" instance="llave" />
+				<!-- Si la puerta está "con llave" -->
+				<if class="IsSet" instance="puerta" attr="con-llave"/>
+				Abres la puerta con la llave.
+				<!-- Abre la puerta y queda sin llave -->
+				<response class="Attr" instance="puerta" unset="con-llave, closed" />
+			</before>
+
 		</noun>
 
-		<connection exit="sur" destiny="comedor" />
+		<!-- ANTES de IR HACIA, CANCELAR ...-->
+		<before actions="GoTo" cancel="true">
+			<!-- Hacia el OESTE y ...-->
+			<if class="DirectEqualsExit" exit="oeste" />
+			<!-- La puerta está cerrada ...-->
+			<if class="IsSet" instance="puerta" attr="closed" />
+			La puerta está cerrada.
+		</before>
+
+		<!-- ANTES de IR HACIA, CANCELAR ...-->
+		<before actions="GoTo" cancel="true">
+			<!-- Hacia el OESTE y ...-->
+			<if class="DirectEqualsExit" exit="oeste" />
+			<!-- La puerta NO está cerrada ...-->
+			<if class="IsNotSet" instance="puerta" attr="closed" />
+			<!-- FIN DEL JUEGO -->
+			GAME OVER
+		</before>
+
+		<!-- Conecta el este con El Living -->
+		<connection exit="este" destiny="living"></connection>
+
+		<!-- Aunque no exista el lugar "afuera de la casa" se debe 
+			crear la conexión "oeste". Siempre se cancelará la acción GoTo
+			de todas formas. -->
+		<connection exit="oeste" destiny="(afuera)"></connection>
 	</noun>
 </dragonfly>

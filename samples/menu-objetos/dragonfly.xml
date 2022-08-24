@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+<dragonfly>
+	<!-- En Dragonfly pueden haber dos objetos con el mismo nombre.
+		Ejemplo:
+		Cuando el jugador examine un objeto, pero en el lugar o inventario
+		exiten dos con ese nombre, el motor preguntará a qué objeto se refiere. -->
+
+	<game title="Prueba De Objetos" author="Javier Candales (Jasón)"></game>
+
+	<include path="../../templates/dict-es.xml"></include>
+	<include path="../../templates/dict-debug.xml"></include>
+
+	<property name="player" value="jugador"></property>
+	<property name="look-around" value="always"></property>
+
+	<noun names="En Algún Lugar">
+		<after actions="LookAround">
+			Estás en una habitación blanca que sirve para hacer ensayos.
+		</after>
+
+		<!-- Cuando el jugador escriba "recoger bola", Dragonfly detectará que
+			hay dos objetos con el nombre "bola". Un menú de selección se mostrará -->
+		<noun names="bola roja, bola">
+			<set>female</set>
+			<after actions="ExamineObject">
+				Una bola de color rojo.
+			</after>
+		</noun>
+
+		<noun names="bola verde, bola">
+			<set>female</set>
+			<after actions="ExamineObject">
+				Una bola de color verde.
+			</after>
+		</noun>
+
+		<noun names="jugador"></noun>
+	</noun>
+</dragonfly>

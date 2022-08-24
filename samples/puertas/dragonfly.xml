@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
+<dragonfly>
+<!--
+	En este ejemplo se muestra como crear puertas.
+	
+	En Dragonfly se pueden colocar objetos dentro de otros, Tenga lógica o no.
+	Por ejemplo: una cama, una mesa, o una lámpara estaria dentro de una habitación.
+
+	Pero ocurre algo diferente con las puerta. Se sobreentiende que dos lugares pueden
+	compartir una misma puerta. Por ejemplo: una puerta que conecte la habitación con un
+	pasillo.
+
+	Resulta que en Dragonfly los objetos no pueden estar en dos lugares al mismo tiempo.
+	Entonces, si no puede haber una misma instancia dentro de dos objetos diferentes la
+	solución sería crear dos puertas:
+-->
+
+	<game title="Ejemplo de Puertas" author="Javier Candales (Jasón)"></game>
+	<include path="../../templates/dict-es.xml"></include>
+	<include path="../../templates/dict-debug.xml"></include>
+
+	<property name="look-around" value="always"></property>
+	<property name="player" value="jugador"></property>
+
+
+	<!-- Las habitaciones están conectadas de norte a sur y el jugador 
+		está en la Habitación A -->
+	<noun names="Habitación A, habitacion-a">
+		<after actions="LookAround">
+			Estás en la habitación A. Al sur puedes ver una puerta.
+		</after>
+
+		<noun names="jugador, player"></noun>
+
+		<!-- Ambas puertas comparten los nombres salvo por uno para diferenciarlas -->
+		<noun names="puerta, porton, puertita, puerta-ab">
+			<!-- Las puertas son "cerrables" y arrancan "cerradas" -->
+			<set>female, fixed, scene, closable, closed</set>
+
+			<!-- Pueden ó no compartir la descripción, dependerá de la mecánica del juego-->
+			<after actions="ExamineObject">
+				Una puerta de madera que me lleva a otra habitación.
+			</after>
+
+			<!-- DESPUÉS de abrir la puerta AB ...-->
+			<after actions="OpenObject">
+				<!-- QUITAR el atributo "closed" a la puerta BA (abrirla) -->
+				<!-- De ésta manera, las puertas se mantienen sincronizadas, 
+					si el jugador abre una puerta la otra se abre; si cierra
+					la puerta, la otra se cierra. -->
+				<response class="Attr" instance="puerta-ba" unset="closed"></response>
+			</after>
+
+			<!-- DESPUÉS de cerrar la puerta AB-->
+			<after actions="CloseObject">
+				<!-- CERRAR la puerta BA -->
+				<response class="Attr" instance="puerta-ba" set="closed"></response>
+			</after>
+		</noun>
+
+		<!-- El jugador no podrá ir hacia la habitación B estando la puerta cerrada. -->
+		<!-- ANTES de ir hacia el sur, CANCELAR ...-->
+		<before actions="GoTo" cancel="true">
+			<if class="DirectEqualsExit" exit="sur"></if>
+
+			<!-- SI la puerta AB está cerrada-->
+			<if class="IsSet" instance="puerta-ab" attr="closed"></if>
+
+			<!-- Informa que la puerta está cerrada. -->
+			La puerta está cerrada.
+		</before>
+
+		<connection exit="sur" destiny="habitacion-b"></connection>
+	</noun>
+
+	<noun names="Habitación B, habitacion-b">
+		<after actions="LookAround">
+			Estás en la habitación B. Al norte puedes ver una puerta.
+		</after>
+
+		<noun names="puerta, porton, puertita, puerta-ba">
+			<set>female, fixed, scene, closable, closed</set>
+
+			<after actions="ExamineObject">
+				Una puerta de madera que me lleva a otra habitación.
+			</after>
+
+			<!-- DESPUÉS de abrir la puerta BA ...-->
+			<after actions="OpenObject">
+				<!-- ABRIR la puerta AB -->
+				<response class="Attr" instance="puerta-ab" unset="closed"></response>
+			</after>
+
+			<!-- DESPUÉS de cerrar la puerta BA-->
+			<after actions="CloseObject">
+				<!-- CERRAR la puerta AB -->
+				<response class="Attr" instance="puerta-ab" set="closed"></response>
+			</after>
+		</noun>
+
+		<!-- El jugador no podrá ir hacia la habitación A estando la puerta cerrada. -->
+		<!-- ANTES de ir hacia el norte, CANCELAR ...-->
+		<before actions="GoTo" cancel="true">
+			<if class="DirectEqualsExit" exit="norte"></if>
+
+			<!-- SI la puerta AB está cerrada-->
+			<!-- Se puede consultar cualquiera de las dos puertas a ver si están cerradas.
+				Total están sincronizadas. -->
+			<if class="IsSet" instance="puerta-ba" attr="closed"></if>
+
+			<!-- Informa que la puerta está cerrada. -->
+			La puerta está cerrada.
+		</before>
+
+		<connection exit="norte" destiny="habitacion-a"></connection>
+	</noun>
+
+</dragonfly>

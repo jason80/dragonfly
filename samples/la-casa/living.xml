@@ -1,173 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE dragonfly SYSTEM "../../templates/dragonfly.dtd">
-
 <dragonfly>
-	<!-- Los sustantivos del juego son los objetos. Pueden ser simples
-	como una linterna o un papel, el jugador, hasta un lugar como un baño o un
-	jardin -->
-	<noun names="El Living, living, sala, estar, sala-estar">
-		<!-- Un objeto puede tener múltiples nombres, el primero de ellos
-		suele ser el nombre formal que se muestra en la aventura, pero te puedes referir
-		al objeto con cualquiera de ellos -->
-
-		<!-- El Living se considera el lugar actual porque dentro de él se
-		encuentra el jugador -->
-
-		<!-- A continuación se dará una descripción del linving agregando un evento: -->
-		<after actions="LookAround"> <!-- DESPUÉS de MIRAR ALREDEDOR-->
-			<response class="Message"> <!-- RESPONDER con el mensaje-->
-				Te encuetras en el living una lujosa casa. Puedes ver sillones, un ennegrecido hogar en la pared, unos extraños cuadros.
-			</response>
-			<response class="Message"> <!-- También RESPONDER con el mesaje-->
-				Al sur se encuentra la puerta que conduce a la calle, al este está el comedor, y al oeste hay otra puerta.
-			</response>
+	<!-- En Dragonfly los sustantivos son los objetos del juego: los lugares,
+			los diferentes objetos, el jugador, etc. son Nouns. -->
+	<!-- Por lo tanto Nouns = Objetos -->
+	<!-- Los objetos tienen la propiedad multinombre y "responden" a cada uno 
+		de esos nombres. Generalmente, el primer nombre es mas importante porque 
+		es el nombre que se muestra. Igualmente, todos los nombres le dan identidad
+		al objeto. -->
+	<noun names="El Living, living">
+		<!-- Descripción: -->
+		<!-- DESPUÉS de "mirar alrededor". -->
+		<after actions="LookAround">
+			<!-- Responder con un mensaje: -->
+			En éste lugar puedes encontrar una pequeña mesa rodeada de sillones. Hacia el norte se encuentra el dormitorio y al oeste está la cocina.
 		</after>
 
-		<!-- Dentro del living está el jugador. -->
-		<!-- NOTA: Todos los objetos en dragonfly son contenedores natos, aunque 
-			el jugador no lo sepa, se puede meter un camión adentro de un alfiler.
-			El concepto está mal, pero mas adelate se podrá utilizar como recurso
-			para desarrollar. -->
-		<noun names="jugador">
-			<!-- En el archivo anterior se le indicó a dragonfly que éste objeto es
-				el jugador con la propiedad "player". -->
-		</noun>
-
-		<!-- Se crean los sillones-->
-		<noun names="sillones, sillas, sillon, silla, sofas, sofa">
-			<!-- Aunque parezcan varios sillones, es en realidad un objeto solo.
-				El atributo "plural" le dirá a dragonfly que se refiera él como
-				"los sillones" y no como "el sillones" -->
-			<set>plural, heavy, scene</set>
-			<!-- heavy: hará que el objeto sea demansiado pesado como para llevárselo. -->
-			<!-- scene: el objeto no se describirá automáticamente (Pertenece al escenario). -->
-
-			<!-- Descripción de los sillones -->
-			<after actions="ExamineObject"> <!-- DESPUÉS de EXAMINAR EL OBJETO -->
-				<response class="Message"> <!-- RESPONDER con el mensaje -->
-					Son unos cómodos sillones color negro y están repartidos por la sala.
-				</response>
-			</after>
-		</noun>
-
-		<!-- El hogar -->
-		<noun names="hogar, chimenea">
-			<set>fixed, scene</set>
-			<!-- fixed: Hace que el jugador no se pueda llevar el objeto
-				(ideal para objetos fijos como paredes, puertas, columnas, etc.) -->
-
-			<!-- Descripción del hogar -->
-			<after actions="ExamineObject">
-				<response class="Message">
-					El enorme hogar es de marmol labrado y tiene su fuego extinguido.
-				</response>
-			</after>
-		</noun>
-
-		<!-- Los cuadros -->
-		<noun names="cuadros, cuadro, pinturas, pintura, arte">
-			<set>plural, scene</set>
-
-			<!-- Descripción -->
-			<after actions="ExamineObject">
-				<response class="Message">
-					Extrañas y grotescas figuras están representadas en las pinturas. No quiero saber lo que significan.
-				</response>
-			</after>
-
-			<!-- Conceptualmente, no tiene sentido que el jugador no pueda llevarse las
-			pinturas, pero a continuación haremos que desista: -->
-			<before actions="TakeObject" cancel="true"> <!-- ANTES de RECOGER EL OBJETO-->
-				<!-- CANCELAR LA ACCIÓN RECOGER-->
-				<response class="Message"> <!-- RESPONDER con el mensaje-->
-					No tiene sentido que me lleve las pinturas.
-				</response>
-			</before>
-		</noun>
-
-		<!-- La Puerta de Salida-->
-		<noun names="puerta de salida, puerta sur, puerta, porton">
-			<set>female, fixed, closable, closed, definited, scene</set>
-			<!-- female: indica a dragonfly que la puerta es femenino. -->
-			<!-- closable: el objeto puerta es cerrable; reacciona a los verbos
-				"abrir" y "cerrar" -->
-			<!-- closed: el objeto está cerrado (si éste atributo no está presente,
-				el objeto se considera abierto -->
-			<!-- definited: hace que sea "la puerta de salida" y no "una puerta de salida"-->
-
-			<!-- Descripción de la puerta-->
-			<after actions="ExamineObject">
-				<response class="Message">
-					La imponente puerta de madera separa el interior de la casa de la calle.
-				</response>
-			</after>
-
-			<!-- ANTES de ABRIR la puerta CANCELAR la acción y RESPONDER con un mensaje -->
-			<before actions="OpenObject" cancel="true">
-				<response class="Message">
-					La puerta está con llave.
-				</response>
-				<!-- También mostrar una pequeña ayuda (una vez) -->
-				<response class="TipOnce">
-					Deberás encontrar la llave en algún lugar de la casa
-				</response>
-			</before>
-		</noun>
-
-		<!-- Finalmente, la puerta oeste-->
-		<noun names="puerta oeste, puerta, oeste, puerta-living-pasillo">
-			<set>female, fixed, closable, closed, definited, scene</set>
-
-			<after actions="ExamineObject">
-				<response class="Message">
-					La puerta oeste conduce a algún lugar de la casa.
-				</response>
-			</after>
-
-			<!-- Ésta puerta no tiene ningún impedimento de ser abierta 
-				pero debe estar sincronizada con la otra puerta que está en el 
-				pasillo -->
-
-			<!-- DESPUÉS de ABRIR PUERTA-->
-			<after actions="OpenObject">
-				<!-- Quitar atributo closed de la puerta del pasillo -->
-				<response class="Attr" unset="closed" instance="puerta-pasillo-living" />
-			</after>
-
-			<!-- DESPUÉS de cerrarla-->
-			<after actions="CloseObject">
-				<!-- Establecer el atributo closed de la puerta del pasillo -->
-				<response class="Attr" set="closed" instance="puerta-pasillo-living" />
-			</after>
-		</noun>
-
-		<!-- Conexión con otra parte de la casa -->
-		<connection exit="oeste" destiny="pasillo" />
-		<!-- Cuando el jugador intente "ir hacia el oeste", se moverá el objeto "jugador"
-				al lugar destino "pasillo" pero antes ... -->
-
-		<!-- Conexión con el comedor -->
-		<connection exit="este" destiny="comedor" />
-
-		<!-- ... con el siguiente evento se evita que el jugador cruce hacia el pasillo
-				si no está abierta la puerta -->
-
-		<!-- ANTES de IR HACIA algún lugar -->
-		<before actions="GoTo" cancel="true">
-			<!-- CANCELAR SI la salida corresponde a "oeste" -->
-			<if class="DirectEqualsExit" exit="oeste" />
-			<!-- y SI la puerta living-pasillo está abierta (no existe el atributo "closed" en la puerta) -->
-			<if class="IsSet" attr="closed" instance="puerta-living-pasillo" />
-			<!-- De paso, responder con el mensaje-->
+		<!-- Los mensajes son respuestas de tipo Message. Lo anterior es una forma de
+			mostrar un mensaje, pero Dragonfly detecta que es un "response".
+			Se puede hacer de forma explícita de la siguiente manera:
+		<after actions="LookAround">
 			<response class="Message">
-				Primero debes abrir la puerta.
+				En éste lugar puedes encontrar una pequeña mesa rodeada de sillones.
 			</response>
+		</after>
+		-->
 
-			<!-- NOTA: Se deben cumplir las dos condiciones para que se cancele la acción -->
-			<!-- y para que se ejecuten los responses. Los "ifs" suelen ir antes de los "responses"
-					pero el orden no tiene importancia. -->
-		</before>
 
+		<!-- Los sillones y la mesa son objetos que están dentro del living -->
+		<!-- El jugador se puede referir al objeto con los diferentes nombres: -->
+		<noun names="sillones, sillon, silla">
+			<!-- Con set se puede establecer atributos al objeto -->
+			<!-- son "los sillones" asi que el objeto es plural -->
+			<!-- es "la mesa" entonces es femenino (female) -->
+			<!-- fixed: el jugador no podrá llevarse el objeto -->
+			<!-- scene: significa que el objeto pertenece a la escena y no
+				se mostrará automáticamente al "mirar alrededor"-->
+			<set>plural, fixed, scene</set>
+			
+			<!--Descripción:
+				Cuando el jugador EXAMINE el objeto MOSTRAR el mensaje -->
+			<after actions="ExamineObject">
+				Son cuatro sillas de madera de pino.
+			</after>
+		</noun>
+		<noun names="mesita, tabla, mesa">
+			<set>female, fixed, scene</set>
+			<after actions="ExamineObject">
+				La mesita de caoba está en el centro del living.
+			</after>
+		</noun>
+
+		<!-- No puede faltar el jugador dentro del living. Cualquier objeto
+			en Dragonfly podría ser el jugador. Hay que establecer cuál es con
+			la propiedad "player" como se hace en el archivo "dragonfly.xml" -->
+		<noun names="jugador, player" />
+
+		<!-- Hacia el norte hay un dormitorio.
+			"connection" asocia una "salida" con un objeto destino. Ese
+			destino es el dormitorio que está definido en "dormitorio.xml" y la salida
+			es "norte". -->
+		<!-- El jugador podrá trasladarse al dormitorio con solo escribir
+			"ir hacia el norte" o simplemente "norte" -->
+		<connection exit="norte" destiny="dormitorio" />
+		<connection exit="oeste" destiny="cocina" />
 	</noun>
 </dragonfly>

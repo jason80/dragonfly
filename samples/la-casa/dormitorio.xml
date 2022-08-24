@@ -24,5 +24,7 @@
 		<!-- Si no se declara la salida "sur", el jugador no podrá volver al living.
 			De esa manera se establece una conexión bidireccional. -->
 		<connection exit="sur" destiny="living" />
+		<!-- Conexión hacia el toilette -->
+		<connection exit="oeste" destiny="toilette"></connection>
 	</noun>
 </dragonfly>

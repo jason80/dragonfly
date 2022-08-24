@@ -14,7 +14,7 @@
 		<!-- DESPUÉS de "mirar alrededor". -->
 		<after actions="LookAround">
 			<!-- Responder con un mensaje: -->
-			En éste lugar puedes encontrar una pequeña mesa rodeada de sillones. Hacia el norte se encuentra el dormitorio.
+			En éste lugar puedes encontrar una pequeña mesa rodeada de sillones. Hacia el norte se encuentra el dormitorio y al oeste está la cocina.
 		</after>
 
 		<!-- Los mensajes son respuestas de tipo Message. Lo anterior es una forma de
@@ -64,5 +64,6 @@
 		<!-- El jugador podrá trasladarse al dormitorio con solo escribir
 			"ir hacia el norte" o simplemente "norte" -->
 		<connection exit="norte" destiny="dormitorio" />
+		<connection exit="oeste" destiny="cocina" />
 	</noun>
 </dragonfly>

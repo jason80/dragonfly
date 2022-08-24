@@ -33,5 +33,7 @@
 
 	<!-- Los diferentes lugares están separados en archivos -->
 	<include path="living.xml" />
-	<include path="dormitorio.xml"></include>
+	<include path="dormitorio.xml" />
+	<include path="toilette.xml" />
+	<include path="cocina.xml" />
 </dragonfly>

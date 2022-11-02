@@ -57,7 +57,6 @@ class Entity():
 		"""Returns True if the entity responds to the name."""
 		for n in self.__names:
 			if dragonfly.helper.isEquals(n, name): return True
-			#if n.lower() == name.lower(): return True
 
 		return False
 
@@ -461,9 +460,11 @@ class Noun(Entity):
 
 				# Clones
 				if child.nodeName() == "clone":
-					lst = self.dictionary.nouns(child.attribute("instance"))
+					instance = child.attribute("instance")
+					lst = self.dictionary.nouns(instance)
 					if not lst:
-						pass # TODO: error
+						raise dragonfly.DragonflyException(
+							f'Noun target "{instance}" not found in dictionary.')
 					cl = lst[0]
 
 					cl.clone(self)

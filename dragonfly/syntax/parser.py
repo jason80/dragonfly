@@ -300,7 +300,7 @@ class Parser:
 		if self.__showParsingProcess:
 			Console.println(f"Parser: {msg}", "family: 'Courier'")
 
-	def checkMultiparameterVerb(self, action: "dragonfly.Action", tokens: typing.List[str]) -> "action.Action":
+	def checkMultiparameterVerb(self, action: "dragonfly.Action", tokens: typing.List[str]) -> "dragonfly.Action":
 		"""Check multiparameter sentence like talk action
 
 		Args:

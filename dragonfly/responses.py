@@ -91,6 +91,37 @@ class Attr(dragonfly.ActionResponse):
 
 		return element
 
+class Variable(dragonfly.ActionResponse):
+	def __init__(self) -> None:
+		self.instance = ""
+		self.variable = ""
+		self.set = ""
+
+	def __str__(self) -> str:
+		return f'Set "{self.set}" to variable "{self.variable}", instance: "{self.instance}".'
+
+	def execute(self, action: "dragonfly.Action") -> None:
+		obj = action.dictionary.nouns(self.instance)
+		if not obj:
+			raise DragonflyException(f'On Variable response: noun "{self.instance}" not found in dictionary.')
+
+		obj = obj[0]
+
+		obj.setVariable(self.variable, self.set)
+
+	def load(self, element: QDomElement) -> None:
+		self.instance = element.attribute("instance")
+		self.variable = element.attribute("variable")
+		self.set = element.attribute("set")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.instance)
+		element.setAttribute("variable", self.variable)
+		element.setAttribute("set", self.set)
+
+		return element
+
 class AppendName(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""

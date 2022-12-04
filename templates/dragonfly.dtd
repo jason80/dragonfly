@@ -61,6 +61,7 @@
 <!ATTLIST response destiny CDATA #IMPLIED>
 <!ATTLIST response exit CDATA #IMPLIED>
 <!ATTLIST response owner CDATA #IMPLIED>
+<!ATTLIST response variable CDATA #IMPLIED>
 
 <!-- Article -->
 <!ELEMENT article (#PCDATA)>
@@ -96,6 +97,8 @@
 <!ATTLIST if attr CDATA #IMPLIED>
 <!ATTLIST if exit CDATA #IMPLIED>
 <!ATTLIST if container CDATA #IMPLIED>
+<!ATTLIST if variable CDATA #IMPLIED>
+<!ATTLIST if value CDATA #IMPLIED>
 <!-- Connection -->
 <!ELEMENT connection (#PCDATA)>
 <!ATTLIST connection exit CDATA #REQUIRED>

@@ -225,3 +225,37 @@ class IndirectNotEquals(dragonfly.Condition):
 		element = super().save(doc)
 		element.setAttribute("instance", self.instance)
 		return element
+
+class VariableEquals(dragonfly.Condition):
+	def __init__(self) -> None:
+		super().__init__()
+		self.instance = ""
+		self.variable = ""
+		self.value = ""
+
+	def __str__(self) -> str:
+		return f'Variable "{self.variable}" equals to "{self.value}."'
+
+	def check(self, action: "dragonfly.Action") -> bool:
+		obj = action.dictionary.nouns(self.instance)
+
+		if not obj:
+			raise dragonfly.DragonflyException(
+				f'On condition "VariableEquals" instance "{self.instance}" not found in dictionary.')
+		
+		obj = obj[0]
+
+		return obj.getVariable(self.variable) == self.value
+
+	def load(self, element: QDomElement):
+		self.instance = element.attribute("instance", defaultValue="")
+		self.variable = element.attribute("variable", defaultValue="")
+		self.value = element.attribute("value", defaultValue="")
+
+	def save(self, doc: QDomDocument) -> QDomElement:
+		element = super().save(doc)
+		element.setAttribute("instance", self.instance)
+		element.setAttribute("variable", self.variable)
+		element.setAttribute("value", self.value)
+
+		return element

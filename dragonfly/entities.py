@@ -197,7 +197,10 @@ class Noun(Entity):
 		Returns:
 			str: the value of the variable.
 		"""
-		return self.__variables[name]
+		if name in self.__variables.keys():
+			return self.__variables[name]
+
+		return ""
 
 	def setVariable(self, name: str, value: str) -> None:
 		"""Set the value of the variable.

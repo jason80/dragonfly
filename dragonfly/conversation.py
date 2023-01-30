@@ -73,19 +73,6 @@ class Topics:
 					response.load(child)
 					self.__responses.append(response)
 
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = doc.createElement("topics")
-		element.setAttribute("match", self.__match)
-
-		for c in self.__conditions:
-			element.appendChild(c.save(doc))
-
-		for r in self.__responses:
-			element.appendChild(r.save(doc))
-
-		return element
-
 class Conversation:
 	def __init__(self) -> None:
 		self.__owner = ""
@@ -144,12 +131,3 @@ class Conversation:
 					topics = Topics()
 					topics.load(child)
 					self.__default = topics
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = doc.createElement("conversation")
-		element.setAttribute("owner", self.__owner)
-
-		for t in self.__topicsList:
-			element.appendChild(t.save(doc))
-
-		return element

@@ -35,15 +35,6 @@ class Message(dragonfly.ActionResponse):
 			if node.nodeType() == QDomNode.TextNode:
 				self.message = node.toText().data().strip()
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("style", self.style)
-		element.setAttribute("new-line", "true" if self.newLine else "false")
-
-		element.appendChild(doc.createTextNode(self.message))
-
-		return element
-
 class Attr(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""
@@ -82,15 +73,6 @@ class Attr(dragonfly.ActionResponse):
 		self.set = element.attribute("set", defaultValue="")
 		self.unset = element.attribute("unset", defaultValue="")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-
-		element.setAttribute("instance", self.instance)
-		if self.set: element.setAttribute("set", self.set)
-		if self.unset: element.setAttribute("unset", self.unset)
-
-		return element
-
 class Variable(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""
@@ -114,14 +96,6 @@ class Variable(dragonfly.ActionResponse):
 		self.variable = element.attribute("variable")
 		self.set = element.attribute("set")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("variable", self.variable)
-		element.setAttribute("set", self.set)
-
-		return element
-
 class AppendName(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.instance = ""
@@ -141,13 +115,6 @@ class AppendName(dragonfly.ActionResponse):
 	def load(self, element: QDomElement) -> None:
 		self.instance = element.attribute("instance", defaultValue="")
 		self.name = element.attribute("name", defaultValue="")
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("name", self.name)
-
-		return element
 
 class Move(dragonfly.ActionResponse):
 	def __init__(self) -> None:
@@ -175,13 +142,6 @@ class Move(dragonfly.ActionResponse):
 		self.instance = element.attribute("instance", defaultValue="")
 		self.destiny = element.attribute("destiny", defaultValue="")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("destiny", self.destiny)
-		
-		return element
-
 class Tip(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.message = ""
@@ -198,12 +158,6 @@ class Tip(dragonfly.ActionResponse):
 			node = element.childNodes().at(i)
 			if node.nodeType() == QDomNode.TextNode:
 				self.message = node.toText().data().strip()
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.appendChild(doc.createTextNode(self.message))
-		
-		return element
 
 class TipOnce(dragonfly.ActionResponse):
 	def __init__(self) -> None:
@@ -225,13 +179,6 @@ class TipOnce(dragonfly.ActionResponse):
 			if node.nodeType() == QDomNode.TextNode:
 				self.message = node.toText().data().strip()
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		element.appendChild(doc.createTextNode(self.message))
-		
-		return element
-
 class Execute(dragonfly.ActionResponse):
 	def __init__(self) -> None:
 		self.sentence = ""
@@ -247,12 +194,6 @@ class Execute(dragonfly.ActionResponse):
 			node = element.childNodes().at(i)
 			if node.nodeType() == QDomNode.TextNode:
 				self.sentence = node.toText().data().strip()
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.appendChild(doc.createTextNode(self.sentence))
-
-		return element
 
 class AddConnection(dragonfly.ActionResponse):
 	def __init__(self) -> None:
@@ -277,14 +218,6 @@ class AddConnection(dragonfly.ActionResponse):
 		self.exit = element.attribute("exit", defaultValue="")
 		self.destiny = element.attribute("destiny", defaultValue="")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("exit", self.exit)
-		element.setAttribute("destiny", self.destiny)
-		
-		return element
-
 class ShowTitle(dragonfly.ActionResponse):
 	def __str__(self) -> str:
 		return "Show game title"
@@ -294,9 +227,6 @@ class ShowTitle(dragonfly.ActionResponse):
 
 	def load(self, element: QDomElement) -> None:
 		pass
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		return super().save()
 		
 class RunConversation(dragonfly.ActionResponse):
 	def __init__(self) -> None:
@@ -311,8 +241,3 @@ class RunConversation(dragonfly.ActionResponse):
 
 	def load(self, element: QDomElement) -> None:
 		self.owner = element.attribute("owner")
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("owner")
-		return element

@@ -25,12 +25,6 @@ class IsSet(dragonfly.Condition):
 		self.instance = element.attribute("instance")
 		self.attr = element.attribute("attr")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("attr", self.attr)
-		return element
-
 class IsNotSet(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
@@ -53,12 +47,6 @@ class IsNotSet(dragonfly.Condition):
 		self.instance = element.attribute("instance")
 		self.attr = element.attribute("attr")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("attr", self.attr)
-		return element
-
 class DirectEqualsExit(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
@@ -76,11 +64,6 @@ class DirectEqualsExit(dragonfly.Condition):
 
 	def load(self, element: QDomElement):
 		self.exit = element.attribute("exit")
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("exit", self.exit)
-		return element
 		
 class Contains(dragonfly.Condition):
 	def __init__(self) -> None:
@@ -102,14 +85,6 @@ class Contains(dragonfly.Condition):
 		self.instance = element.attribute("instance", defaultValue="")
 		self.container = element.attribute("container", defaultValue="")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("container", self.container)
-
-		return element
-
 class NotContains(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
@@ -130,14 +105,6 @@ class NotContains(dragonfly.Condition):
 		self.instance = element.attribute("instance", defaultValue="")
 		self.container = element.attribute("container", defaultValue="")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("container", self.container)
-
-		return element
-
 class DirectEquals(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
@@ -154,11 +121,6 @@ class DirectEquals(dragonfly.Condition):
 
 	def load(self, element: QDomElement):
 		self.instance = element.attribute("instance", defaultValue="")
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		return element
 
 class DirectNotEquals(dragonfly.Condition):
 	def __init__(self) -> None:
@@ -177,11 +139,6 @@ class DirectNotEquals(dragonfly.Condition):
 	def load(self, element: QDomElement):
 		self.instance = element.attribute("instance", defaultValue="")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		return element
-
 class IndirectEquals(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
@@ -199,11 +156,6 @@ class IndirectEquals(dragonfly.Condition):
 	def load(self, element: QDomElement):
 		self.instance = element.attribute("instance", defaultValue="")
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		return element
-
 class IndirectNotEquals(dragonfly.Condition):
 	def __init__(self) -> None:
 		super().__init__()
@@ -220,11 +172,6 @@ class IndirectNotEquals(dragonfly.Condition):
 
 	def load(self, element: QDomElement):
 		self.instance = element.attribute("instance", defaultValue="")
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		return element
 
 class VariableEquals(dragonfly.Condition):
 	def __init__(self) -> None:
@@ -251,11 +198,3 @@ class VariableEquals(dragonfly.Condition):
 		self.instance = element.attribute("instance", defaultValue="")
 		self.variable = element.attribute("variable", defaultValue="")
 		self.value = element.attribute("value", defaultValue="")
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = super().save(doc)
-		element.setAttribute("instance", self.instance)
-		element.setAttribute("variable", self.variable)
-		element.setAttribute("value", self.value)
-
-		return element

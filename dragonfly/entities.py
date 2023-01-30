@@ -72,20 +72,6 @@ class Entity():
 		for n in element.attribute("names").split(","):
 			self.names.append(n.strip())
 
-	def save(self, doc: QDomDocument, nodeName: str) -> QDomElement:
-		"""Save entity to xml element.
-
-		Args:
-			doc (QDomDocument): xml document.
-			nodeName (str): the tag name.
-
-		Returns:
-			QDomElement: element with entity data.
-		"""
-		element = doc.createElement(nodeName)
-		element.setAttribute("names", ", ".join(self.__names))
-		return element
-
 class Noun(Entity):
 	"""Nouns represents the objects of the game. Can be contained by other nouns.
 		and has attributes and variables.
@@ -472,50 +458,6 @@ class Noun(Entity):
 
 					cl.clone(self)
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		"""Save the noun to xml element.
-
-		Args:
-			doc (QDomDocument): The xml document.
-
-		Returns:
-			QDomElement: The generated xml element.
-		"""
-		# Save the entity base
-		element = super().save(doc, "noun")
-
-		# Attrs
-		if self.__attrs:
-			attrs =  ", ".join(self.__attrs)
-			attrElement = doc.createElement("set")
-			attrElement.appendChild(doc.createTextNode(attrs))
-			element.appendChild(attrElement)
-
-		# Variables
-		for v in self.__variables:
-			vElement = doc.createElement("variable")
-			vElement.setAttribute("name", v)
-			vElement.setAttribute("value", self.__variables[v])
-			element.appendChild(vElement)
-
-		# Childs
-		for n in self.childs():
-			element.appendChild(n.save(doc))
-
-		# Events before
-		for e in self.__before:
-			element.appendChild(e.save(doc, "before"))
-
-		# Events after
-		for e in self.__after:
-			element.appendChild(e.save(doc, "after"))
-
-		# Connections
-		for c in self.__connections:
-			element.appendChild(c.save(doc))
-
-		return element
-
 
 class Verb(Entity):
 	"""Represents the multi-name command wich is associated to Action.
@@ -617,30 +559,6 @@ class Verb(Entity):
 				if child.nodeName() == "response":
 					self.setResponse(child.attribute("id"), child.attribute("string"))
 
-	def save(self, doc: QDomDocument) -> QDomElement:
-		"""Save the verb to xml element.
-
-		Args:
-			doc (QDomDocument): the xml document.
-
-		Returns:
-			QDomElement: the xml element containing the verb.
-		"""
-		element = super().save(doc, "verb")
-
-		# Verb base
-		element.setAttribute("action", self.__action.__name__)
-		element.setAttribute("syntax", ", ".join(self.__syntax))
-
-		# Responses
-		for r in self.__responses:
-			rElement = doc.createElement("response")
-			rElement.setAttribute("id", r)
-			rElement.setAttribute("string", self.__responses[r])
-			element.appendChild(rElement)
-
-		return element
-
 class Article:
 	"""Female-Plural representation of the nouns. Can be definited of indefinited
 	"""
@@ -699,37 +617,9 @@ class Article:
 		self.__female = element.attribute("genre") == "female"
 		self.__plural = element.attribute("number") == "plural"
 		self.__indefinited = element.attribute("indefinited") == "true"
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		"""Save the article to xml element.
-
-		Args:
-			doc (QDomDocument): the xml document.
-
-		Returns:
-			QDomElement: a new xml element with the article.
-		"""
-		element = doc.createElement("article")
-		element.setAttribute("name", self.__name)
-		element.setAttribute("genre", "female" if self.__female else "male")
-		element.setAttribute("number", "plural" if self.__plural else "singular")
-		element.setAttribute("indefinited", "true" if self.__indefinited else "false")
-
-		return element
 		
 class Exit(Entity):
 	"""Represents a possible point where the player can go.
 	"""
 	def __init__(self) -> None:
 		super().__init__()
-
-	def save(self, doc: QDomDocument) -> QDomElement:
-		"""Save the exit to xml element.
-
-		Args:
-			doc (QDomDocument): xml document.
-
-		Returns:
-			QDomElement: xml element containing the exit.
-		"""
-		return super().save(doc, "exit")

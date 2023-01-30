@@ -263,30 +263,6 @@ class ActionEvent:
 					cond = condClass()
 					cond.load(e)
 					self.addCondition(cond)
-
-	def save(self, doc: QDomDocument, nodeName: str) -> QDomElement:
-		element = doc.createElement(nodeName)
-		
-		# Save action class names
-		aNames = []
-		for a in self.__actions:
-			aNames.append(a.__name__)
-
-		element.setAttribute("actions", ", ".join(aNames))
-
-		# Cancel
-		element.setAttribute("cancel", "true" if self.__cancel else "false")
-
-		# Conditions
-		for c in self.__conditions:
-			element.appendChild(c.save(doc))
-
-		# Responses
-		for r in self.__responses:
-			element.appendChild(r.save(doc))
-
-		return element
-
 		
 class ActionResponse(ABC):
 	def __init__(self) -> None:
@@ -300,12 +276,6 @@ class ActionResponse(ABC):
 	def load(self, element: QDomElement) -> None:
 		pass
 
-	@abstractmethod
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = doc.createElement("response")
-		element.setAttribute("class", self.__class__.__name__)
-		return element
-
 class Condition(ABC):
 	def __init__(self) -> None:
 		pass
@@ -317,10 +287,3 @@ class Condition(ABC):
 	@abstractmethod
 	def load(self, element: QDomElement):
 		pass
-
-	@abstractmethod
-	def save(self, doc: QDomDocument) -> QDomElement:
-		element = doc.createElement("if")
-		element.setAttribute("class", self.__class__.__name__)
-
-		return element

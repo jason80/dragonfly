@@ -541,47 +541,6 @@ class Dictionary:
 					c.load(element)
 					self.addConversation(c)
 
-	def save(self, path: str) -> None:
-		"""Save the dictionary to xml document.
-
-		Args:
-			path (str): path to xml file.
-		"""
-		doc = QDomDocument()
-
-		p_inst = doc.createProcessingInstruction("xml", 'version="1.0" encoding="UTF-8"')
-		doc.appendChild(p_inst)
-
-		root = doc.createElement("dictionary")
-		doc.appendChild(root)
-
-		# Save nouns
-		for n in self.__nouns:
-			if not n.container:
-				root.appendChild(n.save(doc))
-
-		# Save verbs
-		for v in self.__verbs:
-			root.appendChild(v.save(doc))
-	
-		# Save articles
-		for a in self.__articles:
-			root.appendChild(a.save(doc))
-
-		# Save exits
-		for e in self.__exits:
-			root.appendChild(e.save(doc))
-
-		# Write file
-		file = QFile(path)
-		if not file.open(QFile.WriteOnly or QFile.Truncate):
-			raise dragonfly.DragonflyException(f'Cannot write file: "{path}"')
-
-		outstream = QTextStream(file)
-		doc.save(outstream, 4)
-		outstream.flush()
-		file.close()
-
 	def clear(self) -> None:
 		"""Remove all data from dictionary.
 		"""

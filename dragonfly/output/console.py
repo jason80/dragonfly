@@ -264,3 +264,6 @@ class Console(QMainWindow):
 
 		Console.instance.textInput.clear()
 		return line
+
+	def pause():
+		pass

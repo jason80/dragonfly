@@ -241,3 +241,14 @@ class RunConversation(dragonfly.ActionResponse):
 
 	def load(self, element: QDomElement) -> None:
 		self.owner = element.attribute("owner")
+
+class Pause(dragonfly.ActionResponse):
+
+	def __str__(self) -> str:
+		return "Pause"
+
+	def execute(self, action: dragonfly.Action) -> None:
+		Console.pause()
+
+	def load(self, element: QDomElement) -> None:
+		pass

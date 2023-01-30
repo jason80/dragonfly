@@ -15,6 +15,9 @@
 		<after actions="LookAround">
 			<!-- Responder con un mensaje: -->
 			En éste lugar puedes encontrar una pequeña mesa rodeada de sillones. Hacia el norte se encuentra el dormitorio y al oeste está la cocina.
+			<response class="Pause"></response>
+			hola
+			
 		</after>
 
 		<!-- Los mensajes son respuestas de tipo Message. Lo anterior es una forma de

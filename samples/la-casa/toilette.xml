@@ -23,16 +23,7 @@
 				Alguien dejó una llave adentro.
 			</after>
 
-			<!-- La llave se encuentra dentro de la pileta de manos.
-					El jugador debe "sacar la llave de la pileta" para
-					obtenerla. -->
-			<noun names="llave">
-				<set>female</set>
-
-				<after actions="ExamineObject">
-					Una pequeña llave de bronze.
-				</after>
-			</noun>
+			
 		</noun>
 
 		<noun names="inodoro, wc, water, retrete">

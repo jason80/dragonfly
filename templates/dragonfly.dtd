@@ -1,6 +1,6 @@
 <!ELEMENT dragonfly (property | include | see-list-dialog | propper-list-dialog | inventory-dialog |
 			look-inside-dialog | object-chooser-dialog | game | verb | article |
-			exit | noun | conversation)* >
+			exit | noun | conversation | game-over)* >
 
 <!-- Property -->
 <!ELEMENT property (#PCDATA)>
@@ -62,6 +62,7 @@
 <!ATTLIST response exit CDATA #IMPLIED>
 <!ATTLIST response owner CDATA #IMPLIED>
 <!ATTLIST response variable CDATA #IMPLIED>
+<!ATTLIST response result (victory|defeat) "victory">
 
 <!-- Article -->
 <!ELEMENT article (#PCDATA)>
@@ -114,3 +115,15 @@
 <!ELEMENT topics (#PCDATA | if | response)*>
 <!ATTLIST topics match CDATA #REQUIRED>
 <!ELEMENT default (#PCDATA)>
+
+<!-- Game Over -->
+<!ELEMENT game-over (game-over-message? | victory-message? | defeat-message?)>
+
+<!ELEMENT game-over-message (#PCDATA)>
+<!ATTLIST game-over-message style CDATA #IMPLIED>
+
+<!ELEMENT victory-message (#PCDATA)>
+<!ATTLIST victory-message style CDATA #IMPLIED>
+
+<!ELEMENT defeat-message (#PCDATA)>
+<!ATTLIST defeat-message style CDATA #IMPLIED>

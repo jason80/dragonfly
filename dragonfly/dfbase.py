@@ -14,6 +14,7 @@ import dragonfly.checks
 import dragonfly.dialogs
 import dragonfly.helper
 import dragonfly.conversation
+import dragonfly.gameover
 
 class ExecWorker(QThread):
 	"""ExecWorker is a thread that runs alongside the nautilus application.
@@ -252,6 +253,8 @@ class Dictionary:
 		self.__exits = []
 		self.__conversations = []
 
+		self.__gameOver = dragonfly.gameover.GameOver(self)
+
 		self.__seeListDialog = dragonfly.dialogs.ListDialog("You can see: ", ", ", " and ")
 		self.__propperListDialog = dragonfly.dialogs.PropperListDialog("is here", "are here", ", ", " and ")
 		self.__objectChooserDialog = dragonfly.ObjectChooserDialog("Which one?", "Never mind.", "Please, enter the correct option.")
@@ -422,6 +425,11 @@ class Dictionary:
 		raise dragonfly.DragonflyException(
 			f'Conversation: owner "{owner}" not found in dictionary.')
 
+	
+	@property
+	def gameOver(self) -> "dragonfly.GameOver":
+		return self.__gameOver
+
 	def addNoun(self, noun: "dragonfly.Noun") -> None:
 		"""Add a new noun to dictionary.
 		Args:
@@ -540,6 +548,9 @@ class Dictionary:
 					c = dragonfly.Conversation()
 					c.load(element)
 					self.addConversation(c)
+				
+				if element.nodeName() == "game-over":
+					self.__gameOver.load(element)
 
 	def clear(self) -> None:
 		"""Remove all data from dictionary.

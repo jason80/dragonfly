@@ -15,9 +15,6 @@
 		<after actions="LookAround">
 			<!-- Responder con un mensaje: -->
 			En éste lugar puedes encontrar una pequeña mesa rodeada de sillones. Hacia el norte se encuentra el dormitorio y al oeste está la cocina.
-			<response class="Pause"></response>
-			hola
-			
 		</after>
 
 		<!-- Los mensajes son respuestas de tipo Message. Lo anterior es una forma de
@@ -58,7 +55,18 @@
 		<!-- No puede faltar el jugador dentro del living. Cualquier objeto
 			en Dragonfly podría ser el jugador. Hay que establecer cuál es con
 			la propiedad "player" como se hace en el archivo "dragonfly.xml" -->
-		<noun names="jugador, player" />
+		<noun names="jugador, player">
+			<!-- La llave se encuentra dentro de la pileta de manos.
+				El jugador debe "sacar la llave de la pileta" para
+				obtenerla. -->
+			<noun names="llave">
+				<set>female</set>
+
+				<after actions="ExamineObject">
+					Una pequeña llave de bronze.
+				</after>
+			</noun>
+		</noun>
 
 		<!-- Hacia el norte hay un dormitorio.
 			"connection" asocia una "salida" con un objeto destino. Ese

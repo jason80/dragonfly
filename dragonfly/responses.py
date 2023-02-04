@@ -4,6 +4,7 @@ import dragonfly
 from dragonfly.output import Console
 from dragonfly import Help
 from dragonfly import DragonflyException
+from gameover import ResultType
 
 class Message(dragonfly.ActionResponse):
 
@@ -252,3 +253,27 @@ class Pause(dragonfly.ActionResponse):
 
 	def load(self, element: QDomElement) -> None:
 		pass
+
+class EndGame(dragonfly.ActionResponse):
+	def __init__(self) -> None:
+		self.result = ""
+		self.message = ""
+
+	def __str__(self) -> str:
+		return "End game"
+
+	def execute(self, action: dragonfly.Action) -> None:
+		victory = True
+		if (self.result == "victory"): victory = True
+		elif (self.result == "defeat"): victory = False
+		else: raise DragonflyException(f'On EndGame: expected "victory" or "defeat" value on result attr.')
+
+		action.dictionary.gameOver.run(ResultType.VICTORY if victory else ResultType.DEFEAT, self.message)
+
+	def load(self, element: QDomElement) -> None:
+		self.result = element.attribute("result")
+
+		for i in range(element.childNodes().count()):
+			node = element.childNodes().at(i)
+			if node.nodeType() == QDomNode.TextNode:
+				self.message = node.toText().data().strip()

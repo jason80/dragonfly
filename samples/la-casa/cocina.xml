@@ -85,7 +85,9 @@
 			<!-- La puerta NO está cerrada ...-->
 			<if class="IsNotSet" instance="puerta" attr="closed" />
 			<!-- FIN DEL JUEGO -->
-			GAME OVER
+			<response class="EndGame" result="victory">
+				Has salido de la casa con éxito.
+			</response>
 		</before>
 
 		<!-- Conecta el este con El Living -->

@@ -54,6 +54,11 @@
 	</verb>
 
 	<verb names = "examinar, examina, mirar, mira, x, m"
+			action = "ExamineObject" syntax = "a/al, 1">
+		<response id = "direct-not-found" string = "No hay eso." />
+	</verb>
+
+	<verb names = "examinar, examina, mirar, mira, x, m"
 			action = "ExamineObject" syntax = "1">
 		<response id = "direct-not-found" string = "No hay eso." />
 	</verb>

@@ -1,13 +1,22 @@
-from .action import Action, ActionEvent, ActionResponse, Condition
+from .action import Action
+from .actionevent import ActionEvent
+from .actionresponse import ActionResponse
+from .condition import Condition
 from .checks import MissingCheck
-from .dfbase import Game, Dictionary
+from .game import Game
+from .dictionary import Dictionary
 from .dfexcept import DragonflyException
 from .dfrunner import GameLauncher
-from .entities import Entity, Article, Noun, Exit, Verb
+from .entity import Entity
+from .noun import Noun
+from .verb import Verb
+from .article import Article
+from .exit import Exit
 from .helpsystem import Help
 from .movement import Connection
 from .conversation import Conversation
 from .persistence import Persistence
+from .gameover import GameOver
 
 from .actions import *
 from .debug import *

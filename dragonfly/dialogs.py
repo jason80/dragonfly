@@ -1,5 +1,4 @@
 import typing
-from unittest import result
 from PyQt5.QtXml import QDomElement
 
 import dragonfly

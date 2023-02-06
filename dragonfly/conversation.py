@@ -2,7 +2,7 @@ import typing
 import dragonfly
 import dragonfly.helper
 
-from PyQt5.QtXml import QDomDocument, QDomElement, QDomNode
+from PyQt5.QtXml import QDomElement, QDomNode
 
 class Topics:
 	def __init__(self) -> None:

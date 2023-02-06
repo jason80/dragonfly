@@ -1,6 +1,7 @@
-import dfbase
-import output.console
 from enum import Enum
+
+import dragonfly
+import output.console
 
 from PyQt5.QtXml import QDomElement, QDomNode
 
@@ -9,7 +10,7 @@ class ResultType(Enum):
 	DEFEAT = 1
 
 class GameOver:
-	def __init__(self, dict: "dfbase.Dictionary") -> None:
+	def __init__(self, dict: "dragonfly.Dictionary") -> None:
 		self.__dictionary = dict
 		self.__gameOverMessage = "Game over"
 		self.__gameOverStyle = ""

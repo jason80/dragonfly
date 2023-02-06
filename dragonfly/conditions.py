@@ -1,4 +1,4 @@
-from PyQt5.QtXml import QDomDocument, QDomElement
+from PyQt5.QtXml import QDomElement
 
 import dragonfly
 from dragonfly import DragonflyException

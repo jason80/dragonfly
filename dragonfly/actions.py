@@ -1,6 +1,5 @@
 import typing
 import dragonfly
-import dragonfly.action
 from dragonfly import DragonflyException
 from dragonfly.output import Console
 

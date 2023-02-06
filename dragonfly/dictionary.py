@@ -1,251 +1,13 @@
-import sys
 import typing
-from abc import ABC, abstractmethod
-
-from PyQt5.QtCore import QFile, QIODevice, QTextStream, QThread, pyqtSignal
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtXml import QDomDocument, QDomNode
 
 import dragonfly
-import dragonfly.output
-from dragonfly.persistence import Persistence
-import dragonfly.syntax
-import dragonfly.checks
-import dragonfly.dialogs
-import dragonfly.helper
-import dragonfly.conversation
-import dragonfly.gameover
 
-class ExecWorker(QThread):
-	"""ExecWorker is a thread that runs alongside the nautilus application.
-	The loop expect the user input, print an echo and execute the line entered.
-	Args:
-		QThread ([type]): [description]
-	"""
-	console_print = pyqtSignal(dict)
-	console_clear = pyqtSignal()
-	console_quit = pyqtSignal()
-
-	def __init__(self, game: "Game") -> None:
-		super().__init__()
-		self.game = game
-
-	def run(self) -> None:
-		"""Loop contains: expect input, print echo and execute."""
-		while True:
-			line = dragonfly.output.Console.input()
-			dragonfly.output.Console.println("")
-			dragonfly.output.console.Console.println(line, "family: 'Courier'") # Console echo
-			self.game.execute(line)
-
-class Game(ABC):
-	"""Dragonfly Game base entity"""
-	def __init__(self, consoleWidth: int = 1000, consoleHeight: int = 600, testMode: bool = False) -> None:
-
-		if not testMode:
-			self.__app = QApplication(sys.argv)
-			self.__execWorker = ExecWorker(self)
-			self.__console = dragonfly.output.Console(self, consoleWidth, consoleHeight)
-
-		self.__title = ""
-		self.__author = ""
-
-		self.__dictionary = Dictionary(self)
-		self.__parser = dragonfly.syntax.Parser(self)
-		self.__player = None
-
-		self.__properties = dict()
-
-	@property
-	def title(self) -> str:
-		return self.__title
-
-	@title.setter
-	def title(self, title: str) -> None:
-		self.__title = title
-
-	@property
-	def author(self) -> str:
-		return self.__author
-
-	@author.setter
-	def author(self, author: str) -> None:
-		self.__author = author
-
-	@property
-	def properties(self) -> typing.Dict:
-		"""Return the game properties.
-
-		Returns:
-			typing.Dict: A dictionary containing the properties.
-		"""
-		return self.__properties
-
-	def getProperty(self, name: str) -> str:
-		"""Return a property value.
-
-		Args:
-			name (str): Property key.
-
-		Returns:
-			str: the property value.
-		"""
-		return self.__properties[name]
-	
-	def setProperty(self, name: str, value: str) -> None:
-		"""Set a property. Create if not exists.
-
-		Args:
-			name (str): Key of the property.
-			value (str): Value of the property.
-		"""
-		self.__properties[name] = value
-
-	@property
-	def execWorker(self) -> ExecWorker:
-		"""Return the exec worker thread.
-
-		Returns:
-			ExecWorker: The exec worker instance.
-		"""
-		return self.__execWorker
-
-	@property
-	def dictionary(self) -> "Dictionary":
-		"""Return the dictionary of the game.
-
-		Returns:
-			Dictionary: The dictionary of the game.
-		"""
-		return self.__dictionary
-
-	@property
-	def parser(self) -> "dragonfly.syntax.Parser":
-		"""Return the parser.
-
-		Returns:
-			syntax.parser.Parser: The parser.
-		"""
-		return self.__parser
-
-	@property
-	def player(self) -> "dragonfly.syntax.Noun":
-		"""Return the game's player.
-
-		Returns:
-			entities.Noun: The player noun.
-		"""
-		return self.__player
-	
-	@player.setter
-	def player(self, player: "dragonfly.Noun") -> None:
-		"""Set the game player.
-
-		Args:
-			player (entities.Noun): The player noun.
-		"""
-		self.__player = player
-
-	def execute(self, text: str):
-		self.__parser.parse(text)
-
-	@abstractmethod
-	def init(self) -> None:
-		"""Derived class implements this method to initialize game components.
-		"""
-		pass
-
-	def run(self):
-		"""Run the game.
-		"""
-
-		print("*** Dragonfly Library ***")
-		print("Initializing ...")
-
-		# Defaults
-		self.setProperty("show-parsing-process", "false")
-		self.setProperty("look-around", "never")
-		self.setProperty("hide-title", "false")
-		self.setProperty("player", "")
-
-		self.init()
-
-		# Sets player
-		if self.getProperty("player"):
-			self.player = self.dictionary.nouns(self.getProperty("player"))[0]
-
-		if self.getProperty("show-parsing-process") == "true":
-			print("[Parser] showing parsing process.")
-			self.parser.showParsingProcess = True
-		elif self.getProperty("show-parsing-process") == "false":
-			print("[Parser] hiding parsing process.")
-			self.parser.showParsingProcess = False
-		else:
-			raise dragonfly.DragonflyException("Game Property: show-parsing-process expect true/false value.")
-
-		# Missing check
-		print("Executing missing check ...")
-		missing = dragonfly.checks.MissingCheck(self)
-		missing.check()
-
-		print(f'Player: "{self.player.name}" located in "{self.player.container.name}".')
-
-		# Game Title
-		if self.getProperty("hide-title") == "false":
-			self.showTitle()
-		elif self.getProperty("hide-title") == "true":
-			print("Hidding game title ...")
-		else:
-			print("Warn: Expected true/false value on hide-title property. Assuming false.")
-			self.showTitle()
-
-		# Visibility behavior
-		if self.getProperty("look-around") == "on-start" or self.getProperty("look-around") == "always":
-			lookVerb = self.dictionary.verbByAction("LookAround")
-			self.execute(lookVerb.name)
-		elif self.getProperty("look-around") == "never":
-			pass
-		else:
-			print("Warn: Expected never/on-start/always value on disable-prologue property. Assuming never.")
-			self.setProperty("look-around", "never")
-
-		print(f"Visibility behavior: look-around = {self.getProperty('look-around')}")
-
-		print("Running ...")
-
-		self.__console.show()
-
-		self.execWorker.start()
-
-		sys.exit(self.__app.exec_())
-
-	def close(self):
-		"""Close the game and console.
-		"""
-		self.__execWorker.console_quit.emit()
-
-	def showTitle(self):
-		dragonfly.output.Console.println(self.__title, "size: 20; bold: true")
-		dragonfly.output.console.Console.println(self.author, "size: 12")
-		dragonfly.output.console.Console.println(" ", "size: 80")
-
-	def saveGame(self):
-		filename = ""
-		if not self.title: filename = "Untitled.sav"
-		else: filename = self.title + ".sav"
-		persist = Persistence(filename)
-		persist.saveGame(self.dictionary)
-
-	def loadGame(self):
-		filename = ""
-		if not self.title: filename = "Untitled.sav"
-		else: filename = self.title + ".sav"
-		persist = Persistence(filename)
-		persist.loadGame(self.dictionary)
+from PyQt5.QtXml import QDomDocument, QDomNode
+from PyQt5.QtCore import QFile, QIODevice
 
 class Dictionary:
 	"""Contains a list of nouns, verbs and exits."""
-	def __init__(self, game: "Game") -> None:
+	def __init__(self, game: "dragonfly.Game") -> None:
 		self.__game = game
 		self.__nouns = []
 		self.__verbs = []
@@ -253,10 +15,10 @@ class Dictionary:
 		self.__exits = []
 		self.__conversations = []
 
-		self.__gameOver = dragonfly.gameover.GameOver(self)
+		self.__gameOver = dragonfly.GameOver(self)
 
-		self.__seeListDialog = dragonfly.dialogs.ListDialog("You can see: ", ", ", " and ")
-		self.__propperListDialog = dragonfly.dialogs.PropperListDialog("is here", "are here", ", ", " and ")
+		self.__seeListDialog = dragonfly.ListDialog("You can see: ", ", ", " and ")
+		self.__propperListDialog = dragonfly.PropperListDialog("is here", "are here", ", ", " and ")
 		self.__objectChooserDialog = dragonfly.ObjectChooserDialog("Which one?", "Never mind.", "Please, enter the correct option.")
 		self.__inventoryDialog = dragonfly.ListDialog("You have: ", ", ", " and ")
 		self.__lookInsideDialog = dragonfly.ListDialog("Inside there is: ", ", ", " and ")
@@ -281,7 +43,7 @@ class Dictionary:
 		return result
 
 	@property
-	def game(self) -> "Game":
+	def game(self) -> "dragonfly.Game":
 		"""Return the game instance.
 
 		Returns:
@@ -290,61 +52,61 @@ class Dictionary:
 		return self.__game
 
 	@property
-	def seeListDialog(self) -> "dragonfly.dialogs.ListDialog":
+	def seeListDialog(self) -> "dragonfly.ListDialog":
 		"""Return the See List Dialog of the game.
 		"""
 		return self.__seeListDialog
 
 	@seeListDialog.setter
-	def seeListDialog(self, dialog: "dragonfly.dialogs.ListDialog"):
+	def seeListDialog(self, dialog: "dragonfly.ListDialog"):
 		"""Set the See List Dialog of the game.
 		"""
 		self.__seeListDialog = dialog
 
 	@property
-	def propperListDialog(self) -> "dragonfly.dialogs.PropperListDialog":
+	def propperListDialog(self) -> "dragonfly.PropperListDialog":
 		"""Return the PropperListDialog used by LookAround action
 		"""
 		return self.__propperListDialog
 	
 	@propperListDialog.setter
-	def propperListDialog(self, dialog: "dragonfly.dialogs.PropperListDialog") -> None:
+	def propperListDialog(self, dialog: "dragonfly.PropperListDialog") -> None:
 		"""Set the PropperListDialog used by LookAround action
 		"""
 		self.__propperListDialog = dialog
 
 	@property
-	def objectChooserDialog(self) -> "dragonfly.dialogs.ObjectChooserDialog":
+	def objectChooserDialog(self) -> "dragonfly.ObjectChooserDialog":
 		"""Return the Object Chooser Dialog of the game.
 		"""
 		return self.__objectChooserDialog
 
 	@objectChooserDialog.setter
-	def objectChooserDialog(self, dialog: "dragonfly.dialogs.ObjectChooserDialog") -> None:
+	def objectChooserDialog(self, dialog: "dragonfly.ObjectChooserDialog") -> None:
 		"""Set the Object Chooser Dialog of the game.
 		"""
 		self.__objectChooserDialog = dialog
 
 	@property
-	def inventoryDialog(self) -> "dragonfly.dialogs.ListDialog":
+	def inventoryDialog(self) -> "dragonfly.ListDialog":
 		"""Return the Inventory Dialog of the game.
 		"""
 		return self.__inventoryDialog
 
 	@inventoryDialog.setter
-	def inventoryDialog(self, dialog: "dragonfly.dialogs.ListDialog") -> None:
+	def inventoryDialog(self, dialog: "dragonfly.ListDialog") -> None:
 		"""Set the Inventory Dialog of the game.
 		"""
 		self.__inventoryDialog = dialog
 
 	@property
-	def lookInsideDialog(self) -> "dragonfly.dialogs.ListDialog":
+	def lookInsideDialog(self) -> "dragonfly.ListDialog":
 		"""Return the Look Inside Dialog of the game.
 		"""
 		return self.__lookInsideDialog
 
 	@lookInsideDialog.setter
-	def lookInsideDialog(self, dialog: "dragonfly.dialogs.ListDialog") -> None:
+	def lookInsideDialog(self, dialog: "dragonfly.ListDialog") -> None:
 		"""Set the Look Inside Dialog of the game.
 		"""
 		self.__lookInsideDialog = dialog
@@ -511,15 +273,15 @@ class Dictionary:
 
 				# Dialogs
 				if element.nodeName() == "see-list-dialog":
-					self.seeListDialog = dragonfly.dialogs.loadListDialog(element)
+					self.seeListDialog = dragonfly.loadListDialog(element)
 				if element.nodeName() == "propper-list-dialog":
-					self.propperListDialog = dragonfly.dialogs.loadPropperListDialog(element)
+					self.propperListDialog = dragonfly.loadPropperListDialog(element)
 				if element.nodeName() == "inventory-dialog":
-					self.inventoryDialog = dragonfly.dialogs.loadListDialog(element)
+					self.inventoryDialog = dragonfly.loadListDialog(element)
 				if element.nodeName() == "look-inside-dialog":
-					self.lookInsideDialog = dragonfly.dialogs.loadListDialog(element)
+					self.lookInsideDialog = dragonfly.loadListDialog(element)
 				if element.nodeName() == "object-chooser-dialog":
-					self.objectChooserDialog = dragonfly.dialogs.loadObjectChooserDialog(element)
+					self.objectChooserDialog = dragonfly.loadObjectChooserDialog(element)
 					
 
 				if element.nodeName() == "noun":

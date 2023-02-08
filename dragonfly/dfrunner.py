@@ -1,4 +1,5 @@
 import dragonfly
+from dragonfly.output import Console
 
 class GameLauncher(dragonfly.Game):
 	def __init__(self) -> None:
@@ -10,3 +11,4 @@ class GameLauncher(dragonfly.Game):
 if __name__ == "__main__":
 	game = GameLauncher()
 	game.run()
+	Console.start()

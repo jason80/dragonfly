@@ -1,9 +1,8 @@
-import sys
 import typing
+import time
 from abc import ABC, abstractmethod
 
-from PyQt5.QtCore import QThread, pyqtSignal
-from PyQt5.QtWidgets import QApplication
+import threading
 
 import dragonfly
 import dragonfly.output
@@ -15,36 +14,12 @@ import dragonfly.helper
 import dragonfly.conversation
 import dragonfly.gameover
 
-class ExecWorker(QThread):
-	"""ExecWorker is a thread that runs alongside the nautilus application.
-	The loop expect the user input, print an echo and execute the line entered.
-	Args:
-		QThread ([type]): [description]
-	"""
-	console_print = pyqtSignal(dict)
-	console_clear = pyqtSignal()
-	console_quit = pyqtSignal()
-
-	def __init__(self, game: "dragonfly.Game") -> None:
-		super().__init__()
-		self.game = game
-
-	def run(self) -> None:
-		"""Loop contains: expect input, print echo and execute."""
-		while True:
-			line = dragonfly.output.Console.input()
-			dragonfly.output.Console.println("")
-			dragonfly.output.console.Console.println(line, "family: 'Courier'") # Console echo
-			self.game.execute(line)
-
 class Game(ABC):
 	"""Dragonfly Game base entity"""
-	def __init__(self, consoleWidth: int = 1000, consoleHeight: int = 600, testMode: bool = False) -> None:
+	def __init__(self, console_width: int = 1000, console_height: int = 600) -> None:
 
-		if not testMode:
-			self.__app = QApplication(sys.argv)
-			self.__execWorker = ExecWorker(self)
-			self.__console = dragonfly.output.Console(self, consoleWidth, consoleHeight)
+		self.__console_width = console_width
+		self.__console_height = console_height
 
 		self.__title = ""
 		self.__author = ""
@@ -54,6 +29,8 @@ class Game(ABC):
 		self.__player = None
 
 		self.__properties = dict()
+
+		self.__running = True
 
 	@property
 	def title(self) -> str:
@@ -101,15 +78,6 @@ class Game(ABC):
 		self.__properties[name] = value
 
 	@property
-	def execWorker(self) -> ExecWorker:
-		"""Return the exec worker thread.
-
-		Returns:
-			ExecWorker: The exec worker instance.
-		"""
-		return self.__execWorker
-
-	@property
 	def dictionary(self) -> "dragonfly.Dictionary":
 		"""Return the dictionary of the game.
 
@@ -154,7 +122,12 @@ class Game(ABC):
 		"""
 		pass
 
-	def run(self):
+	def run(self) -> None:
+		self.__console = dragonfly.output.Console(self, self.__console_width, self.__console_height)
+		thread = threading.Thread(target=self.__work)
+		thread.start()
+
+	def __work(self):
 		"""Run the game.
 		"""
 
@@ -212,21 +185,34 @@ class Game(ABC):
 
 		print("Running ...")
 
-		self.__console.show()
+		while (self.__running):
 
-		self.execWorker.start()
+			# Wait for <enter>
+			while not dragonfly.output.Console.instance.input_entered and self.__running:
+				time.sleep(0.1)
 
-		sys.exit(self.__app.exec_())
+			if not self.__running: break
 
-	def close(self):
-		"""Close the game and console.
-		"""
-		self.__execWorker.console_quit.emit()
+			dragonfly.output.Console.instance.input_entered = False
+
+			line = dragonfly.output.Console.instance.input_text.get()
+
+			# Add to history
+			dragonfly.output.Console.instance.history.store(line)
+
+			dragonfly.output.Console.instance.input_text.delete(0, 'end')
+
+			dragonfly.output.Console.println("")
+			dragonfly.output.Console.println(line, "family: 'Courier'") # Console echo
+			self.execute(line)
+
+	def stop(self):
+		self.__running = False
 
 	def showTitle(self):
 		dragonfly.output.Console.println(self.__title, "size: 20; bold: true")
-		dragonfly.output.console.Console.println(self.author, "size: 12")
-		dragonfly.output.console.Console.println(" ", "size: 80")
+		dragonfly.output.Console.println(self.author, "size: 12")
+		dragonfly.output.Console.println(" ", "size: 80")
 
 	def saveGame(self):
 		filename = ""

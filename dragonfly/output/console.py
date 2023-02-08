@@ -1,31 +1,15 @@
-from PyQt5 import QtGui
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QColor, QFont
-from PyQt5.QtWidgets import (QFrame, QLineEdit, QMainWindow, QTextEdit,
-                             QVBoxLayout, QWidget)
 
 import dragonfly
 import dragonfly.output
 
-class ConsoleLineEdit(QLineEdit):
-	"""Line text box in the main console.
-	"""
-	def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
-		"""Occurs when the player hits a key in line edit on main console.
-		"""
-		if event.key() == Qt.Key_Up:
-			self.setText(Console.instance.history.up())
-		
-		if event.key() == Qt.Key_Down:
-			self.setText(Console.instance.history.down())
-		
-		return super().keyPressEvent(event)
+import tkinter
+from tkinter import scrolledtext
 
-
-class Console(QMainWindow):
+class Console:
 	"""The main console.
 	"""
 	instance = None
+	tag_id = 0
 
 	def __init__(self, game, consoleWidth: int, consoleHeight: int) -> None:
 		super().__init__()
@@ -36,46 +20,31 @@ class Console(QMainWindow):
 
 		self.__styles = dragonfly.output.ConsoleStyles()
 
-		self.centralWidget = QWidget(self)
-		self.setCentralWidget(self.centralWidget)
-		self.verticalLayout = QVBoxLayout(self.centralWidget)
+		self.root = tkinter.Tk()
+		self.root.title("Untitled")
+		self.root.geometry(f"{consoleWidth}x{consoleHeight}")
+		
+		self.root.protocol("WM_DELETE_WINDOW", self.stop)
 
-		self.resize(consoleWidth, consoleHeight)
+		self.output_text = scrolledtext.ScrolledText(self.root,
+				wrap=tkinter.WORD, state=tkinter.DISABLED)
+		self.output_text.pack(expand=True, fill='both')
 
-		# Output
-		self.textOutput = QTextEdit(self.centralWidget)
-		self.verticalLayout.addWidget(self.textOutput)
-		self.textOutput.setReadOnly(True)
-		self.textOutput.setFocusPolicy(Qt.NoFocus)
-		self.textOutput.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-		self.textOutput.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-		self.textOutput.setFrameShape(QFrame.NoFrame)
-		self.textOutput.setTextInteractionFlags(Qt.NoTextInteraction)
+		self.input_text = tkinter.Entry(self.root)
+		self.input_text.pack(fill=tkinter.X)
+		self.input_text.bind('<Return>', self.__console_return_pressed)
 
-		# Input
-		self.textInput = ConsoleLineEdit(self.centralWidget)
-		self.verticalLayout.addWidget(self.textInput)
-		self.textInput.setFrame(False)
+		self.input_text.focus()
 
-		self.inputMode = True
-
-		# Connect input action
-		self.textInput.returnPressed.connect(self.__consoleReturnPressed)
-
-		# Internal print
-		self.game.execWorker.console_print.connect(self.__internalPrint)
-		# Internal clear output
-		self.game.execWorker.console_clear.connect(self.textOutput.clear)
-		# Internal console quit
-		self.game.execWorker.console_quit.connect(self.close)
+		self.input_entered = False
 
 		# History
 		self.history = dragonfly.output.History()
 
-	def __consoleReturnPressed(self) -> None:
+	def __console_return_pressed(self, name) -> None:
 		"""Occurs when the player hit enter.
 		"""
-		self.inputMode = False
+		self.input_entered = True
 
 	def setStyle(self, style: str) -> None:
 		"""Set the style for console.
@@ -85,37 +54,46 @@ class Console(QMainWindow):
 		"""
 		self.__styles.parse(style)
 
-		self.textOutput.setFontFamily(self.__styles.current["family"])
-		self.textOutput.setFontPointSize(self.__styles.current["size"])
-		self.textOutput.setFontWeight(QFont.Bold if self.__styles.current["bold"] else 0)
-		self.textOutput.setFontItalic(self.__styles.current["italic"])
-		self.textOutput.setTextColor(QColor(self.__styles.current["color"]))
+		Console.tag_id += 1
+		tag = f"t{Console.tag_id}"
+
+		f = None
+		if self.__styles.current["bold"]:
+			f = (self.__styles.current["family"], self.__styles.current["size"], "bold")
+		else:
+			f = (self.__styles.current["family"], self.__styles.current["size"])
+
+		self.output_text.tag_config(tag,
+				font=f, foreground=self.__styles.current["color"])
 
 	def resetStyle(self) -> None:
 		"""Return style to default.
 		"""
 		self.__styles.reset()
 
-	def __internalPrint(self, d: dict) -> None:
+	def __internal_print(self, d: dict) -> None:
 		"""Insert text in the output.
 
 		Args:
 			d (dict): Message pack: style + message
 		"""
+
+		self.output_text.configure(state=tkinter.NORMAL)
+
 		self.setStyle(d["style"])
 
-		msg = self.__replaceObjects(d["msg"])
+		msg = self.__replace_objects(d["msg"])
 
-		self.textOutput.insertPlainText(msg)
+		self.output_text.insert(tkinter.END, msg, f"t{Console.tag_id}")
 
-		# Move scroll to bottom
-		sb = self.textOutput.verticalScrollBar()
-		sb.setValue(sb.maximum())
+		self.output_text.configure(state=tkinter.DISABLED)
+
+		self.output_text.see(tkinter.END)
 
 		# Reset to default style
 		self.instance.resetStyle()
 
-	def __replaceObjects(self, text: str) -> str:
+	def __replace_objects(self, text: str) -> str:
 		"""Replace the special commands with the objects.
 
 		Special commands 1:
@@ -196,7 +174,7 @@ class Console(QMainWindow):
 							params = ""
 							while i < len(text):
 								if text[i] == ")":
-									result += self.__replaceGenderNumber(obj, params, capitalize)
+									result += self.__replace_gender_number(obj, params, capitalize)
 									break
 								params += text[i]; i += 1
 
@@ -216,7 +194,7 @@ class Console(QMainWindow):
 			i += 1
 		return result
 
-	def __replaceGenderNumber(self, obj, params: str, capitalize: bool) -> str:
+	def __replace_gender_number(self, obj, params: str, capitalize: bool) -> str:
 		"""Select the param depending the gender and the number of the noun.
 
 		Args:
@@ -241,29 +219,24 @@ class Console(QMainWindow):
 
 		return ""
 
+	def start() -> None:
+		Console.instance.root.mainloop()
+
 	# Static
 	def print(string: str, style: str = "") -> None:
-		Console.instance.game.execWorker.console_print.emit({"msg": string + " ", "style": style})
+		Console.instance.__internal_print({"msg": string + " ", "style": style})
 
 	def println(string: str, style: str = "") -> None:
-		Console.instance.game.execWorker.console_print.emit({"msg": string + "\n", "style": style})
+		Console.instance.__internal_print({"msg": string + "\n", "style": style})
 
 	def clear() -> None:
-		Console.instance.game.execWorker.console_clear.emit()
-
-	def input() -> str:
-		Console.instance.inputMode = True
-
-		while Console.instance.inputMode:
-			pass
-
-		line = Console.instance.textInput.text()
-
-		# Add to history
-		Console.instance.history.store(line)
-
-		Console.instance.textInput.clear()
-		return line
+		Console.instance.output_text.configure(state=tkinter.NORMAL)
+		Console.instance.output_text.delete('1.0', tkinter.END)
+		Console.instance.output_text.configure(state=tkinter.DISABLED)
 
 	def pause():
 		pass
+
+	def stop(self) -> None:
+		self.root.destroy()
+		self.game.stop()

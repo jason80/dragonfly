@@ -21,7 +21,7 @@
 
 	<!--VERBS-->
 	<verb names = "?" action = "UnknownVerb">
-		<response id = "unknown-verb" string = "No se lo que estás diciendo." />
+		<response id = "unknown-verb" string = "No sé lo que estás diciendo." />
 	</verb>
 
 	<verb names = "fin, finalizar, finaliza, terminar, termina, final, acaba, acabar, concluye, concluir, quit, q"

@@ -87,7 +87,8 @@ class Quit(dragonfly.Action):
 		return True
 
 	def carryOut(self) -> None:
-		self.game.close()
+		self.game.stop()
+		Console.instance.root.destroy()
 
 	def report(self) -> None:
 		pass

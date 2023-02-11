@@ -19,7 +19,7 @@ class Dictionary:
 
 		self.__seeListDialog = dragonfly.ListDialog("You can see: ", ", ", " and ")
 		self.__propperListDialog = dragonfly.PropperListDialog("is here", "are here", ", ", " and ")
-		self.__objectChooserDialog = dragonfly.ObjectChooserDialog("Which one?", "Never mind.", "Please, enter the correct option.")
+		self.__objectChooserDialog = dragonfly.ObjectChooserDialog(self, "Which one?", "Never mind.", "Please, enter the correct option.")
 		self.__inventoryDialog = dragonfly.ListDialog("You have: ", ", ", " and ")
 		self.__lookInsideDialog = dragonfly.ListDialog("Inside there is: ", ", ", " and ")
 
@@ -281,7 +281,7 @@ class Dictionary:
 				if element.nodeName() == "look-inside-dialog":
 					self.lookInsideDialog = dragonfly.loadListDialog(element)
 				if element.nodeName() == "object-chooser-dialog":
-					self.objectChooserDialog = dragonfly.loadObjectChooserDialog(element)
+					self.objectChooserDialog = dragonfly.loadObjectChooserDialog(self.game, element)
 					
 
 				if element.nodeName() == "noun":

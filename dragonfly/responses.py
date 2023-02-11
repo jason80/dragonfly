@@ -249,7 +249,17 @@ class Pause(dragonfly.ActionResponse):
 		return "Pause"
 
 	def execute(self, action: dragonfly.Action) -> None:
-		Console.pause()
+		action.game.pause()
+
+	def load(self, element: QDomElement) -> None:
+		pass
+
+class Clear(dragonfly.ActionResponse):
+	def __str__(self) -> str:
+		return "Clear"
+
+	def execute(self, action: dragonfly.Action) -> None:
+		Console.clear()
 
 	def load(self, element: QDomElement) -> None:
 		pass

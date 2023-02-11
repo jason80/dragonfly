@@ -50,7 +50,8 @@ class PropperListDialog:
 		Console.println(f'{result} {sufix}.')
 
 class ObjectChooserDialog:
-	def __init__(self, message: str, cancel: str, error: str) -> None:
+	def __init__(self, game: "dragonfly.Game", message: str, cancel: str, error: str) -> None:
+		self.__game = game
 		self.__message = message
 		self.__cancel = cancel
 		self.__error = error
@@ -68,7 +69,7 @@ class ObjectChooserDialog:
 				Console.println(f"{i + 1}) {objects[i].article}.")
 			Console.println(f"0) {self.__cancel}.")
 
-			input = Console.input()
+			input = self.__game.pause()
 
 			try:
 				opt = int(input.strip())
@@ -103,6 +104,6 @@ def loadPropperListDialog(element: QDomElement) -> PropperListDialog:
 		element.attribute("plural"), element.attribute("separator"),
 		element.attribute("and-separator"))
 
-def loadObjectChooserDialog(element: QDomElement) -> ObjectChooserDialog:
-	return ObjectChooserDialog(element.attribute("message"),
+def loadObjectChooserDialog(game: "dragonfly.Game", element: QDomElement) -> ObjectChooserDialog:
+	return ObjectChooserDialog(game, element.attribute("message"),
 		element.attribute("cancel"), element.attribute("error"))

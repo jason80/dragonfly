@@ -187,24 +187,26 @@ class Game(ABC):
 
 		while (self.__running):
 
-			# Wait for <enter>
-			while not dragonfly.output.Console.instance.input_entered and self.__running:
-				time.sleep(0.1)
+			line = self.pause() # Get the input line
 
 			if not self.__running: break
-
-			dragonfly.output.Console.instance.input_entered = False
-
-			line = dragonfly.output.Console.instance.input_text.get()
 
 			# Add to history
 			dragonfly.output.Console.instance.history.store(line)
 
-			dragonfly.output.Console.instance.input_text.delete(0, 'end')
-
 			dragonfly.output.Console.println("")
 			dragonfly.output.Console.println(line, "family: 'Courier'") # Console echo
 			self.execute(line)
+
+	def pause(self) -> str:
+		# Wait for <enter>
+		while not dragonfly.output.Console.instance.input_entered and self.__running:
+			time.sleep(0.1)
+
+		dragonfly.output.Console.instance.input_entered = False
+		line = dragonfly.output.Console.instance.input_text.get()
+		dragonfly.output.Console.instance.input_text.delete(0, 'end')
+		return line
 
 	def stop(self):
 		self.__running = False

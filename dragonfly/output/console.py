@@ -57,11 +57,11 @@ class Console:
 		Console.tag_id += 1
 		tag = f"t{Console.tag_id}"
 
-		f = None
+		f = (self.__styles.current["family"], self.__styles.current["size"], )
 		if self.__styles.current["bold"]:
-			f = (self.__styles.current["family"], self.__styles.current["size"], "bold")
-		else:
-			f = (self.__styles.current["family"], self.__styles.current["size"])
+			f = f + ("bold",)
+		if self.__styles.current["italic"]:
+			f = f + ("italic",)
 
 		self.output_text.tag_config(tag,
 				font=f, foreground=self.__styles.current["color"])

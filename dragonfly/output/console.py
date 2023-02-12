@@ -33,6 +33,8 @@ class Console:
 		self.input_text = tkinter.Entry(self.root)
 		self.input_text.pack(fill=tkinter.X)
 		self.input_text.bind('<Return>', self.__console_return_pressed)
+		self.input_text.bind('<Up>', self.__up_key_pressed)
+		self.input_text.bind('<Down>', self.__down_key_pressed)
 
 		self.input_text.focus()
 
@@ -45,6 +47,14 @@ class Console:
 		"""Occurs when the player hit enter.
 		"""
 		self.input_entered = True
+
+	def __up_key_pressed(self, name):
+		self.input_text.delete(0, tkinter.END)
+		self.input_text.insert(0, self.history.up())
+
+	def __down_key_pressed(self, name):
+		self.input_text.delete(0, tkinter.END)
+		self.input_text.insert(0, self.history.down())
 
 	def setStyle(self, style: str) -> None:
 		"""Set the style for console.

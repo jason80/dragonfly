@@ -39,6 +39,7 @@ class Game(ABC):
 	@title.setter
 	def title(self, title: str) -> None:
 		self.__title = title
+		dragonfly.output.Console.instance.root.title(self.__title)
 
 	@property
 	def author(self) -> str:
@@ -125,6 +126,7 @@ class Game(ABC):
 	def run(self) -> None:
 		self.__console = dragonfly.output.Console(self, self.__console_width, self.__console_height)
 		thread = threading.Thread(target=self.__work)
+		thread.setDaemon(True)
 		thread.start()
 
 	def __work(self):

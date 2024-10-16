@@ -53,19 +53,24 @@ export class Output {
 	static append(message, style) {
 		const lastP = Output.outputDiv.lastChild;
 
-		// Si existe un <p>, agregar el nuevo texto
+		// Si existe un <p>, agregar un nuevo nodo de texto al final
 		if (lastP && lastP.tagName === 'P') {
-			lastP.textContent += " " + message;
-		  
+			
+			const span = document.createElement('span');
+			span.textContent = " " + message;
+
 			if (style !== undefined) {
+		
 				if (typeof style === "object") {
-					Object.assign(lastP.style, style);
+					Object.assign(span.style, style);
 				} else {
-					lastP.className = style;
+					span.className = style;
 				}
+
 			}
+			
+			lastP.appendChild(span);
 		} else {
-			// Si no hay ningún <p>, crear uno nuevo
 			Output.print(message, style);
 		}
 	

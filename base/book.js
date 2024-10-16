@@ -56,8 +56,13 @@ export class Book {
 	 * @memberof Book
 	 */
 	init() {
-		Output.append("Hola");
-		Output.append("Que tal", { color: "red", fontSize: "20px" } );
+		Output.append("Rojo", { color: "red" });
+		Output.append("Verde", { color: "green" });
+		Output.append("Azúl", { color: "blue" });
+
+		Output.print("Rojo", { color: "red" });
+		Output.print("Verde", { color: "green" });
+		Output.print("Azúl", { color: "blue" });
 	}
 
 	/**

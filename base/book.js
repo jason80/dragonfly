@@ -18,13 +18,18 @@ export class Book {
 
 		this.dictionary = null;
 		this.parser = null;
-		Output.init(outputID);
+		Output.init(this, outputID);
 
 		this.properties = {
-			"show-parsing-process": "false",
+			"show-parsing-process": false,
 			"look-around": "never",
-			"hide-title": "false",
-			"player": ""
+			"hide-title": false,
+			"player": "",
+			"text-style": {
+				fontFamily: 'Georgia, serif',
+				fontSize: '14px',
+				color: '#333'
+			}
 		};
 	}
 
@@ -32,7 +37,7 @@ export class Book {
 	 * Establece el valor de una propiedad global.
 	 *
 	 * @param {string} name Nombre de la propiedad.
-	 * @param {string} value Valor de la propiedad.
+	 * @param {*} value Valor de la propiedad.
 	 * @memberof Book
 	 */
 	setProperty(name, value) {
@@ -43,7 +48,7 @@ export class Book {
 	 * Devuelve el valor de una propiedad global.
 	 *
 	 * @param {string} name nombre de la propiedad.
-	 * @return {string} el valor de la propiedad.
+	 * @return {*} el valor de la propiedad.
 	 * @memberof Book
 	 */
 	getProperty(name) {
@@ -63,6 +68,8 @@ export class Book {
 		Output.print("Rojo", { color: "red" });
 		Output.print("Verde", { color: "green" });
 		Output.print("Azúl", { color: "blue" });
+
+		Output.print("Estilo por defecto");
 	}
 
 	/**

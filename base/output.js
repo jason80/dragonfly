@@ -1,3 +1,5 @@
+import { Book } from "./book.js";
+
 /**
  * Control de la salida del juego.
  *
@@ -10,11 +12,40 @@ export class Output {
 	 * Inicializa la salida con el div que la representa.
 	 *
 	 * @static
-	 * @param {string} output
+	 * @param {Book} book Instancia del juego actual.
+	 * @param {string} output Salida principal del juego.
 	 * @memberof Output
 	 */
-	static init(output) {
+	static init(book, output) {
 		Output.outputDiv = document.getElementById(output);
+		Output.book = book;
+	}
+
+	/**
+	 *
+	 *
+	 * @static Aplica el estilo al elemento dado.
+	 * @param {*} element elemento a aplicar el estilo.
+	 * @param {*} style estilo a aplicar.
+	 * @memberof Output
+	 */
+	static #applyStyle(element, style) {
+
+		const defStyle = Output.book.getProperty("text-style");
+		if (defStyle !== undefined) {
+			if (typeof defStyle === "object") {
+				Object.assign(element.style, defStyle);
+			} else {
+				element.className = defStyle;
+			}
+		}
+		if (style !== undefined) {
+			if (typeof style === "object") {
+				Object.assign(element.style, style);
+			} else {
+				element.className = style;
+			}
+		}
 	}
 
 	/**
@@ -30,13 +61,7 @@ export class Output {
 		const p = document.createElement('p');
 		p.textContent = message;
 
-		if (style !== undefined) {
-			if (typeof style === "object") {
-				Object.assign(p.style, style);  // Aplica estilos en línea
-			} else {
-				p.className = style;
-			}
-		}
+		Output.#applyStyle(p, style);
 
 		Output.outputDiv.appendChild(p);
 		Output.outputDiv.scrollTop = Output.outputDiv.scrollHeight; // Desplazar hacia abajo
@@ -59,15 +84,7 @@ export class Output {
 			const span = document.createElement('span');
 			span.textContent = " " + message;
 
-			if (style !== undefined) {
-		
-				if (typeof style === "object") {
-					Object.assign(span.style, style);
-				} else {
-					span.className = style;
-				}
-
-			}
+			Output.#applyStyle(span, style);
 			
 			lastP.appendChild(span);
 		} else {

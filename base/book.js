@@ -1,4 +1,7 @@
 import { Output } from "./output.js";
+import { Parser } from "../dfml/js/main/parser.js";
+import { Node } from "../dfml/js/main/node.js";
+import { Element } from "../dfml/js/main/element.js";
 
 /** Objeto principal que contiene todo el juego.
  *
@@ -29,6 +32,20 @@ export class Book {
 				fontFamily: 'Georgia, serif',
 				fontSize: '14px',
 				color: '#333'
+			},
+			"main-title-style": {
+				fontFamily: "Georgia, serif",
+				fontWeight: "bold",
+				fontSize: '20px',
+				color: '#252',
+				textAlign: 'center'
+			},
+			"author-style": {
+				fontFamily: "Georgia, serif",
+				fontSize: '12px',
+				color: '#252',
+				textAlign: 'center',
+				fontStyle: 'italic'
 			}
 		};
 	}
@@ -61,15 +78,38 @@ export class Book {
 	 * @memberof Book
 	 */
 	init() {
-		Output.append("Rojo", { color: "red" });
-		Output.append("Verde", { color: "green" });
-		Output.append("Azúl", { color: "blue" });
+		// Muestra el título
+		Output.print(this.title, this.getProperty("main-title-style"));
+		Output.print(this.author, this.getProperty("author-style"));
+	}
 
-		Output.print("Rojo", { color: "red" });
-		Output.print("Verde", { color: "green" });
-		Output.print("Azúl", { color: "blue" });
 
-		Output.print("Estilo por defecto");
+	/**
+	 * Carga un archivo dfml.
+	 *
+	 * @param {string} path Ruta del archivo a cargar.
+	 * @return {Promise} Promesa que se resuelve cuando el archivo ha sido cargado y parseado.
+	 * @memberof Book
+	 */
+	include(path) {
+		return fetch(path).then(response => {
+			if (!response.ok) {
+				throw new Error(`Loading "${path}" failed.`);
+			}
+			return response.text();
+		})
+		.then(data => {
+			const parser = new Parser(data);
+			
+			parser.parse().forEach(e => {
+				if (e.getElementType() === Element.NODE) {
+					if (e.getName() === "book") this.#load(e);
+				}
+			});
+
+		}).catch(error => {
+			console.error(error);
+		});
 	}
 
 	/**
@@ -79,5 +119,16 @@ export class Book {
 	 */
 	run() {
 		this.init();
+	}
+
+	/**
+	 * Carga la información del libro desde el nodo dfml.
+	 *
+	 * @param {Node} node
+	 * @memberof Book
+	 */
+	#load(node) {
+		this.title = node.getAttr("title").getValue();
+		this.author = node.getAttr("author").getValue();
 	}
 }

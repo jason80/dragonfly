@@ -1,4 +1,5 @@
 import { Output } from "./output.js";
+import { Dictionary } from "./dictionary.js";
 import { Parser } from "../dfml/js/main/parser.js";
 import { Node } from "../dfml/js/main/node.js";
 import { Element } from "../dfml/js/main/element.js";
@@ -19,7 +20,7 @@ export class Book {
 		this.title;
 		this.author;
 
-		this.dictionary = null;
+		this.dictionary = new Dictionary(this);
 		this.parser = null;
 		Output.init(this, outputID);
 
@@ -104,6 +105,7 @@ export class Book {
 			parser.parse().forEach(e => {
 				if (e.getElementType() === Element.NODE) {
 					if (e.getName() === "book") this.#load(e);
+					else this.dictionary.load(e);
 				}
 			});
 

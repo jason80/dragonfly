@@ -3,7 +3,9 @@ import { Book } from "../base/book.js";
 window.onload = function() {
 	const book = new Book("console");
 
-	book.include("test.dfml").then(() => {
-		book.run();
+	book.include("../templates/dict-es.dfml").then(() => {
+		book.include("test.dfml").then(() => {
+			book.run();
+		});
 	});
 }

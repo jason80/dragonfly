@@ -1,5 +1,5 @@
-import { Node } from "../dfml/js/main/node.js";
-import { Value } from "../dfml/js/main/value.js"
+import { DFMLNode } from "../dfml/js/main/node.js";
+import { DFMLValue } from "../dfml/js/main/value.js"
 
 /**
  * Female-Plural representation of the nouns. Can be definited of indefinited
@@ -21,9 +21,9 @@ export class Article {
 	}
 
 	/**
-	 * Load the article from xml element.
+	 * Load the article from dfml element.
 	 *
-	 * @param {Node} node the dfml node.
+	 * @param {DFMLNode} node the dfml node.
 	 * @memberof Article
 	 */
 	load(node) {

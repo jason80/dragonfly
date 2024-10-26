@@ -1,6 +1,6 @@
-import { Element } from "../dfml/js/main/element.js";
+//import { Element } from "../dfml/js/main/element.js";
 
-import { Node } from "../dfml/js/main/node.js";
+//import { Node } from "../dfml/js/main/node.js";
 
 /**
  * Nouns represents the objects of the game. Can be contained by other nouns.

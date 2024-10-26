@@ -1,8 +1,7 @@
 import { Output } from "./output.js";
 import { Dictionary } from "./dictionary.js";
-import { Parser } from "../dfml/js/main/parser.js";
-import { Node } from "../dfml/js/main/node.js";
-import { Element } from "../dfml/js/main/element.js";
+import { DFMLParser } from "../dfml/js/main/parser.js";
+import { DFMLNode } from "../dfml/js/main/node.js";
 
 /** Objeto principal que contiene todo el juego.
  *
@@ -100,12 +99,12 @@ export class Book {
 			return response.text();
 		})
 		.then(data => {
-			const parser = new Parser(data);
+			const parser = new DFMLParser(data);
 			
 			parser.parse().forEach(e => {
 				if (e.getElementType() === Element.NODE) {
 					if (e.getName() === "book") this.#load(e);
-					else this.dictionary.load(e);
+					else if (e.getName() === "dictionary") this.dictionary.load(e);
 				}
 			});
 
@@ -126,7 +125,7 @@ export class Book {
 	/**
 	 * Carga la información del libro desde el nodo dfml.
 	 *
-	 * @param {Node} node
+	 * @param {DFMLNode} node
 	 * @memberof Book
 	 */
 	#load(node) {

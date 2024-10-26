@@ -1,7 +1,7 @@
 import { Book } from "./book.js";
 
-import { Node } from "../dfml/js/main/node.js";
-import { Article } from "./article.js";
+//import { Node } from "../dfml/js/main/node.js";
+//import { Article } from "./article.js";
 import { Noun } from "./noun.js";
 
 /**
@@ -21,6 +21,26 @@ export class Dictionary {
 
 		this.articles = [];
 		this.nouns = [];
+		this.verbs = [];
+	}
+
+	/**
+	 * Returns the verbs that match the given name. 
+	 * If the name is empty, returns all of them.
+	 *
+	 * @param {string} [name=""] name of the verb.
+	 * @return {Array.<Verb>} list of verbs.
+	 * @memberof Dictionary
+	 */
+	getVerbs(name = "") {
+		if (name === "") return this.verbs;
+
+		let result = [];
+		this.verbs.array.forEach(v => {
+			if (v.responds(name)) result.push(v);
+		});
+
+		return result;
 	}
 
 	/**
@@ -30,11 +50,11 @@ export class Dictionary {
 	 * @memberof Dictionary
 	 */
 	load(node) {
-		if (node.getName() === "article") {
+		/*if (node.getName() === "article") {
 			const article = new Article();
 			article.load(node);
 			this.articles.push(article);
-		} else if (node.getName() === "noun") {
+		} else*/ if (node.getName() === "noun") {
 			const noun = new Noun();
 			noun.load(node);
 			this.nouns.push(noun);

@@ -19,11 +19,6 @@ dictionary {
 		response(id: "unknown-verb", string: "No sé lo que estás diciendo.")
 	}
 
-	verb(names: "fin, finalizar, finaliza, terminar, termina, final, acaba, acabar, concluye, concluir, quit, q",
-			action: "Quit") {
-		response(id: "syntax-fail", string: "Solo escribe 'fin' para salir.")
-	}
-
 	verb(names: "limpiar, borrar, limpia, borra, clear, cls", action: "Clear")
 
 	verb(names: "guardar, guarda, salvar, salva, save", action: "SaveGame") {

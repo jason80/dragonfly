@@ -1,9 +1,5 @@
 import { Entity } from "./entity.js";
-import * as actions from "./actions.js";
-
-import { Node } from "../dfml/js/main/node.js";
-
-
+import { DFMLNode } from "../dfml/js/main/node.js";
 
 /**
  * Represents the multi-name command wich is associated to Action.
@@ -14,6 +10,7 @@ import { Node } from "../dfml/js/main/node.js";
  */
 export class Verb extends Entity {
 	constructor() {
+		super();
 		this.action = null;
 		this.syntax = [];
 		this.responses = {};
@@ -22,24 +19,30 @@ export class Verb extends Entity {
 	/**
 	 * Load verb from dfml node.
 	 *
-	 * @param {Node} node
+	 * @param {DFMLNode} node
 	 * @memberof Verb
 	 */
 	load(node) {
 		super.load(node);
 
-		const actionString = node.getAttr("action");
-		this.action = eval(`new actions.${actionString}()`);
-		// TODO: handle forname error
+		import('./actions.js').then((module) => {
+			const actionClassName = node.getAttr("action").getValue();
+			const actionClass = module[actionClassName];
+			this.action = new actionClass();
+			this.action.book = this.book;
+			this.action.Verb = this;
+		}).catch(error => {
+			console.error("Class not found:", error);
+		});
 
-		if (node.hasAttribute("syntax")) {
+		if (node.hasAttr("syntax")) {
 			node.getAttr("syntax").getValue().split().forEach(n => {
-				self.syntax.append(member.strip());
+				this.syntax.push(n.trim());
 			});
 		}
 
 		// Responses
-		node.children.forEach(e => {
+		node.children.forEach((e) => {
 			if (e.getElementType() === Element.NODE) {
 				if (e.getName() === "response") {
 					this.setResponse(e.getAttr("id").getValue(), 
@@ -48,5 +51,16 @@ export class Verb extends Entity {
 			}
 		});
 
+	}
+
+	/**
+	 * Verb string description.
+	 * @return {string} string of the entity.
+	 *
+	 * @memberof Verb 
+	 */
+	toString() {
+		console.log(this.names);
+		return `${super.toString()} [${this.action.constructor.name}]`;
 	}
 };

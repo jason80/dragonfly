@@ -1,5 +1,5 @@
-import { Node } from "../dfml/js/main/node.js";
-import { Value } from "../dfml/js/main/value.js";
+import { DFMLNode } from "../dfml/js/main/node.js";
+import { DFMLValue } from "../dfml/js/main/value.js";
 
 /**
  * Base of the nouns, verbs and exits.
@@ -10,15 +10,15 @@ import { Value } from "../dfml/js/main/value.js";
  */
 export class Entity {
 	constructor() {
-		self.names = [];
-		self.book = null;
-		self.dictionary = null;
+		this.names = [];
+		this.book = null;
+		this.dictionary = null;
 	}
 
 	/**
 	 * Returns true if the entity responds to the name.
 	 *
-	 * @param {*} name name to compare.
+	 * @param {string} name name to compare.
 	 * @return {boolean} true if the entity responds to the name.
 	 * @memberof Entity
 	 */
@@ -49,9 +49,19 @@ export class Entity {
 	 * @memberof Entity
 	 */
 	load(node) {
-		self.names = [];
+		this.names = [];
 		node.getAttr("names").getValue().split().forEach(n => {
-			self.names.push(n.trim());
+			this.names.push(n.trim());
 		});
+	}
+
+	/**
+	 * Entity string description.
+	 *
+	 * @return {string} string of the entity.
+	 * @memberof Entity
+	 */
+	toString() {
+		return this.names.toString();
 	}
 }

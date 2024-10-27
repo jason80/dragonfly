@@ -1,6 +1,6 @@
-//import { Element } from "../dfml/js/main/element.js";
+import { DFMLElement } from "../dfml/js/main/element.js";
 
-//import { Node } from "../dfml/js/main/node.js";
+import { DFMLNode } from "../dfml/js/main/node.js";
 
 /**
  * Nouns represents the objects of the game. Can be contained by other nouns.
@@ -146,18 +146,18 @@ export class Noun extends Element {
 	/**
 	 * Load the noun from dfml element.
 	 *
-	 * @param {Node} node dfml element.
+	 * @param {DFMLNode} node dfml element.
 	 * @memberof Noun
 	 */
 	load(node) {
 		super.load(node);
 
 		node.getChildren().array.forEach(e => {
-			if (e.getElementType() === Element.NODE) {
+			if (e.getElementType() === DFMLElement.NODE) {
 				if (e.getName() === "set") {
 					const children = e.getChildren();
 					children.array.forEach(c => {
-						if (c.getElementType() === Element.DATA &&
+						if (c.getElementType() === DFMLElement.DATA &&
 							c.getValue().getType() === Value.STRING) {
 							this.set([ c.getValue().getValue() ]);
 						} else { /* TODO: Error */ }

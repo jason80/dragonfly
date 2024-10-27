@@ -2,6 +2,7 @@ import { Output } from "./output.js";
 import { Dictionary } from "./dictionary.js";
 import { DFMLParser } from "../dfml/js/main/parser.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
+import { DFMLElement } from "../dfml/js/main/element.js";
 
 /** Objeto principal que contiene todo el juego.
  *
@@ -81,6 +82,10 @@ export class Book {
 		// Muestra el título
 		Output.print(this.title, this.getProperty("main-title-style"));
 		Output.print(this.author, this.getProperty("author-style"));
+
+		/*this.dictionary.verbs.forEach((v) => {
+			Output.print(v.toString());
+		});*/
 	}
 
 
@@ -102,7 +107,7 @@ export class Book {
 			const parser = new DFMLParser(data);
 			
 			parser.parse().forEach(e => {
-				if (e.getElementType() === Element.NODE) {
+				if (e.getElementType() === DFMLElement.NODE) {
 					if (e.getName() === "book") this.#load(e);
 					else if (e.getName() === "dictionary") this.dictionary.load(e);
 				}

@@ -83,9 +83,11 @@ export class Book {
 		Output.print(this.title, this.getProperty("main-title-style"));
 		Output.print(this.author, this.getProperty("author-style"));
 
-		/*this.dictionary.verbs.forEach((v) => {
+		this.dictionary.verbs.forEach((v) => {
 			Output.print(v.toString());
-		});*/
+		});
+
+		Output.print(`${this.dictionary.verbs.length} verbs.`);
 	}
 
 

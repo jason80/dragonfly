@@ -1,98 +1,6 @@
-import { Action } from "./action.js"
+import { Action, DefaultAction } from "./action.js"
 
-/**
- * Single action takes no arguments. Usually represents verb like "jump", "scream".
- *	By default, SingleAction fires response: "nothing-happens"
- *
- *	Responses:
- *	nothing-happens
-
- * @export
- * @class SingleAction
- * @extends {Action}
- */
-export class SingleAction extends Action {
-
-	constructor() {
-		super();
-	}
-
-	init() {
-		return true;
-	}
-
-	check() {
-		return true;
-	}
-
-	carryOut() {
-		
-	}
-
-	report() {
-		this.fireResponse("nothing-happens");
-	}
-
-	responses() {
-		return ["nothing-happens"];
-	}
-}
-
-/**
- * DefaultAction takes one argument (direct object).
- * By default, fires response "nothing-happens"
- * Responses:
- * direct-not-found
- * direct-is-the-player
- * nothing-happens
- *
- * @export
- * @class DefaultAction
- * @extends {Action}
- */
-export class DefaultAction extends Action {
-
-	constructor() {
-		super();
-	}
-
-	init() {
-		let lst = this.game.player.children(this.parser.directObjectString);
-		lst = lst.concat(this.game.player.container.children(this.parser.directObjectString));
-
-		if (lst.length === 0) {
-			return this.fireResponse("direct-not-found");
-		}
-
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst);
-		if (!this.parser.directObject) {
-			return false;
-		}
-
-		this.sendEventLater(this.parser.directObject);
-
-		return true;
-	}
-
-	check() {
-		if (this.parser.directObject == this.game.player) {
-			return this.fireResponse("direct-is-the-player")
-		}
-		return true;
-	}
-
-	carryOut() {
-		
-	}
-
-	report() {
-		this.fireResponse("nothing-happens")
-	}
-
-	responses() {
-		return ["nothing-happens", "direct-not-found", "direct-is-the-player"]
-	}
-}
+export const actions = {};
 
 export class UnknownVerb extends Action {
 
@@ -119,7 +27,7 @@ export class UnknownVerb extends Action {
 	responses() {
 		return ["unknown-verb"]
 	}
-}
+} actions.UnknownVerb = UnknownVerb;
 
 export class Clear extends Action {
 
@@ -146,7 +54,7 @@ export class Clear extends Action {
 	responses() {
 		return []
 	}
-}
+} actions.Clear = Clear;
 
 export class SaveGame extends Action {
 
@@ -175,7 +83,7 @@ export class SaveGame extends Action {
 	responses() {
 		return ["game-saved", "cancel-error"]
 	}
-}
+} actions.SaveGame = SaveGame;
 
 export class LoadGame extends Action {
 
@@ -204,7 +112,7 @@ export class LoadGame extends Action {
 	responses() {
 		return ["game-loaded", "cancel-error"]
 	}
-}
+} actions.LoadGame = LoadGame;
 
 export class Inventory extends Action {
 
@@ -238,7 +146,7 @@ export class Inventory extends Action {
 	responses() {
 		return ["inventory-is-empty"]
 	}
-}
+} actions.Inventory = Inventory;
 
 
 export class ExamineObject extends Action {
@@ -276,7 +184,7 @@ export class ExamineObject extends Action {
 	responses() {
 		return ["direct-not-found"]
 	}
-}
+} actions.ExamineObject = ExamineObject;
 
 export class LookAround extends Action {
 
@@ -325,7 +233,7 @@ export class LookAround extends Action {
 	responses() {
 		return []
 	}
-}
+} actions.LookAround = LookAround;
 
 export class LookInside extends Action {
 
@@ -378,7 +286,7 @@ export class LookInside extends Action {
 		return ["direct-not-found", "direct-is-the-player", "direct-is-not-container",
 					"direct-is-closed", "container-is-empty"]
 	}
-}
+} actions.LookInside = LookInside;
 
 export class TakeObject extends Action {
 
@@ -425,7 +333,7 @@ export class TakeObject extends Action {
 		return ["direct-not-found", "direct-is-the-player", "direct-is-fixed",
 					"direct-is-heavy", "direct-taken"]
 	}
-}
+} actions.TakeObject = TakeObject;
 
 export class LeaveObject extends Action {
 
@@ -464,7 +372,7 @@ export class LeaveObject extends Action {
 	responses() {
 		return ["direct-not-found", "direct-left"]
 	}
-}
+} actions.LeaveObject = LeaveObject;
 
 export class TakeFrom extends Action {
 
@@ -522,7 +430,7 @@ export class TakeFrom extends Action {
 		return ["indirect-not-found", "indirect-is-not-container", "indirect-is-closed",
 					"direct-not-found", "direct-taken"]
 	}
-}
+} actions.TakeFrom = TakeFrom;
 
 export class LeaveIn extends Action {
 
@@ -580,7 +488,7 @@ export class LeaveIn extends Action {
 		return ["direct-not-found", "indirect-not-found", "indirect-is-the-player",
 					"indirect-is-not-container", "indirect-is-closed", "direct-leaved"]
 	}
-}
+} actions.LeaveIn = LeaveIn;
 
 export class PullObject extends Action {
 
@@ -620,7 +528,7 @@ export class PullObject extends Action {
 	responses() {
 		return ["direct-not-found", "direct-is-the-player", "direct-is-fixed", "nothing-happens"]
 	}
-}
+} actions.PullObject = PullObject;
 
 export class PushObject extends Action {
 
@@ -661,7 +569,7 @@ export class PushObject extends Action {
 		return ["direct-not-found", "direct-is-the-player", "direct-is-fixed",
 						"nothing-happens"]
 	}
-}
+} actions.PushObject = PushObject;
 
 
 export class OpenObject extends Action {
@@ -710,8 +618,7 @@ export class OpenObject extends Action {
 		return ["direct-not-found", "direct-is-the-player", "direct-is-not-closable",
 					"direct-is-open", "direct-was-opened"]
 	}
-}
-
+} actions.OpenObject = OpenObject;
 
 export class CloseObject extends Action {
 
@@ -759,8 +666,7 @@ export class CloseObject extends Action {
 		return ["direct-not-found", "direct-is-the-player", "direct-is-not-closable",
 						"direct-is-closed", "direct-was-closed"]
 	}
-}
-
+} actions.CloseObject = CloseObject;
 
 export class OpenWith extends Action {
 
@@ -822,8 +728,7 @@ export class OpenWith extends Action {
 		return ["direct-not-found", "direct-is-the-player", "indirect-is-the-player",
 					"direct-is-not-closable", "direct-is-open", "nothing-happens"]
 	}
-}
-
+} actions.OpenWith = OpenWith;
 
 export class CloseWith extends Action {
 
@@ -886,8 +791,7 @@ export class CloseWith extends Action {
 					"indirect-is-the-player", "direct-is-not-closable",
 							"direct-is-closed", "nothing-happens"]
 	}
-}
-
+} actions.CloseWith = CloseWith;
 
 export class GoTo extends Action {
 
@@ -941,8 +845,7 @@ export class GoTo extends Action {
 	responses() {
 		return ["exit-not-exists", "exit-not-found"]
 	}
-}
-
+} actions.GoTo = GoTo;
 
 export class Talk extends Action {
 
@@ -974,7 +877,7 @@ export class Talk extends Action {
 	responses() {
 		return ["player-says"]
 	}
-}
+} actions.Talk = Talk;
 
 export class TalkTo extends Action {
 
@@ -1017,8 +920,7 @@ export class TalkTo extends Action {
 		return ["direct-not-found", "direct-is-the-player", "direct-is-not-speaker",
 					"nothing-happens"]
 	}
-}
-
+} actions.TalkTo = TalkTo;
 
 export class GiveTo extends Action {
 
@@ -1070,46 +972,46 @@ export class GiveTo extends Action {
 		return ["direct-not-found", "indirect-not-found", "indirect-is-the-player",
 				"indirect-is-not-interactive", "given-to-indirect"]
 	}
-}
+} actions.GiveTo = GiveTo;
 
 export class ReadObject extends DefaultAction {
 	constructor() {
 		super();
 	}
-}
+} actions.ReadObject = ReadObject;
 
 export class SmokeObject extends DefaultAction {
 	constructor() {
 		super();
 	}
-}
+} actions.SmokeObject = SmokeObject;
 
 export class TurnOnObject extends DefaultAction {
 	constructor() {
 		super();
 	}
-}
+} actions.TurnOnObject = TurnOnObject;
 
 export class TurnOffObject extends DefaultAction {
 	constructor() {
 		super();
 	}
-}
+} actions.TurnOffObject = TurnOffObject;
 
 export class HitObject extends DefaultAction {
 	constructor() {
 		super();
 	}
-}
+} actions.HitObject = HitObject;
 
 export class TouchObject extends DefaultAction {
 	constructor() {
 		super();
 	}
-}
+} actions.TouchObject = TouchObject;
 
 export class PressObject extends DefaultAction {
 	constructor() {
 		super();
 	}
-}
+} actions.PressObject = PressObject;

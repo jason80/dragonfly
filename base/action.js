@@ -161,15 +161,96 @@ export class Action {
 	}
 };
 
-export class UnknownVerb extends Action {
+/**
+ * Single action takes no arguments. Usually represents verb like "jump", "scream".
+ *	By default, SingleAction fires response: "nothing-happens"
+ *
+ *	Responses:
+ *	nothing-happens
+
+ * @export
+ * @class SingleAction
+ * @extends {Action}
+ */
+ export class SingleAction extends Action {
+
 	constructor() {
 		super();
 	}
 
-	init() { return true; }
-	check() { return true; }
+	init() {
+		return true;
+	}
 
-	carryOut() { this.fireResponse("unknown-verb"); }
-	report() { }
-	responses() { return ["unknown-verb"]; }
-};
+	check() {
+		return true;
+	}
+
+	carryOut() {
+		
+	}
+
+	report() {
+		this.fireResponse("nothing-happens");
+	}
+
+	responses() {
+		return ["nothing-happens"];
+	}
+}
+
+/**
+ * DefaultAction takes one argument (direct object).
+ * By default, fires response "nothing-happens"
+ * Responses:
+ * direct-not-found
+ * direct-is-the-player
+ * nothing-happens
+ *
+ * @export
+ * @class DefaultAction
+ * @extends {Action}
+ */
+export class DefaultAction extends Action {
+
+	constructor() {
+		super();
+	}
+
+	init() {
+		let lst = this.game.player.children(this.parser.directObjectString);
+		lst = lst.concat(this.game.player.container.children(this.parser.directObjectString));
+
+		if (lst.length === 0) {
+			return this.fireResponse("direct-not-found");
+		}
+
+		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst);
+		if (!this.parser.directObject) {
+			return false;
+		}
+
+		this.sendEventLater(this.parser.directObject);
+
+		return true;
+	}
+
+	check() {
+		if (this.parser.directObject == this.game.player) {
+			return this.fireResponse("direct-is-the-player")
+		}
+		return true;
+	}
+
+	carryOut() {
+		
+	}
+
+	report() {
+		this.fireResponse("nothing-happens")
+	}
+
+	responses() {
+		return ["nothing-happens", "direct-not-found", "direct-is-the-player"]
+	}
+}

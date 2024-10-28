@@ -1,5 +1,6 @@
 import { Entity } from "./entity.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
+import { actions } from "./actions.js";
 
 /**
  * Represents the multi-name command wich is associated to Action.
@@ -25,7 +26,18 @@ export class Verb extends Entity {
 	load(node) {
 		super.load(node);
 
-		import('./actions.js').then((module) => {
+		const actionClassName = node.getAttr("action").getValue();
+		const actionClass = actions[actionClassName];
+
+		if (!actionClass) {
+			// TODO: error
+		} else {
+			this.action = new actionClass();
+			this.action.book = this.book;
+			this.action.verb = this;
+		}
+
+		/*import('./actions.js').then((module) => {
 			const actionClassName = node.getAttr("action").getValue();
 			const actionClass = module[actionClassName];
 			this.action = new actionClass();
@@ -33,7 +45,7 @@ export class Verb extends Entity {
 			this.action.Verb = this;
 		}).catch(error => {
 			console.error("Class not found:", error);
-		});
+		});*/
 
 		if (node.hasAttr("syntax")) {
 			node.getAttr("syntax").getValue().split().forEach(n => {

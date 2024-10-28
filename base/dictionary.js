@@ -1,11 +1,9 @@
 import { DFMLElement } from "../dfml/js/main/element.js";
 import { Article } from "./article.js";
 import { Book } from "./book.js";
-
-//import { Node } from "../dfml/js/main/node.js";
-//import { Article } from "./article.js";
 import { Noun } from "./noun.js";
 import { Verb } from "./verb.js";
+import { Exit } from "./exit.js";
 
 /**
  * Contains a list of nouns, verbs and exits.
@@ -25,6 +23,7 @@ export class Dictionary {
 		this.articles = [];
 		this.nouns = [];
 		this.verbs = [];
+		this.exits = [];
 	}
 
 	/**
@@ -68,14 +67,13 @@ export class Dictionary {
 					const article = new Article();
 					article.load(child);
 					this.articles.push(article);
+				} else if (child.getName() === "exit") {
+					const exit = new Exit();
+					exit.load(child);
+					this.exits.push(exit);
 				}
 			}
 		});
 
-		/*if (node.getName() === "article") {
-			const article = new Article();
-			article.load(node);
-			this.articles.push(article);
-		} else*/ 
 	}
 }

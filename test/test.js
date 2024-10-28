@@ -7,7 +7,7 @@ window.onload = function() {
 	const book = new Book("console");
 
 	button.onclick = function() {
-		book.dictionary.articles.forEach(v => {
+		book.dictionary.exits.forEach(v => {
 			Output.print(v);
 		});
 	}

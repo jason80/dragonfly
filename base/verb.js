@@ -60,7 +60,6 @@ export class Verb extends Entity {
 	 * @memberof Verb 
 	 */
 	toString() {
-		console.log(this.names);
-		return `${super.toString()} [${this.action.constructor.name}]`;
+		return `Verb: ${super.toString()} [${this.action.constructor.name}]`;
 	}
 };

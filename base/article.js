@@ -28,9 +28,19 @@ export class Article {
 	 */
 	load(node) {
 		this.name = node.getAttr("name").getValue();
-		this.female = node.getAttr("genre").getValue() === "famale";
-		this.female = node.getAttr("number").getValue() === "plural";
+		this.female = node.getAttr("genre").getValue() === "female";
+		this.plural = node.getAttr("number").getValue() === "plural";
 		this.indefinited = node.getAttr("indefinited").getValue() === "true";
+	}
+
+	/**
+	 * Article string description.
+	 * @return {string} string of the entity.
+	 *
+	 * @memberof Article 
+	 */
+	toString() {
+		return `Article: ${this.name} ${this.female ? "'female'" : "'male'"} ${this.plural ? "'plural'" : "'singular'"} ${this.indefinited ? "'indefinited'" : "'definited'"}`;
 	}
 
 }

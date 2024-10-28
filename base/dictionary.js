@@ -1,4 +1,5 @@
 import { DFMLElement } from "../dfml/js/main/element.js";
+import { Article } from "./article.js";
 import { Book } from "./book.js";
 
 //import { Node } from "../dfml/js/main/node.js";
@@ -63,6 +64,10 @@ export class Dictionary {
 					const verb = new Verb();
 					verb.load(child);
 					this.verbs.push(verb);
+				} else if (child.getName() === "article") {
+					const article = new Article();
+					article.load(child);
+					this.articles.push(article);
 				}
 			}
 		});

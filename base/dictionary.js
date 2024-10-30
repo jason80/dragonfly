@@ -38,8 +38,27 @@ export class Dictionary {
 		if (name === "") return this.verbs;
 
 		let result = [];
-		this.verbs.array.forEach(v => {
+		this.verbs.forEach(v => {
 			if (v.responds(name)) result.push(v);
+		});
+
+		return result;
+	}
+
+	/**
+	 * Returns the nouns that match the given name. 
+	 * If the name is empty, returns all of them.
+	 *
+	 * @param {string} [name=""] name of the noun.
+	 * @return {Array.<Noun>} list of nouns.
+	 * @memberof Dictionary
+	 */
+	getNouns(name = "") {
+		if (name === "") return this.nouns;
+
+		let result = [];
+		this.nouns.forEach(n => {
+			if (n.responds(name)) result.push(n);
 		});
 
 		return result;

@@ -1,5 +1,6 @@
 import { Output } from "./output.js";
 import { Dictionary } from "./dictionary.js";
+import { Parser } from "./parser.js";
 import { DFMLParser } from "../dfml/js/main/parser.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
@@ -17,16 +18,18 @@ export class Book {
 	 * @memberof Book
 	 */
 	constructor(outputID) {
-		this.title;
-		this.author;
+		this.title = "";
+		this.author = "";
+
+		this.player = "";
 
 		this.dictionary = new Dictionary(this);
-		this.parser = null;
+		this.parser = new Parser(this);
 		Output.init(this, outputID);
 
 		this.properties = {
 			"show-parsing-process": false,
-			"look-around": "never",
+			"look-around": "always",
 			"hide-title": false,
 			"player": "",
 			"text-style": {
@@ -74,24 +77,6 @@ export class Book {
 	}
 
 	/**
-	 * Inicializa el juego.
-	 *
-	 * @memberof Book
-	 */
-	init() {
-		// Muestra el título
-		Output.print(this.title, this.getProperty("main-title-style"));
-		Output.print(this.author, this.getProperty("author-style"));
-
-		this.dictionary.verbs.forEach((v) => {
-			Output.print(v.toString());
-		});
-
-		Output.print(`${this.dictionary.verbs.length} verbs.`);
-	}
-
-
-	/**
 	 * Carga un archivo dfml.
 	 *
 	 * @param {string} path Ruta del archivo a cargar.
@@ -106,9 +91,9 @@ export class Book {
 			return response.text();
 		})
 		.then(data => {
-			const parser = new DFMLParser(data);
+			const dfmlParser = new DFMLParser(data);
 			
-			parser.parse().forEach(e => {
+			dfmlParser.parse().forEach(e => {
 				if (e.getElementType() === DFMLElement.NODE) {
 					if (e.getName() === "book") this.#load(e);
 					else if (e.getName() === "dictionary") this.dictionary.load(e);
@@ -126,7 +111,25 @@ export class Book {
 	 * @memberof Book
 	 */
 	run() {
-		this.init();
+		this.showTitle();
+
+		this.parser.showParsingProcess = this.properties["show-parsing-process"];
+		this.player = this.properties["player"];
+
+		if (this.properties["look-around"] === "always" ||
+			this.properties["look-around"] === "on-start") {
+			const lookVerb = this.dictionary.verbByAction("LookAround");
+			this.execute(lookVerb.getName());
+		}
+	}
+
+	execute(text) {
+		this.parser.parse(text);
+	}
+
+	showTitle() {
+		Output.print(this.title, this.getProperty("main-title-style"));
+		Output.print(this.author, this.getProperty("author-style"));
 	}
 
 	/**

@@ -32,6 +32,17 @@ export class Entity {
 	}
 
 	/**
+	 * Returns the first name of the multiname property
+	 *
+	 * @return {string} the first name of the entity 
+	 * @memberof Entity
+	 */
+	getName() {
+		if (this.names.length === 0) return "";
+		return this.names[0];
+	}
+
+	/**
 	 * Add a new name at top of the list of names if it not responds to the name.
 	 *
 	 * @param {string} name name to add to list.

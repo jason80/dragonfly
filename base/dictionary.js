@@ -4,6 +4,7 @@ import { Book } from "./book.js";
 import { Noun } from "./noun.js";
 import { Verb } from "./verb.js";
 import { Exit } from "./exit.js";
+import { actions } from "./actions.js";
 
 /**
  * Contains a list of nouns, verbs and exits.
@@ -46,6 +47,29 @@ export class Dictionary {
 	}
 
 	/**
+	 * Return a first ocurrence of the verb indicating the action class name.
+	 * Action class name must be fully name (module.Class), for otherwise use 'actions'
+	 * module by default.
+	 *
+	 * @param {string} className action class name
+	 * @return {Verb} result verb 
+	 * @memberof Dictionary
+	 */
+	verbByAction(className) {
+		const actionClass = actions[className];
+
+		if (!actionClass) {
+			// TODO: error
+		}
+
+		this.verbs.forEach(v => {
+			if (v.action === actionClass) return v;
+		});
+
+		return null;
+	}
+
+	/**
 	 * Returns the nouns that match the given name. 
 	 * If the name is empty, returns all of them.
 	 *
@@ -62,6 +86,21 @@ export class Dictionary {
 		});
 
 		return result;
+	}
+
+	/**
+	 * Returns the exit that match the given name.
+	 *
+	 * @param {string} name name of the exit.
+	 * @return {Exit} the exit.
+	 * @memberof Dictionary
+	 */
+	getExit(name) {
+		this.exit.forEach(e => {
+			if (e.responds(name)) return e;
+		});
+
+		return null;
 	}
 
 	/**

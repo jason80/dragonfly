@@ -18,6 +18,19 @@ export class Verb extends Entity {
 	}
 
 	/**
+	 * Return the response indicating the if of self. The responses are quieried by the
+	 * action associated.
+	 *
+	 * @param {string} name the response's id.
+	 * @return {string} the response.
+	 * @memberof Verb
+	 */
+	getResponse(name) {
+		if (name in this.responses) return this.responses[name];
+		return "";
+	}
+
+	/**
 	 * Load verb from dfml node.
 	 *
 	 * @param {DFMLNode} node
@@ -32,20 +45,10 @@ export class Verb extends Entity {
 		if (!actionClass) {
 			// TODO: error
 		} else {
-			this.action = new actionClass();
+			this.action = actionClass;
 			this.action.book = this.book;
 			this.action.verb = this;
 		}
-
-		/*import('./actions.js').then((module) => {
-			const actionClassName = node.getAttr("action").getValue();
-			const actionClass = module[actionClassName];
-			this.action = new actionClass();
-			this.action.book = this.book;
-			this.action.Verb = this;
-		}).catch(error => {
-			console.error("Class not found:", error);
-		});*/
 
 		if (node.hasAttr("syntax")) {
 			node.getAttr("syntax").getValue().split().forEach(n => {

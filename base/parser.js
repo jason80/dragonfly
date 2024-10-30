@@ -1,3 +1,5 @@
+import { Output } from "./output";
+
 /**
  *
  *
@@ -5,245 +7,245 @@
  * @class Parser
  */
 export class Parser {
-    /**
-     * Creates an instance of Parser.
-     * @param {Book} book main book instance.
-     * @memberof Parser
-     */
-    constructor(book) {
-        this.book = book;
-        this.showParsingProcess = false;
+	/**
+	 * Creates an instance of Parser.
+	 * @param {Book} book main book instance.
+	 * @memberof Parser
+	 */
+	constructor(book) {
+		this.book = book;
+		this.showParsingProcess = false;
 
-        this.directObjectString = "";
-        this.indirectObjectString = "";
-        this.parameters = "";
-        this.directObject = null;
-        this.indirectObject = null;
-        this.keyword = "";
-    }
+		this.directObjectString = "";
+		this.indirectObjectString = "";
+		this.parameters = "";
+		this.directObject = null;
+		this.indirectObject = null;
+		this.keyword = "";
+	}
 
-    /**
-     * Main parse method.
-     *
-     * @param {string} line string line to parse.
-     * @memberof Parser
-     */
-    parse(line) {
-        const tokens = line.trim().split(" ").filter(t => t.trim());
+	/**
+	 * Main parse method.
+	 *
+	 * @param {string} line string line to parse.
+	 * @memberof Parser
+	 */
+	parse(line) {
+		const tokens = line.trim().split(" ").filter(t => t.trim());
 
-        // Empty line
-        if (!tokens.length) {
-            this.debug("token list is empty.");
-            return;
-        }
+		// Empty line
+		if (!tokens.length) {
+			this.debug("token list is empty.");
+			return;
+		}
 
-        let strVerb = tokens[0];
+		let strVerb = tokens[0];
 
-        if (strVerb.endsWith(":")) {
-            strVerb = strVerb.slice(0, -1); // Remove ":"
-        }
+		if (strVerb.endsWith(":")) {
+			strVerb = strVerb.slice(0, -1); // Remove ":"
+		}
 
-        // Filter the verbs
-        const verbs = this.dictionary.verbs(strVerb);
+		// Filter the verbs
+		const verbs = this.dictionary.getVerbs(strVerb);
 
-        // Verb not found
-        if (!verbs.length) {
-            this.debug("verbs not found.");
-            
-            // Check if the token is an exit
-            const exit = this.dictionary.exit(line.trim());
-            if (exit) {
-                this.debug(`exit: "${exit.name}" found.`);
-                const gotoVerb = this.dictionary.verbByAction("GoTo");
-                this._dObjStr = line.trim();
-                this._iObjStr = "";
+		// Verb not found
+		if (!verbs.length) {
+			this.debug("verbs not found.");
+			
+			// Check if the token is an exit
+			const exit = this.dictionary.getExit(line.trim());
+			if (exit) {
+				this.debug(`exit: "${exit.name}" found.`);
+				const gotoVerb = this.dictionary.verbByAction("GoTo");
+				this.directObjectString = line.trim();
+				this.indirectObjectString = "";
 
-                const action = new gotoVerb.action();
-                action.verb = gotoVerb;
-                action.game = this.game;
+				const action = new gotoVerb.action();
+				action.verb = gotoVerb;
+				action.game = this.game;
 
-                this.debug(`calling GoTo action on exit: "${this._dObjStr}".`);
-                action.execute();
-            } else {
-                this.debug("exit not found.");
-                this.parse("?");
-            }
-            return;
-        }
+				this.debug(`calling GoTo action on exit: "${this.directObjectString}".`);
+				action.execute();
+			} else {
+				this.debug("exit not found.");
+				this.parse("?");
+			}
+			return;
+		}
 
-        this.debug(`for ${tokens[0]}, ${verbs.length} verb(s) found, checking syntax ...`);
+		this.debug(`for ${tokens[0]}, ${verbs.length} verb(s) found, checking syntax ...`);
 
-        let action = null;
+		let action = null;
 
-        for (const v of verbs) {
-            this._dObjStr = "";
-            this._iObjStr = "";
-            this._keyword = "";
-            this._parameters = "";
+		for (const v of verbs) {
+			this.directObjectString = "";
+			this.indirectObjectString = "";
+			this.keyword = "";
+			this.parameters = "";
 
-            action = this.checkSyntax(v, tokens);
-            if (action) break; // Syntax match found
-        }
+			action = this.checkSyntax(v, tokens);
+			if (action) break; // Syntax match found
+		}
 
-        if (!action) {
-            this.debug(`syntax check fails: "${tokens[0]}".`);
+		if (!action) {
+			this.debug(`syntax check fails: "${tokens[0]}".`);
 
-            const response = verbs[0].getResponse("syntax-fail").trim();
-            if (response) {
-                Console.println(response);
-            } else {
-                this.game.execute("?");
-            }
-            return;
-        }
+			const response = verbs[0].getResponse("syntax-fail").trim();
+			if (response === "") {
+				Output.print(response);
+			} else {
+				this.game.execute("?");
+			}
+			return;
+		}
 
-        this._dObjStr = this.cleanArticles(this._dObjStr);
-        this._iObjStr = this.cleanArticles(this._iObjStr);
+		this.directObjectString = this.cleanArticles(this.directObjectString);
+		this.indirectObjectString = this.cleanArticles(this.indirectObjectString);
 
-        this.debug(`executing action: "${action.constructor.name}".`);
+		this.debug(`executing action: "${action.constructor.name}".`);
 
-        if (this._showParsingProcess) {
-            if (this._dObjStr) {
-                let msg = `Params 1=${this._dObjStr}`;
-                if (this._iObjStr) {
-                    msg += `, 2=${this._iObjStr}.`;
-                }
-                this.debug(msg);
-            }
-        }
+		if (this.showParsingProcess) {
+			if (this.directObjectString) {
+				let msg = `Params 1=${this.directObjectString}`;
+				if (this.indirectObjectString) {
+					msg += `, 2=${this.indirectObjectString}.`;
+				}
+				this.debug(msg);
+			}
+		}
 
-        action.execute();
-    }
+		action.execute();
+	}
 
-    checkSyntax(verb, tokens) {
-        const action = new verb.action();
-        action.game = this._game;
-        action.verb = verb;
+	checkSyntax(verb, tokens) {
+		const action = new verb.action();
+		action.book = this.book;
+		action.verb = verb;
 
-        const syntax = verb.syntax;
+		const syntax = verb.syntax;
 
-        // Case 0: Multiparameter verb
-        if (syntax && syntax[syntax.length - 1] === "...") {
-            this.debug("Multiparameter verb:");
-            return this.checkMultiparameterVerb(action, tokens);
-        }
+		// Case 0: Multiparameter verb
+		if (syntax && syntax[syntax.length - 1] === "...") {
+			this.debug("Multiparameter verb:");
+			return this.checkMultiparameterVerb(action, tokens);
+		}
 
-        // Case 1: Verb without parameters
-        if (!syntax) {
-            if (tokens.length > 1) return null;
-            return action;
-        }
+		// Case 1: Verb without parameters
+		if (!syntax) {
+			if (tokens.length > 1) return null;
+			return action;
+		}
 
-        // Case 2: Wait for direct object
-        if (syntax.length === 1 && syntax[0] === "1") {
-            if (tokens.length === 1) return null;
-            this._dObjStr = tokens.slice(1).join(" ");
-            return action;
-        }
+		// Case 2: Wait for direct object
+		if (syntax.length === 1 && syntax[0] === "1") {
+			if (tokens.length === 1) return null;
+			this.directObjectString = tokens.slice(1).join(" ");
+			return action;
+		}
 
-        // Case 3: Keyword and direct object
-        if (syntax.length === 2 && syntax[1] === "1") {
-            if (tokens.length <= 1) return null;
-            if (this.checkKeyword(tokens[1], syntax[0])) {
-                this._keyword = tokens[1];
-                this._dObjStr = tokens.slice(2).join(" ");
-                return action;
-            } else {
-                return null;
-            }
-        }
+		// Case 3: Keyword and direct object
+		if (syntax.length === 2 && syntax[1] === "1") {
+			if (tokens.length <= 1) return null;
+			if (this.checkKeyword(tokens[1], syntax[0])) {
+				this.keyword = tokens[1];
+				this.directObjectString = tokens.slice(2).join(" ");
+				return action;
+			} else {
+				return null;
+			}
+		}
 
-        // Case 4: Object, keyword, object
-        if (syntax.length === 3) {
-            if (syntax[1] !== "1" && syntax[1] !== "2") {
-                let ti = 1;
-                while (ti < tokens.length && !this.checkKeyword(tokens[ti], syntax[1])) {
-                    if (syntax[0] === "1") {
-                        this._dObjStr += tokens[ti] + " ";
-                    } else {
-                        this._iObjStr += tokens[ti] + " ";
-                    }
-                    ti++;
-                }
+		// Case 4: Object, keyword, object
+		if (syntax.length === 3) {
+			if (syntax[1] !== "1" && syntax[1] !== "2") {
+				let ti = 1;
+				while (ti < tokens.length && !this.checkKeyword(tokens[ti], syntax[1])) {
+					if (syntax[0] === "1") {
+						this.directObjectString += tokens[ti] + " ";
+					} else {
+						this.indirectObjectString += tokens[ti] + " ";
+					}
+					ti++;
+				}
 
-                if (ti >= tokens.length) return null;
-                this._keyword = tokens[ti];
+				if (ti >= tokens.length) return null;
+				this.keyword = tokens[ti];
 
-                ti++;
-                while (ti < tokens.length) {
-                    if (syntax[2] === "1") {
-                        this._dObjStr += tokens[ti] + " ";
-                    } else {
-                        this._iObjStr += tokens[ti] + " ";
-                    }
-                    ti++;
-                }
+				ti++;
+				while (ti < tokens.length) {
+					if (syntax[2] === "1") {
+						this.directObjectString += tokens[ti] + " ";
+					} else {
+						this.indirectObjectString += tokens[ti] + " ";
+					}
+					ti++;
+				}
 
-                if (!this._dObjStr && syntax[2] === "1") return null;
-                if (!this._iObjStr && syntax[2] !== "1") return null;
+				if (!this.directObjectString && syntax[2] === "1") return null;
+				if (!this.indirectObjectString && syntax[2] !== "1") return null;
 
-                return action;
-            }
-        }
+				return action;
+			}
+		}
 
-        throw new Error(`Syntax error on verb: ${verb.name}.`);
-    }
+		throw new Error(`Syntax error on verb: ${verb.name}.`);
+	}
 
-    checkKeyword(keyword, kwList) {
-        return kwList.split("/").includes(keyword);
-    }
+	checkKeyword(keyword, kwList) {
+		return kwList.split("/").includes(keyword);
+	}
 
-    cleanArticles(obj) {
-        return obj.split(" ").filter(w => !this.game.dictionary.article(w)).join(" ");
-    }
+	cleanArticles(obj) {
+		return obj.split(" ").filter(w => !this.game.dictionary.article(w)).join(" ");
+	}
 
-    debug(msg) {
-        if (this._showParsingProcess) {
-            Console.println(`Parser: ${msg}`, "family: 'Courier'");
-        }
-    }
+	debug(msg) {
+		if (this.showParsingProcess) {
+			Output.print(`Parser: ${msg}`);
+		}
+	}
 
-    checkMultiparameterVerb(action, tokens) {
-        const verb = action.verb;
-        const syntax = verb.syntax;
+	checkMultiparameterVerb(action, tokens) {
+		const verb = action.verb;
+		const syntax = verb.syntax;
 
-        const joined = tokens.join(" ");
-        const pair = joined.split(":");
+		const joined = tokens.join(" ");
+		const pair = joined.split(":");
 
-        if (pair.length !== 2) {
-            this.debug("Separator ':' not found.");
-            return false;
-        }
+		if (pair.length !== 2) {
+			this.debug("Separator ':' not found.");
+			return false;
+		}
 
-        if (syntax.length === 1) {
-            if (!verb.responds(pair[0])) {
-                this.debug(`verb: '${verb.name}' is not '${pair[0]}.'`);
-                return false;
-            }
-            this._parameters = pair[1].trim();
-            this.debug(`Parameters: '${this._parameters}'.`);
-            return action;
-        }
+		if (syntax.length === 1) {
+			if (!verb.responds(pair[0])) {
+				this.debug(`verb: '${verb.name}' is not '${pair[0]}.'`);
+				return false;
+			}
+			this.parameters = pair[1].trim();
+			this.debug(`Parameters: '${this.parameters}'.`);
+			return action;
+		}
 
-        if (syntax.length === 3) {
-            const leftTokens = pair[0].split(" ");
+		if (syntax.length === 3) {
+			const leftTokens = pair[0].split(" ");
 
-            if (syntax[1] !== "1") throw new Error(`Syntax error on verb: ${verb.name}.`);
+			if (syntax[1] !== "1") throw new Error(`Syntax error on verb: ${verb.name}.`);
 
-            if (leftTokens.length < 3) return null;
+			if (leftTokens.length < 3) return null;
 
-            if (!this.checkKeyword(leftTokens[1], syntax[0])) return null;
+			if (!this.checkKeyword(leftTokens[1], syntax[0])) return null;
 
-            this._keyword = leftTokens[1];
-            this._dObjStr = leftTokens.slice(2).join(" ");
-            this._parameters = pair[1].trim();
+			this.keyword = leftTokens[1];
+			this.directObjectString = leftTokens.slice(2).join(" ");
+			this.parameters = pair[1].trim();
 
-            this.debug(`Keyword: '${this._keyword}'.`);
-            this.debug(`Parameters: '${this._parameters}'.`);
+			this.debug(`Keyword: '${this.keyword}'.`);
+			this.debug(`Parameters: '${this.parameters}'.`);
 
-            return action;
-        }
+			return action;
+		}
 
-        return null;
-    }
+		return null;
+	}
 }

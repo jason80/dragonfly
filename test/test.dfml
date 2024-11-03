@@ -13,5 +13,9 @@ dictionary {
 		}
 
 		noun(names: "jugador, player, -player")
+
+		noun(names: "linterna, luz") {
+			set { "female" }
+		}
 	}
 }

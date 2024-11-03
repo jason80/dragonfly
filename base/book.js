@@ -50,6 +50,12 @@ export class Book {
 				color: '#252',
 				textAlign: 'center',
 				fontStyle: 'italic'
+			},
+			"place-title-style": {
+				fontFamily: "Georgia, serif",
+				fontWeight: "bold",
+				fontSize: '14px',
+				color: '#505'
 			}
 		};
 	}

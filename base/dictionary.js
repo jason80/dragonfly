@@ -5,6 +5,8 @@ import { Noun } from "./noun.js";
 import { Verb } from "./verb.js";
 import { Exit } from "./exit.js";
 import { actions } from "./actions.js";
+import { ListDialog, ObjectChooserDialog, PropperListDialog,
+			loadListDialog, loadObjectChooserDialog, loadPropperListDialog } from "./dialogs.js";
 
 /**
  * Contains a list of nouns, verbs and exits.
@@ -25,6 +27,12 @@ export class Dictionary {
 		this.nouns = [];
 		this.verbs = [];
 		this.exits = [];
+
+		this.seeListDialog = new ListDialog("You can see: ", ", ", " and ");
+		this.propperListDialog = new PropperListDialog("is here", "are here", ", ", " and ");
+		this.objectChooserDialog = new ObjectChooserDialog(this, "Which one?", "Never mind.", "Please, enter the correct option.");
+		this.inventoryDialog = new ListDialog("You have: ", ", ", " and ");
+		this.lookInsideDialog = new ListDialog("Inside there is: ", ", ", " and ");
 	}
 
 	/**

@@ -134,7 +134,7 @@ export class Inventory extends Action {
 		let lst = this.book.player.childs()
 		if (lst.length === 0) { this.fireResponse("inventory-is-empty")
 		} else { 
-			this.dictionary.inventoryDialog.execute(lst)
+			this.book.dictionary.inventoryDialog.execute(lst)
 		}
 
 		this.sendEventLater(this.book.player)
@@ -163,7 +163,7 @@ export class ExamineObject extends Action {
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -206,7 +206,7 @@ export class LookAround extends Action {
 
 	carryOut() {
 		// Print the description of the place
-		Output.print(this.place.getName());
+		Output.print(this.place.getName(), this.book.getProperty("place-title-style"));
 		this.sendEventLater(this.place);
 	}
 
@@ -222,12 +222,12 @@ export class LookAround extends Action {
 
 		if (nouns.length !== 0) {
 			Output.print("")
-			this.dictionary.seeListDialog.execute(nouns);
+			this.book.dictionary.seeListDialog.execute(nouns);
 		}
 
 		if (proppers.length !== 0) {
 			Output.print("")
-			this.dictionary.propperListDialog.execute(proppers)
+			this.book.dictionary.propperListDialog.execute(proppers)
 		}
 	}
 	
@@ -249,7 +249,7 @@ export class LookInside extends Action {
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -273,7 +273,7 @@ export class LookInside extends Action {
 		if (childs.length === 0) {
 			this.fireResponse("container-is-empty")
 		} else { 
-			this.dictionary.lookInsideDialog.execute(childs)
+			this.book.dictionary.lookInsideDialog.execute(childs)
 		}
 
 		this.sendEventLater(this.parser.directObject)
@@ -300,7 +300,7 @@ export class TakeObject extends Action {
 		let lst = this.book.player.container.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -346,7 +346,7 @@ export class LeaveObject extends Action {
 		let lst = this.book.player.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -388,7 +388,7 @@ export class TakeFrom extends Action {
 
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 
-		this.parser.indirectObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.indirectObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.indirectObject) return false
 
 		this.sendEventLater(this.parser.indirectObject)
@@ -408,7 +408,7 @@ export class TakeFrom extends Action {
 		let lst = container.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		// Send the before event now
@@ -444,7 +444,7 @@ export class LeaveIn extends Action {
 		let lst = this.book.player.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		// The indirect object in the inventory or the current place (container)
@@ -452,7 +452,7 @@ export class LeaveIn extends Action {
 		lst.extend(this.book.player.container.childs(this.parser.indirectObjectString))
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 
-		this.parser.indirectObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.indirectObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.indirectObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -502,7 +502,7 @@ export class PullObject extends Action {
 		let lst = this.book.player.container.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -542,7 +542,7 @@ export class PushObject extends Action {
 		let lst = this.book.player.container.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -585,7 +585,7 @@ export class OpenObject extends Action {
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 
 		if (!this.parser.directObject) return false
 
@@ -633,7 +633,7 @@ export class CloseObject extends Action {
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 
 		if (!this.parser.directObject) return false
 
@@ -683,7 +683,7 @@ export class OpenWith extends Action {
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		// Indirect object in inventory
@@ -691,7 +691,7 @@ export class OpenWith extends Action {
 
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 
-		this.parser.indirectObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.indirectObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.indirectObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -745,7 +745,7 @@ export class CloseWith extends Action {
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		// Indirect object in inventory
@@ -753,7 +753,7 @@ export class CloseWith extends Action {
 
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 
-		this.parser.indirectObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.indirectObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.indirectObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -803,7 +803,7 @@ export class GoTo extends Action {
 	init() {
 
 		// Get exit from dictionary
-		exit = this.dictionary.exit(this.parser.directObjectString)
+		exit = this.book.dictionary.exit(this.parser.directObjectString)
 		if (!exit) return this.fireResponse("exit-not-exists")
 
 		// Get connection from dictionary
@@ -821,7 +821,7 @@ export class GoTo extends Action {
 
 	carryOut() {
 		// Get the destiny
-		let nouns = this.dictionary.nouns(this.conn.destiny)
+		let nouns = this.book.dictionary.nouns(this.conn.destiny)
 		if(nouns.length === 0) {
 			// TODO error
 			//raise DragonflyException(f'Called GoTo action from "{this.book.player.container.name}": Destiny "{this.conn.destiny}" not found on exit "{this.conn.exit}"')
@@ -832,7 +832,7 @@ export class GoTo extends Action {
 		// Visibility behavior
 		if (this.book.getProperty("look-around") === "always") {
 			// Look around verb
-			let v = this.dictionary.verbByAction("LookAround")
+			let v = this.book.dictionary.verbByAction("LookAround")
 			this.book.execute(v.name)
 		}
 		
@@ -893,7 +893,7 @@ export class TalkTo extends Action {
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		this.sendEventLater(this.parser.directObject)
@@ -934,13 +934,13 @@ export class GiveTo extends Action {
 		// Direct Object in inventory
 		let lst = this.book.player.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		// Indirect Object in the place
 		lst = this.book.player.container.childs(this.parser.indirectObjectString)
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
-		this.parser.indirectObject = this.dictionary.objectChooserDialog.execute(lst)
+		this.parser.indirectObject = this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.indirectObject) return false
 
 		this.sendEventLater(this.parser.directObject)

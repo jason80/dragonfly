@@ -1,6 +1,6 @@
 import { DFMLElement } from "../dfml/js/main/element.js";
-
 import { DFMLNode } from "../dfml/js/main/node.js";
+import { DFMLValue } from "../dfml/js/main/value.js";
 import { Action } from "./action.js";
 import { Entity } from "./entity.js";
 import { ActionEvent } from "./actionevent.js";
@@ -89,7 +89,7 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	set(values) {
-		this.attrs = new Set(...this.attrs, ...values);
+		this.attrs = new Set([...this.attrs, ...values]);
 	}
 
 	/**
@@ -209,6 +209,63 @@ export class Noun extends Entity {
 	}
 
 	/**
+	 * Construct the first name of the noun adding the definite article depending on the
+	 * gender and the number of `this`.
+	 *
+	 * @return {string} The name with the article.
+	 * @memberof Noun
+	 */
+	the() {
+        
+        let result = "";
+
+        // If it's a proper noun:
+        if (this.isSet("propper")) {
+            result = this.getName();
+        } else {
+            for (const a of this.dictionary.articles) {
+                if (a.female === this.isSet("female") && a.plural === this.isSet("plural") && !a.indefinited) {
+                    result = `${a.name} ${this.getName()}`;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+	/**
+	 * Construct the first name of the noun adding the indefinite article depending on the
+	 * gender and the number of `this`. If the noun is countless, return only the first name.
+	 *
+	 * @return {string} The name with the article.
+	 * @memberof Noun
+	 */
+	a() {
+        if (this.isSet("countless")) return this.getName();
+
+        let result = "";
+        for (const a of this.dictionary.articles) {
+            if (a.female === this.isSet("female") && a.plural === this.isSet("plural") && a.indefinited) {
+                result = `${a.name} ${this.getName()}`;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+	/**
+	 * Return the definite article if the noun is defined; otherwise, return the indefinite article.
+	 *
+	 * @return {string} The article depending on the noun.
+	 * @memberof Noun
+	 */
+	article() {
+        return this.isSet("definited") ? this.the() : this.a();
+    }
+
+	/**
 	 * Load the noun from dfml element.
 	 *
 	 * @param {DFMLNode} node dfml element.
@@ -221,9 +278,9 @@ export class Noun extends Entity {
 			if (e.getElementType() === DFMLElement.NODE) {
 				if (e.getName() === "set") {
 					const children = e.getChildren();
-					children.array.forEach(c => {
+					children.forEach(c => {
 						if (c.getElementType() === DFMLElement.DATA &&
-							c.getValue().getType() === Value.STRING) {
+							c.getValue().getType() === DFMLValue.STRING) {
 							this.set([ c.getValue().getValue() ]);
 						} else { /* TODO: Error */ }
 					});

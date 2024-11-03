@@ -16,6 +16,9 @@ dictionary {
 
 		noun(names: "linterna, luz") {
 			set { "female" }
+			after(actions: "ExamineObject") {
+				"Una linterna barata que proviene de china."
+			}
 		}
 	}
 }

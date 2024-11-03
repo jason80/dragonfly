@@ -134,7 +134,7 @@ export class Action {
 			// TODO: ERROR
 		}
 
-		Output.print(verd.getResponse(id));
+		Output.print(this.verb.getResponse(id));
 
 		return false;
 	}

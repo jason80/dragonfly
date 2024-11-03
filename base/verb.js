@@ -31,6 +31,17 @@ export class Verb extends Entity {
 	}
 
 	/**
+	 * Check if response exists.
+	 *
+	 * @param {string} id the id of the response.
+	 * @return {boolean} True if and only if the verb contains the response.
+	 * @memberof Verb
+	 */
+	hasResponse(id) {
+		return id in this.responses;
+	}
+
+	/**
 	 * Load verb from dfml node.
 	 *
 	 * @param {DFMLNode} node

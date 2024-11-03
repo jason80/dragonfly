@@ -140,6 +140,8 @@ export class Book {
 			const lookVerb = this.dictionary.verbByAction("LookAround");
 			this.execute(lookVerb.getName());
 		}
+
+		this.createInput();
 	}
 
 	execute(text) {
@@ -163,18 +165,18 @@ export class Book {
 		
 		inputContainer.appendChild(promptSpan);
 		inputContainer.appendChild(input);
-		consoleDiv.appendChild(inputContainer);
+		Output.outputDiv.appendChild(inputContainer);
 	
 		input.focus();
 		
 		// Handle user input
-		input.addEventListener('keydown', function (event) {
+		input.addEventListener('keydown', (event) => {
 		if (event.key === 'Enter') {
 			const userInput = input.value;
 			input.disabled = true;
 			
 			this.handleInput(userInput);
-			createInput();
+			this.createInput();
 		}
 		});
 	}

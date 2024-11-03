@@ -36,7 +36,7 @@ export class Dictionary {
 	 * @memberof Dictionary
 	 */
 	getVerbs(name = "") {
-		if (name === "") return this.verbs;
+		if (name === undefined || name === "") return this.verbs;
 
 		let result = [];
 		this.verbs.forEach(v => {
@@ -62,11 +62,15 @@ export class Dictionary {
 			// TODO: error
 		}
 
+		let result = null;
+
 		this.verbs.forEach(v => {
-			if (v.action === actionClass) return v;
+			if (v.action === actionClass) {
+				result = v;
+			}
 		});
 
-		return null;
+		return result;
 	}
 
 	/**
@@ -96,11 +100,21 @@ export class Dictionary {
 	 * @memberof Dictionary
 	 */
 	getExit(name) {
-		this.exit.forEach(e => {
+		this.exits.forEach(e => {
 			if (e.responds(name)) return e;
 		});
 
 		return null;
+	}
+
+	getArticle(name) {
+		let article = null;
+
+		this.articles.forEach(a => {
+			if (a.name === name) article = a;
+		});
+
+		return article;
 	}
 
 	/**
@@ -114,7 +128,9 @@ export class Dictionary {
 		node.children.forEach((child) => {
 			if (child.getElementType() === DFMLElement.NODE) {
 				if (child.getName() === "noun") {
-					const noun = new Noun();
+					const noun = new Noun(null);
+					noun.book = this.book;
+					noun.dictionary = this;
 					noun.load(child);
 					this.nouns.push(noun);
 				} else if(child.getName() === "verb") {

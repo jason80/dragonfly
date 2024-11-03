@@ -23,12 +23,15 @@ export class Entity {
 	 * @memberof Entity
 	 */
 	responds(name) {
+
+		let result = false;
+
 		this.names.forEach(n => {
-			if (n, name) return true;
+			if (n == name) result = true;
 			// TODO: helper isEquals(s1, s2)
 		});
 
-		return false;
+		return result;
 	}
 
 	/**
@@ -61,7 +64,7 @@ export class Entity {
 	 */
 	load(node) {
 		this.names = [];
-		node.getAttr("names").getValue().split().forEach(n => {
+		node.getAttr("names").getValue().split(',').forEach(n => {
 			this.names.push(n.trim());
 		});
 	}

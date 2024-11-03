@@ -1,4 +1,5 @@
 import { Action, DefaultAction } from "./action.js"
+import { Output } from "./output.js";
 
 export const actions = {};
 
@@ -71,7 +72,7 @@ export class SaveGame extends Action {
 	}
 
 	carryOut() {
-		if (this.game.saveGame()) {
+		if (this.book.saveGame()) {
 			this.fireResponse("game-saved")
 		} else {  this.fireResponse("cancel-error") }
 	}
@@ -100,7 +101,7 @@ export class LoadGame extends Action {
 	}
 
 	carryOut() {
-		if (this.game.loadGame()) {
+		if (this.book.loadGame()) {
 			this.fireResponse("game-loaded")
 		} else {  this.fireResponse("cancel-error") }
 	}
@@ -121,7 +122,7 @@ export class Inventory extends Action {
 	}
 
 	init() {
-		this.sendEventLater(this.game.player)
+		this.sendEventLater(this.book.player)
 		return true;
 	}
 
@@ -130,13 +131,13 @@ export class Inventory extends Action {
 	}
 
 	carryOut() {
-		let lst = this.game.player.childs()
+		let lst = this.book.player.childs()
 		if (lst.length === 0) { this.fireResponse("inventory-is-empty")
 		} else { 
 			this.dictionary.inventoryDialog.execute(lst)
 		}
 
-		this.sendEventLater(this.game.player)
+		this.sendEventLater(this.book.player)
 	}
 
 	report() {
@@ -157,8 +158,8 @@ export class ExamineObject extends Action {
 
 	init() {
 
-		let lst = this.game.player.childs(this.parser.directObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.directObjectString))
+		let lst = this.book.player.childs(this.parser.directObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.directObjectString))
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
@@ -193,7 +194,7 @@ export class LookAround extends Action {
 	}
 
 	init() {
-		this.place = this.game.player.container
+		this.place = this.book.player.container
 		this.sendEventLater(this.place)
 
 		return true;
@@ -205,15 +206,15 @@ export class LookAround extends Action {
 
 	carryOut() {
 		// Print the description of the place
-		Output.print(this.place.name, "bold: true")
-		this.sendEventLater(this.place)
+		Output.print(this.place.getName());
+		this.sendEventLater(this.place);
 	}
 
 	report() {
-		nouns = []
-		proppers = []
+		let nouns = []
+		let proppers = []
 		this.place.children().forEach(n => {
-			if (n === this.game.player) return;
+			if (n === this.book.player) return;
 			if (n.isSet("scene")) return;
 			if (n.isSet("propper")) proppers.push(n);
 			else nouns.push(n);
@@ -243,8 +244,8 @@ export class LookInside extends Action {
 
 	init() {
 
-		let lst = this.game.player.childs(this.parser.directObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.directObjectString))
+		let lst = this.book.player.childs(this.parser.directObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.directObjectString))
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
@@ -257,7 +258,7 @@ export class LookInside extends Action {
 	}
 
 	check() {
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
 		if (!this.parser.directObject.isSet("container"))
 			return this.fireResponse("direct-is-not-container")
@@ -296,7 +297,7 @@ export class TakeObject extends Action {
 
 	init() {
 		// Get the object from the current place
-		let lst = this.game.player.container.childs(this.parser.directObjectString)
+		let lst = this.book.player.container.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
 		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
@@ -308,7 +309,7 @@ export class TakeObject extends Action {
 	}
 
 	check() {
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
 		if (this.parser.directObject.isSet("fixed"))
 			return this.fireResponse("direct-is-fixed")
@@ -320,7 +321,7 @@ export class TakeObject extends Action {
 
 	carryOut() {
 		// Move the DO to player's inventory
-		this.parser.directObject.container = this.game.player
+		this.parser.directObject.container = this.book.player
 		this.parser.directObject.set(["taken"])
 		this.sendEventLater(this.parser.directObject)
 	}
@@ -342,7 +343,7 @@ export class LeaveObject extends Action {
 	}
 
 	init() {
-		let lst = this.game.player.childs(this.parser.directObjectString)
+		let lst = this.book.player.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
 		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
@@ -359,7 +360,7 @@ export class LeaveObject extends Action {
 
 	carryOut() {
 		noun = this.parser.directObject
-		noun.container = this.game.player.container
+		noun.container = this.book.player.container
 		noun.set(["leaved"])
 
 		this.sendEventLater(noun)
@@ -382,8 +383,8 @@ export class TakeFrom extends Action {
 
 	init() {
 
-		let lst = this.game.player.childs(this.parser.indirectObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.indirectObjectString))
+		let lst = this.book.player.childs(this.parser.indirectObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.indirectObjectString))
 
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 
@@ -416,7 +417,7 @@ export class TakeFrom extends Action {
 
 	carryOut() {
 		// Move the noun to the player's inventory
-		this.parser.directObject.container = this.game.player
+		this.parser.directObject.container = this.book.player
 		this.parser.directObject.set(["taken"])
 		this.sendEventLater(this.parser.indirectObject)
 		this.sendEventLater(this.parser.directObject)
@@ -440,15 +441,15 @@ export class LeaveIn extends Action {
 
 	init() {
 		// The direct object in inventory (object)
-		let lst = this.game.player.childs(this.parser.directObjectString)
+		let lst = this.book.player.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
 		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		// The indirect object in the inventory or the current place (container)
-		lst = this.game.player.childs(this.parser.indirectObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.indirectObjectString))
+		lst = this.book.player.childs(this.parser.indirectObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.indirectObjectString))
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 
 		this.parser.indirectObject = this.dictionary.objectChooserDialog.execute(lst)
@@ -462,7 +463,7 @@ export class LeaveIn extends Action {
 
 	check() {
 
-		if (this.parser.indirectObject == this.game.player)
+		if (this.parser.indirectObject == this.book.player)
 			return this.fireResponse("indirect-is-the-player")
 		if (!this.parser.indirectObject.isSet("container"))
 			return this.fireResponse("indirect-is-not-container")
@@ -498,7 +499,7 @@ export class PullObject extends Action {
 
 	init() {
 
-		let lst = this.game.player.container.childs(this.parser.directObjectString)
+		let lst = this.book.player.container.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
 		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
@@ -510,7 +511,7 @@ export class PullObject extends Action {
 	}
 
 	check() {
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
 		if (this.parser.directObject.isSet("fixed"))
 			return this.fireResponse("direct-is-fixed")
@@ -538,7 +539,7 @@ export class PushObject extends Action {
 
 	init() {
 
-		let lst = this.game.player.container.childs(this.parser.directObjectString)
+		let lst = this.book.player.container.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
 		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
@@ -550,7 +551,7 @@ export class PushObject extends Action {
 	}
 
 	check() {
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
 		if (this.parser.directObject.isSet("fixed"))
 			return this.fireResponse("direct-is-fixed")
@@ -579,8 +580,8 @@ export class OpenObject extends Action {
 	}
 
 	init() {
-		let lst = this.game.player.childs(this.parser.directObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.directObjectString))
+		let lst = this.book.player.childs(this.parser.directObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.directObjectString))
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
@@ -595,7 +596,7 @@ export class OpenObject extends Action {
 
 	check() {
 
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
 		if (!this.parser.directObject.isSet("closable"))
 			return this.fireResponse("direct-is-not-closable")
@@ -627,8 +628,8 @@ export class CloseObject extends Action {
 	}
 
 	init() {
-		let lst = this.game.player.childs(this.parser.directObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.directObjectString))
+		let lst = this.book.player.childs(this.parser.directObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.directObjectString))
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
@@ -643,7 +644,7 @@ export class CloseObject extends Action {
 
 	check() {
 
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
 		if (!this.parser.directObject.isSet("closable"))
 			return this.fireResponse("direct-is-not-closable")
@@ -677,8 +678,8 @@ export class OpenWith extends Action {
 	init() {
 
 		// Direct object in inventory or current place
-		let lst = this.game.player.childs(this.parser.directObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.directObjectString))
+		let lst = this.book.player.childs(this.parser.directObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.directObjectString))
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
@@ -686,7 +687,7 @@ export class OpenWith extends Action {
 		if (!this.parser.directObject) return false
 
 		// Indirect object in inventory
-		lst = this.game.player.childs(this.parser.indirectObjectString)
+		lst = this.book.player.childs(this.parser.indirectObjectString)
 
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 
@@ -701,9 +702,9 @@ export class OpenWith extends Action {
 
 	check() {
 
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
-		if (this.parser.indirectObject == this.game.player)
+		if (this.parser.indirectObject == this.book.player)
 			return this.fireResponse("indirect-is-the-player")
 
 		if (!this.parser.directObject.isSet("closable"))
@@ -739,8 +740,8 @@ export class CloseWith extends Action {
 	init() {
 
 		// Direct object in inventory or current place
-		let lst = this.game.player.childs(this.parser.directObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.directObjectString))
+		let lst = this.book.player.childs(this.parser.directObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.directObjectString))
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
@@ -748,7 +749,7 @@ export class CloseWith extends Action {
 		if (!this.parser.directObject) return false
 
 		// Indirect object in inventory
-		lst = this.game.player.childs(this.parser.indirectObjectString)
+		lst = this.book.player.childs(this.parser.indirectObjectString)
 
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 
@@ -763,9 +764,9 @@ export class CloseWith extends Action {
 
 	check() {
 
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
-		if (this.parser.indirectObject == this.game.player)
+		if (this.parser.indirectObject == this.book.player)
 			return this.fireResponse("indirect-is-the-player")
 
 		if (!this.parser.directObject.isSet("closable"))
@@ -806,10 +807,10 @@ export class GoTo extends Action {
 		if (!exit) return this.fireResponse("exit-not-exists")
 
 		// Get connection from dictionary
-		this.conn = this.game.player.container.connection(exit)
+		this.conn = this.book.player.container.connection(exit)
 		if (!this.conn) return this.fireResponse("exit-not-found")
 
-		this.sendEventLater(this.game.player.container)
+		this.sendEventLater(this.book.player.container)
 
 		return true;
 	}
@@ -823,19 +824,19 @@ export class GoTo extends Action {
 		let nouns = this.dictionary.nouns(this.conn.destiny)
 		if(nouns.length === 0) {
 			// TODO error
-			//raise DragonflyException(f'Called GoTo action from "{this.game.player.container.name}": Destiny "{this.conn.destiny}" not found on exit "{this.conn.exit}"')
+			//raise DragonflyException(f'Called GoTo action from "{this.book.player.container.name}": Destiny "{this.conn.destiny}" not found on exit "{this.conn.exit}"')
 		}
 		// Move the player
-		this.game.player.container = nouns[0]
+		this.book.player.container = nouns[0]
 
 		// Visibility behavior
-		if (this.game.getProperty("look-around") === "always") {
+		if (this.book.getProperty("look-around") === "always") {
 			// Look around verb
 			let v = this.dictionary.verbByAction("LookAround")
-			this.game.execute(v.name)
+			this.book.execute(v.name)
 		}
 		
-		this.sendEventLater(this.game.player.container)
+		this.sendEventLater(this.book.player.container)
 	}
 
 	report() {
@@ -854,7 +855,7 @@ export class Talk extends Action {
 	}
 
 	init() {
-		this.place = this.game.player.container
+		this.place = this.book.player.container
 		this.sendEventLater(this.place)
 
 		return true;
@@ -887,8 +888,8 @@ export class TalkTo extends Action {
 
 	init() {
 		// Direct object in inventory or current place
-		let lst = this.game.player.childs(this.parser.directObjectString)
-		lst.extend(this.game.player.container.childs(this.parser.directObjectString))
+		let lst = this.book.player.childs(this.parser.directObjectString)
+		lst.extend(this.book.player.container.childs(this.parser.directObjectString))
 
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
@@ -901,7 +902,7 @@ export class TalkTo extends Action {
 	}
 	
 	check() {
-		if (this.parser.directObject == this.game.player)
+		if (this.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
 		if (!this.parser.directObject.isSet("speaker"))
 			return this.fireResponse("direct-is-not-speaker")
@@ -931,13 +932,13 @@ export class GiveTo extends Action {
 	init() {
 
 		// Direct Object in inventory
-		let lst = this.game.player.childs(this.parser.directObjectString)
+		let lst = this.book.player.childs(this.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.directObject) return false
 
 		// Indirect Object in the place
-		lst = this.game.player.container.childs(this.parser.indirectObjectString)
+		lst = this.book.player.container.childs(this.parser.indirectObjectString)
 		if (lst.length === 0) return this.fireResponse("indirect-not-found")
 		this.parser.indirectObject = this.dictionary.objectChooserDialog.execute(lst)
 		if (!this.parser.indirectObject) return false
@@ -949,7 +950,7 @@ export class GiveTo extends Action {
 	}
 
 	check() {
-		if (this.game.player == this.parser.indirectObject)
+		if (this.book.player == this.parser.indirectObject)
 			return this.fireResponse("indirect-is-the-player")
 		if (!this.parser.indirectObject.isSet("interactive"))
 			return this.fireResponse("indirect-is-not-interactive")

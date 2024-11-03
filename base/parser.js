@@ -1,4 +1,4 @@
-import { Output } from "./output";
+import { Output } from "./output.js";
 
 /**
  *
@@ -46,14 +46,14 @@ export class Parser {
 		}
 
 		// Filter the verbs
-		const verbs = this.dictionary.getVerbs(strVerb);
+		const verbs = this.book.dictionary.getVerbs(strVerb);
 
 		// Verb not found
 		if (!verbs.length) {
 			this.debug("verbs not found.");
 			
 			// Check if the token is an exit
-			const exit = this.dictionary.getExit(line.trim());
+			const exit = this.book.dictionary.getExit(line.trim());
 			if (exit) {
 				this.debug(`exit: "${exit.name}" found.`);
 				const gotoVerb = this.dictionary.verbByAction("GoTo");
@@ -125,13 +125,13 @@ export class Parser {
 		const syntax = verb.syntax;
 
 		// Case 0: Multiparameter verb
-		if (syntax && syntax[syntax.length - 1] === "...") {
+		if (syntax.length !== 0 && syntax[syntax.length - 1] === "...") {
 			this.debug("Multiparameter verb:");
 			return this.checkMultiparameterVerb(action, tokens);
 		}
 
 		// Case 1: Verb without parameters
-		if (!syntax) {
+		if (syntax.length === 0) {
 			if (tokens.length > 1) return null;
 			return action;
 		}
@@ -196,7 +196,7 @@ export class Parser {
 	}
 
 	cleanArticles(obj) {
-		return obj.split(" ").filter(w => !this.game.dictionary.article(w)).join(" ");
+		return obj.split(" ").filter(w => !this.book.dictionary.getArticle(w)).join(" ");
 	}
 
 	debug(msg) {

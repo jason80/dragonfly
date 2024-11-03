@@ -21,7 +21,7 @@ export class Book {
 		this.title = "";
 		this.author = "";
 
-		this.player = "";
+		this.player = null;
 
 		this.dictionary = new Dictionary(this);
 		this.parser = new Parser(this);
@@ -114,7 +114,20 @@ export class Book {
 		this.showTitle();
 
 		this.parser.showParsingProcess = this.properties["show-parsing-process"];
-		this.player = this.properties["player"];
+		
+		if (this.properties["player"] === "") {
+			//TODO: ERROR
+			return ;
+		}
+
+		const plList = this.dictionary.getNouns(this.properties["player"]);
+		if (plList.length === 0) {
+			// TODO: ERROR
+			return ;
+		}
+
+		// Sets the player.
+		this.player = plList[0];
 
 		if (this.properties["look-around"] === "always" ||
 			this.properties["look-around"] === "on-start") {
@@ -130,6 +143,38 @@ export class Book {
 	showTitle() {
 		Output.print(this.title, this.getProperty("main-title-style"));
 		Output.print(this.author, this.getProperty("author-style"));
+	}
+
+	createInput() {
+		const inputContainer = document.createElement('div');
+		inputContainer.classList.add('input-line');
+	
+		const promptSpan = document.createElement('span');
+		promptSpan.textContent = '> ';
+		
+		const input = document.createElement('input');
+		input.type = 'text';
+		
+		inputContainer.appendChild(promptSpan);
+		inputContainer.appendChild(input);
+		consoleDiv.appendChild(inputContainer);
+	
+		input.focus();
+		
+		// Handle user input
+		input.addEventListener('keydown', function (event) {
+		if (event.key === 'Enter') {
+			const userInput = input.value;
+			input.disabled = true;
+			
+			this.handleInput(userInput);
+			createInput();
+		}
+		});
+	}
+
+	handleInput(userInput) {
+		this.execute(userInput.trim());
 	}
 
 	/**

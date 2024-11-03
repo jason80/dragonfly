@@ -4,3 +4,9 @@ book (
 	title: "Prueba de Juego",
 	author: "Javier Candales"
 )
+
+dictionary {
+	noun(names: "Sala de Pruebas, sala") {
+		noun(names: "jugador, player, -player")
+	}
+}

@@ -1,4 +1,5 @@
 import { Output } from "./output.js"
+import { Noun } from "./noun.js";
 
 /**
  * Represents an action performed by the player.
@@ -88,9 +89,9 @@ export class Action {
 		if (!this.init()) return ;
 
 		// BEFORE EVENT
-		this.sendingEvents.array.forEach(n => {
+		for (const n of this.sendingEvents) {
 			if (!n.doBefore(this)) return ;
-		});
+		}
 
 		// Check action
 		if (!this.check()) return ;
@@ -101,9 +102,9 @@ export class Action {
 		this.carryOut();
 
 		// AFTER EVENT
-		this.sendingEvents.array.forEach(n => {
+		for (const n of this.sendingEvents) {
 			if (!n.doAfter(this)) return ;
-		});
+		}
 
 		// Report the result
 		this.report();

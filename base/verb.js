@@ -51,7 +51,7 @@ export class Verb extends Entity {
 		}
 
 		if (node.hasAttr("syntax")) {
-			node.getAttr("syntax").getValue().split().forEach(n => {
+			node.getAttr("syntax").getValue().split(',').forEach(n => {
 				this.syntax.push(n.trim());
 			});
 		}

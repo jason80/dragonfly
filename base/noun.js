@@ -1,6 +1,8 @@
 import { DFMLElement } from "../dfml/js/main/element.js";
 
 import { DFMLNode } from "../dfml/js/main/node.js";
+import { Action } from "./action.js";
+import { Entity } from "./entity.js";
 
 /**
  * Nouns represents the objects of the game. Can be contained by other nouns.
@@ -10,7 +12,7 @@ import { DFMLNode } from "../dfml/js/main/node.js";
  * @class Noun
  * @extends {Element}
  */
-export class Noun extends Element {
+export class Noun extends Entity {
 	static #idMax = 0;
 
 	/**
@@ -18,8 +20,17 @@ export class Noun extends Element {
 	 * @param {Noun} container
 	 * @memberof Noun
 	 */
-	constructor(container) {
-		this.container = container;
+	constructor(container = null) {
+
+		super();
+
+		this.container = null;
+
+		if (container != undefined) this.container = container;
+
+		this.book = null;
+		this.dictionary = null;
+
 		Noun.#idMax ++;
 		this.id = Noun.#idMax;
 
@@ -58,7 +69,7 @@ export class Noun extends Element {
 	 */
 	children(name) {
 		let result = [];
-		self.dictionary.nouns.array.forEach(n => {
+		this.dictionary.nouns.forEach(n => {
 			if (n.container == this) {
 				if (name === undefined) {
 					result.push(n);
@@ -144,6 +155,59 @@ export class Noun extends Element {
 	}
 
 	/**
+	 * Perform ActionEvent match with the Action, check if it meets the condition, and executes
+	 * the event.
+
+	 * eventList argument allows especify Before or After events.
+	 *
+	 * @param {Action} action target Action.
+	 * @param {Array.<ActionEvent>} eventList list of the events.
+	 * @return {boolean} 
+	 * @memberof Noun
+	 */
+	#doEvent(action, eventList) {
+			
+		let result = true;
+		for (actionEvent in eventList) {
+			// If match action with list
+			if (actionEvent.match(action)) {
+				// Check if actionevent's conditions return true
+				if (!actionEvent.checkConditions(action)) continue;
+				
+				// Execute responses
+				actionEvent.execute(action);
+				result = !actionEvent.cancel;
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Perform Before ActionEvent match with the Action, check if it meets the condition, and executes
+     * the event.
+	 *
+	 * @param {Action} action target Action.
+	 * @return {boolean} True if and only if the event has not cacelled.
+	 * @memberof Noun
+	 */
+	doBefore(action) {
+		return this.#doEvent(action, this.before);
+	}
+	
+	/**
+	 * Perform After ActionEvent match with the Action, check if it meets the condition, and executes
+	 * the event.
+	 *
+	 * @param {Action} action target Action.
+	 * @return {boolean}  True if and only if the event has not cacelled.
+	 * @memberof Noun
+	 */
+	doAfter(action) {
+		return this.#doEvent(action, this.after);
+	}
+
+	/**
 	 * Load the noun from dfml element.
 	 *
 	 * @param {DFMLNode} node dfml element.
@@ -152,7 +216,7 @@ export class Noun extends Element {
 	load(node) {
 		super.load(node);
 
-		node.getChildren().array.forEach(e => {
+		node.getChildren().forEach(e => {
 			if (e.getElementType() === DFMLElement.NODE) {
 				if (e.getName() === "set") {
 					const children = e.getChildren();
@@ -164,6 +228,12 @@ export class Noun extends Element {
 					});
 				} else if (e.getName() === "variable") {
 					this.setVariable(e.getAttr("name").getValue());
+				} else if (e.getName() === "noun") {
+					const noun = new Noun(this);
+					noun.book = this.book;
+					noun.dictionary = this.dictionary;
+					noun.load(e);
+					this.dictionary.nouns.push(noun);
 				}
 			}
 		});

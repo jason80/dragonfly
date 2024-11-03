@@ -9,6 +9,7 @@ export const responses = {};
 export class Print extends ActionResponse {
 
 	constructor() {
+		super();
 		this.message = ""
 		this.style = ""
 	}
@@ -39,6 +40,7 @@ export class Print extends ActionResponse {
 
 export class Append extends ActionResponse {
 	constructor() {
+		super();
 		this.message = "";
 		this.style = "";
 	}
@@ -69,6 +71,7 @@ export class Append extends ActionResponse {
 
 export class Attr extends ActionResponse {
 	constructor() {
+		super();
 		this.instance = ""
 		this.set = ""
 		this.unset = ""
@@ -115,6 +118,7 @@ export class Attr extends ActionResponse {
 
 export class Variable extends ActionResponse {
 	constructor() {
+		super();
 		this.instance = "";
 		this.variable = "";
 		this.set = "";
@@ -144,6 +148,7 @@ export class Variable extends ActionResponse {
 
 export class AppendName extends ActionResponse {
 	constructor() {
+		super();
 		this.instance = ""
 		this.name = ""
 	}
@@ -170,6 +175,7 @@ export class AppendName extends ActionResponse {
 
 export class Move extends ActionResponse {
 	constructor() {
+		super();
 		this.instance = ""
 		this.destiny = ""
 	}
@@ -206,6 +212,7 @@ export class Move extends ActionResponse {
 
 export class Tip extends ActionResponse {
 	constructor() {
+		super();
 		this.message = "";
 	}
 
@@ -232,6 +239,7 @@ export class Tip extends ActionResponse {
 
 export class TipOnce extends ActionResponse {
 	constructor() {
+		super();
 		this.message = "";
 		this.instance = "";
 	}
@@ -263,6 +271,7 @@ export class TipOnce extends ActionResponse {
 
 export class Execute extends ActionResponse {
 	constructor() {
+		super();
 		this.sentence = "";
 	}
 
@@ -289,6 +298,7 @@ export class Execute extends ActionResponse {
 
 export class AddConnection extends ActionResponse {
 	constructor() {
+		super();
 		this.instance = ""
 		this.exit = ""
 		this.destiny = ""
@@ -318,6 +328,11 @@ export class AddConnection extends ActionResponse {
 } responses.AddConnection = AddConnection;
 
 export class ShowTitle extends ActionResponse {
+
+	constructor() {
+		super();
+	}
+
 	toString() {
 		return "Show game title";
 	}
@@ -332,6 +347,7 @@ export class ShowTitle extends ActionResponse {
 		
 export class RunConversation extends ActionResponse {
 	constructor() {
+		super();
 		this.owner = "";
 	}
 		
@@ -351,6 +367,10 @@ export class RunConversation extends ActionResponse {
 
 export class Pause extends ActionResponse {
 
+	constructor() {
+		super();
+	}
+
 	toString() {
 		return "Pause";
 	}
@@ -363,6 +383,11 @@ export class Pause extends ActionResponse {
 } responses.Pause = Pause;
 
 export class Clear extends ActionResponse {
+
+	constructor() {
+		super();
+	}
+
 	toString() {
 		return "Clear";
 	}
@@ -376,6 +401,7 @@ export class Clear extends ActionResponse {
 
 export class EndGame extends ActionResponse {
 	constructor() {
+		super();
 		this.result = ""
 		this.message = ""
 	}

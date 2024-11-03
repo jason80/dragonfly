@@ -7,6 +7,11 @@ book (
 
 dictionary {
 	noun(names: "Sala de Pruebas, sala") {
+
+		after(actions: "LookAround") {
+			"Éste es un lugar dedicado a las prubas de Dragonfly."
+		}
+
 		noun(names: "jugador, player, -player")
 	}
 }

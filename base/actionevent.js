@@ -1,9 +1,9 @@
-import { DFMLData } from "../dfml/js/main/data.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLValue } from "../dfml/js/main/value.js";
 import { Action  } from "./action.js";
 import { actions } from "./actions.js";
+import { responses } from "./responses.js";
 
 export class ActionEvent {
 	constructor() {
@@ -91,7 +91,9 @@ export class ActionEvent {
 			}
 		});
 
-		this.cancel = node.getAttr("cancel").getValue() === "true";
+		if (node.hasAttr("cancel"))
+			this.cancel = node.getAttr("cancel").getValue() === "true";
+		else this.cancel = false;
 
 		// Load responses and conditions
 		node.children.forEach(child => {
@@ -99,7 +101,7 @@ export class ActionEvent {
 			// Simple text found: create a message response:
 			if (child.getElementType() === DFMLElement.DATA && child.getValue().getType() == DFMLValue.STRING) {
 				const text = child.getValue().getValue();
-				const message = responses["Message"]();
+				const message = new responses["Print"]();
 				message.message = text;
 				this.addResponse(message);
 			}

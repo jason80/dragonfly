@@ -3,6 +3,7 @@ import { DFMLElement } from "../dfml/js/main/element.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { Action } from "./action.js";
 import { Entity } from "./entity.js";
+import { ActionEvent } from "./actionevent.js";
 
 /**
  * Nouns represents the objects of the game. Can be contained by other nouns.
@@ -168,7 +169,7 @@ export class Noun extends Entity {
 	#doEvent(action, eventList) {
 			
 		let result = true;
-		for (actionEvent in eventList) {
+		for (const actionEvent of eventList) {
 			// If match action with list
 			if (actionEvent.match(action)) {
 				// Check if actionevent's conditions return true
@@ -192,7 +193,7 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	doBefore(action) {
-		return this.#doEvent(action, this.before);
+		return this.#doEvent(action, this.beforeEvents);
 	}
 	
 	/**
@@ -204,7 +205,7 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	doAfter(action) {
-		return this.#doEvent(action, this.after);
+		return this.#doEvent(action, this.afterEvents);
 	}
 
 	/**
@@ -234,6 +235,14 @@ export class Noun extends Entity {
 					noun.dictionary = this.dictionary;
 					noun.load(e);
 					this.dictionary.nouns.push(noun);
+				} else if (e.getName() === "before") {
+					const event = new ActionEvent();
+					event.load(e);
+					this.beforeEvents.push(event);
+				} else if (e.getName() === "after") {
+					const event = new ActionEvent();
+					event.load(e);
+					this.afterEvents.push(event);
 				}
 			}
 		});

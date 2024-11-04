@@ -33,8 +33,12 @@ export class Print extends ActionResponse {
 					return ;
 				}
 			}
+		} else if (node.children.length === 0) {
+			this.message = "";
+			return ;
 		}
-		// TODO: Error
+		
+		Output.error(`On Print Response: Extra element found.`);
 	}
 } responses.Print = Print;
 
@@ -64,8 +68,12 @@ export class Append extends ActionResponse {
 					return ;
 				}
 			}
+		} else if (node.children.length === 0) {
+			Output.error(`On Append Response: Extra element found.`);
+			return ;
 		}
-		// TODO: Error
+		
+		Output.error(`On Append Response: Extra element found.`);
 	}
 } responses.Append = Append;
 
@@ -90,7 +98,7 @@ export class Attr extends ActionResponse {
 	execute(action) {
 		objList = action.dictionary.getNouns(this.instance);
 		if (objList.length === 0) {
-			//TODO: error 'On Set response: noun "{this.instance}" not found in dictionary.'
+			Output.error(`On Set response: noun "${this.instance}" not found in dictionary.`);
 		}
 
 		obj = objList[0];
@@ -131,7 +139,7 @@ export class Variable extends ActionResponse {
 	execute(action) {
 		list = action.dictionary.getNouns(this.instance);
 		if (list.length === 0) {
-			// TODO: 'On Variable response: noun "{this.instance}" not found in dictionary.'
+			Output.error(`On Variable response: noun "${this.instance}" not found in dictionary.`);
 		}
 
 		const obj = list[0];
@@ -160,7 +168,7 @@ export class AppendName extends ActionResponse {
 	execute(action) {
 		let objList = action.dictionary.getNouns(this.instance);
 		if (objList.length === 0) {
-			// TODO: 'On AppendName response: noun "{this.instance}" not found in dictionary.'
+			Output.error(`On AppendName response: noun "${this.instance}" not found in dictionary.`);
 		}
 
 		obj = objList[0];
@@ -193,12 +201,12 @@ export class Move extends ActionResponse {
 	execute(action) {
 		obj = this.getObj(action, this.instance)
 		if (!obj) {
-			// TODO: 'On Move response: noun "{this.instance}" not found in dictionary.'
+			Output.error(`On Move response: noun "${this.instance}" not found in dictionary.`);
 		}
 
 		dest = this.getObj(action, this.destiny)
 		if (!dest) {
-			// TODO: 'On Move response: destiny "{this.destiny}" not found in dictionary.'
+			Output.error(`On Move response: destiny "{this.destiny}" not found in dictionary.`);
 		}
 
 		obj.container = dest;
@@ -233,7 +241,8 @@ export class Tip extends ActionResponse {
 				}
 			}
 		}
-		// TODO: Error
+
+		Output.error(`On Tip Response: Extra element found.`);
 	}
 } responses.Tip = Tip;
 
@@ -265,7 +274,8 @@ export class TipOnce extends ActionResponse {
 				}
 			}
 		}
-		// TODO: Error
+		
+		Output.error(`On TipOnce Response: Extra element found.`);
 	}
 } responses.TipOnce = TipOnce;
 
@@ -292,7 +302,8 @@ export class Execute extends ActionResponse {
 				}
 			}
 		}
-		// TODO: Error
+		
+		Output.error(`On Execute Response: Extra element found.`);
 	}
 } responses.Execute = Execute;
 
@@ -311,7 +322,7 @@ export class AddConnection extends ActionResponse {
 	execute(action) {
 		let objList = action.dictionary.getNouns(this.instance)
 		if (objList.length === 0) {
-			// TODO: 'On AddConnection response: noun "{this.instance}" not found in dictionary.')
+			Output.error(`On AddConnection response: noun "${this.instance}" not found in dictionary.`);
 		}
 
 		const conn = Connection();
@@ -415,7 +426,7 @@ export class EndGame extends ActionResponse {
 		if (this.result === "victory") victory = true;
 		else if (this.result === "defeat") victory = false;
 		else {
-			// TODO: 'On EndGame: expected "victory" or "defeat" value on result attr.')
+			Output.error(`On EndGame: expected "victory" or "defeat" value on result attr.`);
 		}
 
 		//action.dictionary.gameOver.run(ResultType.VICTORY if victory else ResultType.DEFEAT, this.message)

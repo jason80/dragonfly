@@ -67,7 +67,8 @@ export class Dictionary {
 		const actionClass = actions[className];
 
 		if (!actionClass) {
-			// TODO: error
+			Output.error(`action class "${className}" not exists.`);
+			return null;
 		}
 
 		let result = null;

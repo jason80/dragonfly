@@ -54,7 +54,7 @@ export class Verb extends Entity {
 		const actionClass = actions[actionClassName];
 
 		if (!actionClass) {
-			// TODO: error
+			Output.error(`action class "${actionClassName}" not exists.`);
 		} else {
 			this.action = actionClass;
 			this.action.book = this.book;

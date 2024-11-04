@@ -131,7 +131,8 @@ export class Action {
 	 */
 	fireResponse(id) {
 		if (!this.verb.hasResponse(id)) {
-			// TODO: ERROR
+			Output.error(`the verb "${this.verb.getName()}" does not have response "${id}"`);
+			return false;
 		}
 
 		Output.print(this.verb.getResponse(id));

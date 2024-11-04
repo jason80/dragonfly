@@ -823,8 +823,7 @@ export class GoTo extends Action {
 		// Get the destiny
 		let nouns = this.book.dictionary.nouns(this.conn.destiny)
 		if(nouns.length === 0) {
-			// TODO error
-			//raise DragonflyException(f'Called GoTo action from "{this.book.player.container.name}": Destiny "{this.conn.destiny}" not found on exit "{this.conn.exit}"')
+			Output.error(`Called GoTo action from "${this.book.player.container.getName()}": Destiny "${this.conn.destiny}" not found on exit "${this.conn.exit}"`);
 		}
 		// Move the player
 		this.book.player.container = nouns[0]

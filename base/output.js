@@ -93,4 +93,12 @@ export class Output {
 	
 		Output.outputDiv.scrollTop = Output.outputDiv.scrollHeight;
 	}
+
+	static error(message) {
+		Output.print(`[Dragonfly Error] ${message}`, {
+			color: 'white',
+			background: 'darkred',
+  			fontFamily: 'monospace'
+		});
+	}
 }

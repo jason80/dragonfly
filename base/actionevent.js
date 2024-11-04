@@ -3,6 +3,7 @@ import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLValue } from "../dfml/js/main/value.js";
 import { Action  } from "./action.js";
 import { actions } from "./actions.js";
+import { Output } from "./output.js";
 import { responses } from "./responses.js";
 
 export class ActionEvent {
@@ -85,7 +86,7 @@ export class ActionEvent {
 			const actionClass = actions[actionClassName];
 
 			if (!actionClass) {
-				// TODO: Error
+				Output.error(`action class "${actionClassName}" not exists.`);
 			} else {
 				this.actions.push(actionClass);
 			}
@@ -112,7 +113,7 @@ export class ActionEvent {
 					const responseClassName = child.getAttr("class").getValue();
 					const responseClass = responses[responseClassName];
 					if (!responseClass) {
-						// TODO: Error
+						Output.error(`response class "${responseClassName}" not exists.`);
 					} else {
 						const response = responseClass();
 						response.load(child);
@@ -124,7 +125,7 @@ export class ActionEvent {
 					const condClassName = child.getAttr("class").getValue();
 					const condClass = conditions[condClassName];
 					if (!condClass) {
-						// TODO: Error
+						Output.error(`condition class "${condClassName}" not exists.`);
 					} else {
 						const cond = condClass();
 						cond.load(child);

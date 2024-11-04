@@ -4,6 +4,7 @@ import { DFMLValue } from "../dfml/js/main/value.js";
 import { Action } from "./action.js";
 import { Entity } from "./entity.js";
 import { ActionEvent } from "./actionevent.js";
+import { Output } from "./output.js";
 
 /**
  * Nouns represents the objects of the game. Can be contained by other nouns.
@@ -282,7 +283,9 @@ export class Noun extends Entity {
 						if (c.getElementType() === DFMLElement.DATA &&
 							c.getValue().getType() === DFMLValue.STRING) {
 							this.set([ c.getValue().getValue() ]);
-						} else { /* TODO: Error */ }
+						} else {
+							Output.error(`(Set) on load noun '${this.getName()}': no string data attribute.`);
+						}
 					});
 				} else if (e.getName() === "variable") {
 					this.setVariable(e.getAttr("name").getValue());

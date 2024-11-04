@@ -117,18 +117,29 @@ export class Book {
 	 * @memberof Book
 	 */
 	run() {
+
+		if (this.title.trim() === "") {
+			Output.error("the book title has not been defined");
+			return ;
+		}
+
+		if (this.author.trim() === "") {
+			Output.error("the book's author has not been defined");
+			return ;
+		}
+
 		this.showTitle();
 
 		this.parser.showParsingProcess = this.properties["show-parsing-process"];
 		
-		if (this.properties["player"] === "") {
-			//TODO: ERROR
+		if (this.properties["player"].trim() === "") {
+			Output.error("the player is not declared");
 			return ;
 		}
 
 		const plList = this.dictionary.getNouns(this.properties["player"]);
 		if (plList.length === 0) {
-			// TODO: ERROR
+			Output.error(`player "${this.properties['player']}" not found in dictionary`);
 			return ;
 		}
 

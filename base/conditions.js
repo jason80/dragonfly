@@ -1,4 +1,5 @@
 import { Condition } from "./condition.js";
+import { Output } from "./output.js";
 
 export const conditions = {};
 
@@ -18,7 +19,8 @@ export class IsSet extends Condition {
 		// Gets the noun
 		const noun = action.dictionary.getNouns(this.instance);
 		if (noun.length === 0) {
-			// TODO: 'On IsSet condition: instance "{this.instance}" not found in dictionary.')
+			 
+			Output.error(`On IsSet condition: instance "${this.instance}" not found in dictionary.`);
 		}
 	
 		return noun[0].isSet(this.attr);
@@ -46,7 +48,8 @@ export class IsNotSet extends Condition {
 		// Gets the noun
 		noun = action.dictionary.getNouns(this.instance)
 		if (noun.length === 0) {
-			// TODO: 'On IsNotSet condition: instance "{this.instance}" not found in dictionary.')
+			 
+			Output.error(`On IsNotSet condition: instance "${this.instance}" not found in dictionary.`);
 		}
 		return !noun[0].isSet(this.attr);
 	}
@@ -70,7 +73,8 @@ export class DirectEqualsExit extends Condition {
 	check(action) {
 		const e = action.dictionary.getExit(this.exit);
 		if (!e) {
-			// TODO: 'On DirectEqualsExit condition: exit "{this.exit}" not found in dictionary.')
+			 
+			Output.error(`On DirectEqualsExit condition: exit "${this.exit}" not found in dictionary.`);
 		}
 
 		return e.responds(action.parser.directObjectString);
@@ -95,7 +99,8 @@ export class Contains extends Condition {
 	check(action) {
 		cont = action.dictionary.getNouns(this.container)
 		if (cont.length === 0) {
-			// TODO: 'On Contains condition: container "{this.container}" not found in dictionary.')
+			 
+			Output.error(`On Contains condition: container "${this.container}" not found in dictionary.`);
 		}
 
 		return cont[0].contains(this.instance);
@@ -121,7 +126,8 @@ export class NotContains extends Condition {
 	check(action) {
 		cont = action.dictionary.getNouns(this.container)
 		if (cont.length === 0) {
-			// TODO: 'On NotContains condition: container "{this.container}" not found in dictionary.')
+			
+			Output.error(`On NotContains condition: container "${this.container}" not found in dictionary.`);
 		}
 
 		return !cont[0].contains(this.instance);
@@ -237,7 +243,8 @@ export class VariableEquals extends Condition {
 		const obj = action.dictionary.getNouns(this.instance);
 
 		if (obj.length === 0) {
-			// TODO: 'On condition "VariableEquals" instance "{this.instance}" not found in dictionary.')
+			
+			Output.error(`On condition "VariableEquals" instance "${this.instance}" not found in dictionary.`);
 		}
 
 		return obj[0].getVariable(this.variable) === this.value;

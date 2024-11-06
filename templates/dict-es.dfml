@@ -106,7 +106,7 @@ dictionary {
 	verb(names: "dejar, tirar, deja, tira", action: "LeaveObject",
 		syntax: "1") {
 		response(id: "direct-not-found", string: "No tengo eso.")
-		response(id: "direct-left", string: "Lo dejo")
+		response(id: "direct-left", string: "@^1(lo,la,los,las) dejo")
 	}
 
 	verb(names: "abrir, abre", action: "OpenWith",

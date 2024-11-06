@@ -1,6 +1,8 @@
 import { Entity } from "./entity.js";
-import { DFMLNode } from "../dfml/js/main/node.js";
 import { actions } from "./actions.js";
+
+import { DFMLNode } from "../dfml/js/main/node.js";
+import { DFMLElement } from "../dfml/js/main/element.js";
 
 /**
  * Represents the multi-name command wich is associated to Action.
@@ -28,6 +30,18 @@ export class Verb extends Entity {
 	getResponse(name) {
 		if (name in this.responses) return this.responses[name];
 		return "";
+	}
+
+	/**
+	 * Sets a response. The responses are quieried by the
+	 * action associated.
+	 *
+	 * @param {string} name the response id.
+	 * @param {string} str the response message.
+	 * @memberof Verb
+	 */
+	setResponse(name, str) {
+		this.responses[name] = str;
 	}
 
 	/**
@@ -69,10 +83,10 @@ export class Verb extends Entity {
 
 		// Responses
 		node.children.forEach((e) => {
-			if (e.getElementType() === Element.NODE) {
+			if (e.getElementType() === DFMLElement.NODE) {
 				if (e.getName() === "response") {
 					this.setResponse(e.getAttr("id").getValue(), 
-					e.getAttr("id").getValue());
+					e.getAttr("string").getValue());
 				}
 			}
 		});

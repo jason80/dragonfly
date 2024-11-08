@@ -1,0 +1,9 @@
+dictionary {
+    verb(names: "info", action: "Info", syntax: "1")
+    verb(names: "tree", action: "TreeObject", syntax: "1")
+    verb(names: "tree", action: "Tree")
+    verb(names: "attr, attribute", action: "Attr", syntax: "1, set/unset, 2")
+    verb(names: "move, mv", action: "Move", syntax: "1, to, 2")
+    verb(names: "root", action: "Root", syntax: "1")
+    verb(names: "verb", action: "VerbInfo", syntax: "1")
+}

@@ -1,5 +1,7 @@
 import { Entity } from "./entity.js";
 import { actions } from "./actions.js";
+import { debugActions } from "./debug.js";
+import { Output } from "./output.js";
 
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
@@ -65,7 +67,11 @@ export class Verb extends Entity {
 		super.load(node);
 
 		const actionClassName = node.getAttr("action").getValue();
-		const actionClass = actions[actionClassName];
+		let actionClass = actions[actionClassName];
+
+		if (!actionClass) {
+			actionClass = debugActions[actionClassName];
+		}
 
 		if (!actionClass) {
 			Output.error(`action class "${actionClassName}" not exists.`);

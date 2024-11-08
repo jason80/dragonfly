@@ -53,7 +53,7 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	contains(name) {
-		self.dictionary.nouns.array.forEach(n => {
+		this.dictionary.nouns.array.forEach(n => {
 			if (n.container === this) {
 				if (n.responds(name)) return true;
 			}
@@ -104,8 +104,8 @@ export class Noun extends Entity {
 	 * Unset a list of attributes.
 	 */
 	unset(values) {
-		values.array.forEach(v => {
-			self.attrs.delete(v);
+		values.forEach(v => {
+			this.attrs.delete(v);
 		});
 	}
 
@@ -133,7 +133,7 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	setVariable(name, value) {
-		self.variables[name] = value;
+		this.variables[name] = value;
 	}
 
 	/**
@@ -288,7 +288,8 @@ export class Noun extends Entity {
 						}
 					});
 				} else if (e.getName() === "variable") {
-					this.setVariable(e.getAttr("name").getValue());
+					this.setVariable(e.getAttr("name").getValue(),
+					e.getAttr("value").getValue());
 				} else if (e.getName() === "noun") {
 					const noun = new Noun(this);
 					noun.book = this.book;

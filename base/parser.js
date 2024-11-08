@@ -196,7 +196,7 @@ export class Parser {
 	}
 
 	cleanArticles(obj) {
-		return obj.split(" ").filter(w => !this.book.dictionary.getArticle(w)).join(" ");
+		return obj.split(" ").filter(w => !this.book.dictionary.getArticle(w)).join(" ").trim();
 	}
 
 	debug(msg) {

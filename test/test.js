@@ -7,8 +7,10 @@ window.onload = function() {
 	book.setProperty("player", "-player");
 
 	book.include("../templates/dict-es.dfml").then(() => {
-		book.include("test.dfml").then(() => {
-			book.run();
+		book.include("../templates/dict-debug.dfml").then(() => {
+			book.include("test.dfml").then(() => {
+				book.run();
+			});
 		});
 	});
 }

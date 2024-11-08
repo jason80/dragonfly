@@ -16,6 +16,9 @@ dictionary {
 
 		noun(names: "linterna, luz") {
 			set { "female" }
+
+			variable(name: "luz", value: "verdadero")
+
 			after(actions: "ExamineObject") {
 				"Una linterna barata que proviene de china."
 			}

@@ -56,13 +56,13 @@ export class Parser {
 			const exit = this.book.dictionary.getExit(line.trim());
 			if (exit) {
 				this.debug(`exit: "${exit.name}" found.`);
-				const gotoVerb = this.dictionary.verbByAction("GoTo");
+				const gotoVerb = this.book.dictionary.verbByAction("GoTo");
 				this.directObjectString = line.trim();
 				this.indirectObjectString = "";
 
 				const action = new gotoVerb.action();
 				action.verb = gotoVerb;
-				action.game = this.game;
+				action.book = this.book;
 
 				this.debug(`calling GoTo action on exit: "${this.directObjectString}".`);
 				action.execute();

@@ -5,6 +5,7 @@ import { Action } from "./action.js";
 import { Entity } from "./entity.js";
 import { ActionEvent } from "./actionevent.js";
 import { Output } from "./output.js";
+import { Connection } from "./movement.js";
 
 /**
  * Nouns represents the objects of the game. Can be contained by other nouns.
@@ -267,6 +268,24 @@ export class Noun extends Entity {
     }
 
 	/**
+	 * Return a connection indicating the associated exit.
+	 *
+	 * @param {string} exit The exit to match connection.
+	 * @return {Connection} the connection associated to exit. If not exists any connection
+	 *					with the exit, return null.
+	 * @memberof Noun
+	 */
+	getConnection(exit) {
+		let conn = null;
+
+		this.connections.forEach((c) => {
+			if (exit.responds(c.exit)) conn = c;
+		});
+
+		return conn;
+	}
+
+	/**
 	 * Load the noun from dfml element.
 	 *
 	 * @param {DFMLNode} node dfml element.
@@ -304,6 +323,10 @@ export class Noun extends Entity {
 					const event = new ActionEvent();
 					event.load(e);
 					this.afterEvents.push(event);
+				} else if (e.getName() === "connection") {
+					const connection = new Connection();
+					connection.load(e);
+					this.connections.push(connection);
 				}
 			}
 		});

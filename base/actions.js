@@ -803,12 +803,12 @@ export class GoTo extends Action {
 	init() {
 
 		// Get exit from dictionary
-		exit = this.book.dictionary.exit(this.book.parser.directObjectString)
-		if (!exit) return this.fireResponse("exit-not-exists")
+		const exit = this.book.dictionary.getExit(this.book.parser.directObjectString);
+		if (!exit) return this.fireResponse("exit-not-exists");
 
 		// Get connection from dictionary
-		this.conn = this.book.player.container.connection(exit)
-		if (!this.conn) return this.fireResponse("exit-not-found")
+		this.conn = this.book.player.container.getConnection(exit);
+		if (!this.conn) return this.fireResponse("exit-not-found");
 
 		this.sendEventLater(this.book.player.container)
 
@@ -821,21 +821,21 @@ export class GoTo extends Action {
 
 	carryOut() {
 		// Get the destiny
-		let nouns = this.book.dictionary.nouns(this.conn.destiny)
+		let nouns = this.book.dictionary.getNouns(this.conn.destiny)
 		if(nouns.length === 0) {
 			Output.error(`Called GoTo action from "${this.book.player.container.getName()}": Destiny "${this.conn.destiny}" not found on exit "${this.conn.exit}"`);
 		}
 		// Move the player
-		this.book.player.container = nouns[0]
+		this.book.player.container = nouns[0];
 
 		// Visibility behavior
 		if (this.book.getProperty("look-around") === "always") {
 			// Look around verb
-			let v = this.book.dictionary.verbByAction("LookAround")
-			this.book.execute(v.name)
+			let v = this.book.dictionary.verbByAction("LookAround");
+			this.book.execute(v.getName());
 		}
 		
-		this.sendEventLater(this.book.player.container)
+		this.sendEventLater(this.book.player.container);
 	}
 
 	report() {

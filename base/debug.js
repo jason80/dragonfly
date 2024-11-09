@@ -55,7 +55,7 @@ export class Info extends Action {
 		if (noun.connections) {
 			debugPrint(`Connections:`);
 			for (const c of noun.connections)
-				debugPrint(`\t{c.exit} --> {c.destiny}`);
+				debugPrint(c.toString());
 		}
 	}
 

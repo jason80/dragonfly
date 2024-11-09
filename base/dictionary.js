@@ -109,11 +109,11 @@ export class Dictionary {
 	 * @memberof Dictionary
 	 */
 	getExit(name) {
+		let exit = null;
 		this.exits.forEach(e => {
-			if (e.responds(name)) return e;
+			if (e.responds(name))  exit = e;
 		});
-
-		return null;
+		return exit;
 	}
 
 	getArticle(name) {

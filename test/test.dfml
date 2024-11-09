@@ -23,5 +23,15 @@ dictionary {
 				"Una linterna barata que proviene de china."
 			}
 		}
+
+		connection(exit: "norte", destiny: "jardin")
+	}
+
+	noun(names: "El Jardín, jardin") {
+		after(actions: "LookAround") {
+			"Un colorido jardín se descubre ante tus ojos."
+		}
+
+		connection(exit: "sur", destiny: "sala")
 	}
 }

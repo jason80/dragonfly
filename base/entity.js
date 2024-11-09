@@ -1,5 +1,4 @@
-import { DFMLNode } from "../dfml/js/main/node.js";
-import { DFMLValue } from "../dfml/js/main/value.js";
+import { Helper } from "./helper.js"
 
 /**
  * Base of the nouns, verbs and exits.
@@ -24,14 +23,18 @@ export class Entity {
 	 */
 	responds(name) {
 
-		let result = false;
+		for (const n of this.names) {
+			if (Helper.isEquals(n, name)) return true;
+		}
 
+		/*
 		this.names.forEach(n => {
 			if (n == name) result = true;
-			// TODO: helper isEquals(s1, s2)
-		});
+			
+		});*/
 
-		return result;
+
+		return false;
 	}
 
 	/**

@@ -192,11 +192,11 @@ export class Parser {
 	}
 
 	checkKeyword(keyword, kwList) {
-		return kwList.split("/").includes(keyword);
+		return kwList.toLowerCase().split("/").includes(keyword.toLowerCase());
 	}
 
 	cleanArticles(obj) {
-		return obj.split(" ").filter(w => !this.book.dictionary.getArticle(w)).join(" ").trim();
+		return obj.toLowerCase().split(" ").filter(w => !this.book.dictionary.getArticle(w)).join(" ").trim();
 	}
 
 	debug(msg) {

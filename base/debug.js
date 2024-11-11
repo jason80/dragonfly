@@ -44,7 +44,7 @@ export class Info extends Action {
 
 	printNounInfo(noun) {
 		debugPrint("--------------------");
-		debugPrint(`Names: ${noun.names}`);
+		debugPrint(`Names: ${Array.from(noun.names).join(", ")}`);
 		debugPrint(`Container: ${noun.container ? noun.container.getName() : 'null'}`);
 		if (noun.attrs)
 			debugPrint(`Attributes: ${Array.from(noun.attrs).join(", ")}`);

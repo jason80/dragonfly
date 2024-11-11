@@ -220,25 +220,25 @@ export class DefaultAction extends Action {
 	}
 
 	init() {
-		let lst = this.game.player.children(this.parser.directObjectString);
-		lst = lst.concat(this.game.player.container.children(this.parser.directObjectString));
+		let lst = this.book.player.children(this.book.parser.directObjectString);
+		lst = lst.concat(this.book.player.container.children(this.book.parser.directObjectString));
 
 		if (lst.length === 0) {
 			return this.fireResponse("direct-not-found");
 		}
 
-		this.parser.directObject = this.dictionary.objectChooserDialog.execute(lst);
-		if (!this.parser.directObject) {
+		this.book.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst);
+		if (!this.book.parser.directObject) {
 			return false;
 		}
 
-		this.sendEventLater(this.parser.directObject);
+		this.sendEventLater(this.book.parser.directObject);
 
 		return true;
 	}
 
 	check() {
-		if (this.parser.directObject == this.game.player) {
+		if (this.book.parser.directObject == this.book.player) {
 			return this.fireResponse("direct-is-the-player")
 		}
 		return true;

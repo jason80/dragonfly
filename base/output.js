@@ -103,6 +103,16 @@ export class Output {
 	}
 
 	/**
+	 * Clear the book area
+	 *
+	 * @static
+	 * @memberof Output
+	 */
+	static clear() {
+		Output.outputDiv.innerHTML = "";
+	}
+
+	/**
 	 * Replace the special commands with the objects.
 	 * 
 	 * Special commands:

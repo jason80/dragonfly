@@ -269,7 +269,7 @@ export class LookInside extends Action {
 	}
 
 	carryOut() {
-		childs = this.book.parser.directObject.children()
+		const childs = this.book.parser.directObject.children();
 		if (childs.length === 0) {
 			this.fireResponse("container-is-empty")
 		} else { 
@@ -398,14 +398,14 @@ export class TakeFrom extends Action {
 
 	check() {
 
-		container = this.book.parser.indirectObject;
+		const container = this.book.parser.indirectObject;
 
 		if (!container.isSet("container"))
 			return this.fireResponse("indirect-is-not-container")
 		if (container.isSet("closed"))
 			return this.fireResponse("indirect-is-closed")
 
-		let lst = container.children(this.book.parser.directObjectString)
+		const lst = container.children(this.book.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
 		this.book.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst)

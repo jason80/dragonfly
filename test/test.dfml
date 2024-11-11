@@ -1,90 +1,58 @@
-
-
 book (
-	title: "Prueba de Juego",
+	title: "Prueba de Contenedores",
 	author: "Javier Candales"
 )
 
 dictionary {
-	noun(names: "Sala de Pruebas, sala") {
-
+	noun(names: "La Bodega, bodega") {
 		after(actions: "LookAround") {
-			"Éste es un lugar dedicado a las pruebas de Dragonfly."
+			"En la oscura bodega alcanzo a ver botellas, barriles y un cofre."
 		}
 
 		noun(names: "jugador, player, -player")
 
-		noun(names: "linterna, luz") {
-			set { "female" }
+		noun(names: "botellas, botella") {
+			set { "female" "plural" "scene" }
+			after(actions: "ExamineObject") {
+				"Opacadas por el polvo de años, todas con el cuello inclinado hacia abajo."
+			}
 
-			variable(name: "luz", value: "verdadero")
+			before(actions: "TakeObject, PushObject, PullObject, PressObject", cancel: true) {
+				"Ni en broma tocaré las botellas, deben ser carísimas."
+			}
+		}
+
+		noun(names: "barriles, barril") {
+			set { "plural" "heavy" "container" "closable" "closed" "scene" }
+			after(actions: "ExamineObject") {
+				"Tres barriles de medio hombre de altura se alzan desde el suelo. Parecen de roble."
+			}
+
+			before(actions: "OpenObject", cancel: true) {
+				"No creo que pueda abrir semejante bestia solo con mis manos."
+			}
+
+			before(actions: "LookInside", cancel: true) {
+				"No puedo ver su interior, pero me juego que es brandy."
+			}
+		}
+
+		noun(names: "cofre, baul") {
+			set { "heavy" "container" "closable" "closed" "scene" }
 
 			after(actions: "ExamineObject") {
-				"Una linterna barata que proviene de china."
+				"De tablones unidos con planchas de hierro, descanza un cofre en el rincón de la bodega."
+			}
+
+			noun(names: "llave pequeña, llave") {
+
+				set { "female" }
+
+				after(actions: "ExamineObject") {
+					"La pequeña llave es de bronce."
+				}
 			}
 		}
 
-		noun(names: "puerta, puerta norte, puerta-sala-jardin") {
-			set { "female" "fixed" "scene" "closable" "closed" }
-			after(actions: "ExamineObject") {
-				"Una puerta de hierro que comunica con el exterior"
-			}
-			
-			after(actions: "OpenObject") {
-				response(class: "Attr",
-					instance: "puerta-jardin-sala",
-					unset: "closed")
-			}
-
-			after(actions: "CloseObject") {
-				response(class: "Attr",
-					instance: "puerta-jardin-sala",
-					set: "closed")
-			}
-
-		}
-
-		before(actions: "GoTo", cancel: true) {
-			if(class: "DirectEqualsExit", exit: "norte")
-			if(class: "IsSet", instance: "puerta-sala-jardin", attr: "closed")
-
-			"La puerta está cerrada."
-		}
-
-		connection(exit: "norte", destiny: "jardin")
-	}
-
-	noun(names: "El Jardín, jardin") {
-		after(actions: "LookAround") {
-			"Un colorido jardín se descubre ante tus ojos."
-		}
-
-		noun(names: "puerta, puerta sur, puerta-jardin-sala") {
-			set { "female" "fixed" "scene" "closable" "closed" }
-			after(actions: "ExamineObject") {
-				"Una puerta de hierro que comunica con el exterior"
-			}
-			
-			after(actions: "OpenObject") {
-				response(class: "Attr",
-					instance: "puerta-sala-jardin",
-					unset: "closed")
-			}
-
-			after(actions: "CloseObject") {
-				response(class: "Attr",
-					instance: "puerta-sala-jardin",
-					set: "closed")
-			}
-		}
-
-		before(actions: "GoTo", cancel: true) {
-			if(class: "DirectEqualsExit", exit: "sur")
-			if(class: "IsSet", instance: "puerta-sala-jardin", attr: "closed")
-
-			"La puerta está cerrada."
-		}
-
-		connection(exit: "sur", destiny: "sala")
 	}
 }

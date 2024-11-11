@@ -83,7 +83,7 @@ dictionary {
 		response(id: "direct-not-found", string: "No tengo eso.")
 		response(id: "direct-is-the-player", string: "¿Meterme eso?")
 		response(id: "indirect-is-not-container", string: "No puedo meter #1 en #2.")
-		response(id: "indirect-is-closed", string: "#^2 est@2(á,á,án,án) cerrad@1(o,a,os,as).")
+		response(id: "indirect-is-closed", string: "#^2 est@2(á,á,án,án) cerrad@2(o,a,os,as).")
 		response(id: "direct-leaved", string: "Dejo #1 en #2.")
 		response(id: "syntax-fail", string: "Tienes que decir lo que debo dejar.")
 	}

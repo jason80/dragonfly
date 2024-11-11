@@ -1,6 +1,5 @@
 import { DFMLElement } from "../dfml/js/main/element.js";
 import { DFMLValue } from "../dfml/js/main/value.js";
-import { Action } from "./action.js";
 import { ActionResponse } from "./actionresponse.js";
 import { Output } from "./output.js";
 
@@ -24,12 +23,12 @@ export class Print extends ActionResponse {
 
 	load(node) {
 
-		this.style = node.getAttr("style").getValue().getValue();
+		this.style = node.getAttr("style").getValue();
 
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue().getValue();
+					this.message = node.children[0].getValue();
 					return ;
 				}
 			}
@@ -59,12 +58,12 @@ export class Append extends ActionResponse {
 
 	load(node) {
 
-		this.style = node.getAttr("style").getValue().getValue();
+		this.style = node.getAttr("style").getValue();
 
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue().getValue();
+					this.message = node.children[0].getValue();
 					return ;
 				}
 			}
@@ -96,12 +95,12 @@ export class Attr extends ActionResponse {
 	}
 
 	execute(action) {
-		objList = action.dictionary.getNouns(this.instance);
+		const objList = action.book.dictionary.getNouns(this.instance);
 		if (objList.length === 0) {
 			Output.error(`On Set response: noun "${this.instance}" not found in dictionary.`);
 		}
 
-		obj = objList[0];
+		const obj = objList[0];
 
 		let sets = [];
 		this.set.split(",").forEach( s => {
@@ -118,9 +117,11 @@ export class Attr extends ActionResponse {
 	}
 
 	load(node) {
-		this.instance = node.getAttr("instance").getValue().getValue();
-		this.set = node.getAttr("set").getValue().getValue();
-		this.unset = node.getAttr("unset").getValue().getValue();
+		this.instance = node.getAttr("instance").getValue();
+		if (node.hasAttr("set"))
+			this.set = node.getAttr("set").getValue();
+		if (node.hasAttr("unset"))
+			this.unset = node.getAttr("unset").getValue();
 	}
 } responses.Attr = Attr;
 
@@ -137,7 +138,7 @@ export class Variable extends ActionResponse {
 	}
 
 	execute(action) {
-		list = action.dictionary.getNouns(this.instance);
+		list = action.book.dictionary.getNouns(this.instance);
 		if (list.length === 0) {
 			Output.error(`On Variable response: noun "${this.instance}" not found in dictionary.`);
 		}
@@ -148,9 +149,9 @@ export class Variable extends ActionResponse {
 	}
 
 	load(node) {
-		this.instance = node.getAttr("instance").getValue().getValue();
-		this.variable = node.getAttr("variable").getValue().getValue();
-		this.set = node.getAttr("set").getValue().getValue();
+		this.instance = node.getAttr("instance").getValue();
+		this.variable = node.getAttr("variable").getValue();
+		this.set = node.getAttr("set").getValue();
 	}
 } responses.Variable = Variable;
 
@@ -166,7 +167,7 @@ export class AppendName extends ActionResponse {
 	}
 
 	execute(action) {
-		let objList = action.dictionary.getNouns(this.instance);
+		let objList = action.book.dictionary.getNouns(this.instance);
 		if (objList.length === 0) {
 			Output.error(`On AppendName response: noun "${this.instance}" not found in dictionary.`);
 		}
@@ -176,8 +177,8 @@ export class AppendName extends ActionResponse {
 	}
 
 	load(node) {
-		this.instance = node.getAttr("instance").getValue().getValue();
-		this.name = node.getAttr("name").getValue().getValue();
+		this.instance = node.getAttr("instance").getValue();
+		this.name = node.getAttr("name").getValue();
 	}
 } responses.AppendName = AppendName;
 
@@ -193,7 +194,7 @@ export class Move extends ActionResponse {
 	}
 
 	#getObj(action, name) {
-		objList = action.dictionary.getNouns(name);
+		objList = action.book.dictionary.getNouns(name);
 		if (objList.length === 0) return null;
 		return objList[0];
 	}
@@ -213,8 +214,8 @@ export class Move extends ActionResponse {
 	}
 
 	load(node) {
-		this.instance = node.getAttr("instance").getValue().getValue();
-		this.destiny = node.getAttr("destiny").getValue().getValue();
+		this.instance = node.getAttr("instance").getValue();
+		this.destiny = node.getAttr("destiny").getValue();
 	}
 } responses.Move = Move;
 
@@ -236,7 +237,7 @@ export class Tip extends ActionResponse {
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue().getValue();
+					this.message = node.children[0].getValue();
 					return ;
 				}
 			}
@@ -258,18 +259,18 @@ export class TipOnce extends ActionResponse {
 	}
 
 	execute(action) {
-		let objList = action.dictionary.getNouns(this.instance);
+		let objList = action.book.dictionary.getNouns(this.instance);
 		if (objList.length === 0) return null;
 		Help.tipOnce(objList[0], this.message);
 	}
 
 	load(node) {
-		this.instance = node.getAttr("instance").getValue().getValue();
+		this.instance = node.getAttr("instance").getValue();
 
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue().getValue();
+					this.message = node.children[0].getValue();
 					return ;
 				}
 			}
@@ -297,7 +298,7 @@ export class Execute extends ActionResponse {
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.sentence = node.children[0].getValue().getValue();
+					this.sentence = node.children[0].getValue();
 					return ;
 				}
 			}
@@ -320,7 +321,7 @@ export class AddConnection extends ActionResponse {
 	}
 
 	execute(action) {
-		let objList = action.dictionary.getNouns(this.instance)
+		let objList = action.book.dictionary.getNouns(this.instance)
 		if (objList.length === 0) {
 			Output.error(`On AddConnection response: noun "${this.instance}" not found in dictionary.`);
 		}
@@ -332,9 +333,9 @@ export class AddConnection extends ActionResponse {
 	}
 
 	load(node) {
-		this.instance = node.getAttr("instance").getValue().getValue();
-		this.exit = node.getAttr("exit").getValue().getValue();
-		this.destiny = node.getAttr("destiny").getValue().getValue();
+		this.instance = node.getAttr("instance").getValue();
+		this.exit = node.getAttr("exit").getValue();
+		this.destiny = node.getAttr("destiny").getValue();
 	}
 } responses.AddConnection = AddConnection;
 
@@ -367,7 +368,7 @@ export class RunConversation extends ActionResponse {
 	}
 
 	execute(action) {
-		c = action.dictionary.conversation(this.owner);
+		c = action.book.dictionary.conversation(this.owner);
 		c.start(action);
 	}
 
@@ -429,7 +430,7 @@ export class EndGame extends ActionResponse {
 			Output.error(`On EndGame: expected "victory" or "defeat" value on result attr.`);
 		}
 
-		//action.dictionary.gameOver.run(ResultType.VICTORY if victory else ResultType.DEFEAT, this.message)
+		//action.book.dictionary.gameOver.run(ResultType.VICTORY if victory else ResultType.DEFEAT, this.message)
 	}
 
 	load(node) {
@@ -438,7 +439,7 @@ export class EndGame extends ActionResponse {
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue().getValue();
+					this.message = node.children[0].getValue();
 					return ;
 				}
 			}

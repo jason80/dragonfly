@@ -24,12 +24,65 @@ dictionary {
 			}
 		}
 
+		noun(names: "puerta, puerta norte, puerta-sala-jardin") {
+			set { "female" "fixed" "scene" "closable" "closed" }
+			after(actions: "ExamineObject") {
+				"Una puerta de hierro que comunica con el exterior"
+			}
+			
+			after(actions: "OpenObject") {
+				response(class: "Attr",
+					instance: "puerta-jardin-sala",
+					unset: "closed")
+			}
+
+			after(actions: "CloseObject") {
+				response(class: "Attr",
+					instance: "puerta-jardin-sala",
+					set: "closed")
+			}
+
+		}
+
+		before(actions: "GoTo", cancel: true) {
+			if(class: "DirectEqualsExit", exit: "norte")
+			if(class: "IsSet", instance: "puerta-sala-jardin", attr: "closed")
+
+			"La puerta está cerrada."
+		}
+
 		connection(exit: "norte", destiny: "jardin")
 	}
 
 	noun(names: "El Jardín, jardin") {
 		after(actions: "LookAround") {
 			"Un colorido jardín se descubre ante tus ojos."
+		}
+
+		noun(names: "puerta, puerta sur, puerta-jardin-sala") {
+			set { "female" "fixed" "scene" "closable" "closed" }
+			after(actions: "ExamineObject") {
+				"Una puerta de hierro que comunica con el exterior"
+			}
+			
+			after(actions: "OpenObject") {
+				response(class: "Attr",
+					instance: "puerta-sala-jardin",
+					unset: "closed")
+			}
+
+			after(actions: "CloseObject") {
+				response(class: "Attr",
+					instance: "puerta-sala-jardin",
+					set: "closed")
+			}
+		}
+
+		before(actions: "GoTo", cancel: true) {
+			if(class: "DirectEqualsExit", exit: "sur")
+			if(class: "IsSet", instance: "puerta-sala-jardin", attr: "closed")
+
+			"La puerta está cerrada."
 		}
 
 		connection(exit: "sur", destiny: "sala")

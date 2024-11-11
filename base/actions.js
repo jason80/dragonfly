@@ -179,7 +179,7 @@ export class ExamineObject extends Action {
 		this.sendEventLater(this.book.parser.directObject) }
 
 	report() {
-		
+		this.book.parser.directObject.set(["described"]);
 	}
 
 	responses() {
@@ -211,6 +211,9 @@ export class LookAround extends Action {
 	}
 
 	report() {
+
+		this.place.set(["described"]);
+
 		let nouns = []
 		let proppers = []
 		this.place.children().forEach(n => {

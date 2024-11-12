@@ -154,7 +154,18 @@ export class Dictionary {
 					const exit = new Exit();
 					exit.load(child);
 					this.exits.push(exit);
-				}
+				} 
+
+				else if (child.getName() ===  "see-list-dialog") {
+					this.seeListDialog = loadListDialog(child); }
+				else if (child.getName() ===  "propper-list-dialog") {
+					this.propperListDialog = loadPropperListDialog(child); }
+				else if (child.getName() ===  "inventory-dialog") {
+					this.inventoryDialog = loadListDialog(child); }
+				else if (child.getName() ===  "look-inside-dialog") {
+					this.lookInsideDialog = loadListDialog(child); }
+				else if (child.getName() ===  "object-chooser-dialog") {
+					this.objectChooserDialog = loadObjectChooserDialog(this.book, child); }
 			}
 		});
 

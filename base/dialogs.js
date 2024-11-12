@@ -112,28 +112,28 @@ export class ObjectChooserDialog {
     }
 }
 
-export function loadListDialog(element) {
+export function loadListDialog(child) {
     return new ListDialog(
-        element.getAttribute("initial-message"),
-        element.getAttribute("separator"),
-        element.getAttribute("and-separator")
+        child.getAttr("initial-message").getValue(),
+        child.getAttr("separator").getValue(),
+        child.getAttr("and-separator").getValue()
     );
 }
 
-export function loadPropperListDialog(element) {
+export function loadPropperListDialog(child) {
     return new PropperListDialog(
-        element.getAttribute("singular"),
-        element.getAttribute("plural"),
-        element.getAttribute("separator"),
-        element.getAttribute("and-separator")
+        child.getAttr("singular").getValue(),
+        child.getAttr("plural").getValue(),
+        child.getAttr("separator").getValue(),
+        child.getAttr("and-separator").getValue()
     );
 }
 
-export function loadObjectChooserDialog(game, element) {
+export function loadObjectChooserDialog(game, child) {
     return new ObjectChooserDialog(
         game,
-        element.getAttribute("message"),
-        element.getAttribute("cancel"),
-        element.getAttribute("error")
+        child.getAttr("message").getValue(),
+        child.getAttr("cancel").getValue(),
+        child.getAttr("error").getValue()
     );
 }

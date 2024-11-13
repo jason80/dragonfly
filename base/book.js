@@ -27,6 +27,8 @@ export class Book {
 		this.parser = new Parser(this);
 		Output.init(this, outputID);
 
+		this.includeFiles = [];
+
 		this.properties = {
 			"show-parsing-process": false,
 			"look-around": "always",
@@ -83,13 +85,23 @@ export class Book {
 	}
 
 	/**
-	 * Carga un archivo dfml.
+	 * Add a dfml path to include list.
 	 *
-	 * @param {string} path Ruta del archivo a cargar.
-	 * @return {Promise} Promesa que se resuelve cuando el archivo ha sido cargado y parseado.
+	 * @param {string} path path to dfml file.
 	 * @memberof Book
 	 */
 	include(path) {
+		this.includeFiles.push(path);
+	}
+
+	/**
+	 * Loads a DFMLFile
+	 *
+	 * @param {string} path Path to DFML file.
+	 * @return {Promise} Return a promise.
+	 * @memberof Book
+	 */
+	#loadDFMLFile(path) {
 		return fetch(path).then(response => {
 			if (!response.ok) {
 				throw new Error(`Loading "${path}" failed.`);
@@ -116,7 +128,12 @@ export class Book {
 	 *
 	 * @memberof Book
 	 */
-	run() {
+	async run() {
+
+		// Include files
+		for (const i of this.includeFiles) {
+			await this.#loadDFMLFile(i);
+		};
 
 		if (this.title.trim() === "") {
 			Output.error("the book title has not been defined");

@@ -34,10 +34,24 @@ export class Book {
 			"look-around": "always",
 			"hide-title": false,
 			"player": "",
+			"prompt": "> ",
 			"text-style": {
 				fontFamily: 'Georgia, serif',
 				fontSize: '14px',
 				color: '#333'
+			},
+			"prompt-style": {
+				fontFamily: 'Georgia, serif',
+				fontSize: '14px',
+				color: '#731',
+			},
+			"input-style": {
+				fontFamily: 'Georgia, serif',
+				fontSize: '14px',
+				color: '#731',
+				border: "None",
+				outline: "None",
+				flex: "1"
 			},
 			"main-title-style": {
 				fontFamily: "Georgia, serif",
@@ -145,7 +159,8 @@ export class Book {
 			return ;
 		}
 
-		this.showTitle();
+		if (!this.getProperty("hide-title"))
+			this.showTitle();
 
 		this.parser.showParsingProcess = this.properties["show-parsing-process"];
 		
@@ -183,13 +198,19 @@ export class Book {
 
 	createInput() {
 		const inputContainer = document.createElement('div');
-		inputContainer.classList.add('input-line');
+		Object.assign(inputContainer.style, {
+			display: "inline-flex",
+			width: "100%",
+			alignItems: "center"
+		});
 	
 		const promptSpan = document.createElement('span');
-		promptSpan.textContent = '> ';
+		Object.assign(promptSpan.style, this.getProperty("prompt-style"));
+		promptSpan.textContent = this.getProperty("prompt");
 		
 		const input = document.createElement('input');
 		input.type = 'text';
+		Object.assign(input.style, this.getProperty("input-style"));
 		
 		inputContainer.appendChild(promptSpan);
 		inputContainer.appendChild(input);

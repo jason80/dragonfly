@@ -55,7 +55,7 @@ export class Parser {
 			// Check if the token is an exit
 			const exit = this.book.dictionary.getExit(line.trim());
 			if (exit) {
-				this.debug(`exit: "${exit.name}" found.`);
+				this.debug(`exit: "${exit.getName()}" found.`);
 				const gotoVerb = this.book.dictionary.verbByAction("GoTo");
 				this.directObjectString = line.trim();
 				this.indirectObjectString = "";
@@ -201,7 +201,9 @@ export class Parser {
 
 	debug(msg) {
 		if (this.showParsingProcess) {
-			Output.print(`Parser: ${msg}`);
+			Output.print(`Parser: ${msg}`, {
+				fontFamily: "'Courier New', Courier, monospace"
+			});
 		}
 	}
 
@@ -219,7 +221,7 @@ export class Parser {
 
 		if (syntax.length === 1) {
 			if (!verb.responds(pair[0])) {
-				this.debug(`verb: '${verb.name}' is not '${pair[0]}.'`);
+				this.debug(`verb: '${verb.getName()}' is not '${pair[0]}.'`);
 				return false;
 			}
 			this.parameters = pair[1].trim();

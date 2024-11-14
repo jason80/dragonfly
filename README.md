@@ -46,3 +46,6 @@ window.onload = function() {
 	book.run();
 }
 ```
+
+## Tutorial:
+[Español](./tutorial/spanish.md "Tutorial en español")

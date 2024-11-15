@@ -24,14 +24,14 @@ Eso se debe a que falta "añadir" partes al libro. Como el título y el autor.
 Crea el archivo "book.dfml" y escribe lo siguiente:
 ```
 book(
-	title: "Tutorial de Dragonfly",
-	author: "Juan Pérez"
+   title: "Tutorial de Dragonfly",
+   author: "Juan Pérez"
 )
 
 dictionary {
-	noun(names: "En Una Habitación, habitacion") {
-		noun(names: "jugador")
-	}
+   noun(names: "En Una Habitación, habitacion") {
+      noun(names: "jugador")
+   }
 }
 ```
 
@@ -40,14 +40,14 @@ Luego, modifica "mygame.js" con lo siguiente:
 import { Book } from "../base/book.js"
 
 window.onload = function() {
-	const book = new Book("game-area");
+   const book = new Book("game-area");
 
-	book.setProperty("player", "jugador");
+   book.setProperty("player", "jugador");
 
-	book.include("../templates/dict-es.dfml");
-	book.include("book.dfml");
+   book.include("../templates/dict-es.dfml");
+   book.include("book.dfml");
 
-	book.run();
+   book.run();
 }
 ```
 
@@ -97,37 +97,113 @@ Ya sabemos que el jugador está adentro de un habitación. Pero quedaría mejor 
 
 ```
 noun(names: "En Una Habitación, habitacion") {
-    describe-place {
-        "En la habitación puedo ver una cama y una mesita de luz."
-    }
-	noun(names: "jugador")
+   describe-place {
+      "En la habitación puedo ver una cama y una mesita de luz."
+   }
+   noun(names: "jugador")
 }
 ```
 
 Actualiza la página del navegador y verás el resultado.
 
-*Nota: describe-place ejecuta lo que está entre las llaves {} "después" de que el jugador "mire hacia si alrededor". Y Dragonfly lo reemplazará por la siguente expresión nativa:*
+* `describe-place` es un evento que ocurre "después" de "mirar al rededor".
+
+* El texto solitario entre comillas que ejecuta describe-place significa `imprime esto en la pantalla`. Siempre debe estar entre comillas (simples o dobles).
+
+Vamos a describir al jugador:
+
+A diferencia de describir un lugar, describiremos un objeto (Esto se aclara porque "en Dragonfly, lugares y objetos son sustantivos").
 
 ```
-noun(names: "En Una Habitación, habitacion") {
-    after(actions: "LookAround") { // < Dragonfly cambiará describe-place por ésta linea.
-        "En la habitación puedo ver una cama y una mesita de luz."
-    }
-	noun(names: "jugador")
+noun(names: "jugador") {
+   describe-object {
+      "¡Hola! Soy el jugador. No soy bueno resolviendo acertijos, por ello me tendrás que ayudar."
+      "Dime lo que tengo que hacer y ¡presiona enter!."
+   }
 }
 ```
 
-El texto solitario entre comillas que ejecuta describe-place significa `imprime esto en la pantalla`. Siempre debe estar entre comillas (simples o dobles).
+Ahora prueba "examinar al jugador", "x jugador", "mirarme" o "mírate".
 
-*Nota: En realidad el texto solitario ente comillas es una respuesta a un evento y Dragonfly lo reemplazará por la siguente expresion nativa:*
+### Internamente es mas complejo:
 
-```
-noun(names: "En Una Habitación, habitacion") {
-    describe-place {
-		response(class: "Print") {
-        	"En la habitación puedo ver una cama y una mesita de luz."
-		}
-    }
-	noun(names: "jugador")
+`describe-place` y `describe-object` son formas simplificadas del evento nativo `after` se pueden escribir como quieras, las opciones están.
+
+Las siguentes expresiones en dragonfly son equivalentes:
+
+<table>
+
+<tr>
+   <td>
+      Expresión
+   </td>
+   <td>
+      Equivalente
+   </td>
+   <td>
+      Explicación
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>
+describe-place {
+   "Texto de la descripción"
 }
-```
+</pre>
+   </td>
+   <td>
+<pre>
+after(actions: "LookAround") {
+   "Texto de la descripción"
+}
+</pre>
+   </td>
+   <td>
+Dragonfly reemplazará describe-place por el evento "después" de "mirar alrededor".
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>
+describe-object {
+   "Texto de la descripción"
+}
+</pre>
+   </td>
+   <td>
+<pre>
+after(actions: "ExamineObject") {
+   "Texto de la descripción"
+}
+</pre>
+   </td>
+   <td>
+describe-object será reemplazado por el evento "después" de "examinar objeto".
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>
+describe-place {
+   "Texto de la descripción"
+}
+</pre>
+   </td>
+   <td>
+<pre>
+describe-place {
+   response(class: "Print") {
+      "Texto de la descripción"
+   }
+}
+</pre>
+   </td>
+   <td>
+El texto solitario dentro de los eventos, Dragonfly los reemplazará por una respuesta de acción "Print".
+   </td>
+</tr>
+</table>

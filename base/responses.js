@@ -23,12 +23,13 @@ export class Print extends ActionResponse {
 
 	load(node) {
 
-		this.style = node.getAttr("style").getValue();
+		if (node.hasAttr("style"))
+			this.style = node.getAttr("style").getValue();
 
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue();
+					this.message = node.children[0].getValue().getValue();
 					return ;
 				}
 			}
@@ -58,12 +59,13 @@ export class Append extends ActionResponse {
 
 	load(node) {
 
-		this.style = node.getAttr("style").getValue();
+		if (node.hasAttr("style"))
+			this.style = node.getAttr("style").getValue();
 
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue();
+					this.message = node.children[0].getValue().getValue();
 					return ;
 				}
 			}

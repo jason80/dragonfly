@@ -87,3 +87,47 @@ Tutorial de Dragonfly
 `>`
 
 ---
+
+Donde aparece el cursor podrás darle órdenes al jugador como `mirar` o `examinar`, `salta`, `inventario`, etc.
+
+## Modificando Sustantivos
+
+### Descripción:
+Ya sabemos que el jugador está adentro de un habitación. Pero quedaría mejor agregar una pequeña descripción cada vez que el jugador `mire` o venga de otro lugar.
+
+```
+noun(names: "En Una Habitación, habitacion") {
+    describe-place {
+        "En la habitación puedo ver una cama y una mesita de luz."
+    }
+	noun(names: "jugador")
+}
+```
+
+Actualiza la página del navegador y verás el resultado.
+
+*Nota: describe-place ejecuta lo que está entre las llaves {} "después" de que el jugador "mire hacia si alrededor". Y Dragonfly lo reemplazará por la siguente expresión nativa:*
+
+```
+noun(names: "En Una Habitación, habitacion") {
+    after(actions: "LookAround") { // < Dragonfly cambiará describe-place por ésta linea.
+        "En la habitación puedo ver una cama y una mesita de luz."
+    }
+	noun(names: "jugador")
+}
+```
+
+El texto solitario entre comillas que ejecuta describe-place significa `imprime esto en la pantalla`. Siempre debe estar entre comillas (simples o dobles).
+
+*Nota: En realidad el texto solitario ente comillas es una respuesta a un evento y Dragonfly lo reemplazará por la siguente expresion nativa:*
+
+```
+noun(names: "En Una Habitación, habitacion") {
+    describe-place {
+		response(class: "Print") {
+        	"En la habitación puedo ver una cama y una mesita de luz."
+		}
+    }
+	noun(names: "jugador")
+}
+```

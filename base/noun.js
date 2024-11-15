@@ -327,6 +327,18 @@ export class Noun extends Entity {
 					const connection = new Connection();
 					connection.load(e);
 					this.connections.push(connection);
+				} else if (e.getName() === "describe-place") {
+					e.setName("after");
+					e.setAttrString("actions", "LookAround");
+					const event = new ActionEvent();
+					event.load(e);
+					this.afterEvents.push(event);
+				} else if (e.getName() === "describe-object") {
+					e.setName("after");
+					e.setAttrString("actions", "ExamineObject");
+					const event = new ActionEvent();
+					event.load(e);
+					this.afterEvents.push(event);
 				}
 			}
 		});

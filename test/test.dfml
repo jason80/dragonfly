@@ -5,7 +5,8 @@ book (
 
 dictionary {
 	noun(names: "La Bodega, bodega") {
-		after(actions: "LookAround") {
+
+		describe-place {
 			"En la oscura bodega alcanzo a ver botellas, barriles y un cofre."
 		}
 
@@ -13,7 +14,8 @@ dictionary {
 
 		noun(names: "botellas, botella") {
 			set { "female" "plural" "scene" }
-			after(actions: "ExamineObject") {
+
+			describe-object {
 				"Opacadas por el polvo de años, todas con el cuello inclinado hacia abajo."
 			}
 
@@ -24,7 +26,8 @@ dictionary {
 
 		noun(names: "barriles, barril") {
 			set { "plural" "heavy" "container" "closable" "closed" "scene" }
-			after(actions: "ExamineObject") {
+			
+			describe-object {
 				"Tres barriles de medio hombre de altura se alzan desde el suelo. Parecen de roble."
 			}
 
@@ -40,7 +43,7 @@ dictionary {
 		noun(names: "cofre, baul") {
 			set { "heavy" "container" "closable" "closed" "scene" }
 
-			after(actions: "ExamineObject") {
+			describe-object {
 				"De tablones unidos con planchas de hierro, descanza un cofre en el rincón de la bodega."
 			}
 

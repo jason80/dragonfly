@@ -169,13 +169,12 @@ export class AppendName extends ActionResponse {
 	}
 
 	execute(action) {
-		let objList = action.book.dictionary.getNouns(this.instance);
+		const objList = action.book.dictionary.getNouns(this.instance);
 		if (objList.length === 0) {
 			Output.error(`On AppendName response: noun "${this.instance}" not found in dictionary.`);
 		}
 
-		obj = objList[0];
-		obj.appendName(this.name);
+		objList[0].appendName(this.name);
 	}
 
 	load(node) {

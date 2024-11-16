@@ -3,6 +3,35 @@ book (
 	author: "Javier Candales"
 )
 
+// Clonables
+dictionary {
+	noun(names: "suelo, piso, -suelo") {
+		set { "fixed" "scene" }
+		describe-object() {
+			"No hay nada interesante en el suelo."
+		}
+	}
+
+	noun(names: "paredes, pared, muros, muro, -paredes") {
+		set { "fixed" "female" "plural" "scene" }
+		describe-object() {
+			"Las paredes vacias hacen mas decadente el lugar."
+		}
+	}
+
+	noun(names: "techo, cielorraso, -techo") {
+		set { "fixed" "scene" }
+		describe-object() {
+			"No se puede ver nada en el techo."
+		}
+		
+		before(actions: "TouchObject, PushObject, PullObject, TakeObject, PressObject",
+				cancel: true) {
+			"Está muy alto."
+		}
+	}
+}
+
 dictionary {
 	noun(names: "La Bodega, bodega") {
 
@@ -80,6 +109,10 @@ dictionary {
 				response(class: "AppendName", instance: "notita", name: "código de acceso")
 			}
 		}
+
+		clone(instance: "-suelo")
+		clone(instance: "-paredes")
+		clone(instance: "-techo")
 
 	}
 }

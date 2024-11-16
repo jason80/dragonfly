@@ -168,7 +168,7 @@ export class Noun extends Entity {
 	 * @return {boolean} 
 	 * @memberof Noun
 	 */
-	#doEvent(action, eventList) {
+	doEvent(action, eventList) {
 			
 		let result = true;
 		for (const actionEvent of eventList) {
@@ -195,7 +195,7 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	doBefore(action) {
-		return this.#doEvent(action, this.beforeEvents);
+		return this.doEvent(action, this.beforeEvents);
 	}
 	
 	/**
@@ -207,7 +207,7 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	doAfter(action) {
-		return this.#doEvent(action, this.afterEvents);
+		return this.doEvent(action, this.afterEvents);
 	}
 
 	/**
@@ -286,6 +286,33 @@ export class Noun extends Entity {
 	}
 
 	/**
+	 * Clone the object on dictionary inner especified container.
+	 * Utilice clone to add generic objects like floor, walls and roof.
+	 *
+	 * @param {Noun} container
+	 * @memberof Noun
+	 */
+	clone(container) {
+		/*let noun = new Noun(container);
+		noun.names = [...this.names];
+		noun.set(this.attrs);
+		noun.variables = {...this.variables};
+
+		noun.book = this.book;
+		noun.dictionary = this.dictionary;
+
+		this.dictionary.nouns.push(noun);*/
+
+		const copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+		copy.container = container;
+		//copy.book = this.book;
+		//copy.dictionary = this.dictionary;
+
+		this.dictionary.nouns.push(copy);
+
+	}
+
+	/**
 	 * Load the noun from dfml element.
 	 *
 	 * @param {DFMLNode} node dfml element.
@@ -339,6 +366,17 @@ export class Noun extends Entity {
 					const event = new ActionEvent();
 					event.load(e);
 					this.afterEvents.push(event);
+				} else if (e.getName() === "clone") {
+					const instance = e.getAttr("instance").getValue();
+					const lst = this.dictionary.getNouns(instance);
+
+					if (lst.length === 0) {
+						Output.error(`Clone: noun target "${instance}" not found in dictionary.`);
+						return ;
+					}
+
+					lst[0].clone(this);
+
 				}
 			}
 		});

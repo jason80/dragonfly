@@ -46,7 +46,7 @@ export class IsNotSet extends Condition {
 
 	check(action) {
 		// Gets the noun
-		noun = action.book.dictionary.getNouns(this.instance)
+		const noun = action.book.dictionary.getNouns(this.instance)
 		if (noun.length === 0) {
 			 
 			Output.error(`On IsNotSet condition: instance "${this.instance}" not found in dictionary.`);

@@ -58,5 +58,27 @@ dictionary {
 			}
 		}
 
+		noun(names: "papel, papelito, nota, notita") {
+			describe-object {
+				"Un pequeño trozo de papel."
+			}
+
+			describe-object {
+				if(class: "IsNotSet", instance: "notita", attr: "leida")
+				"Tiene algo escrito."
+			}
+
+			describe-object {
+				if(class: "IsSet", instance: "notita", attr: "leida")
+				"Tiene escrito un código de seis números."
+			}
+
+			before(actions: "ReadObject", cancel: true) {
+				"La nota dice:"
+				'"5 6 8 0 1 3"'
+				response(class: "Attr", instance: "notita", set: "leida")
+			}
+		}
+
 	}
 }

@@ -187,6 +187,25 @@ export class ExamineObject extends Action {
 	}
 } actions.ExamineObject = ExamineObject;
 
+export class ExamineMe extends Action {
+	constructor() {
+		super();
+	}
+
+	init() {
+		const player = this.book.getProperty("player");
+		const verb = this.book.dictionary.verbByAction("ExamineObject");
+
+		this.book.execute(`${verb.getName()} ${player}`);
+
+		return false;
+	}
+
+	check() { return false; }
+
+
+} actions.ExamineMe = ExamineMe;
+
 export class LookAround extends Action {
 
 	constructor() {

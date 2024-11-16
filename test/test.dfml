@@ -10,7 +10,8 @@ dictionary {
 			"En la oscura bodega alcanzo a ver botellas, barriles y un cofre."
 		}
 
-		noun(names: "jugador, player, -player")
+		noun(names: "jugador, player, -player") {
+		}
 
 		noun(names: "botellas, botella") {
 			set { "female" "plural" "scene" }

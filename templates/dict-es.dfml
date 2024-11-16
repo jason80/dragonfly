@@ -58,6 +58,9 @@ dictionary {
 	verb(names: "examinar, examina, mirar, mira, ver, x, m",
 			action: "LookAround")
 
+	verb(names: "examinate, examinarme, examinarte, mirate, mirarme, mirarte, soy, yo",
+			action: "ExamineMe")
+
 	verb(names: "toma, tomar, agarra, agarrar, recoger, recoge, coge, coger, junta, juntar, obtener, obtiene, sustrae, sustraer, sacar, saca, extrae, estraer",
 		syntax: "1, de/desde/del, 2", action: "TakeFrom") {
 		response(id: "indirect-not-found", string: "No se de dónde lo quieres sacar.")

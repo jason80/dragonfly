@@ -207,3 +207,211 @@ El texto solitario dentro de los eventos, Dragonfly los reemplazará por una res
    </td>
 </tr>
 </table>
+
+## Añadiendo sustantivos
+
+Vamos a añadir una linterna a la escena, simplemente de la siguiente forma:
+
+```
+dictionary {
+   noun(names: "En Una Habitación, habitacion") {
+      describe-place {
+         "En la habitación puedo ver una cama y una mesita de luz."
+      }
+
+      noun(names: "jugador") {
+         describe-object {
+            "¡Hola! Soy el jugador. No soy bueno resolviendo acertijos, por ello me tendrás que ayudar."
+            "Dime lo que tengo que hacer y ¡presiona enter!."
+         }
+      }
+
+      noun(names: "linterna, luz") {
+         describe-object {
+            "Una antigua linterna de lata con un enorme foco."
+         }
+      }
+   }
+}
+```
+
+Dragonfly intentará describir todo lo que el jugador tiene alrededor. Por eso verás esto después de la descripción del lugar:
+
+`Puedo ver: un linterna.`
+
+Claramente el motor no tiene forma de identificar el género del sustantivo linterna.
+
+### Attributos:
+
+La forma de corregir esto es añadiendo el atributo `female` a linterna:
+
+```
+noun(names: "linterna, luz") {
+
+   set { "female" }
+
+   describe-object {
+      "Una antigua linterna de lata con un enorme foco."
+   }
+}
+```
+
+Ahora prueba "recoger linterna", "inventario", "dejar la linterna".
+
+`set` admite varios atributos y se usa de ésta forma: `set { "female" "plural" "scene" }`
+
+Algunos atributos pueden modificar el comportamiento del sustantivo. Aquí hay una lista de los mas usuales:
+
+<table>
+<tr style="font-weight: bold;">
+   <td>
+Attributo(s)
+   </td>
+   <td>
+Descripcion
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"female"</pre>
+   </td>
+   <td>
+Se refiere al objeto como "la" o "una"
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"plural"</pre>
+   </td>
+   <td>
+Se refiere al objeto como "los" o "unos"
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"female" "plural"</pre>
+   </td>
+   <td>
+Se refiere al objeto como "las" o "unas"
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"definited"</pre>
+   </td>
+   <td>
+Suele referirse al objeto como "el" en vez de "un".
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"countless"</pre>
+   </td>
+   <td>
+El objeto se vuelve incontable: "Puedes ver: agua".
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"propper"</pre>
+   </td>
+   <td>
+El sustantivo se vuelve propio. Los sustantivos propios se describen aparte de los comunes: "Dante está aqui" o "Puedes ver a Dante".
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"scene"</pre>
+   </td>
+   <td>
+Ocultará el objeto cuando se describa el lugar.
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"container"</pre>
+   </td>
+   <td>
+Conceptualmente, el objeto se vuelve contenedor. El jugador podrá "mirar dentro ..." "sacar de ..."
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"closable"</pre>
+   </td>
+   <td>
+El objeto se podrá cerrar y abrir. En el caso de que sea "container", el jugador no podrá mirar dentro o sacar cosas dentro de él.
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"closed"</pre>
+   </td>
+   <td>
+Se utiliza cuando el objeto es "closable" e indica que está cerrado. La ausencia de "closed" indica que está abierto.
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"fixed"</pre>
+   </td>
+   <td>
+El objeto estára fijo en el lugar y el jugador no podrá "recoger el objeto", "empujar" ni "tirar de".
+   </td>
+</tr>
+
+<tr>
+   <td>
+<pre>"heavy"</pre>
+   </td>
+   <td>
+El jugador podrá "empujar" y "tirar del" objeto. Pero no podrá llevárselo porque es muy pesado.
+   </td>
+</tr>
+
+</table>
+
+Agregemos los objetos que faltan:  
+ 
+```
+noun(names: "cama, litera, camastro, colchon, muebles, mueble") {
+   set { "female" }
+   
+   describe-object {
+      "La cama es de una plaza y ocupa casi toda la habitación."
+   }
+}
+
+noun(names: "mesita de luz, mesita, muebles, mueble") {
+   set { "female" }
+   
+   describe-object {
+      "En el pasado era el lugar de una lámpara de noche."
+   }
+}
+```
+
+Así como Dragonfly intenta describir la linterna, lo hará con la cama y la mesita de luz:  
+  
+`Puedo ver: una cama, una mesita de luz y una linterna.`
+
+Claro que no está bueno porque en la descripción ya se hace mención de estos dos sustantivos.
+
+Para evitar esto, establece el atributo "scene" a ambos objetos para que "pertenezcan a la escena" y Dragonfly no los describa.
+
+#### Limitando un poco las cosas:
+
+Prueba "recoger la cama" y "recoger la mesita".
+
+Para solucionar esto rápidamente establece el atributo "fixed" a la mesita de luz y "heavy" a la cama. Prueba "recoger", "empujar", "jalar" para ver los resultados.

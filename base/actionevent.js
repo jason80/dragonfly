@@ -111,29 +111,50 @@ export class ActionEvent {
 			// Condition or response found:
 			if (child.getElementType() === DFMLElement.NODE) {
 				if (child.getName() === "response") {
-					const responseClassName = child.getAttr("class").getValue();
-					const responseClass = responses[responseClassName];
-					if (!responseClass) {
-						Output.error(`response class "${responseClassName}" not exists.`);
-					} else {
-						const response = new responseClass();
-						response.load(child);
-						this.addResponse(response);
-					}
-				}
+					this.loadResponse(child);
+				} else if (child.getName() === "if") {
+					this.loadCondition(child);
+				} else { // Refers to Condition or Response class name
 
-				if (child.getName() === "if") {
-					const condClassName = child.getAttr("class").getValue();
-					const condClass = conditions[condClassName];
-					if (!condClass) {
-						Output.error(`condition class "${condClassName}" not exists.`);
+					// Convert to class name style
+					let className = child.getName()
+							.split('-')
+							.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+							.join('');
+
+					if (className.startsWith("If")) {
+						child.setAttrString("class", className.slice(2));
+						this.loadCondition(child);
 					} else {
-						const cond = new condClass();
-						cond.load(child);
-						this.addCondition(cond);
+						child.setAttrString("class", className);
+						this.loadResponse(child);
 					}
 				}
 			}
 		});
+	}
+
+	loadResponse(node) {
+		const responseClassName = node.getAttr("class").getValue();
+		const responseClass = responses[responseClassName];
+		if (!responseClass) {
+			Output.error(`response class "${responseClassName}" not exists.`);
+		} else {
+			const response = new responseClass();
+			response.load(node);
+			this.addResponse(response);
+		}
+	}
+
+	loadCondition(node) {
+		const condClassName = node.getAttr("class").getValue();
+		const condClass = conditions[condClassName];
+		if (!condClass) {
+			Output.error(`condition class "${condClassName}" not exists.`);
+		} else {
+			const cond = new condClass();
+			cond.load(node);
+			this.addCondition(cond);
+		}
 	}
 };

@@ -1,3 +1,9 @@
+/**
+ * Represents an action performed by the player.
+ * When the verb is parsed, the associated action is executed by the execute() method.
+ */
+
+
 import { Output } from "./output.js"
 import { Noun } from "./noun.js";
 

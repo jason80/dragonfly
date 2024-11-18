@@ -8,6 +8,10 @@ import { Helper } from "./helper.js"
  * @class Entity
  */
 export class Entity {
+	/**
+	 * Creates an instance of Entity.
+	 * @memberof Entity
+	 */
 	constructor() {
 		this.names = [];
 		this.book = null;
@@ -26,13 +30,6 @@ export class Entity {
 		for (const n of this.names) {
 			if (Helper.isEquals(n, name)) return true;
 		}
-
-		/*
-		this.names.forEach(n => {
-			if (n == name) result = true;
-			
-		});*/
-
 
 		return false;
 	}

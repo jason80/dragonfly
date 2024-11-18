@@ -293,20 +293,8 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	clone(container) {
-		/*let noun = new Noun(container);
-		noun.names = [...this.names];
-		noun.set(this.attrs);
-		noun.variables = {...this.variables};
-
-		noun.book = this.book;
-		noun.dictionary = this.dictionary;
-
-		this.dictionary.nouns.push(noun);*/
-
 		const copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 		copy.container = container;
-		//copy.book = this.book;
-		//copy.dictionary = this.dictionary;
 
 		this.dictionary.nouns.push(copy);
 

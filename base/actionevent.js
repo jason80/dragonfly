@@ -1,13 +1,15 @@
-import { DFMLElement } from "../dfml/js/main/element.js";
-import { DFMLNode } from "../dfml/js/main/node.js";
-import { DFMLValue } from "../dfml/js/main/value.js";
-import { Action  } from "./action.js";
-import { Output } from "./output.js";
-import { actions } from "./actions.js";
-import { responses } from "./responses.js";
-import { conditions } from "./conditions.js";
-
+/**
+ * An ActionEvent is executed under an action triggered by the player.
+ * A Noun can have one or more ActionEvents for "before" and 
+ * one or more for "after."
+ *
+ */
 export class ActionEvent {
+
+	/**
+	 * Creates an instance of ActionEvent.
+	 * @memberof ActionEvent
+	 */
 	constructor() {
 		this.actions = [];
 		this.cancel = false;
@@ -15,12 +17,11 @@ export class ActionEvent {
 		this.conditions = []
 	}
 
-	
 	/**
+	 * Checks if this ActionEvent responds to the action to be handled.
 	 *
-	 *
-	 * @param {Action} action
-	 * @return {boolean} 
+	 * @param {Action} action action to check.
+	 * @return {boolean} true if the action matches any of this ActionEvent.
 	 * @memberof ActionEvent
 	 */
 	match(action) {
@@ -28,9 +29,9 @@ export class ActionEvent {
 	}
 
 	/**
+	 * Adds an ActionResponse to this event.
 	 *
-	 *
-	 * @param {ActionResponse} response
+	 * @param {ActionResponse} response ActionResponse to add.
 	 * @memberof ActionEvent
 	 */
 	addResponse(response) {
@@ -38,9 +39,9 @@ export class ActionEvent {
 	}
 
 	/**
+	 * Adds a Condition to this event.
 	 *
-	 *
-	 * @param {Condition} condition
+	 * @param {Condition} condition Condition to add.
 	 * @memberof ActionEvent
 	 */
 	addCondition(condition) {
@@ -48,10 +49,10 @@ export class ActionEvent {
 	}
 
 	/**
+	 * Checks the conditions of the event to be executed.
 	 *
-	 *
-	 * @param {Action} action
-	 * @return {boolean} 
+	 * @param {Action} action Current action to be executed.
+	 * @return {boolean} true if all conditions are met.
 	 * @memberof ActionEvent
 	 */
 	checkConditions(action) {
@@ -64,9 +65,9 @@ export class ActionEvent {
 	}
 
 	/**
+	 * Executes all responses in the order they were added.
 	 *
-	 *
-	 * @param {Action} action
+	 * @param {Action} action current action.
 	 * @memberof ActionEvent
 	 */
 	execute(action) {
@@ -76,9 +77,9 @@ export class ActionEvent {
 	}
 
 	/**
-	 * 
+	 * Loads the event from a DFML node.
 	 *
-	 * @param {DFMLNode} node
+	 * @param {DFMLNode} node DFML node.
 	 * @memberof ActionEvent
 	 */
 	load(node) {
@@ -134,6 +135,12 @@ export class ActionEvent {
 		});
 	}
 
+	/**
+	 * Loads an ActionResponse from a DFML node.
+	 *
+	 * @param {DFMLNode} node DFML node.
+	 * @memberof ActionEvent
+	 */
 	loadResponse(node) {
 		const responseClassName = node.getAttr("class").getValue();
 		const responseClass = responses[responseClassName];
@@ -146,6 +153,12 @@ export class ActionEvent {
 		}
 	}
 
+	/**
+	 * Loads a Condition from a DFML node.
+	 *
+	 * @param {DFMLNode} node DFML node.
+	 * @memberof ActionEvent
+	 */
 	loadCondition(node) {
 		const condClassName = node.getAttr("class").getValue();
 		const condClass = conditions[condClassName];

@@ -196,6 +196,10 @@ export class Book {
 		Output.print(this.author, this.getProperty("author-style"));
 	}
 
+	pause() {
+		
+	}
+
 	createInput() {
 		const inputContainer = document.createElement('div');
 		Object.assign(inputContainer.style, {

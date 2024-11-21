@@ -1,0 +1,13 @@
+dictionary {
+	noun(names: "En Una Playa Desierta, playa") {
+
+		describe-place() {
+			if-is-not-set(instance: "playa", attr: "described")
+			"Me pongo de pie y miro alrededor."
+		}
+
+		describe-place() {
+			"El mar se abre ante mi hacia el este. Al oeste veo un pequeño palamar."
+		}
+	}
+}

@@ -1,0 +1,22 @@
+book (
+	title: "Pruba de Prólogo",
+	author: "Javier Candales"
+)
+
+dictionary {
+
+	noun(names: "prologue-place") {
+		noun(names: "jugador, -player")
+
+		// Prologo
+		before(actions: "LookAround", cancel: true) {
+			"Me despierto ..."
+			pause()
+			"Viento y arena a mi alrededor ..."
+			pause()
+			show-title()
+			move(instance: "-player", destiny: "playa")
+			execute { "mirar" }
+		}
+	}
+}

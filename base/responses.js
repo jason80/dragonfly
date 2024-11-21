@@ -195,18 +195,18 @@ export class Move extends ActionResponse {
 	}
 
 	#getObj(action, name) {
-		objList = action.book.dictionary.getNouns(name);
+		const objList = action.book.dictionary.getNouns(name);
 		if (objList.length === 0) return null;
 		return objList[0];
 	}
 
 	execute(action) {
-		obj = this.getObj(action, this.instance)
+		const obj = this.#getObj(action, this.instance)
 		if (!obj) {
 			Output.error(`On Move response: noun "${this.instance}" not found in dictionary.`);
 		}
 
-		dest = this.getObj(action, this.destiny)
+		const dest = this.#getObj(action, this.destiny)
 		if (!dest) {
 			Output.error(`On Move response: destiny "{this.destiny}" not found in dictionary.`);
 		}
@@ -299,7 +299,7 @@ export class Execute extends ActionResponse {
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.sentence = node.children[0].getValue();
+					this.sentence = node.children[0].getValue().getValue();
 					return ;
 				}
 			}

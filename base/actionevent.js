@@ -4,6 +4,13 @@
  * one or more for "after."
  *
  */
+
+import { actions } from "./actions.js";
+import { responses } from "./responses.js";
+import { conditions } from "./conditions.js"
+import { DFMLElement } from "../dfml/js/main/element.js";
+import { DFMLValue } from "../dfml/js/main/value.js";
+
 export class ActionEvent {
 
 	/**

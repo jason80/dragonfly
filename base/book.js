@@ -1,11 +1,12 @@
 import { Output } from "./output.js";
+import { Input } from "./input.js";
 import { Dictionary } from "./dictionary.js";
 import { Parser } from "./parser.js";
 import { DFMLParser } from "../dfml/js/main/parser.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
 
-/** Objeto principal que contiene todo el juego.
+/** Main object which contains all of the game.
  *
  * @export
  * @class Book
@@ -14,7 +15,7 @@ export class Book {
 
 	/**
 	 * Creates an instance of Book.
-	 * @param {string} outputID elemento div que será la pantalla principal del juego.
+	 * @param {string} outputID div element will be the main screen of the game.
 	 * @memberof Book
 	 */
 	constructor(outputID) {
@@ -26,6 +27,8 @@ export class Book {
 		this.dictionary = new Dictionary(this);
 		this.parser = new Parser(this);
 		Output.init(this, outputID);
+
+		this.input = new Input(this);
 
 		this.includeFiles = [];
 
@@ -77,10 +80,10 @@ export class Book {
 	}
 
 	/**
-	 * Establece el valor de una propiedad global.
+	 * Sets the property value.
 	 *
-	 * @param {string} name Nombre de la propiedad.
-	 * @param {*} value Valor de la propiedad.
+	 * @param {string} name name of the property.
+	 * @param {*} value value of the property.
 	 * @memberof Book
 	 */
 	setProperty(name, value) {
@@ -88,10 +91,10 @@ export class Book {
 	}
 
 	/**
-	 * Devuelve el valor de una propiedad global.
+	 * Gets the value of the property.
 	 *
-	 * @param {string} name nombre de la propiedad.
-	 * @return {*} el valor de la propiedad.
+	 * @param {string} name name of the property.
+	 * @return {*} el value of the property.
 	 * @memberof Book
 	 */
 	getProperty(name) {
@@ -138,7 +141,7 @@ export class Book {
 	}
 
 	/**
-	 * Inicia la ejecución del juego.
+	 * Runs the game.
 	 *
 	 * @memberof Book
 	 */
@@ -184,62 +187,29 @@ export class Book {
 			this.execute(lookVerb.getName());
 		}
 
-		this.createInput();
+		this.input.createInput();
 	}
 
+	/**
+	 * Execute a sentence.
+	 *
+	 * @param {string} text sentence to execute.
+	 * @memberof Book
+	 */
 	execute(text) {
 		this.parser.parse(text);
 	}
 
+	/**
+	 * Show the book title and the author.
+	 */
 	showTitle() {
 		Output.print(this.title, this.getProperty("main-title-style"));
 		Output.print(this.author, this.getProperty("author-style"));
 	}
 
-	pause() {
-		
-	}
-
-	createInput() {
-		const inputContainer = document.createElement('div');
-		Object.assign(inputContainer.style, {
-			display: "inline-flex",
-			width: "100%",
-			alignItems: "center"
-		});
-	
-		const promptSpan = document.createElement('span');
-		Object.assign(promptSpan.style, this.getProperty("prompt-style"));
-		promptSpan.textContent = this.getProperty("prompt");
-		
-		const input = document.createElement('input');
-		input.type = 'text';
-		Object.assign(input.style, this.getProperty("input-style"));
-		
-		inputContainer.appendChild(promptSpan);
-		inputContainer.appendChild(input);
-		Output.outputDiv.appendChild(inputContainer);
-	
-		input.focus();
-		
-		// Handle user input
-		input.addEventListener('keydown', (event) => {
-		if (event.key === 'Enter') {
-			const userInput = input.value;
-			input.disabled = true;
-			
-			this.handleInput(userInput);
-			this.createInput();
-		}
-		});
-	}
-
-	handleInput(userInput) {
-		this.execute(userInput.trim());
-	}
-
 	/**
-	 * Carga la información del libro desde el nodo dfml.
+	 * Loads the book info from dfml node.
 	 *
 	 * @param {DFMLNode} node
 	 * @memberof Book

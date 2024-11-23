@@ -389,7 +389,7 @@ export class Pause extends ActionResponse {
 	}
 
 	execute(action) {
-		action.book.pause();
+		action.book.input.pause();
 	}
 
 	load(node) {}

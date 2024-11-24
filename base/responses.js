@@ -388,8 +388,8 @@ export class Pause extends ActionResponse {
 		return "Pause";
 	}
 
-	execute(action) {
-		action.book.input.pause();
+	async execute(action) {
+		await action.book.input.pause();
 	}
 
 	load(node) {}

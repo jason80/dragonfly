@@ -29,7 +29,7 @@ export class ActionResponse {
 	 * @abstract
 	 * @memberof ActionResponse
 	 */
-	execute(action) {}
+	async execute(action) {}
 
 	/**
 	 * Loads the ActionResponse from a DFML node.

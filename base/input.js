@@ -15,10 +15,38 @@ export class Input {
 	 */
 	constructor(book) {
 		this.book = book;
+		this.continue_ = false;
 	}
 
-	pause() {
-			
+	async pause() {
+		const inputContainer = document.createElement('div');
+		const input = document.createElement('input');
+		input.textContent = "Continuar";
+		inputContainer.appendChild(input);
+		Output.outputDiv.appendChild(inputContainer);
+
+		Object.assign(input.style, this.book.getProperty("input-style"));
+
+		input.readOnly = true;
+		input.focus();
+
+		this.continue_ = false;
+
+		input.addEventListener('keydown', event => {
+			if (event.key === "Enter") {
+				this.continue_ = true;
+				input.remove();
+			}
+		});
+
+		await new Promise(resolve => {
+			const checkInterval = setInterval(() => {
+				if (this.continue_ === true) {
+					clearInterval(checkInterval); // Detener el intervalo
+					resolve(); // Resolver la Promesa
+				}
+			}, 100); // Revisión cada 100 ms
+		});
 	}
 
 	/**
@@ -26,7 +54,7 @@ export class Input {
 	 *
 	 * @memberof Input
 	 */
-	createInput() {
+	async createInput() {
 		const inputContainer = document.createElement('div');
 		Object.assign(inputContainer.style, {
 			display: "inline-flex",
@@ -49,7 +77,7 @@ export class Input {
 		input.focus();
 		
 		// Handle user input
-		input.addEventListener('keydown', (event) => {
+		input.addEventListener('keydown', event => {
 		if (event.key === 'Enter') {
 			input.disabled = true;
 			

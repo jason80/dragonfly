@@ -77,10 +77,10 @@ export class ActionEvent {
 	 * @param {Action} action current action.
 	 * @memberof ActionEvent
 	 */
-	execute(action) {
-		this.responses.forEach(r => {
-			r.execute(action);
-		});
+	async execute(action) {
+		for (const r of this.responses) {
+			await r.execute(action);
+		}
 	}
 
 	/**

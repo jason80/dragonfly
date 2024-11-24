@@ -184,10 +184,10 @@ export class Book {
 		if (this.properties["look-around"] === "always" ||
 			this.properties["look-around"] === "on-start") {
 			const lookVerb = this.dictionary.verbByAction("LookAround");
-			this.execute(lookVerb.getName());
+			await this.execute(lookVerb.getName());
 		}
 
-		this.input.createInput();
+		await this.input.createInput();
 	}
 
 	/**
@@ -196,8 +196,8 @@ export class Book {
 	 * @param {string} text sentence to execute.
 	 * @memberof Book
 	 */
-	execute(text) {
-		this.parser.parse(text);
+	async execute(text) {
+		await this.parser.parse(text);
 	}
 
 	/**

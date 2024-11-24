@@ -30,7 +30,7 @@ export class Parser {
 	 * @param {string} line string line to parse.
 	 * @memberof Parser
 	 */
-	parse(line) {
+	async parse(line) {
 		const tokens = line.trim().split(" ").filter(t => t.trim());
 
 		// Empty line
@@ -65,7 +65,7 @@ export class Parser {
 				action.book = this.book;
 
 				this.debug(`calling GoTo action on exit: "${this.directObjectString}".`);
-				action.execute();
+				await action.execute();
 			} else {
 				this.debug("exit not found.");
 				this.parse("?");
@@ -114,7 +114,7 @@ export class Parser {
 			}
 		}
 
-		action.execute();
+		await action.execute();
 	}
 
 	checkSyntax(verb, tokens) {

@@ -168,7 +168,7 @@ export class Noun extends Entity {
 	 * @return {boolean} 
 	 * @memberof Noun
 	 */
-	doEvent(action, eventList) {
+	async doEvent(action, eventList) {
 			
 		let result = true;
 		for (const actionEvent of eventList) {
@@ -178,7 +178,7 @@ export class Noun extends Entity {
 				if (!actionEvent.checkConditions(action)) continue;
 				
 				// Execute responses
-				actionEvent.execute(action);
+				await actionEvent.execute(action);
 				result = !actionEvent.cancel;
 			}
 		}
@@ -194,8 +194,8 @@ export class Noun extends Entity {
 	 * @return {boolean} True if and only if the event has not cacelled.
 	 * @memberof Noun
 	 */
-	doBefore(action) {
-		return this.doEvent(action, this.beforeEvents);
+	async doBefore(action) {
+		return await this.doEvent(action, this.beforeEvents);
 	}
 	
 	/**
@@ -206,8 +206,8 @@ export class Noun extends Entity {
 	 * @return {boolean}  True if and only if the event has not cacelled.
 	 * @memberof Noun
 	 */
-	doAfter(action) {
-		return this.doEvent(action, this.afterEvents);
+	async doAfter(action) {
+		return await this.doEvent(action, this.afterEvents);
 	}
 
 	/**

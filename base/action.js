@@ -88,7 +88,7 @@ export class Action {
 	 *
 	 * @memberof Action
 	 */
-	execute() {
+	async execute() {
 		this.sendingEvents = []
 
 		// Initialize action
@@ -96,7 +96,7 @@ export class Action {
 
 		// BEFORE EVENT
 		for (const n of this.sendingEvents) {
-			if (!n.doBefore(this)) return ;
+			if (!await n.doBefore(this)) return ;
 		}
 
 		// Check action
@@ -109,7 +109,7 @@ export class Action {
 
 		// AFTER EVENT
 		for (const n of this.sendingEvents) {
-			if (!n.doAfter(this)) return ;
+			if (!await n.doAfter(this)) return ;
 		}
 
 		// Report the result

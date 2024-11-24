@@ -17,7 +17,7 @@ export class Print extends ActionResponse {
 		return `print "${this.message}"`
 	}
 
-	execute(action) {
+	async execute(action) {
 		Output.print(this.message, this.style);
 	}
 
@@ -53,7 +53,7 @@ export class Append extends ActionResponse {
 		return `append "${this.message}"`;
 	}
 
-	execute(action) {
+	async execute(action) {
 		Output.append(this.message, this.style);
 	}
 
@@ -96,7 +96,7 @@ export class Attr extends ActionResponse {
 		return " & ".join(list) + " to " + this.instance;
 	}
 
-	execute(action) {
+	async execute(action) {
 		const objList = action.book.dictionary.getNouns(this.instance);
 		if (objList.length === 0) {
 			Output.error(`On Set response: noun "${this.instance}" not found in dictionary.`);
@@ -139,7 +139,7 @@ export class Variable extends ActionResponse {
 		return `Set "${this.set}" to variable "${this.variable}", instance: "${this.instance}".`;
 	}
 
-	execute(action) {
+	async execute(action) {
 		list = action.book.dictionary.getNouns(this.instance);
 		if (list.length === 0) {
 			Output.error(`On Variable response: noun "${this.instance}" not found in dictionary.`);
@@ -168,7 +168,7 @@ export class AppendName extends ActionResponse {
 		return `Append name "${this.name}" to "${this.instance}"`;
 	}
 
-	execute(action) {
+	async execute(action) {
 		const objList = action.book.dictionary.getNouns(this.instance);
 		if (objList.length === 0) {
 			Output.error(`On AppendName response: noun "${this.instance}" not found in dictionary.`);
@@ -200,7 +200,7 @@ export class Move extends ActionResponse {
 		return objList[0];
 	}
 
-	execute(action) {
+	async execute(action) {
 		const obj = this.#getObj(action, this.instance)
 		if (!obj) {
 			Output.error(`On Move response: noun "${this.instance}" not found in dictionary.`);
@@ -230,7 +230,7 @@ export class Tip extends ActionResponse {
 		return `Show tip "${this.message}"`;
 	}
 
-	execute(action) {
+	async execute(action) {
 		Help.tip(this.message);
 	}
 
@@ -259,7 +259,7 @@ export class TipOnce extends ActionResponse {
 		return `Show tip "${this.message} once"`;
 	}
 
-	execute(action) {
+	async execute(action) {
 		let objList = action.book.dictionary.getNouns(this.instance);
 		if (objList.length === 0) return null;
 		Help.tipOnce(objList[0], this.message);
@@ -291,8 +291,8 @@ export class Execute extends ActionResponse {
 		return `'Execute "${this.sentence}" sentence`;
 	}
 
-	execute(action) {
-		action.book.execute(this.sentence);
+	async execute(action) {
+		await action.book.execute(this.sentence);
 	}
 
 	load(node) {
@@ -321,7 +321,7 @@ export class AddConnection extends ActionResponse {
 		return `Add connection to ${this.instance}: ${this.exit} -> ${this.destiny}`;
 	}
 
-	execute(action) {
+	async execute(action) {
 		let objList = action.book.dictionary.getNouns(this.instance)
 		if (objList.length === 0) {
 			Output.error(`On AddConnection response: noun "${this.instance}" not found in dictionary.`);
@@ -350,7 +350,7 @@ export class ShowTitle extends ActionResponse {
 		return "Show game title";
 	}
 
-	execute(action) {
+	async execute(action) {
 		action.book.showTitle();
 	}
 
@@ -368,7 +368,7 @@ export class RunConversation extends ActionResponse {
 		return `Run Conversation with '${this.owner}'`;
 	}
 
-	execute(action) {
+	async execute(action) {
 		c = action.book.dictionary.conversation(this.owner);
 		c.start(action);
 	}
@@ -405,7 +405,7 @@ export class Clear extends ActionResponse {
 		return "Clear";
 	}
 
-	execute(action) {
+	async execute(action) {
 		Output.clear();
 	}
 
@@ -423,7 +423,7 @@ export class EndGame extends ActionResponse {
 		return "End game";
 	}
 
-	execute(action) {
+	async execute(action) {
 		let victory = true
 		if (this.result === "victory") victory = true;
 		else if (this.result === "defeat") victory = false;

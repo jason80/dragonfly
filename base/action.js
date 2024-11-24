@@ -34,7 +34,7 @@ export class Action {
 	 * @abstract
 	 * @memberof Action
 	 */
-	init() {
+	async init() {
 		return false;
 	}
 
@@ -48,7 +48,7 @@ export class Action {
 	 * @abstract
 	 * @memberof Action
 	 */
-	check() {
+	async check() {
 		return false;
 	}
 
@@ -58,7 +58,7 @@ export class Action {
 	 * @abstract
 	 * @memberof Action
 	 */
-	carryOut() {
+	async carryOut() {
 
 	}
 
@@ -70,7 +70,7 @@ export class Action {
 	 * @abstract
 	 * @memberof Action
 	 */
-	report() {
+	async report() {
 
 	}
 
@@ -92,7 +92,7 @@ export class Action {
 		this.sendingEvents = []
 
 		// Initialize action
-		if (!this.init()) return ;
+		if (!await this.init()) return ;
 
 		// BEFORE EVENT
 		for (const n of this.sendingEvents) {
@@ -100,12 +100,12 @@ export class Action {
 		}
 
 		// Check action
-		if (!this.check()) return ;
+		if (!await this.check()) return ;
 
 		this.sendingEvents = [];
 
 		// Action performs the changes
-		this.carryOut();
+		await this.carryOut();
 
 		// AFTER EVENT
 		for (const n of this.sendingEvents) {
@@ -113,7 +113,7 @@ export class Action {
 		}
 
 		// Report the result
-		this.report();
+		await this.report();
 	}
 
 	/**

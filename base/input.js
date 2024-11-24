@@ -77,12 +77,12 @@ export class Input {
 		input.focus();
 		
 		// Handle user input
-		input.addEventListener('keydown', event => {
+		input.addEventListener('keydown', async event => {
 		if (event.key === 'Enter') {
 			input.disabled = true;
 			
-			this.book.execute(input.value.trim());
-			this.createInput();
+			await this.book.execute(input.value.trim());
+			await this.createInput();
 		}
 		});
 	}

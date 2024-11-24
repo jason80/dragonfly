@@ -212,24 +212,24 @@ export class LookAround extends Action {
 		super();
 	}
 
-	init() {
+	async init() {
 		this.place = this.book.player.container
 		this.sendEventLater(this.place)
 
 		return true;
 	}
 
-	check() {
+	async check() {
 		return true;
 	}
 
-	carryOut() {
+	async carryOut() {
 		// Print the description of the place
 		Output.print(this.place.getName(), this.book.getProperty("place-title-style"));
 		this.sendEventLater(this.place);
 	}
 
-	report() {
+	async report() {
 
 		this.place.set(["described"]);
 

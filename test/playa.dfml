@@ -9,5 +9,13 @@ dictionary {
 		describe-place() {
 			"El mar se abre ante mi hacia el este. Al oeste veo un pequeño palamar."
 		}
+
+		noun(names: "piedra, roca, guijarro") {
+			set { "female" }
+
+			describe-object {
+				"Una piedra plana color negro."
+			}
+		}
 	}
 }

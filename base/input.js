@@ -21,7 +21,6 @@ export class Input {
 	async pause() {
 		const inputContainer = document.createElement('div');
 		const input = document.createElement('input');
-		input.textContent = "Continuar";
 		inputContainer.appendChild(input);
 		Output.outputDiv.appendChild(inputContainer);
 
@@ -42,8 +41,8 @@ export class Input {
 		await new Promise(resolve => {
 			const checkInterval = setInterval(() => {
 				if (this.continue_ === true) {
-					clearInterval(checkInterval); // Detener el intervalo
-					resolve(); // Resolver la Promesa
+					clearInterval(checkInterval);
+					resolve();
 				}
 			}, 100); // Revisión cada 100 ms
 		});

@@ -10,11 +10,19 @@ dictionary {
 			"El mar se abre ante mi hacia el este. Al oeste veo un pequeño palamar."
 		}
 
-		noun(names: "piedra, roca, guijarro") {
+		noun(names: "piedra roja, piedra, roca, guijarro") {
 			set { "female" }
 
 			describe-object {
-				"Una piedra plana color negro."
+				"Una piedra plana color rojo."
+			}
+		}
+
+		noun(names: "piedra verde, piedra, roca, guijarro") {
+			set { "female" }
+
+			describe-object {
+				"Una piedra plana color rojo."
 			}
 		}
 	}

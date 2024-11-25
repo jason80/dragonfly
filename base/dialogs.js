@@ -58,18 +58,17 @@ export class PropperListDialog {
 }
 
 export class ObjectChooserDialog {
-    constructor(game, message, cancel, error) {
-        this.game = game;
+    constructor(book, message, cancel, error) {
+        this.book = book;
         this.message = message;
         this.cancel = cancel;
         this.error = error;
     }
 
-    execute(objects) {
+    async execute(objects) {
         if (objects.length === 1) return objects[0];
 
         let success = false;
-        let opt = 0;
         let result = null;
 
         while (!success) {
@@ -79,11 +78,10 @@ export class ObjectChooserDialog {
             });
             Output.print(`0) ${this.cancel}.`);
 
-            const input = this.game.pause();
-
-            try {
-                opt = parseInt(input.trim(), 10);
-            } catch (e) {
+            const input = await this.userInput();
+            
+            const opt = parseInt(input.trim(), 10);
+			if (isNaN(opt)) {
                 this.printError();
                 continue;
             }
@@ -105,6 +103,39 @@ export class ObjectChooserDialog {
 
         return result;
     }
+
+	async userInput() {
+		const inputContainer = document.createElement('div');
+		const input = document.createElement('input');
+		inputContainer.appendChild(input);
+		Output.outputDiv.appendChild(inputContainer);
+
+		Object.assign(input.style, this.book.getProperty("input-style"));
+
+		input.focus();
+
+		this.continue_ = false;
+
+		input.addEventListener('keydown', event => {
+			if (event.key === "Enter") {
+				this.continue_ = true;
+			}
+		});
+
+		let result = "";
+
+		await new Promise(resolve => {
+			const checkInterval = setInterval(() => {
+				if (this.continue_ === true) {
+					clearInterval(checkInterval);
+					result = input.value.trim();
+					resolve();
+				}
+			}, 100);
+		});
+
+		return result;
+	}
 
     printError() {
         Output.print("");
@@ -129,9 +160,9 @@ export function loadPropperListDialog(child) {
     );
 }
 
-export function loadObjectChooserDialog(game, child) {
+export function loadObjectChooserDialog(book, child) {
     return new ObjectChooserDialog(
-        game,
+        book,
         child.getAttr("message").getValue(),
         child.getAttr("cancel").getValue(),
         child.getAttr("error").getValue()

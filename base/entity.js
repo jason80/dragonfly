@@ -1,4 +1,4 @@
-import { Helper } from "./helper.js"
+import { Utils } from "./utils.js"
 
 /**
  * Base of the nouns, verbs and exits.
@@ -28,7 +28,7 @@ export class Entity {
 	responds(name) {
 
 		for (const n of this.names) {
-			if (Helper.isEquals(n, name)) return true;
+			if (Utils.isEquals(n, name)) return true;
 		}
 
 		return false;

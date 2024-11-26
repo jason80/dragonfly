@@ -1,5 +1,5 @@
 
-export class Helper {
+export class Utils {
 	static noAccents(text) {
 		// Returns the 'text' without the accents for sentence comparison.
 		let copy = '';
@@ -28,6 +28,6 @@ export class Helper {
   
 	static isEquals(text1, text2) {
 		// Compare both texts regardless of accentuation.
-		return Helper.noAccents(text1.trim().toLowerCase()) === Helper.noAccents(text2.trim().toLowerCase());
+		return Utils.noAccents(text1.trim().toLowerCase()) === Utils.noAccents(text2.trim().toLowerCase());
 	}
 }

@@ -2,6 +2,7 @@ import { DFMLElement } from "../dfml/js/main/element.js";
 import { DFMLValue } from "../dfml/js/main/value.js";
 import { ActionResponse } from "./actionresponse.js";
 import { Output } from "./output.js";
+import { Help } from "./help.js";
 
 export const responses = {};
 
@@ -224,21 +225,26 @@ export class Tip extends ActionResponse {
 	constructor() {
 		super();
 		this.message = "";
+		this.once = false;
 	}
 
 	toString() {
-		return `Show tip "${this.message}"`;
+		return `Show tip "${this.message}"${this.once ? " once" : ""}`;
 	}
 
 	async execute(action) {
-		Help.tip(this.message);
+		if (this.once)
+			Help.tipOnce(this.message);
+		else Help.tip(this.message);
 	}
 
 	load(node) {
+		this.once = node.hasAttr("once");
+
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue();
+					this.message = node.children[0].getValue().getValue();
 					return ;
 				}
 			}
@@ -247,39 +253,6 @@ export class Tip extends ActionResponse {
 		Output.error(`On Tip Response: Extra element found.`);
 	}
 } responses.Tip = Tip;
-
-export class TipOnce extends ActionResponse {
-	constructor() {
-		super();
-		this.message = "";
-		this.instance = "";
-	}
-
-	toString() {
-		return `Show tip "${this.message} once"`;
-	}
-
-	async execute(action) {
-		let objList = action.book.dictionary.getNouns(this.instance);
-		if (objList.length === 0) return null;
-		Help.tipOnce(objList[0], this.message);
-	}
-
-	load(node) {
-		this.instance = node.getAttr("instance").getValue();
-
-		if (node.children.length === 1) {
-			if (node.children[0].getElementType() === DFMLElement.DATA) {
-				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue();
-					return ;
-				}
-			}
-		}
-		
-		Output.error(`On TipOnce Response: Extra element found.`);
-	}
-} responses.TipOnce = TipOnce;
 
 export class Execute extends ActionResponse {
 	constructor() {

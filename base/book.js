@@ -5,6 +5,7 @@ import { Parser } from "./parser.js";
 import { DFMLParser } from "../dfml/js/main/parser.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
+import { Help } from "./help.js";
 
 /** Main object which contains all of the game.
  *
@@ -27,6 +28,7 @@ export class Book {
 		this.dictionary = new Dictionary(this);
 		this.parser = new Parser(this);
 		Output.init(this, outputID);
+		Help.book = this;
 
 		this.input = new Input(this);
 
@@ -75,6 +77,12 @@ export class Book {
 				fontWeight: "bold",
 				fontSize: '14px',
 				color: '#505'
+			},
+			"tip-style": {
+				fontFamily: "Georgia, serif",
+				fontSize: "14px",
+				fontStyle: "italic",
+				color: "#A30"
 			}
 		};
 	}

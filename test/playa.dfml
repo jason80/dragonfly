@@ -8,6 +8,8 @@ dictionary {
 
 		describe-place() {
 			"El mar se abre ante mi hacia el este. Al oeste veo un pequeño palamar."
+
+			tip(once) { 'Intenta "recoger" cosas de los lugares' }
 		}
 
 		noun(names: "piedra roja, piedra, roca, guijarro") {

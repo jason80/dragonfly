@@ -355,17 +355,23 @@ export class Pause extends ActionResponse {
 
 	constructor() {
 		super();
+
+		this.key = "Enter";
 	}
 
 	toString() {
-		return "Pause";
+		return `Pause <${this.key}>`;
 	}
 
 	async execute(action) {
-		await action.book.input.pause();
+		await action.book.input.pause(this.key);
 	}
 
-	load(node) {}
+	load(node) {
+		if (node.hasAttr("key")) {
+			this.key = node.getAttr("key").getValue();
+		}
+	}
 } responses.Pause = Pause;
 
 export class Clear extends ActionResponse {

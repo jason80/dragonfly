@@ -18,7 +18,13 @@ export class Input {
 		this.continue_ = false;
 	}
 
-	async pause() {
+	/**
+	 * Wait for the user to press a key.
+	 *
+	 * @param {string} key key to continue.
+	 * @memberof Input
+	 */
+	async pause(key) {
 		const inputContainer = document.createElement('div');
 		const input = document.createElement('input');
 		inputContainer.appendChild(input);
@@ -32,7 +38,7 @@ export class Input {
 		this.continue_ = false;
 
 		input.addEventListener('keydown', event => {
-			if (event.key === "Enter") {
+			if (event.key === key) {
 				this.continue_ = true;
 				input.remove();
 			}

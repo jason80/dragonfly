@@ -11,9 +11,9 @@ dictionary {
 		// Prologo
 		before(actions: "LookAround", cancel: true) {
 			"Me despierto ..."
-			pause()
+			pause(key: " ")
 			"Viento y arena a mi alrededor ..."
-			pause()
+			pause(key: " ")
 			show-title()
 			move(instance: "-player", destiny: "playa")
 			execute { "mirar" }

@@ -194,7 +194,7 @@ export class IndirectEquals extends Condition {
 	}
 
 	check(action) {
-		obj = action.book.parser.indirectObject;
+		const obj = action.book.parser.indirectObject;
 		if (!obj) return false;
 
 		return obj.responds(this.instance);
@@ -216,7 +216,7 @@ export class IndirectNotEquals extends Condition {
 	}
 
 	check(action) {
-		obj = action.book.parser.indirectObject;
+		const obj = action.book.parser.indirectObject;
 		if (!obj) return true;
 
 		return !obj.responds(this.instance);

@@ -155,6 +155,14 @@ export class Book {
 	 */
 	async run() {
 
+		// Ever focus last input created
+		document.addEventListener("click", () => {
+			const enabledInput = document.querySelector("input:enabled");
+			if (enabledInput) {
+				enabledInput.focus();
+			}
+		});
+
 		// Include files
 		for (const i of this.includeFiles) {
 			await this.#loadDFMLFile(i);

@@ -199,6 +199,12 @@ dictionary {
 		response(id: "nothing-happens", string: "No se puede apagar eso.")
 	}
 
+	verb(names: "girar, gira", action: "TurnObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "¿Qué?.")
+		response(id: "nothing-happens", string: "No sucede nada cuando @1(lo,la,los,las) giras.")
+	}
+
 	verb(names: "tocar, toca, acariciar, acaricia", action: "TouchObject", syntax: "1") {
 		response(id: "direct-not-found", string: "No existe eso.")
 		response(id: "direct-is-the-player", string: "No tengo esa necesidad ...")

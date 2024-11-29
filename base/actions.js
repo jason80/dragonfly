@@ -1020,6 +1020,12 @@ export class TurnOffObject extends DefaultAction {
 	}
 } actions.TurnOffObject = TurnOffObject;
 
+export class TurnObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.TurnObject = TurnObject;
+
 export class HitObject extends DefaultAction {
 	constructor() {
 		super();

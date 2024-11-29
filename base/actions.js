@@ -1043,3 +1043,9 @@ export class PressObject extends DefaultAction {
 		super();
 	}
 } actions.PressObject = PressObject;
+
+export class BlowObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.BlowObject = BlowObject;

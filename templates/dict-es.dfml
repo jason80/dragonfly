@@ -217,6 +217,12 @@ dictionary {
 		response(id: "nothing-happens", string: "No sucede nada.")
 	}
 
+	verb(names: "sopla, soplar", action: "BlowObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "No me estoy incendiando.")
+		response(id: "nothing-happens", string: "No sucede nada.")
+	}
+
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
 		response(id: "direct-not-found", string: "Ese al que quiero hablar no está.")
 		response(id: "direct-is-the-player", string: "No estoy loco para hablar conmigo mismo.")

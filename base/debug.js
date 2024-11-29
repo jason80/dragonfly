@@ -17,7 +17,7 @@ export class Info extends Action {
 		this.nounList = [];
 	}
 
-	init() {
+	async init() {
 
 		this.nounList = this.book.dictionary.getNouns(this.book.parser.directObjectString)
 		if (this.nounList === 0) {
@@ -28,18 +28,18 @@ export class Info extends Action {
 		return true;
 	}
 
-	check() {
+	async check() {
 		return true;
 	}
 
-	carryOut() {
+	async carryOut() {
 		for (const n of this.nounList)
 			this.printNounInfo(n);
 
 		debugPrint("--------------------");
 	}
 
-	report() {
+	async report() {
 	}
 
 	printNounInfo(noun) {
@@ -182,7 +182,7 @@ export class Move extends Action {
 		this.dest = null;
 	}
 
-	init() {
+	async init() {
 
 		// Direct object
 		let name = this.book.parser.directObjectString;
@@ -192,7 +192,7 @@ export class Move extends Action {
 			return false;
 		}
 
-		this.object = this.book.dictionary.objectChooserDialog.execute(lst);
+		this.object = await this.book.dictionary.objectChooserDialog.execute(lst);
 		if (!this.object) return false;
 
 		name = this.book.parser.indirectObjectString;
@@ -202,7 +202,7 @@ export class Move extends Action {
 			return false;
 		}
 
-		this.dest = this.book.dictionary.objectChooserDialog.execute(lst);
+		this.dest = await this.book.dictionary.objectChooserDialog.execute(lst);
 		if (!this.dest) return false;
 
 		return true;
@@ -231,7 +231,7 @@ export class Root extends Action {
 		this.object = null;
 	}
 
-	init() {
+	async init() {
 
 		const name = this.book.parser.directObjectString;
 		const lst = this.book.dictionary.getNouns(name);
@@ -241,7 +241,7 @@ export class Root extends Action {
 			return false;
 		}
 
-		this.object = this.book.dictionary.objectChooserDialog.execute(lst);
+		this.object = await this.book.dictionary.objectChooserDialog.execute(lst);
 		if (!this.object) return false;
 
 		return true;

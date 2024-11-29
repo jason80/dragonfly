@@ -996,6 +996,63 @@ export class GiveTo extends Action {
 	}
 } actions.GiveTo = GiveTo;
 
+export class CutWith extends Action {
+
+	constructor() {
+		super();
+	}
+
+	async init() {
+
+		// Direct object in inventory or current place
+		let lst = this.book.player.children(this.book.parser.directObjectString)
+		lst.push(...this.book.player.container.children(this.book.parser.directObjectString))
+
+		if (lst.length === 0) return this.fireResponse("direct-not-found")
+
+		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
+		if (!this.book.parser.directObject) return false
+
+		// Indirect object in inventory or current place
+		lst = this.book.player.children(this.book.parser.indirectObjectString)
+		lst.push(...this.book.player.container.children(this.book.parser.indirectObjectString))
+
+		if (lst.length === 0) return this.fireResponse("indirect-not-found")
+
+		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
+		if (!this.book.parser.indirectObject) return false
+
+		this.sendEventLater(this.book.parser.directObject)
+		this.sendEventLater(this.book.parser.indirectObject)
+
+		return true;
+	}
+
+	async check() {
+
+		if (this.book.parser.directObject == this.book.player)
+			return this.fireResponse("direct-is-the-player")
+		if (this.book.parser.indirectObject == this.book.player)
+			return this.fireResponse("indirect-is-the-player")
+
+		return true;
+	}
+
+	carryOut() {
+		this.sendEventLater(this.book.parser.directObject)
+		this.sendEventLater(this.book.parser.indirectObject)
+	}
+
+	report() {
+		this.fireResponse("nothing-happens")
+	}
+
+	responses() {
+		return ["direct-not-found", "direct-is-the-player", "indirect-is-the-player",
+					"nothing-happens"]
+	}
+} actions.CutWith = CutWith;
+
 export class ReadObject extends DefaultAction {
 	constructor() {
 		super();
@@ -1049,3 +1106,9 @@ export class BlowObject extends DefaultAction {
 		super();
 	}
 } actions.BlowObject = BlowObject;
+
+export class CutObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.CutObject = CutObject;

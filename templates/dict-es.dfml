@@ -175,6 +175,22 @@ dictionary {
 		response(id: "syntax-fail", string: "No se que pulsar.")
 	}
 
+	verb(names: "cortar, corta, rajar, raja", action: "CutWith",
+		syntax: "1, con/mediante, 2") {
+		response(id: "direct-not-found", string: "No existe eso para cortar.")
+		response(id: "indirect-not-found", string: "No tengo eso para cortar.")
+		response(id: "direct-is-the-player", string: "No pienso cortarme.")
+		response(id: "indirect-is-the-player", string: "No soy una espada.")
+		response(id: "nothing-happens", string: "No puedo cortar #1 con eso.")
+		response(id: "syntax-fail", string: "Prueba con 'cortar objeto' o 'cortar objeto con otro'.")
+	}
+
+	verb(names: "cortar, corta, rajar, raja", action: "CutObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso para cortar.")
+		response(id: "direct-is-the-player", string: "Ni loco hago eso.")
+		response(id: "nothing-happens", string: "No se puede cortar eso.")
+	}
+
 	verb(names: "leer, lee, interpretar, interpreta, relee, releer", action: "ReadObject", syntax: "1") {
 		response(id: "direct-not-found", string: "No hay eso para leer.")
 		response(id: "direct-is-the-player", string: "No soy un libro.")

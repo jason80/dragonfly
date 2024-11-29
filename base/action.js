@@ -225,7 +225,7 @@ export class DefaultAction extends Action {
 		super();
 	}
 
-	init() {
+	async init() {
 		let lst = this.book.player.children(this.book.parser.directObjectString);
 		lst = lst.concat(this.book.player.container.children(this.book.parser.directObjectString));
 
@@ -233,7 +233,7 @@ export class DefaultAction extends Action {
 			return this.fireResponse("direct-not-found");
 		}
 
-		this.book.parser.directObject = this.book.dictionary.objectChooserDialog.execute(lst);
+		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst);
 		if (!this.book.parser.directObject) {
 			return false;
 		}
@@ -243,18 +243,18 @@ export class DefaultAction extends Action {
 		return true;
 	}
 
-	check() {
+	async check() {
 		if (this.book.parser.directObject == this.book.player) {
 			return this.fireResponse("direct-is-the-player")
 		}
 		return true;
 	}
 
-	carryOut() {
+	async carryOut() {
 		
 	}
 
-	report() {
+	async report() {
 		this.fireResponse("nothing-happens")
 	}
 

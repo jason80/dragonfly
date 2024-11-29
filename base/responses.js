@@ -3,6 +3,7 @@ import { DFMLValue } from "../dfml/js/main/value.js";
 import { ActionResponse } from "./actionresponse.js";
 import { Output } from "./output.js";
 import { Help } from "./help.js";
+import { Connection } from "./movement.js";
 
 export const responses = {};
 
@@ -285,9 +286,9 @@ export class Execute extends ActionResponse {
 export class AddConnection extends ActionResponse {
 	constructor() {
 		super();
-		this.instance = ""
-		this.exit = ""
-		this.destiny = ""
+		this.instance = "";
+		this.exit = "";
+		this.destiny = "";
 	}
 
 	toString() {
@@ -295,15 +296,15 @@ export class AddConnection extends ActionResponse {
 	}
 
 	async execute(action) {
-		let objList = action.book.dictionary.getNouns(this.instance)
+		const objList = action.book.dictionary.getNouns(this.instance);
 		if (objList.length === 0) {
 			Output.error(`On AddConnection response: noun "${this.instance}" not found in dictionary.`);
 		}
 
-		const conn = Connection();
+		const conn = new Connection();
 		conn.exit = this.exit;
 		conn.destiny = this.destiny;
-		objList[0].addConnection(conn);
+		objList[0].connections.push(conn);
 	}
 
 	load(node) {
@@ -312,6 +313,32 @@ export class AddConnection extends ActionResponse {
 		this.destiny = node.getAttr("destiny").getValue();
 	}
 } responses.AddConnection = AddConnection;
+
+export class RemoveConnection extends ActionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.exit = "";
+	}
+
+	toString() {
+		return `Remove connection to ${this.instance}: ${this.exit}`;
+	}
+
+	async execute(action) {
+		const objList = action.book.dictionary.getNouns(this.instance);
+		if (objList.length === 0) {
+			Output.error(`On RemoveConnection response: noun "${this.instance}" not found in dictionary.`);
+		}
+
+		objList[0].removeConnection(this.exit);
+	}
+
+	load(node) {
+		this.instance = node.getAttr("instance").getValue();
+		this.exit = node.getAttr("exit").getValue();
+	}
+} responses.RemoveConnection = RemoveConnection;
 
 export class ShowTitle extends ActionResponse {
 

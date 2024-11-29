@@ -256,3 +256,57 @@ export class VariableEquals extends Condition {
 		this.value = node.getAttr("value").getValue();
 	}
 } conditions.VariableEquals = VariableEquals;
+
+export class ConnectionExists extends Condition {
+	constructor() {
+		super();
+		this.instance = "";
+		this.exit = "";
+	}
+
+	toString() {
+		return `Connection "${this.exit}" exists in "${this.instance}."`;
+	}
+
+	check(action) {
+		const place = action.book.dictionary.getNouns(this.instance);
+		if (place.length === 0) {
+			Output.error(`On condition "ConnectionExists" instance "${this.instance}" not found in dictionary.`);
+		}
+
+		return place[0].getConnection(this.exit) != null;
+	}
+
+	load(node) {
+		this.instance = node.getAttr("instance").getValue();
+		this.exit = node.getAttr("exit").getValue();
+	}
+
+} conditions.ConnectionExists = ConnectionExists;
+
+export class ConnectionNotExists extends Condition {
+	constructor() {
+		super();
+		this.instance = "";
+		this.exit = "";
+	}
+
+	toString() {
+		return `Connection "${this.exit}" not exists in "${this.instance}."`;
+	}
+
+	check(action) {
+		const place = action.book.dictionary.getNouns(this.instance);
+		if (place.length === 0) {
+			Output.error(`On condition "ConnectionNotExists" instance "${this.instance}" not found in dictionary.`);
+		}
+
+		return place[0].getConnection(this.exit) == null;
+	}
+
+	load(node) {
+		this.instance = node.getAttr("instance").getValue();
+		this.exit = node.getAttr("exit").getValue();
+	}
+
+} conditions.ConnectionNotExists = ConnectionNotExists;

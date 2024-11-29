@@ -278,11 +278,49 @@ export class Noun extends Entity {
 	getConnection(exit) {
 		let conn = null;
 
+		const exitObj = this.dictionary.getExit(exit);
+		if (!exitObj) {
+			Output.error(`Get connection from "${this.getName()}": exit "${exit}" not found in dictionary.`);
+			return null;
+		}
+
 		this.connections.forEach((c) => {
-			if (exit.responds(c.exit)) conn = c;
+			if (exitObj.responds(c.exit)) conn = c;
 		});
 
 		return conn;
+	}
+
+	/**
+	 * Remove connection giving the exit.
+	 *
+	 * @param {string} exit associated exit to connection to remove.
+	 * @memberof Noun
+	 */
+	removeConnection(exit) {
+
+		const exitObj = this.dictionary.getExit(exit);
+		if (!exitObj) {
+			Output.error(`Removing connection from "${this.getName()}": exit "${exit} not found in dictionary."`);
+			return ;
+		}
+
+		// Gets the index
+		let index = 0;
+		for (const conn of this.connections) {
+			if (exitObj.responds(conn.exit)) break;
+			index ++;
+		}
+
+		// Connection not found
+		if (index >= this.connections.length) {
+			Output.error(`Removing connection from "${this.getName()}": connection "${exit}" not found.`)
+			return ;
+		}
+
+		// Remove connection
+		this.connections.splice(index, 1);
+
 	}
 
 	/**

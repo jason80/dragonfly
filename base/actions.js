@@ -829,7 +829,7 @@ export class GoTo extends Action {
 		if (!exit) return this.fireResponse("exit-not-exists");
 
 		// Get connection from dictionary
-		this.conn = this.book.player.container.getConnection(exit);
+		this.conn = this.book.player.container.getConnection(exit.getName());
 		if (!this.conn) return this.fireResponse("exit-not-found");
 
 		this.sendEventLater(this.book.player.container)

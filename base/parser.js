@@ -94,7 +94,7 @@ export class Parser {
 			if (response === "") {
 				Output.print(response);
 			} else {
-				this.game.execute("?");
+				this.book.execute("?");
 			}
 			return;
 		}

@@ -54,11 +54,12 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	contains(name) {
-		this.dictionary.nouns.array.forEach(n => {
+
+		for (const n of this.dictionary.nouns) {
 			if (n.container === this) {
 				if (n.responds(name)) return true;
 			}
-		});
+		}
 
 		return false;
 	}

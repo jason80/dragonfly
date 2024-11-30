@@ -97,7 +97,7 @@ export class Contains extends Condition {
 	}
 
 	check(action) {
-		cont = action.book.dictionary.getNouns(this.container)
+		const cont = action.book.dictionary.getNouns(this.container)
 		if (cont.length === 0) {
 			 
 			Output.error(`On Contains condition: container "${this.container}" not found in dictionary.`);
@@ -124,7 +124,7 @@ export class NotContains extends Condition {
 	}
 
 	check(action) {
-		cont = action.book.dictionary.getNouns(this.container)
+		const cont = action.book.dictionary.getNouns(this.container)
 		if (cont.length === 0) {
 			
 			Output.error(`On NotContains condition: container "${this.container}" not found in dictionary.`);

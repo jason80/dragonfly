@@ -16,6 +16,9 @@ export class Input {
 	constructor(book) {
 		this.book = book;
 		this.continue_ = false;
+
+		this.history = new Set();
+		this.historyIndex = -1;
 	}
 
 	/**
@@ -83,12 +86,47 @@ export class Input {
 		
 		// Handle user input
 		input.addEventListener('keydown', async event => {
-		if (event.key === 'Enter') {
-			input.disabled = true;
-			
-			await this.book.execute(input.value.trim());
-			await this.createInput();
-		}
+			if (event.key === 'Enter') {
+				input.disabled = true;
+				
+				const value = input.value.trim();
+
+				await this.book.execute(value);
+
+				this.history.add(value);
+				this.historyIndex = -1;
+
+				await this.createInput();
+			} else if (event.key === 'ArrowUp') {
+
+				if (this.history.size === 0) return ;
+
+				if (this.historyIndex === -1) {
+					this.historyIndex = 0;
+				} else {
+					this.historyIndex ++;
+					if (this.historyIndex >= this.history.size) this.historyIndex = 0;
+				}
+
+				input.value = Array.from(this.history)[this.historyIndex];
+				input.select();
+				event.preventDefault();
+				
+			} else if (event.key === 'ArrowDown') {
+				if (this.history.size === 0) return ;
+
+				if (this.historyIndex === -1) {
+					this.historyIndex = this.history.size - 1;
+				} else {
+					this.historyIndex --;
+					if (this.historyIndex < 0) this.historyIndex = this.history.size - 1;
+				}
+
+				input.value = Array.from(this.history)[this.historyIndex];
+				input.select();
+				event.preventDefault();
+			}
+
 		});
 	}
 

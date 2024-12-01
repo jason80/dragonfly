@@ -191,6 +191,30 @@ dictionary {
 		response(id: "nothing-happens", string: "No se puede cortar eso.")
 	}
 
+	verb(names: "atar, ata, anudar, anuda", action: "TieWith", syntax: "1, con/mediante, 2") {
+		response(id: "direct-not-found", string: "No hay eso para atar.")
+		response(id: "indirect-not-found", string: "No tengo eso para atar.")
+		response(id: "direct-is-the-player", string: "¡ No pienso atarme a nada !.")
+		response(id: "indirect-is-the-player", string: "Estas loco.")
+		response(id: "nothing-happens", string: "No puedo atar #1 con #2.")
+		response(id: "syntax-fail", string: "Prueba con 'atar objeto', 'atar objeto con otro' o 'atar objeto a otro'.")
+	}
+
+	verb(names: "atar, ata, anudar, anuda", action: "TieTo", syntax: "1, a/al, 2") {
+		response(id: "direct-not-found", string: "No puedo atarlo con algo que no está.")
+		response(id: "indirect-not-found", string: "No existe eso que quiero atar.")
+		response(id: "direct-is-the-player", string: "¡ No pienso atarme a nada !.")
+		response(id: "indirect-is-the-player", string: "Estas loco.")
+		response(id: "nothing-happens", string: "No puedo atar #1 a #2.")
+		response(id: "syntax-fail", string: "Prueba con 'atar objeto', 'atar objeto con otro' o 'atar objeto a otro'.")
+	}
+
+	verb(names: "atar, ata, anudar, anuda", action: "TieObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso.")
+		response(id: "direct-is-the-player", string: "No tengo cordones.")
+		response(id: "nothing-happens", string: "No tiene sentido atar eso.")
+	}
+
 	verb(names: "leer, lee, interpretar, interpreta, relee, releer", action: "ReadObject", syntax: "1") {
 		response(id: "direct-not-found", string: "No hay eso para leer.")
 		response(id: "direct-is-the-player", string: "No soy un libro.")

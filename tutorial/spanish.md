@@ -98,7 +98,7 @@ Ya sabemos que el jugador está adentro de un habitación. Pero quedaría mejor 
 ```
 noun(names: "En Una Habitación, habitacion") {
    describe-place {
-      "En la habitación puedo ver una cama y una mesita de luz."
+      "Una enorme cama ocupa casi todo el lugar, hay una mesita de luz a un lado."
    }
    noun(names: "jugador")
 }
@@ -216,7 +216,7 @@ Vamos a añadir una linterna a la escena, simplemente de la siguiente forma:
 dictionary {
    noun(names: "En Una Habitación, habitacion") {
       describe-place {
-         "En la habitación puedo ver una cama y una mesita de luz."
+         "Una enorme cama ocupa casi todo el lugar, hay una mesita de luz a un lado."
       }
 
       noun(names: "jugador") {
@@ -503,7 +503,7 @@ Cuando el sustantivo se trata de un "container", los atributos "closable" y "clo
 
 *Nota: se pueden utilizar "closable" y "closed" en sustantivos que no son "container". Por ejemplo: puertas y ventanas.*
 
-No queda tan mal que cuando abramos la mesita de luz nos informen:
+Cuando abrimos la mesita de luz se nos informa:
 
 *"Abro la mesita de luz"*
 
@@ -559,7 +559,7 @@ Agreguemos (dentro de la habitación) la conexión "de la habitación hacia el p
 ```
 noun(names: "En Una Habitación, habitacion") {
    describe-place {
-      "En la habitación puedo ver una cama y una mesita de luz."
+      "Una enorme cama ocupa casi todo el lugar, hay una mesita de luz a un lado."
    }
    noun(names: "jugador") {
       describe-object {
@@ -634,7 +634,7 @@ Para que las conexiones entre lugares funcionen, deben existir salidas. Todas la
 
 </ul>
 
-La sintaxis para moverse suele ser "ir/ve hacia/al \<salida>". También puedes escribir el nobre de la salida unicamente, por ejemplo "norte" ó "n". Dragonfly comprobará si es una salida posible y, en el caso de que lo sea, ejecutará la acción "ir hacia" del caso anterior.
+La sintaxis para moverse suele ser "ir/ve hacia/al `<salida>`". También puedes escribir el nobre de la salida unicamente, por ejemplo "norte" ó "n". Dragonfly comprobará si es una salida posible y, en el caso de que lo sea, ejecutará la acción "ir hacia" del caso anterior.
 
 Claro que si en nuestra habitación intentamos "ir hacia el sur". El resultado será:
 

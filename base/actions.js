@@ -196,7 +196,7 @@ export class ExamineMe extends Action {
 		const player = this.book.getProperty("player");
 		const verb = this.book.dictionary.verbByAction("ExamineObject");
 
-		this.book.execute(`${verb.getName()} ${player}`);
+		await this.book.execute(`${verb.getName()} ${player}`);
 
 		return false;
 	}

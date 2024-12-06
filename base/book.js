@@ -6,6 +6,7 @@ import { DFMLParser } from "../dfml/js/main/parser.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
 import { Help } from "./help.js";
+import { DFMLValue } from "../dfml/js/main/value.js";
 
 /** Main object which contains all of the game.
  *
@@ -231,7 +232,29 @@ export class Book {
 	 * @memberof Book
 	 */
 	#load(node) {
-		this.title = node.getAttr("title").getValue();
-		this.author = node.getAttr("author").getValue();
+		if (node.hasAttr("title"))
+			this.title = node.getAttr("title").getValue();
+
+		if (node.hasAttr("author"))
+			this.author = node.getAttr("author").getValue();
+
+		for (const child of node.children) {
+			if (child.getElementType() === DFMLElement.NODE) {
+				if (child.getName() === "property") {
+					const name = child.getAttr("name").getValue();
+					const value = child.getAttr("value");
+
+					if (value.getType() === DFMLValue.STRING) {
+						this.setProperty(name, value.getValue());
+					} else if (value.getType() === DFMLValue.BOOLEAN) {
+						this.setProperty(name, value.getValue() === "true");
+					}
+				}
+
+				if (child.getName() === "include") {
+					this.include(child.getAttr("src").getValue());
+				}
+			}
+		}
 	}
 }

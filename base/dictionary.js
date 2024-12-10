@@ -101,6 +101,13 @@ export class Dictionary {
 		return result;
 	}
 
+	nounByID(id) {
+		for (const n of this.nouns) {
+			if (n.id === id) return n;
+		}
+		return null;
+	}
+
 	/**
 	 * Returns the exit that match the given name.
 	 *

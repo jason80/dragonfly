@@ -1,5 +1,6 @@
 import { Action, DefaultAction } from "./action.js"
 import { Output } from "./output.js";
+import { DFMLPersistenceSystem } from "./persistence.js";
 
 export const actions = {};
 
@@ -72,9 +73,9 @@ export class SaveGame extends Action {
 	}
 
 	carryOut() {
-		if (this.book.saveGame()) {
-			this.fireResponse("game-saved")
-		} else {  this.fireResponse("cancel-error") }
+		const p = new DFMLPersistenceSystem(this.book.dictionary);
+		localStorage.setItem(this.book.title, p.save());
+		this.fireResponse("game-saved"); 
 	}
 
 	report() {
@@ -101,9 +102,14 @@ export class LoadGame extends Action {
 	}
 
 	carryOut() {
-		if (this.book.loadGame()) {
+		/*if (this.book.loadGame()) {
 			this.fireResponse("game-loaded")
-		} else {  this.fireResponse("cancel-error") }
+		} else {  this.fireResponse("cancel-error") }*/
+
+		const p = new DFMLPersistenceSystem(this.book.dictionary);
+		p.load(localStorage.getItem(this.book.title));
+		localStorage.setItem(this.book.title, p.save());
+		this.fireResponse("game-loaded"); 
 	}
 
 	report() {

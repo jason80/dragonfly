@@ -93,7 +93,7 @@ Donde aparece el cursor podrás darle órdenes al jugador como `mirar` o `examin
 ## Modificando Sustantivos
 
 ### Descripción:
-Ya sabemos que el jugador está adentro de un habitación. Pero quedaría mejor agregar una pequeña descripción cada vez que el jugador `mire` o venga de otro lugar.
+Sabemos que el jugador está adentro de un habitación. Pero quedaría mejor agregar una pequeña descripción cada vez que el jugador `mire` o venga de otro lugar.
 
 ```
 noun(names: "En Una Habitación, habitacion") {

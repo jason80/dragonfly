@@ -847,7 +847,7 @@ export class GoTo extends Action {
 		return true;
 	}
 
-	carryOut() {
+	async carryOut() {
 		// Get the destiny
 		let nouns = this.book.dictionary.getNouns(this.conn.destiny)
 		if(nouns.length === 0) {
@@ -860,7 +860,7 @@ export class GoTo extends Action {
 		if (this.book.getProperty("look-around") === "always") {
 			// Look around verb
 			let v = this.book.dictionary.verbByAction("LookAround");
-			this.book.execute(v.getName());
+			await this.book.execute(v.getName());
 		}
 		
 		this.sendEventLater(this.book.player.container);

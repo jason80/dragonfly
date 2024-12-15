@@ -1,5 +1,11 @@
 import { Output  } from "./output.js";
 
+/**
+ * The Dragonfly help module for show and handle player's help.
+ *
+ * @export
+ * @class Help
+ */
 export class Help {
 
 	static tipSet = new Set();

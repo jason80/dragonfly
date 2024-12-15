@@ -1,7 +1,9 @@
+import { Action } from "./action.js";
 import { Output } from "./output.js";
+import { Verb } from "./verb.js";
 
 /**
- *
+ * Main parser module
  *
  * @export
  * @class Parser
@@ -117,6 +119,15 @@ export class Parser {
 		await action.execute();
 	}
 
+	/**
+	 * Compare syntax verb and try detect direct and indirect objects. Then, returns
+	 * the action associated to verb and syntax.
+	 *
+	 * @param {Verb} verb target verb.
+	 * @param {Array<string>} tokens parsed token list.
+	 * @return {Action} the action detected.
+	 * @memberof Parser
+	 */
 	checkSyntax(verb, tokens) {
 		const action = new verb.action();
 		action.book = this.book;
@@ -191,14 +202,34 @@ export class Parser {
 		throw new Error(`Syntax error on verb: ${verb.name}.`);
 	}
 
+	/**
+	 * Check if the keyword is in keyword list.
+	 *
+	 * @param {string} keyword the keyword string.
+	 * @param {string} kwList the keyword list separated by /
+	 * @return {boolean} true if the kw is in kw list.
+	 * @memberof Parser
+	 */
 	checkKeyword(keyword, kwList) {
 		return kwList.toLowerCase().split("/").includes(keyword.toLowerCase());
 	}
 
+	/**
+	 * Removes the dictionary registered articles from given object.
+	 *
+	 * @param {string} obj the string name of the object.
+	 * @return {string} the result without the articles.
+	 * @memberof Parser
+	 */
 	cleanArticles(obj) {
 		return obj.toLowerCase().split(" ").filter(w => !this.book.dictionary.getArticle(w)).join(" ").trim();
 	}
 
+	/**
+	 * Print a debug message if 'showParsingProcess' is activated.
+	 * 
+	 * @param {string} msg debug message.
+	 */
 	debug(msg) {
 		if (this.showParsingProcess) {
 			Output.print(`Parser: ${msg}`, {
@@ -207,6 +238,14 @@ export class Parser {
 		}
 	}
 
+	/** // TODO:
+	 * Check the multiparameter special verb and returns the associated action.
+	 *
+	 * @param {*} action
+	 * @param {*} tokens
+	 * @return {*} 
+	 * @memberof Parser
+	 */
 	checkMultiparameterVerb(action, tokens) {
 		const verb = action.verb;
 		const syntax = verb.syntax;

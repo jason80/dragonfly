@@ -1,7 +1,7 @@
 import { Book } from "./book.js";
 
 /**
- * Control de la salida del juego.
+ * Output game control module.
  *
  * @export
  * @class Output
@@ -9,11 +9,11 @@ import { Book } from "./book.js";
 export class Output {
 
 	/**
-	 * Inicializa la salida con el div que la representa.
+	 * Init the output with the target div.
 	 *
 	 * @static
-	 * @param {Book} book Instancia del juego actual.
-	 * @param {string} output Salida principal del juego.
+	 * @param {Book} book the game instance.
+	 * @param {string} output output div.
 	 * @memberof Output
 	 */
 	static init(book, output) {
@@ -22,10 +22,10 @@ export class Output {
 	}
 
 	/**
+	 * Apply the style to given element.
 	 *
-	 *
-	 * @static Aplica el estilo al elemento dado.
-	 * @param {*} element elemento a aplicar el estilo.
+	 * @static
+	 * @param {Element} element elemento a aplicar el estilo.
 	 * @param {*} style estilo a aplicar.
 	 * @memberof Output
 	 */
@@ -49,11 +49,11 @@ export class Output {
 	}
 
 	/**
-	 * Imprime un mensaje en la pantalla.
+	 * Print a message.
 	 *
 	 * @static
-	 * @param {string} message Cadena a imprimir.
-	 * @param {*} style Estilo del texto en css.
+	 * @param {string} message message string.
+	 * @param {*} style text style (optional).
 	 * @memberof Output
 	 */
 	static print(message, style) {
@@ -64,21 +64,21 @@ export class Output {
 		Output.#applyStyle(p, style);
 
 		Output.outputDiv.appendChild(p);
-		Output.outputDiv.scrollTop = Output.outputDiv.scrollHeight; // Desplazar hacia abajo
+		Output.outputDiv.scrollTop = Output.outputDiv.scrollHeight; // Scroll down
 	}
 
 	/**
-	 * Agrega texto al útimo párrafo.
+	 * Add text to las paragraph.
 	 *
 	 * @static
-	 * @param {string} message
-	 * @param {*} style
+	 * @param {string} message message string.
+	 * @param {*} style text style (optional).
 	 * @memberof Output
 	 */
 	static append(message, style) {
 		const lastP = Output.outputDiv.lastChild;
 
-		// Si existe un <p>, agregar un nuevo nodo de texto al final
+		// If a <p> exists. add a new text node to the end.
 		if (lastP && lastP.tagName === 'P') {
 			
 			const span = document.createElement('span');
@@ -87,13 +87,21 @@ export class Output {
 			Output.#applyStyle(span, style);
 			
 			lastP.appendChild(span);
+
+			// Scroll down
+			Output.outputDiv.scrollTop = Output.outputDiv.scrollHeight;
 		} else {
 			Output.print(message, style);
 		}
-	
-		Output.outputDiv.scrollTop = Output.outputDiv.scrollHeight;
 	}
 
+	/**
+	 * Print error message.
+	 *
+	 * @static
+	 * @param {string} message error message string.
+	 * @memberof Output
+	 */
 	static error(message) {
 		Output.print(`[Dragonfly Error] ${message}`, {
 			color: 'white',

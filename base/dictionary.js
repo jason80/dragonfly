@@ -101,6 +101,14 @@ export class Dictionary {
 		return result;
 	}
 
+	/**
+	 * Returns the noun indicating his id number.
+	 * The id numbers are generated automatically for Save Game system.
+	 *
+	 * @param {number} id id of the noun.
+	 * @return {Noun} the noun with the given id.
+	 * @memberof Dictionary
+	 */
 	nounByID(id) {
 		for (const n of this.nouns) {
 			if (n.id === id) return n;
@@ -123,6 +131,12 @@ export class Dictionary {
 		return exit;
 	}
 
+	/**
+	 * Returns the article with the given name.
+	 * 
+	 * @param {string} name name of the article.
+	 * @return {Article} the article.
+	 */
 	getArticle(name) {
 		let article = null;
 

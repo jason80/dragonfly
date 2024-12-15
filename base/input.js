@@ -86,7 +86,7 @@ export class Input {
 		
 		// Handle user input
 		input.addEventListener('keydown', async event => {
-			if (event.key === 'Enter') {
+			if (event.key === 'Enter') { // Text entered
 				input.disabled = true;
 				
 				const value = input.value.trim();
@@ -97,7 +97,7 @@ export class Input {
 				this.historyIndex = -1;
 
 				await this.createInput();
-			} else if (event.key === 'ArrowUp') {
+			} else if (event.key === 'ArrowUp') { // History up
 
 				if (this.history.size === 0) return ;
 
@@ -112,7 +112,7 @@ export class Input {
 				input.select();
 				event.preventDefault();
 				
-			} else if (event.key === 'ArrowDown') {
+			} else if (event.key === 'ArrowDown') { // History down
 				if (this.history.size === 0) return ;
 
 				if (this.historyIndex === -1) {

@@ -301,6 +301,9 @@ export class AddConnection extends ActionResponse {
 			Output.error(`On AddConnection response: noun "${this.instance}" not found in dictionary.`);
 		}
 
+		// If connection already exists: do nothing
+		if (objList[0].getConnection(this.exit)) return ;
+
 		const conn = new Connection();
 		conn.exit = this.exit;
 		conn.destiny = this.destiny;

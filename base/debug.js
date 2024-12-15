@@ -142,8 +142,6 @@ export class Attr extends Action {
 
 	check() {
 
-		Output.print(this.command)
-
 		if (this.command !== "set" && this.command !== "unset") {
 			debugPrint(`Attr: usage: 'attr <obj> set/unset <attr list>'.`);
 			return false;
@@ -159,10 +157,10 @@ export class Attr extends Action {
 
 		if (this.command === "set") {
 			this.obj.set(lst);
-			debugPrint(`setted ${Array.from(lst).join(", ")} to ${this.obj.name}.`);
+			debugPrint(`setted "${Array.from(lst).join(', ')}" to "${this.obj.getName()}".`);
 		} if (this.command === "unset") {
 			this.obj.unset(lst);
-			debugPrint(`unsetted ${Array.from(lst).join(", ")} to ${this.obj.name}.`);
+			debugPrint(`unsetted "${Array.from(lst).join(', ')}" to "${this.obj.getName()}".`);
 		}
 	}
 

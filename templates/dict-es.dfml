@@ -82,7 +82,7 @@ dictionary {
 
 	verb(names: "dejar, deja, soltar, suelta, olvidar, olvida, poner, pon, insertar, inserta, colocar, coloca, situar, situa",
 		syntax: "1, en/dentro/adentro/dentro de/adentro de, 2", action: "LeaveIn") {
-		response(id: "indirect-not-found", string: "¿A dónde?")
+		response(id: "indirect-not-found", string: "No puedo dejarlo ahí.")
 		response(id: "direct-not-found", string: "No tengo eso.")
 		response(id: "direct-is-the-player", string: "¿Meterme eso?")
 		response(id: "indirect-is-not-container", string: "No puedo meter #1 en #2.")
@@ -93,7 +93,7 @@ dictionary {
 
 	verb(names: "ir, ve, anda, irse", action: "GoTo",
 		syntax: "a/al/hacia, 1") {
-		response(id: "exit-not-exists", string: "¿A dónde?")
+		response(id: "exit-not-exists", string: "No conozco esa dirección.")
 		response(id: "exit-not-found", string: "No puedo ir por ahí.")
 	}
 

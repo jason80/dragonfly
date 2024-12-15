@@ -43,7 +43,7 @@ export class Input {
 		input.addEventListener('keydown', event => {
 			if (event.key === key) {
 				this.continue_ = true;
-				input.remove();
+				inputContainer.remove();
 			}
 		});
 

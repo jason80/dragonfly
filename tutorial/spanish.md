@@ -435,7 +435,7 @@ Dentro de `habitacion` hay cuatro sustantivos y uno de ellos es el `jugador`. No
 
 El jugador no podrá "meter/insertar cosas dentro del objeto" si el objeto no tiene establecido el atributo "container". Tampoco podrá "mirar dentro del objeto".
 
-Ahora vamos a hacer que la linterna aparezca dentro de la mesita de lúz. Nuestro modelo quedará:
+Ahora vamos a hacer que la linterna aparezca dentro de la mesita de luz. Nuestro modelo quedará:
 
 <ul>
    <li>En Una Habitación,habitacion
@@ -467,7 +467,7 @@ noun(names: "mesita de luz, mesita, muebles, mueble") {
 }
 ```
 
-Pruba ahora "mirar en la mesita", "sacar la linterna de la mesita" y "dejar la linterna en la mesita". Cuando sacas algo de adentro de algo, el objeto va a parar al inventario.
+Prueba ahora "mirar en la mesita", "sacar la linterna de la mesita" y "dejar la linterna en la mesita". Cuando sacas algo de adentro de algo, el objeto va a parar al inventario.
 
 ### Inventario
 
@@ -491,11 +491,11 @@ noun(names: "mesita de luz, mesita, muebles, mueble") {
    }
 }
 ```
-*Nota: en DFML, todo lo que empieza con `#` ó `//` se considera un comentario de una sola línea. Y si empieza con `/*` y termina con `*/` será un comentario de varias líneas.
+*Nota: en DFML, todo lo que empieza con `#` ó `//` se considera un comentario de una sola línea. Y si empieza con `/*` y termina con `*/` será un comentario de varias líneas.*
 
 ### Abre y cierra
 
-Podemos hacer que el jugador no pueda manipular lo que esté adentro de la mesita de luz. Agrega "closable" y "closed" a sus atributos y observa que pasa. Prueba "abrir la mesita" y "cerrar la mesita".
+Podemos hacer que el jugador no pueda manipular lo que esté dentro de la mesita de luz. Agrega "closable" y "closed" a sus atributos y observa que pasa. Prueba "abrir la mesita" y "cerrar la mesita".
 
 Cuando el sustantivo se trata de un "container", los atributos "closable" y "closed" bloquean al usuario cuando intenta manipular el contenido del objeto.
 

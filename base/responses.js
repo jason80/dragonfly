@@ -372,12 +372,12 @@ export class RunConversation extends ActionResponse {
 	}
 
 	async execute(action) {
-		c = action.book.dictionary.conversation(this.owner);
+		const c = action.book.dictionary.getConversation(this.owner);
 		c.start(action);
 	}
 
 	load(node) {
-		this.owner = node.getAttr("owner");
+		this.owner = node.getAttr("owner").getValue();
 	}
 } responses.RunConversation = RunConversation;
 

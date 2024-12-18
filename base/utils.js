@@ -1,8 +1,19 @@
 
 export class Utils {
+	/**
+	 * Returns the 'text' without the accents for sentence comparison.
+	 * (previously normalized NFC).
+	 * 
+	 *
+	 * @static
+	 * @param {string} text tarjet text.
+	 * @return {string} text with no acents.
+	 * @memberof Utils
+	 */
 	static noAccents(text) {
-		// Returns the 'text' without the accents for sentence comparison.
+		// 
 		let copy = '';
+		text = text.normalize('NFC');
 	
 		for (let i = 0; i < text.length; i++) {
 			let c = text[i];
@@ -26,8 +37,21 @@ export class Utils {
 		return copy;
 	}
   
+	/**
+	 * Compare both texts regardless of accentuation.
+	 *
+	 * @static
+	 * @param {string} text1 text1.
+	 * @param {string} text2 text2.
+	 * @return {boolean} true if both texts are equal.
+	 * @memberof Utils
+	 */
 	static isEquals(text1, text2) {
-		// Compare both texts regardless of accentuation.
-		return Utils.noAccents(text1.trim().toLowerCase()) === Utils.noAccents(text2.trim().toLowerCase());
+		return Utils.noAccents(
+			text1.trim().toLowerCase()
+		) === 
+		Utils.noAccents(
+			text2.trim().toLowerCase()
+		);
 	}
 }

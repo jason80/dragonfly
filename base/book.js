@@ -201,7 +201,10 @@ export class Book {
 		if (this.properties["look-around"] === "always" ||
 			this.properties["look-around"] === "on-start") {
 			const lookVerb = this.dictionary.verbByAction("LookAround");
-			await this.execute(lookVerb.getName());
+			if (lookVerb)
+				await this.execute(lookVerb.getName());
+			else
+				Output.error("Possible missing dictionary template?");
 		}
 
 		await this.input.createInput();

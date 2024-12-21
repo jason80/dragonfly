@@ -102,6 +102,7 @@ export class DFMLPersistenceSystem extends PersistenceSystem {
 		const noun = this.dictionary.nounByID(id)
 		if (!noun) {
 			Output.error(`Loading saved state: noun id=${id} not found in dictionary.`);
+			Output.error("Possible old save data?");
 			return;
 		}
 
@@ -116,6 +117,7 @@ export class DFMLPersistenceSystem extends PersistenceSystem {
 			noun.container = this.dictionary.nounByID(contID);
 			if (!noun.container) {
 				Output.error(`Loading saved state: container id=${id} not found in dictionary.`);
+				Output.error("Possible old save data?");
 				return;
 			}
 		}

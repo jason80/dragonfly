@@ -206,7 +206,7 @@ export class Output {
 							i ++;
 							continue;
 						} else {
-							Output.error('Outuput: expected character "(" after @.');
+							Output.error('Output: expected character "(" after @.');
 						}
 					}
 
@@ -238,7 +238,7 @@ export class Output {
 	static replaceGenderNumber(obj, params, capitalize) {
 		const members = params.split(",");
 		if (members.length !== 4) {
-			Output.error("Console: expected 4 parameters after @.");
+			Output.error("Output: expected 4 parameters after @.");
 		}
 
 		let result = "";

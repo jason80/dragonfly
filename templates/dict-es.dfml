@@ -76,7 +76,7 @@ dictionary {
 		response(id: "direct-not-found", string: "No hay eso.")
 		response(id: "direct-is-the-player", string: "No puedo llevarme a mi mismo.")
 		response(id: "direct-is-fixed", string: "No puedo llevarme #1")
-		response(id: "direct-is-heavy", string: "#^1 @1(es,es,son,son) muy pesad@1(o,a,os,as) como para que te @1(lo,la,los,las) lleves.")
+		response(id: "direct-is-heavy", string: "#^1 @1(es,es,son,son) muy pesad@1(o,a,os,as) como para llevarme@1(lo,la,los,las).")
 		response(id: "direct-taken", string: "Recojo #1.")
 	}
 

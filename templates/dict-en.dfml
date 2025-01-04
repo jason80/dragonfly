@@ -1,0 +1,295 @@
+dictionary {
+
+	verb(names: "?", action: "UnknownVerb") {
+		response(id: "unknown-verb", string: "I don't know what you're saying.")
+	}
+
+	verb(names: "limpiar, borrar, limpia, borra, clear, cls", action: "Clear")
+
+	verb(names: "guardar, guarda, salvar, salva, save", action: "SaveGame") {
+		response(id: "game-saved", string: "Juego salvado.")
+		response(id: "cancel-error", string: "¡Juego NO salvado!")
+	}
+
+	verb(names: "cargar, carga, recupera, recuperar, load", action: "LoadGame") {
+		response(id: "game-loaded", string: "Juego cargado.")
+		response(id: "cancel-error", string: "¡Juego NO cargado!")
+	}
+
+	verb(names: "inventario, i, inv", action: "Inventory") {
+		response(id: "inventory-is-empty", string: "No tengo nada en mi poder.")
+		response(id: "syntax-fail", string: "Escribe 'inventario' o 'i' para saber lo que llevo.")
+	}
+
+	verb(names: "examinar, examina, mirar, mira, busca, buscar, revisa, revisar, x, m",
+			action: "LookInside", syntax: "en/dentro/adentro, 1") {
+		response(id: "direct-not-found", string: "No encuentro eso.")
+		response(id: "direct-is-the-player", string: "Puedes probar con: inventario ó i.")
+		response(id: "direct-is-not-container", string: "No puedo ver adentro de #1.")
+		response(id: "direct-is-closed", string: "#^1 est@1(á,á,án,án) cerrad@1(o,a,os,as).")
+		response(id: "container-is-empty", string: "No hay nada en #1.")
+	}
+
+	verb(names: "examinar, examina, mirar, mira, x, m",
+			action: "ExamineObject", syntax: "a/al, 1") {
+		response(id: "direct-not-found", string: "No hay eso.")
+	}
+
+	verb(names: "examinar, examina, mirar, mira, x, m",
+			action: "ExamineObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso.")
+	}
+
+	verb(names: "examinar, examina, mirar, mira, ver, x, m",
+			action: "LookAround")
+
+	verb(names: "examinate, examinarme, examinarte, mirate, mirarme, mirarte, soy, yo",
+			action: "ExamineMe")
+
+	verb(names: "toma, tomar, agarra, agarrar, recoger, recoge, coge, coger, junta, juntar, obtener, obtiene, sustrae, sustraer, sacar, saca, extrae, estraer",
+		syntax: "1, de/desde/del, 2", action: "TakeFrom") {
+		response(id: "indirect-not-found", string: "No se de dónde lo quieres sacar.")
+		response(id: "indirect-is-not-container", string: "No puedo sacar cosas de #2.")
+		response(id: "indirect-is-closed", string: "Est@2(á,á,án,án) cerrad@2(o,a,os,as).")
+		response(id: "direct-not-found", string: "#^2 no contiene eso.")
+		response(id: "direct-taken", string: "Saco #1 de #2.")
+		response(id: "syntax-fail", string: "Tienes que indicar qué debo sacar.")
+	}
+
+	verb(names: "tomar, toma, agarrar, agarra, recoger, recoge, coger, coge, juntar, junta, obtener, obtiene",
+		syntax: "1", action: "TakeObject") {
+		response(id: "direct-not-found", string: "No hay eso.")
+		response(id: "direct-is-the-player", string: "No puedo llevarme a mi mismo.")
+		response(id: "direct-is-fixed", string: "No puedo llevarme #1")
+		response(id: "direct-is-heavy", string: "#^1 @1(es,es,son,son) muy pesad@1(o,a,os,as) como para que te @1(lo,la,los,las) lleves.")
+		response(id: "direct-taken", string: "Recojo #1.")
+	}
+
+	verb(names: "dejar, deja, soltar, suelta, olvidar, olvida, poner, pon, insertar, inserta, colocar, coloca, situar, situa",
+		syntax: "1, en/dentro/adentro/dentro de/adentro de, 2", action: "LeaveIn") {
+		response(id: "indirect-not-found", string: "No puedo dejarlo ahí.")
+		response(id: "direct-not-found", string: "No tengo eso.")
+		response(id: "direct-is-the-player", string: "¿Meterme eso?")
+		response(id: "indirect-is-not-container", string: "No puedo meter #1 en #2.")
+		response(id: "indirect-is-closed", string: "#^2 est@2(á,á,án,án) cerrad@2(o,a,os,as).")
+		response(id: "direct-leaved", string: "Dejo #1 en #2.")
+		response(id: "syntax-fail", string: "Tienes que decir lo que debo dejar.")
+	}
+
+	verb(names: "ir, ve, anda, irse", action: "GoTo",
+		syntax: "a/al/hacia, 1") {
+		response(id: "exit-not-exists", string: "No conozco esa dirección.")
+		response(id: "exit-not-found", string: "No puedo ir por ahí.")
+	}
+
+	verb(names: "tirar, tira", action: "PullObject",
+		syntax: "de/del, 1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "Tirar de mi mismo ...")
+		response(id: "direct-is-fixed", string: "No puedo jalar #1.")
+		response(id: "nothing-happens", string: "Tiro de #1 y no ocurre nada.")
+		response(id: "syntax-fail", string: "No se que jalar.")
+	}
+
+	verb(names: "dejar, tirar, deja, tira", action: "LeaveObject",
+		syntax: "1") {
+		response(id: "direct-not-found", string: "No tengo eso.")
+		response(id: "direct-left", string: "@^1(lo,la,los,las) dejo")
+	}
+
+	verb(names: "abrir, abre", action: "OpenWith",
+		syntax: "1, con/mediante, 2") {
+		response(id: "direct-not-found", string: "No existe.")
+		response(id: "indirect-not-found", string: "No tengo eso para abrir.")
+		response(id: "direct-is-the-player", string: "No puedo abrime a mi mismo.")
+		response(id: "indirect-is-the-player", string: "No soy una llave.")
+		response(id: "direct-is-not-closable", string: "No se puede abrir #1")
+		response(id: "direct-is-open", string: "#^1 ya est@1(á,á,án,án) abiert@1(o,a,os,as).")
+		response(id: "nothing-happens", string: "No puedo abrir #1 con eso.")
+		response(id: "syntax-fail", string: "Prueba con 'abrir objeto' o 'abrir objeto con otro'.")
+	}
+
+	verb(names: "cerrar, cierra", action: "CloseWith",
+		syntax: "1, con/mediante, 2") {
+		response(id: "direct-not-found", string: "No existe.")
+		response(id: "indirect-not-found", string: "No tengo eso para cerrar.")
+		response(id: "direct-is-the-player", string: "No puedo cerrarme a mi mismo.")
+		response(id: "indirect-is-the-player", string: "No soy llave.")
+		response(id: "direct-is-not-closable", string: "No se puede cerrar #1")
+		response(id: "direct-is-closed", string: "#^1 ya est@1(á,á,án,án) cerrad@1(o,a,os,as).")
+		response(id: "nothing-happens", string: "No puedo cerrar #1 con eso.")
+		response(id: "syntax-fail", string: "Prueba con 'cerrar objeto' o 'cerrar objeto con otro'.")
+	}
+
+	verb(names: "abrir, abre", action: "OpenObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso para abrir.")
+		response(id: "direct-is-the-player", string: "No puedo abrirme a mi mismo.")
+		response(id: "direct-is-not-closable", string: "No se puede abrir #1.")
+		response(id: "direct-is-open", string: "#^1 ya est@1(á,á,án,án) abiert@1(o,a,os,as).")
+		response(id: "direct-was-opened", string: "Abro #1.")
+	}
+
+	verb(names: "cerrar, cierra", action: "CloseObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso para cerrar.")
+		response(id: "direct-is-the-player", string: "No puedo cerrarme a mi mismo.")
+		response(id: "direct-is-not-closable", string: "No se puede cerrar #1.")
+		response(id: "direct-is-closed", string: "#^1 ya est@1(á,á,án,án) cerrad@1(o,a,os,as).")
+		response(id: "direct-was-closed", string: "Cierro #1.")
+	}
+
+	verb(names: "jala, jalar", action: "PullObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "¿Tirar de mi mismo?.")
+		response(id: "direct-is-fixed", string: "No puedo tirar de #1.")
+		response(id: "nothing-happens", string: "Tirando de #1, no ocurre nada.")
+		response(id: "syntax-fail", string: "No se que jalar.")
+	}
+
+	verb(names: "empuja, empujar, mover, mueve, desplaza, desplazar", action: "PushObject", syntax: "1") {
+		response(id: "direct-not-found", string: "Eso que quiero empujar no está.")
+		response(id: "direct-is-the-player", string: "No puedo empujarme a mi mismo.")
+		response(id: "direct-is-fixed", string: "#^1 est@1(á,á,án,án) fij@1(o,a,os,as).")
+		response(id: "nothing-happens", string: "No ocurre nada cuando empujo #1.")
+		response(id: "syntax-fail", string: "No se que empujar.")
+	}
+
+	verb(names: "pulsa, pulsar, presionar, presiona", action: "PressObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso.")
+		response(id: "direct-is-the-player", string: "No soy un botón.")
+		response(id: "nothing-happens", string: "No tiene sentido hacer eso con #1.")
+		response(id: "syntax-fail", string: "No se que pulsar.")
+	}
+
+	verb(names: "cortar, corta, rajar, raja", action: "CutWith",
+		syntax: "1, con/mediante, 2") {
+		response(id: "direct-not-found", string: "No existe eso para cortar.")
+		response(id: "indirect-not-found", string: "No tengo eso para cortar.")
+		response(id: "direct-is-the-player", string: "No pienso cortarme.")
+		response(id: "indirect-is-the-player", string: "No soy una espada.")
+		response(id: "nothing-happens", string: "No puedo cortar #1 con eso.")
+		response(id: "syntax-fail", string: "Prueba con 'cortar objeto' o 'cortar objeto con otro'.")
+	}
+
+	verb(names: "cortar, corta, rajar, raja", action: "CutObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso para cortar.")
+		response(id: "direct-is-the-player", string: "Ni loco hago eso.")
+		response(id: "nothing-happens", string: "No se puede cortar eso.")
+	}
+
+	verb(names: "atar, ata, anudar, anuda", action: "TieWith", syntax: "1, con/mediante, 2") {
+		response(id: "direct-not-found", string: "No hay eso para atar.")
+		response(id: "indirect-not-found", string: "No tengo eso para atar.")
+		response(id: "direct-is-the-player", string: "¡ No pienso atarme a nada !.")
+		response(id: "indirect-is-the-player", string: "Estas loco.")
+		response(id: "nothing-happens", string: "No puedo atar #1 con #2.")
+		response(id: "syntax-fail", string: "Prueba con 'atar objeto', 'atar objeto con otro' o 'atar objeto a otro'.")
+	}
+
+	verb(names: "atar, ata, anudar, anuda", action: "TieTo", syntax: "1, a/al, 2") {
+		response(id: "direct-not-found", string: "No puedo atarlo con algo que no está.")
+		response(id: "indirect-not-found", string: "No existe eso que quiero atar.")
+		response(id: "direct-is-the-player", string: "¡ No pienso atarme a nada !.")
+		response(id: "indirect-is-the-player", string: "Estas loco.")
+		response(id: "nothing-happens", string: "No puedo atar #1 a #2.")
+		response(id: "syntax-fail", string: "Prueba con 'atar objeto', 'atar objeto con otro' o 'atar objeto a otro'.")
+	}
+
+	verb(names: "atar, ata, anudar, anuda", action: "TieObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso.")
+		response(id: "direct-is-the-player", string: "No tengo cordones.")
+		response(id: "nothing-happens", string: "No tiene sentido atar eso.")
+	}
+
+	verb(names: "leer, lee, interpretar, interpreta, relee, releer", action: "ReadObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso para leer.")
+		response(id: "direct-is-the-player", string: "No soy un libro.")
+		response(id: "nothing-happens", string: "No se puede leer eso.")
+	}
+
+	verb(names: "fuma, fumar, pita, pitar", action: "SmokeObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso.")
+		response(id: "direct-is-the-player", string: "No tengo pinta de cigarrillo.")
+		response(id: "nothing-happens", string: "No tiene sentido hacer eso.")
+	}
+
+	verb(names: "encender, enciende, prender, prende", action: "TurnOnObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso que encender.")
+		response(id: "direct-is-the-player", string: "No soy una linterna.")
+		response(id: "nothing-happens", string: "No se puede encender eso.")
+	}
+
+	verb(names: "apagar, apaga", action: "TurnOffObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso que apagar.")
+		response(id: "direct-is-the-player", string: "No soy una linterna.")
+		response(id: "nothing-happens", string: "No se puede apagar eso.")
+	}
+
+	verb(names: "girar, gira", action: "TurnObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "¿Qué?.")
+		response(id: "nothing-happens", string: "No sucede nada cuando @1(lo,la,los,las) giras.")
+	}
+
+	verb(names: "tocar, toca, acariciar, acaricia", action: "TouchObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "No tengo esa necesidad ...")
+		response(id: "nothing-happens", string: "No sucede nada.")
+	}
+
+	verb(names: "golpea, golpear", action: "HitObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "Todavia no he llegado a esa instancia.")
+		response(id: "nothing-happens", string: "No sucede nada.")
+	}
+
+	verb(names: "sopla, soplar", action: "BlowObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "No me estoy incendiando.")
+		response(id: "nothing-happens", string: "No sucede nada.")
+	}
+
+	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
+		response(id: "direct-not-found", string: "Ese al que quiero hablar no está.")
+		response(id: "direct-is-the-player", string: "No estoy loco para hablar conmigo mismo.")
+		response(id: "direct-is-not-speaker", string: "#^1 no habl@1(a,a,an,an).")
+		response(id: "nothing-happens", string: "#^1 no respond@1(e,e,en,en).")
+	}
+
+	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "Talk", syntax: "...") {
+		response(id: "player-says", string: "Pronuncio: &quot;%3&quot;")
+	}
+
+	verb(names: "dar, dale, entregar, entrega, entregale, ofrecer, ofrece, ofrecele, prestar, presta, prestale", action: "GiveTo", syntax: "1, a/al, 2") {
+		response(id: "direct-not-found", string: "No lo tengo.")
+		response(id: "indirect-not-found", string: "No se encuentra aquí.")
+		response(id: "indirect-is-the-player", string: "Ya l@1(o,a,os,as) tengo.")
+		response(id: "indirect-is-not-interactive", string: "No puedo darle #1 a #2.")
+		response(id: "given-to-indirect", string: "Le doy #1 a #2.")
+	}
+
+	article(name: "el", genre: "male", number: "singular", indefinited: "false")
+	article(name: "la", genre: "female", number: "singular", indefinited: "false")
+	article(name: "los", genre: "male", number: "plural", indefinited: "false")
+	article(name: "las", genre: "female", number: "plural", indefinited: "false")
+
+	article(name: "un", genre: "male", number: "singular", indefinited: "true")
+	article(name: "una", genre: "female", number: "singular", indefinited: "true")
+	article(name: "unos", genre: "male", number: "plural", indefinited: "true")
+	article(name: "unas", genre: "female", number: "plural", indefinited: "true")
+
+	exit(names: "norte, n")
+	exit(names: "sur, s")
+	exit(names: "este, e")
+	exit(names: "oeste, o, w")
+
+	exit(names: "noreste, ne")
+	exit(names: "noroeste, no, nw")
+	exit(names: "sudeste, sureste, se")
+	exit(names: "sudoeste, suroeste, so, sw")
+
+	exit(names: "arriba, arr, sube, subir, subi")
+	exit(names: "abajo, aba, baja, bajar")
+	exit(names: "adentro, ad, entra, entrar")
+	exit(names: "afuera, af, sal, salir, sali")
+
+}

@@ -47,7 +47,7 @@ export class PropperListDialog {
                 }
             }
 
-            result += nouns[i].name;
+            result += nouns[i].getName();
             if (nouns[i].isSet("plural")) suffix = this.plural;
         }
 

@@ -172,7 +172,7 @@ export class DirectNotEquals extends Condition {
 	}
 
 	check(action) {
-		obj = action.book.parser.directObject;
+		const obj = action.book.parser.directObject;
 		if (!obj) return true;
 
 		return !obj.responds(this.instance);

@@ -7,6 +7,7 @@ import { Exit } from "./exit.js";
 import { actions } from "./actions.js";
 import { ListDialog, ObjectChooserDialog, PropperListDialog,
 			loadListDialog, loadObjectChooserDialog, loadPropperListDialog } from "./dialogs.js";
+import { Conversation } from "./conversation.js";
 
 /**
  * Contains a list of nouns, verbs and exits.
@@ -27,6 +28,7 @@ export class Dictionary {
 		this.nouns = [];
 		this.verbs = [];
 		this.exits = [];
+		this.conversations = {};
 
 		this.seeListDialog = new ListDialog("You can see: ", ", ", " and ");
 		this.propperListDialog = new PropperListDialog("is here", "are here", ", ", " and ");
@@ -148,6 +150,17 @@ export class Dictionary {
 	}
 
 	/**
+	 * Gets the conversation giving an owner noun.
+	 *
+	 * @param {string} owner the owner noun.
+	 * @return {Conversation} the conversation instance.
+	 * @memberof Dictionary
+	 */
+	getConversation(owner) {
+		return this.conversations[owner];
+	}
+
+	/**
 	 * Load the dictionary from dfml document.
 	 *
 	 * @param {Node} node dfml node.
@@ -177,6 +190,7 @@ export class Dictionary {
 					this.exits.push(exit);
 				} 
 
+				// Dialogs
 				else if (child.getName() ===  "see-list-dialog") {
 					this.seeListDialog = loadListDialog(child); }
 				else if (child.getName() ===  "propper-list-dialog") {
@@ -187,6 +201,13 @@ export class Dictionary {
 					this.lookInsideDialog = loadListDialog(child); }
 				else if (child.getName() ===  "object-chooser-dialog") {
 					this.objectChooserDialog = loadObjectChooserDialog(this.book, child); }
+
+				// Conversations
+				else if (child.getName() === "conversation") {
+					const conversation = new Conversation();
+					conversation.load(child);
+					this.conversations[conversation.owner] = conversation;
+				}
 			}
 		});
 

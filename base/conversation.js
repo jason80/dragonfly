@@ -25,27 +25,6 @@ export class Topic {
 	}
 
 	/**
-	 * Compares the input parameters with the topic match.
-	 *
-	 * @param {string} params the input parameters on single line.
-	 * @return {boolean} true if the current topic match.
-	 * @memberof Topic
-	 */
-	check(params) {
-		// TODO: Improve topic check
-		params = params.toLowerCase().split(" ");
-
-		for (const t of this.match) {
-			for (const p of params) {
-				if (Utils.isEquals(t, p)) return true;
-			}
-		}
-
-		return false;
-	}
-
-
-	/**
 	 * Loads the topic from dfml node.
 	 *
 	 * @param {DFMLNode} node the dfml node
@@ -77,19 +56,34 @@ export class Conversation {
 	}
 
 	/**
+	 * Compares the input parameters with the topic match of all topics.
 	 * Run the conversation.
 	 *
 	 * @param {Action} action the action.
 	 * @memberof Conversation
 	 */
 	start(action) {
+
+		let bestTopic = this.defaultTopic;
+		let highScore = 0;
+
 		for (const t of this.topics) {
-			if (t.check(action.book.parser.parameters)) {
-				if (this.runTopic(action, t)) return;
+			let score = 0;
+			for (const p of action.book.parser.parameters.split(' ')) {
+				for (const m of t.match) {
+					if (Utils.isEquals(p, m)) {
+						score ++;
+					}
+				}
+			}
+
+			if (score > highScore) {
+				highScore = score;
+				bestTopic = t;
 			}
 		}
 
-		if (this.defaultTopic) this.runTopic(action, this.defaultTopic);
+		this.runTopic(action, bestTopic);
 	}
 
 	/**

@@ -1,0 +1,119 @@
+book(
+	title: "Mystic Forest Adventure (Getting Started)",
+	author: "Javier Candales (Jasón)"
+) {
+	property(name: "player", value: "-player")
+	property(name: "show-parsing-process", value: false)
+
+	include(src: "../../../templates/dict-debug.dfml")
+	include(src: "../../../templates/dict-en.dfml")
+}
+
+dictionary {
+	noun(names: "A Forest Clearing, forest-clearing") {
+		describe-place() {
+			"I stand in a serene forest clearing surrounded by towering trees. Sunlight filters through the leaves, and the sound of chirping birds fills the air. To the north, a narrow path winds through the trees, leading further into the misty forest."
+		}
+
+		noun(names: "trees, tree, forest") {
+			set { "plural" "scene" "fixed" }
+
+			describe-object() {
+				"The towering trees stretch high above, their thick trunks covered in patches of moss. Their branches intertwine, forming a dense canopy that filters the sunlight into soft, golden beams."
+			}
+		}
+
+		noun(names: "clearing") {
+			set { "scene" "fixed" }
+
+			describe-object() {
+				execute() { "examine" }
+			}
+		}
+
+		noun(names: "sunlight, light, sun") {
+			set { "fixed" "scene" }
+
+			describe-object() {
+				"The sunlight filters through the dense foliage, casting rays that illuminate the forest floor."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+				"The sunlight remains undisturbed, its warmth constant, no matter what actions you try to take."
+			}
+		}
+
+		noun(names: "birds, bird") {
+			set { "scene" "fixed" }
+
+			describe-object() {
+				"Small birds flit among the branches of the trees, their cheerful chirping filling the air."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+				"The birds remain undisturbed, continuing their song in the trees, no matter what you try to do."
+			}
+		}
+
+		noun(names: "player, -player") {
+			describe-object() {
+				"A curious adventurer, ready to explore the world around them."
+			}
+		}
+
+		connection(exit: "north", destiny: "small-path")
+	}
+
+	noun(names: "Small Path, small-path") {
+		describe-place() {
+			"The path is narrow and winding, surrounded by tall trees. The ground is covered with dry, crunchy leaves. In the distance, the path curves to the east, leading deeper into the forest. To the south, the path leads back to the serene forest clearing."
+		}
+
+		noun(names: "dry leaves, leaves") {
+			set { "scene" }
+
+			describe-object() {
+				"The dry leaves cover the ground, crunching under your feet as you walk."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+				"Nothing happens when you stir the leaves on the path."
+			}
+
+			before(actions: "TakeObject, TakeFrom", cancel: true) {
+				"It doesn't make sense to pick up the leaves from the ground."
+			}
+		}
+
+		noun(names: "mist") {
+			set { "scene" "fixed" }
+
+			describe-object() {
+				"The mist stretches along the path, giving it a mysterious and oppressive air. It's hard to see more than a few meters ahead."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject, TakeObject", cancel: true) {
+				"The mist stays still, its presence palpable but unchanging."
+			}
+		}
+
+		connection(exit: "south", destiny: "forest-clearing")
+		connection(exit: "east", destiny: "forest-cabin")
+	}
+
+	noun(names: "The Cabin, forest-cabin") {
+		describe-place() {
+			"A quaint wooden cabin stands nestled among the towering trees, its weathered walls covered in patches of moss. Smoke curls lazily from the stone chimney, hinting at a warm fire inside. To the west, the narrow forest path winds back into the trees."
+		}
+
+		noun(names: "cabin, house, patches, patch, moss, chimney, fire") {
+			set { "fixed" "scene" }
+
+			describe-object() {
+				execute() { "examine" }
+			}
+		}
+
+		connection(exit: "west", destiny: "small-path")
+	}
+}

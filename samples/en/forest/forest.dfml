@@ -15,6 +15,13 @@ dictionary {
 			"I stand in a serene forest clearing surrounded by towering trees. Sunlight filters through the leaves, and the sound of chirping birds fills the air. To the north, a narrow path winds through the trees, leading further into the misty forest."
 		}
 
+		noun(names: "player, -player") {
+
+			describe-object() {
+				"A curious adventurer, ready to explore the world around them."
+			}
+		}
+
 		noun(names: "trees, tree, forest") {
 			set { "plural" "scene" "fixed" }
 
@@ -52,12 +59,6 @@ dictionary {
 
 			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
 				"The birds remain undisturbed, continuing their song in the trees, no matter what you try to do."
-			}
-		}
-
-		noun(names: "player, -player") {
-			describe-object() {
-				"A curious adventurer, ready to explore the world around them."
 			}
 		}
 
@@ -115,5 +116,106 @@ dictionary {
 		}
 
 		connection(exit: "west", destiny: "small-path")
+		connection(exit: "inside", destiny: "inside-cabin")
+	}
+
+	noun(names: "Inside The Cabin, inside-cabin") {
+
+		describe-place() {
+			"The interior of the cabin is dimly lit, with shadows dancing on the wooden walls from the flickering fire in the stone hearth. Shelves line the walls, filled with dusty books and jars of unknown contents. A sturdy table stands in the center."
+		}
+
+		noun(names: "stone hearth, hearth, fire, fireplace") {
+			set { "fixed" "scene" }
+
+			describe-object() {
+				"A stone hearth holds a crackling fire, its warm glow lighting the cabin."
+			}
+
+			before(actions: "PushObject, PullObject, PressObject", cancel: true) {
+				"The hearth is fixed to the wall and immovable."
+			}
+
+			before(actions: "TouchObject", cancel: true) {
+				"Maybe I should drop that idea to avoid getting burned."
+			}
+		}
+
+		noun(names: "shelves, shelf, books, jars") {
+			set { "scene" "fixed" }
+
+			describe-object() {
+				"The shelves are filled with dusty books and jars of unknown contents."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject, TakeObject, PressObject", cancel: true) {
+				"The shelves are old and fragile, better to leave them undisturbed."
+			}
+		}
+
+		noun(names: "table, sturdy table") {
+
+			set { "fixed" "scene" }
+
+			describe-object() {
+				"The sturdy table is covered with a few candles."
+			}
+
+			describe-object() {
+				if-contains(instance: "note", container: "inside-cabin")
+				"A crumpled note lies on it."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+				"The table is solid and doesn't seem to move."
+			}
+		}
+
+		noun(names: "candles, candle") {
+			set { "scene" "plural" "female" }
+
+			describe-object() {
+				"A few flickering candles illuminate the table with their soft, warm light."
+			}
+
+			before(actions: "PressObject, PushObject, PullObject", cancel: true) {
+				"It doesn't make sense to do that."
+			}
+
+			before(actions: "TouchObject", cancel: true) {
+				"The candles feel warm to the touch, their flames gently flickering."
+			}
+			
+			before(actions: "TakeObject", cancel: true) {
+				"I'm not interested in taking the candles."
+			}
+		}
+
+		// THE NOTE
+		noun(names: "note, crumpled note, paper") {
+
+			set { "scene" }
+
+			describe-object() {
+				"A crumpled and faded note, with barely legible ink."
+			}
+
+			after(actions: "TakeObject") {
+				attr(instance: "note", unset: "scene")
+			}
+
+			after(actions: "LeaveObject") {
+				if-contains(instance: "note", container: "inside-cabin")
+				attr(instance: "note", set: "scene")
+			}
+
+			before(actions: "ReadObject", cancel: true) {
+				'"To those who seek the truth:'
+				'The forest hides many secrets, but only the brave will uncover them.'
+				'Follow the light where the mist grows thicker, and you shall find what you seek."'
+			}
+		}
+
+		connection(exit: "outside", destiny: "forest-cabin")
 	}
 }

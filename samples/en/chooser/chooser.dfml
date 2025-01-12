@@ -1,0 +1,33 @@
+book(
+	title: "Object Dialog Testing",
+	author: "Javier Candales (Jasón)"
+) {
+	property(name: "player", value: "-player")
+	property(name: "show-parsing-process", value: false)
+
+	include(src: "../../../templates/dict-debug.dfml")
+	include(src: "../../../templates/dict-en.dfml")
+}
+
+dictionary {
+	noun(names: "A Testing Place") {
+		describe-place() {
+			"You are in a place designed for testing objects in Dragonfly."
+		}
+
+		noun(names: "-player")
+
+		noun(names: "red ball, ball") {
+			describe-object() {
+				"A lightweight red ball."
+			}
+		}
+
+		noun(names: "blue ball, ball") {
+			describe-object() {
+				"A lightweight blue ball."
+			}
+		}
+	}
+
+}

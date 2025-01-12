@@ -32,7 +32,7 @@ export class Dictionary {
 
 		this.seeListDialog = new ListDialog("You can see: ", ", ", " and ");
 		this.propperListDialog = new PropperListDialog("is here", "are here", ", ", " and ");
-		this.objectChooserDialog = new ObjectChooserDialog(this, "Which one?", "Never mind.", "Please, enter the correct option.");
+		this.objectChooserDialog = new ObjectChooserDialog(this.book, "Which one?", "Never mind.", "Please, enter the correct option.");
 		this.inventoryDialog = new ListDialog("You have: ", ", ", " and ");
 		this.lookInsideDialog = new ListDialog("Inside there is: ", ", ", " and ");
 	}

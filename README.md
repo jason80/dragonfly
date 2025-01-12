@@ -1,6 +1,10 @@
 # Dragonfly
 *Interactive Fiction Game Engine in Javascript*
 
+![Game sample](media/sample1.png)
+
+**You can find some examples in the `samples` directory available in English.**
+
 ## Setting up the project
 
 Clone the git repository with submodules:

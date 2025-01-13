@@ -250,7 +250,13 @@ export class Noun extends Entity {
         let result = "";
         for (const a of this.dictionary.articles) {
             if (a.female === this.isSet("female") && a.plural === this.isSet("plural") && a.indefinited) {
-                result = `${a.name} ${this.getName()}`;
+                
+				if (a.name === 'a' && this.isSet('an')) {
+					result = `an ${this.getName()}`;
+					break;
+				}
+				
+				result = `${a.name} ${this.getName()}`;
                 break;
             }
         }

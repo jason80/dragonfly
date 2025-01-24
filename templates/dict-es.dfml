@@ -272,6 +272,18 @@ dictionary {
 		response(id: "nothing-happens", string: "No sucede nada.")
 	}
 
+	verb(names: "seguir, segui, sigue, perseguir, persegui, persigue, acompañar, acompaña, acechar, acecha", action: "FollowObject", syntax: "a/al, 1") {
+		response(id: "direct-not-found", string: "No se encuentra.")
+		response(id: "direct-is-the-player", string: "Yo ya estoy aquí.")
+		response(id: "nothing-happens", string: "No puedo seguirl@1(o,a,os,as).")
+	}
+
+	verb(names: "seguir, segui, sigue, perseguir, persegui, persigue, acompañar, acompaña, acechar, acecha", action: "FollowObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No se encuentra.")
+		response(id: "direct-is-the-player", string: "Yo ya estoy aquí.")
+		response(id: "nothing-happens", string: "No puedo seguirl@1(o,a,os,as).")
+	}
+
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
 		response(id: "direct-not-found", string: "Ese al que quiero hablar no está.")
 		response(id: "direct-is-the-player", string: "No estoy loco para hablar conmigo mismo.")

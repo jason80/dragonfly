@@ -239,6 +239,18 @@ dictionary {
 		response(id: "nothing-happens", string: "Nothing happens.")
 	}
 
+	verb(names: "follow, pursue, accompany, stalk", action: "FollowObject", syntax: "to, 1") {
+		response(id: "direct-not-found", string: "Not found.")
+		response(id: "direct-is-the-player", string: "I am already here.")
+		response(id: "nothing-happens", string: "I cannot follow@1 (him, her, them, them).")
+	}
+
+	verb(names: "follow, pursue, accompany, stalk", action: "FollowObject", syntax: "1") {
+		response(id: "direct-not-found", string: "Not found.")
+		response(id: "direct-is-the-player", string: "I am already here.")
+		response(id: "nothing-happens", string: "I cannot follow @1(him, her, them, them).")
+	}
+
 	verb(names: "speak, talk, say, pronounce", action: "TalkTo", syntax: "with/to, 1, ...") {
 		response(id: "direct-not-found", string: "The one I want to talk to isn't here.")
 		response(id: "direct-is-the-player", string: "I'm not crazy to talk to myself.")

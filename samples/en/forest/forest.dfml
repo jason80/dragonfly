@@ -12,7 +12,7 @@ book(
 dictionary {
 	noun(names: "A Forest Clearing, forest-clearing") {
 		describe-place() {
-			"I stand in a serene forest clearing surrounded by towering trees. Sunlight filters through the leaves, and the sound of chirping birds fills the air. To the north, a narrow path winds through the trees, leading further into the misty forest."
+			"I stand in a serene forest clearing surrounded by towering trees. Sunlight filters through the leaves, and the sound of chirping birds fills the air. To the north, a narrow path winds through the trees, leading further into the misty forest. To the south, the soft sound of a flowing stream can be heard."
 		}
 
 		// THE PLAYER
@@ -68,7 +68,63 @@ dictionary {
 		}
 
 		connection(exit: "north", destiny: "small-path")
+		connection(exit: "south",
+		destiny: "forest-creek")
 	}
+
+	noun(names: "Creek, forest-creek") {
+	describe-place() {
+		"The stream flows gently, its clear water glimmering under the light. Smooth stones line its banks, creating a peaceful atmosphere. Near the water’s edge lies an old hollow log, its darkened bark blending with the surroundings."
+		"To the north, it leads back to the clearing."
+	}
+
+	// THE CREEK ITSELF
+	noun(names: "water, stream, creek") {
+		set { "fixed" "scene" }
+
+		describe-object() {
+			"The creek's water is clear and cool, flowing steadily over its bed of stones."
+		}
+
+		before(actions: "TouchObject", cancel: true) {
+			"The water feels refreshing and cool to the touch."
+		}
+	}
+
+	// SMOOTH STONES
+	noun(names: "stones, stone, rocks, rock") {
+		set { "scene" "heavy" }
+
+		describe-object() {
+			"Smooth, water-worn stones lie scattered along the creek bed, glistening in the sunlight."
+		}
+
+		before(actions: "TouchObject", cancel: true) {
+			"The stones feel smooth and cool under your fingers."
+		}
+	}
+
+	// HOLLOW LOG
+	noun(names: "hollow log, log, tree trunk") {
+		set { "fixed" "scene" "container" }
+
+		describe-object() {
+			"An old hollow log lies near the stream, its bark weathered and darkened with age."
+		}
+
+		// RUSTY KEY
+		noun(names: "rusty key, key") {
+			set { "female" }
+
+			describe-object() {
+				"A small, rusty key with a jagged edge, looking like it hasn’t been used in years."
+			}
+		}
+	}
+
+	// CONNECTIONS
+	connection(exit: "north", destiny: "forest-clearing")
+}
 
 	noun(names: "Small Path, small-path") {
 		describe-place() {

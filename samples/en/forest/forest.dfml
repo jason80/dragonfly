@@ -15,6 +15,7 @@ dictionary {
 			"I stand in a serene forest clearing surrounded by towering trees. Sunlight filters through the leaves, and the sound of chirping birds fills the air. To the north, a narrow path winds through the trees, leading further into the misty forest."
 		}
 
+		// THE PLAYER
 		noun(names: "player, -player") {
 
 			describe-object() {
@@ -22,6 +23,7 @@ dictionary {
 			}
 		}
 
+		// TREES
 		noun(names: "trees, tree, forest") {
 			set { "plural" "scene" "fixed" }
 
@@ -30,6 +32,7 @@ dictionary {
 			}
 		}
 
+		// CLEARING IT SELF
 		noun(names: "clearing") {
 			set { "scene" "fixed" }
 
@@ -38,6 +41,7 @@ dictionary {
 			}
 		}
 
+		// SUNLIGHT
 		noun(names: "sunlight, light, sun") {
 			set { "fixed" "scene" }
 
@@ -50,6 +54,7 @@ dictionary {
 			}
 		}
 
+		// BIRDS
 		noun(names: "birds, bird") {
 			set { "scene" "fixed" }
 
@@ -70,6 +75,13 @@ dictionary {
 			"The path is narrow and winding, surrounded by tall trees. The ground is covered with dry, crunchy leaves. In the distance, the path curves to the east, leading deeper into the forest. To the south, the path leads back to the serene forest clearing."
 		}
 
+		describe-place() {
+			if-contains(container: "small-path", instance: "faint-light")
+
+			"A faint light glows in the distance to the northeast, cutting through the mist."
+		}
+
+		// DRY LEAVES
 		noun(names: "dry leaves, leaves") {
 			set { "scene" }
 
@@ -86,11 +98,20 @@ dictionary {
 			}
 		}
 
+		// THE MIST
 		noun(names: "mist") {
 			set { "scene" "fixed" }
 
 			describe-object() {
+				if-not-contains(container: "small-path", instance: "faint-light")
+
 				"The mist stretches along the path, giving it a mysterious and oppressive air. It's hard to see more than a few meters ahead."
+			}
+
+			describe-object() {
+				if-contains(container: "small-path", instance: "faint-light")
+
+				"The mist stretches along the path, but it thins as it approaches the faint light glowing in the distance."
 			}
 
 			before(actions: "TouchObject, PushObject, PullObject, TakeObject", cancel: true) {
@@ -107,6 +128,7 @@ dictionary {
 			"A quaint wooden cabin stands nestled among the towering trees, its weathered walls covered in patches of moss. Smoke curls lazily from the stone chimney, hinting at a warm fire inside. To the west, the narrow forest path winds back into the trees."
 		}
 
+		// THE CABIN IT SELF
 		noun(names: "cabin, house, patches, patch, moss, chimney, fire") {
 			set { "fixed" "scene" }
 
@@ -125,6 +147,7 @@ dictionary {
 			"The interior of the cabin is dimly lit, with shadows dancing on the wooden walls from the flickering fire in the stone hearth. Shelves line the walls, filled with dusty books and jars of unknown contents. A sturdy table stands in the center."
 		}
 
+		// STONE HEARTH
 		noun(names: "stone hearth, hearth, fire, fireplace") {
 			set { "fixed" "scene" }
 
@@ -141,6 +164,7 @@ dictionary {
 			}
 		}
 
+		// SHELVES
 		noun(names: "shelves, shelf, books, jars") {
 			set { "scene" "fixed" }
 
@@ -153,6 +177,7 @@ dictionary {
 			}
 		}
 
+		// THE TABLE
 		noun(names: "table, sturdy table") {
 
 			set { "fixed" "scene" }
@@ -171,6 +196,7 @@ dictionary {
 			}
 		}
 
+		// THE CANDLES
 		noun(names: "candles, candle") {
 			set { "scene" "plural" "female" }
 
@@ -213,9 +239,37 @@ dictionary {
 				'"To those who seek the truth:'
 				'The forest hides many secrets, but only the brave will uncover them.'
 				'Follow the light where the mist grows thicker, and you shall find what you seek."'
+
+				move(instance: "faint-light", destiny: "small-path")
 			}
 		}
 
 		connection(exit: "outside", destiny: "forest-cabin")
+	}
+
+	noun(names: "TestPlace") {
+		describe-place() {
+			"A test place"
+		}
+
+		connection(exit: "se", destiny: "small-path")
+	}
+
+	noun(names: "faint light, light, faint-light") {
+		set { "fixed" "scene" }
+
+		describe-object() {
+			"A faint and mysterious light glows in the distance, almost beckoning you forward through the mist."
+		}
+
+		before(actions: "TouchObject, PushObject, PullObject, PressObject", cancel: true) {
+			"The light remains untouchable, its presence a distant guide."
+		}
+
+		before(actions: "FollowObject", cancel: true) {
+			"The light is to the northwest. I begin to follow it and realize that a path, hidden by the vegetation, opens in that direction."
+
+			add-connection(instance: "small-path", exit: "nw", destiny: "TestPlace")
+		}
 	}
 }

@@ -1238,3 +1238,9 @@ export class TieObject extends DefaultAction {
 		super();
 	}
 } actions.TieObject = TieObject;
+
+export class FollowObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.FollowObject = FollowObject;

@@ -191,6 +191,21 @@ dictionary {
 		response(id: "nothing-happens", string: "It doesn't make sense to tie that.")  
 	}
 
+	verb(names: "break, breaks, breaking, force, forces, forcing, violate, violates, violating", action: "BreakWith", syntax: "1, with/by, 2") {
+		response(id: "direct-not-found", string: "It's not here.")
+		response(id: "indirect-not-found", string: "I don't have that to break.")
+		response(id: "direct-is-the-player", string: "I don't understand.")
+		response(id: "indirect-is-the-player", string: "I'm not a crowbar.")
+		response(id: "nothing-happens", string: "It doesn't make sense to do that.")
+		response(id: "syntax-fail", string: "Try 'break object', 'break object with another'.")
+	}
+
+	verb(names: "break, breaks, breaking, force, forces, forcing, violate, violates, violating", action: "BreakObject", syntax: "1") {
+		response(id: "direct-not-found", string: "There's nothing like that to break.")
+		response(id: "direct-is-the-player", string: "I can't break myself.")
+		response(id: "nothing-happens", string: "It doesn't make sense to break that.")
+	}
+
 	verb(names: "read, interpret, comprehend", action: "ReadObject", syntax: "1") {  
 		response(id: "direct-not-found", string: "There’s nothing like that to read.")  
 		response(id: "direct-is-the-player", string: "I’m not a book.")  

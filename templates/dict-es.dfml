@@ -224,6 +224,21 @@ dictionary {
 		response(id: "nothing-happens", string: "No tiene sentido atar eso.")
 	}
 
+	verb(names: "romper, rompe, forzar, forza, fuerza, viola, violar, violenta, violentar, reventar, revienta, reventa", action: "BreakWith", syntax: "1, con/mediante, 2") {
+		response(id: "direct-not-found", string: "No está aquí.")
+		response(id: "indirect-not-found", string: "No tengo eso para romper.")
+		response(id: "direct-is-the-player", string: "No entiendo.")
+		response(id: "indirect-is-the-player", string: "No soy una palanca.")
+		response(id: "nothing-happens", string: "No tiene sentido hacer eso.")
+		response(id: "syntax-fail", string: "Prueba con 'romper objeto', 'romper objeto con otro'.")
+	}
+
+	verb(names: "romper, rompe, forzar, forza, fuerza, viola, violar, violenta, violentar, reventar, revienta, reventa", action: "BreakObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso para romper.")
+		response(id: "direct-is-the-player", string: "No puedo romperme a mi mismo.")
+		response(id: "nothing-happens", string: "No tiene sentido romper eso.")
+	}
+
 	verb(names: "leer, lee, interpretar, interpreta, relee, releer", action: "ReadObject", syntax: "1") {
 		response(id: "direct-not-found", string: "No hay eso para leer.")
 		response(id: "direct-is-the-player", string: "No soy un libro.")

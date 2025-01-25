@@ -112,12 +112,11 @@ dictionary {
 			"An old hollow log lies near the stream, its bark weathered and darkened with age."
 		}
 
-		// RUSTY KEY
-		noun(names: "rusty key, key") {
-			set { "female" }
+		// LOCKPICK
+		noun(names: "lockpick, picklock, lock-pick, ganzua") {
 
 			describe-object() {
-				"A small, rusty key with a jagged edge, looking like it hasn’t been used in years."
+				"A slim and sturdy lockpick, perfect for opening locks without a key."
 			}
 		}
 	}
@@ -191,6 +190,62 @@ dictionary {
 			describe-object() {
 				execute() { "examine" }
 			}
+		}
+
+		noun(names: "door, cabin door, wooden door") {
+			set { "fixed" "scene" }
+
+			describe-object() {
+				"A sturdy wooden door with iron hinges."
+			}
+
+			describe-object() {
+				if-is-not-set(instance: "cabin door", attr: "forced")
+				append { "It seems to be locked." }
+			}
+
+			describe-object() {
+				if-is-set(instance: "cabin door", attr: "forced")
+				append { "Has been forced and is open." }
+			}
+
+			before(actions: "OpenObject, PushObject, PullObject, PressObject", cancel: true) {
+				if-is-set(attr: "forced", instance: "cabin door")
+				"The door is locked. Perhaps there's a way to unlock it."
+			}
+
+			before(actions: "OpenObject, PushObject, PullObject, PressObject", cancel: true) {
+				if-is-not-set(attr: "forced", instance: "cabin door")
+				"The door is already open"
+			}
+
+			before(actions: "BreakObject", cancel: true) {
+				if-is-not-set(attr: "forced", instance: "cabin door")
+
+				"I would need something pointed to force the lock."
+			}
+
+			before(actions: "BreakObject, BreakWith", cancel: true) {
+				if-is-set(attr: "forced", instance: "cabin door")
+				"The door is already forced open."
+			}
+			
+			before(actions: "BreakWith", cancel: true) {
+				if-indirect-equals(instance: "lockpick")
+				if-is-not-set(attr: "forced", instance: "cabin door")
+
+				"The lock clicks softly as the pick does its job. With a gentle push, the door creaks open, revealing the cabin's interior."
+
+				attr(set: "forced", instance: "cabin door")
+			}
+		}
+
+		before(actions: "GoTo", cancel: true) {
+			if-direct-equals-exit(exit: "inside")
+			if-is-not-set(attr: "forced", instance: "cabin door")
+
+			"The cabin door doesn't budge."
+			"I should look for something to open the door with."
 		}
 
 		connection(exit: "west", destiny: "small-path")

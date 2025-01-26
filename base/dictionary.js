@@ -8,6 +8,7 @@ import { actions } from "./actions.js";
 import { ListDialog, ObjectChooserDialog, PropperListDialog,
 			loadListDialog, loadObjectChooserDialog, loadPropperListDialog } from "./dialogs.js";
 import { Conversation } from "./conversation.js";
+import { GameOver } from "./gameover.js";
 
 /**
  * Contains a list of nouns, verbs and exits.
@@ -35,6 +36,8 @@ export class Dictionary {
 		this.objectChooserDialog = new ObjectChooserDialog(this.book, "Which one?", "Never mind.", "Please, enter the correct option.");
 		this.inventoryDialog = new ListDialog("You have: ", ", ", " and ");
 		this.lookInsideDialog = new ListDialog("Inside there is: ", ", ", " and ");
+
+		this.gameover = new GameOver(this);
 	}
 
 	/**
@@ -207,7 +210,12 @@ export class Dictionary {
 					const conversation = new Conversation();
 					conversation.load(child);
 					this.conversations[conversation.owner] = conversation;
+
+				// Game over 
+				} else if (child.getName() === "gameover") {
+					this.gameover.load(child);
 				}
+
 			}
 		});
 

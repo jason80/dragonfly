@@ -7,6 +7,7 @@ import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
 import { Help } from "./help.js";
 import { DFMLValue } from "../dfml/js/main/value.js";
+import { DFMLPersistenceSystem } from "./persistence.js";
 
 /** Main object which contains all of the game.
  *
@@ -86,6 +87,8 @@ export class Book {
 				color: "#A30"
 			}
 		};
+
+		this.initialState = "";
 	}
 
 	/**
@@ -206,6 +209,10 @@ export class Book {
 			else
 				Output.error("Possible missing dictionary template?");
 		}
+
+		// Initial save state
+		const p = new DFMLPersistenceSystem(this.dictionary);
+		this.initialState = p.save();
 
 		await this.input.createInput();
 	}

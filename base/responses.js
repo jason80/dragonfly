@@ -4,6 +4,7 @@ import { ActionResponse } from "./actionresponse.js";
 import { Output } from "./output.js";
 import { Help } from "./help.js";
 import { Connection } from "./movement.js";
+import { ResultType } from "./gameover.js";
 
 export const responses = {};
 
@@ -433,23 +434,26 @@ export class EndGame extends ActionResponse {
 	}
 
 	async execute(action) {
-		let victory = true
+		let victory = true;
 		if (this.result === "victory") victory = true;
 		else if (this.result === "defeat") victory = false;
 		else {
 			Output.error(`On EndGame: expected "victory" or "defeat" value on result attr.`);
 		}
 
-		//action.book.dictionary.gameOver.run(ResultType.VICTORY if victory else ResultType.DEFEAT, this.message)
+		await action.book.dictionary.gameover.run(
+			victory ? ResultType.VICTORY : ResultType.DEFEAT,
+			this.message
+		);
 	}
 
 	load(node) {
-		this.result = node.getAttr("result");
+		this.result = node.getAttr("result").getValue();
 
 		if (node.children.length === 1) {
 			if (node.children[0].getElementType() === DFMLElement.DATA) {
 				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue();
+					this.message = node.children[0].getValue().getValue();
 					return ;
 				}
 			}

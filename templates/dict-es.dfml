@@ -15,6 +15,12 @@ dictionary {
 	object-chooser-dialog(message: "¿Cual?", cancel: "No importa.",
 					error: "Por favor, elije una opción correcta.")
 
+	gameover {
+		game-over-message { "Fin del juego" }
+		victory-message { "¡ VICTORIA !" }
+		defeat-message { "¡ Derrota !" }
+	}
+
 	verb(names: "?", action: "UnknownVerb") {
 		response(id: "unknown-verb", string: "No sé lo que estás diciendo.")
 	}

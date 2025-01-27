@@ -177,7 +177,13 @@ dictionary {
 			if-connection-exists(instance: "small-path", exit: "nw")
 
 			end-game(result: "victory") {
-				"Has salido del bosque sano y salvo."
+				"You have made it out of the forest safe and sound."
+				"(Press Enter to restart the game)"
+				pause()
+				restart-game()
+				clear()
+				show-title()
+				execute { "x" }
 			}
 		}
 

@@ -19,30 +19,22 @@ export class GameOver {
 		this.defeatStyle = "";
 	}
 
-	async run(result, message) {
+	async run(result, action, conditions, responses) {
+
+		for (const c of conditions) {
+			if (!c.check(action)) return false;
+		}
+
 		Output.print(this.gameOverMessage, this.gameOverStyle);
 		if (result === ResultType.VICTORY) {
 			Output.print(this.victoryMessage, this.victoryStyle);
 		} else {
 			Output.print(this.defeatMessage, this.defeatStyle);
 		}
-		Output.print(message);
 
-		await this.dictionary.book.input.pause("Enter");
-
-		// TODO: improve restart game
-		const p = new DFMLPersistenceSystem(this.dictionary);
-		p.load(this.dictionary.book.initialState);
-
-		const clearVerb = this.dictionary.verbByAction("Clear");
-		if (clearVerb)
-			await this.dictionary.book.execute(clearVerb.getName());
-
-		this.dictionary.book.showTitle();
-
-		const lookVerb = this.dictionary.verbByAction("LookAround");
-		if (lookVerb)
-			await this.dictionary.book.execute(lookVerb.getName());
+		for (const r of responses) {
+			await r.execute(action);
+		}
 	}
 
 	load(node) {

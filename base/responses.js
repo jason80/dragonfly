@@ -5,6 +5,7 @@ import { Output } from "./output.js";
 import { Help } from "./help.js";
 import { Connection } from "./movement.js";
 import { ResultType } from "./gameover.js";
+import { loadConditionsAndResponses } from "./eventloader.js";
 
 export const responses = {};
 
@@ -425,8 +426,10 @@ export class Clear extends ActionResponse {
 export class EndGame extends ActionResponse {
 	constructor() {
 		super();
-		this.result = ""
-		this.message = ""
+		this.result = "";
+		//this.message = "";
+		this.responses = [];
+		this.conditions = [];
 	}
 
 	toString() {

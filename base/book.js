@@ -235,6 +235,11 @@ export class Book {
 		Output.print(this.author, this.getProperty("author-style"));
 	}
 
+	restart() {
+		const p = new DFMLPersistenceSystem(this.dictionary);
+		p.load(this.dictionary.book.initialState);
+	}
+
 	/**
 	 * Loads the book info from dfml node.
 	 *

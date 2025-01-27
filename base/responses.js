@@ -443,20 +443,29 @@ export class EndGame extends ActionResponse {
 
 		await action.book.dictionary.gameover.run(
 			victory ? ResultType.VICTORY : ResultType.DEFEAT,
-			this.message
+			action, this.conditions, this.responses
 		);
 	}
 
 	load(node) {
 		this.result = node.getAttr("result").getValue();
 
-		if (node.children.length === 1) {
-			if (node.children[0].getElementType() === DFMLElement.DATA) {
-				if (node.children[0].getValue().getType() === DFMLValue.STRING) {
-					this.message = node.children[0].getValue().getValue();
-					return ;
-				}
-			}
-		}
+		loadConditionsAndResponses(node, this.conditions, this.responses);
 	}
 } responses.EndGame = EndGame;
+
+export class RestartGame extends ActionResponse {
+	constructor() {
+		super();
+	}
+
+	toString() {
+		return "Restart game";
+	}
+
+	async execute(action) {
+		action.book.restart();
+	}
+
+	load(node) {}
+} responses.RestartGame = RestartGame;

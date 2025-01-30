@@ -1,7 +1,7 @@
 import { DFMLElement } from "../dfml/js/main/element.js";
 import { DFMLValue } from "../dfml/js/main/value.js";
 import { Output } from "./output.js";
-import { DFMLPersistenceSystem } from "./persistence.js";
+import { Utils } from "./utils.js";
 
 export class ResultType {
   static VICTORY = 0;
@@ -54,6 +54,9 @@ export class GameOver {
 	}
 
 	loadMessage(node) {
+
+		if (!Utils.expectedAttributes(node, "style")) return ;
+
 		let style = "";
 		if (node.hasAttr("style")) {
 			style = node.getAttr("style").getValue();

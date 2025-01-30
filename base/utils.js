@@ -1,3 +1,5 @@
+import { DFMLNode } from "../dfml/js/main/node.js";
+import { Output } from "./output.js";
 
 export class Utils {
 	/**
@@ -53,5 +55,27 @@ export class Utils {
 		Utils.noAccents(
 			text2.trim().toLowerCase()
 		);
+	}
+
+	
+	/**
+	 * 
+	 * @static
+	 * @param {DFMLNode} node
+	 * @param {*} args
+	 * @memberof Utils
+	 */
+	static expectedAttributes(node, ...args) {
+
+		let result = true;
+
+		args.forEach((attr, i) => {
+			if (!node.hasAttr(attr)) {
+				Output.error(`Expected attribute "${attr}", (${node.filename}), line: ${node.line}`);
+				result = false;
+			}
+		});
+
+		return result;
 	}
 }

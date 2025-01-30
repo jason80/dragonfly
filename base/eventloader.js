@@ -6,6 +6,7 @@ import { Condition } from "./condition.js";
 import { responses } from "./responses.js";
 import { conditions } from "./conditions.js";
 import { Output } from "./output.js";
+import { Utils } from "./utils.js";
 
 
 /**
@@ -60,6 +61,9 @@ export function loadConditionsAndResponses(node, conditionList, responseList) {
  * @param {Array<ActionResponse>} responseList Response list to add.
  */
 function loadResponse(node, responseList) {
+
+	if (!Utils.expectedAttributes(node, "class")) return ;
+
 	const responseClassName = node.getAttr("class").getValue();
 	const responseClass = responses[responseClassName];
 	if (!responseClass) {
@@ -78,6 +82,9 @@ function loadResponse(node, responseList) {
  * @param {Array<Condition>} conditionList Condition list to add.
  */
 function loadCondition(node, conditionList) {
+
+	if (!Utils.expectedAttributes(node, "class")) return ;
+
 	const condClassName = node.getAttr("class").getValue();
 	const condClass = conditions[condClassName];
 	if (!condClass) {

@@ -6,6 +6,8 @@ import { Output } from "./output.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
 
+import { Utils } from "./utils.js";
+
 /**
  * Represents the multi-name command wich is associated to Action.
  *
@@ -66,6 +68,8 @@ export class Verb extends Entity {
 	load(node) {
 		super.load(node);
 
+		if (!Utils.expectedAttributes(node, "action")) return ;
+
 		const actionClassName = node.getAttr("action").getValue();
 		let actionClass = actions[actionClassName];
 
@@ -91,6 +95,9 @@ export class Verb extends Entity {
 		node.children.forEach((e) => {
 			if (e.getElementType() === DFMLElement.NODE) {
 				if (e.getName() === "response") {
+
+					if (!Utils.expectedAttributes(e, "id", "string")) return ;
+
 					this.setResponse(e.getAttr("id").getValue(), 
 					e.getAttr("string").getValue());
 				}

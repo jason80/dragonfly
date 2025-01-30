@@ -6,6 +6,7 @@ import { Entity } from "./entity.js";
 import { ActionEvent } from "./actionevent.js";
 import { Output } from "./output.js";
 import { Connection } from "./movement.js";
+import { Utils } from "./utils.js";
 
 /**
  * Nouns represents the objects of the game. Can be contained by other nouns.
@@ -367,8 +368,11 @@ export class Noun extends Entity {
 						}
 					});
 				} else if (e.getName() === "variable") {
-					this.setVariable(e.getAttr("name").getValue(),
-					e.getAttr("value").getValue());
+
+					if (Utils.expectedAttributes(e, "name", "value")) {
+						this.setVariable(e.getAttr("name").getValue(),
+						e.getAttr("value").getValue());
+					}
 				} else if (e.getName() === "noun") {
 					const noun = new Noun(this);
 					noun.book = this.book;
@@ -400,15 +404,20 @@ export class Noun extends Entity {
 					event.load(e);
 					this.afterEvents.push(event);
 				} else if (e.getName() === "clone") {
-					const instance = e.getAttr("instance").getValue();
-					const lst = this.dictionary.getNouns(instance);
 
-					if (lst.length === 0) {
-						Output.error(`Clone: noun target "${instance}" not found in dictionary.`);
-						return ;
+					if (Utils.expectedAttributes(e, "instance")) {
+
+						const instance = e.getAttr("instance").getValue();
+						const lst = this.dictionary.getNouns(instance);
+
+						if (lst.length === 0) {
+							Output.error(`Clone: noun target "${instance}" not found in dictionary.`);
+							return ;
+						}
+
+						lst[0].clone(this);
+
 					}
-
-					lst[0].clone(this);
 
 				}
 			}

@@ -1,4 +1,5 @@
 import { Output } from "./output.js";
+import { Utils } from "./utils.js";
 
 export class ListDialog {
     constructor(initialMessage, separator, andSeparator) {
@@ -144,6 +145,10 @@ export class ObjectChooserDialog {
 }
 
 export function loadListDialog(child) {
+
+	if (!Utils.expectedAttributes(child, "initial-message",
+			"separator", "and-separator")) return null;
+
     return new ListDialog(
         child.getAttr("initial-message").getValue(),
         child.getAttr("separator").getValue(),
@@ -152,6 +157,10 @@ export function loadListDialog(child) {
 }
 
 export function loadPropperListDialog(child) {
+
+	if (!Utils.expectedAttributes(child, "singular", "plural",
+		"separator", "and-separator")) return null;
+
     return new PropperListDialog(
         child.getAttr("singular").getValue(),
         child.getAttr("plural").getValue(),
@@ -161,6 +170,9 @@ export function loadPropperListDialog(child) {
 }
 
 export function loadObjectChooserDialog(book, child) {
+
+	if (!Utils.expectedAttributes(child, "message", "cancel", "error")) return null;
+
     return new ObjectChooserDialog(
         book,
         child.getAttr("message").getValue(),

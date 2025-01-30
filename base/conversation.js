@@ -31,8 +31,10 @@ export class Topic {
 	 * @memberof Topic
 	 */
 	load(node) {
-		if (node.hasAttr("match"))
-			this.match = node.getAttr("match").getValue().split(",");
+
+		if (!Utils.expectedAttributes(node, "match")) return ;
+
+		this.match = node.getAttr("match").getValue().split(",");
 		loadConditionsAndResponses(node, this.conditions, this.responses);
 	}
 };
@@ -113,6 +115,9 @@ export class Conversation {
 	 * @memberof Conversation
 	 */
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "owner")) return ;
+
 		this.owner = node.getAttr("owner").getValue();
 
 		for (const child of node.children) {

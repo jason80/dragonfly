@@ -8,6 +8,7 @@ import { DFMLElement } from "../dfml/js/main/element.js";
 import { Help } from "./help.js";
 import { DFMLValue } from "../dfml/js/main/value.js";
 import { DFMLPersistenceSystem } from "./persistence.js";
+import { Utils } from "./utils.js";
 
 /** Main object which contains all of the game.
  *
@@ -138,14 +139,20 @@ export class Book {
 			return response.text();
 		})
 		.then(data => {
-			const dfmlParser = new DFMLParser(data);
+			const dfmlParser = new DFMLParser(data, path);
 			
-			dfmlParser.parse().forEach(e => {
-				if (e.getElementType() === DFMLElement.NODE) {
-					if (e.getName() === "book") this.#load(e);
-					else if (e.getName() === "dictionary") this.dictionary.load(e);
-				}
-			});
+			try {
+
+				dfmlParser.parse().forEach(e => {
+					if (e.getElementType() === DFMLElement.NODE) {
+						if (e.getName() === "book") this.#load(e);
+						else if (e.getName() === "dictionary") this.dictionary.load(e);
+					}
+				});
+
+			} catch(e) {
+				Output.error(e);
+			}
 
 		}).catch(error => {
 			console.error(error);
@@ -256,6 +263,9 @@ export class Book {
 		for (const child of node.children) {
 			if (child.getElementType() === DFMLElement.NODE) {
 				if (child.getName() === "property") {
+
+					if (!Utils.expectedAttributes(child, "name", "value")) continue;
+
 					const name = child.getAttr("name").getValue();
 					const value = child.getAttr("value");
 
@@ -267,6 +277,9 @@ export class Book {
 				}
 
 				if (child.getName() === "include") {
+
+					Utils.expectedAttributes(child, "src");
+
 					this.include(child.getAttr("src").getValue());
 				}
 			}

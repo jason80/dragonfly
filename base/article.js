@@ -1,5 +1,5 @@
 import { DFMLNode } from "../dfml/js/main/node.js";
-import { DFMLValue } from "../dfml/js/main/value.js"
+import { Utils } from "./utils.js";
 
 /**
  * Female-Plural representation of the nouns. Can be definited of indefinited
@@ -27,6 +27,9 @@ export class Article {
 	 * @memberof Article
 	 */
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "name", "genre", "number", "indefinited")) return ;
+
 		this.name = node.getAttr("name").getValue();
 		this.female = node.getAttr("genre").getValue() === "female";
 		this.plural = node.getAttr("number").getValue() === "plural";

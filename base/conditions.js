@@ -1,5 +1,6 @@
 import { Condition } from "./condition.js";
 import { Output } from "./output.js";
+import { Utils } from "./utils.js";
 
 export const conditions = {};
 
@@ -27,6 +28,9 @@ export class IsSet extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "attr")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.attr = node.getAttr("attr").getValue();
 	}
@@ -55,6 +59,9 @@ export class IsNotSet extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "attr")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.attr = node.getAttr("attr").getValue();
 	}
@@ -81,6 +88,9 @@ export class DirectEqualsExit extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "exit")) return ;
+
 		this.exit = node.getAttr("exit").getValue();
 	}
 } conditions.DirectEqualsExit = DirectEqualsExit;
@@ -107,6 +117,9 @@ export class Contains extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "container")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.container = node.getAttr("container").getValue();
 	}
@@ -134,6 +147,9 @@ export class NotContains extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "container")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.container = node.getAttr("container").getValue();
 	}
@@ -157,6 +173,9 @@ export class DirectEquals extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 	}
 } conditions.DirectEquals = DirectEquals;
@@ -179,6 +198,9 @@ export class DirectNotEquals extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 	}
 } conditions.DirectNotEquals = DirectNotEquals;
@@ -201,6 +223,9 @@ export class IndirectEquals extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 	}
 } conditions.IndirectEquals = IndirectEquals;
@@ -223,6 +248,9 @@ export class IndirectNotEquals extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 	}
 } conditions.IndirectNotEquals = IndirectNotEquals;
@@ -251,6 +279,9 @@ export class VariableEquals extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "variable", "value")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.variable = node.getAttr("variable").getValue();
 		this.value = node.getAttr("value").getValue();
@@ -278,6 +309,9 @@ export class ConnectionExists extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "exit")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.exit = node.getAttr("exit").getValue();
 	}
@@ -305,6 +339,9 @@ export class ConnectionNotExists extends Condition {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "exit")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.exit = node.getAttr("exit").getValue();
 	}

@@ -6,6 +6,7 @@ import { Help } from "./help.js";
 import { Connection } from "./movement.js";
 import { ResultType } from "./gameover.js";
 import { loadConditionsAndResponses } from "./eventloader.js";
+import { Utils } from "./utils.js";
 
 export const responses = {};
 
@@ -123,6 +124,9 @@ export class Attr extends ActionResponse {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		if (node.hasAttr("set"))
 			this.set = node.getAttr("set").getValue();
@@ -155,6 +159,9 @@ export class Variable extends ActionResponse {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "variable", "set")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.variable = node.getAttr("variable").getValue();
 		this.set = node.getAttr("set").getValue();
@@ -182,6 +189,9 @@ export class AppendName extends ActionResponse {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "name")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.name = node.getAttr("name").getValue();
 	}
@@ -219,6 +229,9 @@ export class Move extends ActionResponse {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "destiny")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.destiny = node.getAttr("destiny").getValue();
 	}
@@ -313,6 +326,9 @@ export class AddConnection extends ActionResponse {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "exit", "destiny")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.exit = node.getAttr("exit").getValue();
 		this.destiny = node.getAttr("destiny").getValue();
@@ -340,6 +356,9 @@ export class RemoveConnection extends ActionResponse {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "exit")) return ;
+
 		this.instance = node.getAttr("instance").getValue();
 		this.exit = node.getAttr("exit").getValue();
 	}
@@ -379,6 +398,9 @@ export class RunConversation extends ActionResponse {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "owner")) return ;
+
 		this.owner = node.getAttr("owner").getValue();
 	}
 } responses.RunConversation = RunConversation;
@@ -451,6 +473,9 @@ export class EndGame extends ActionResponse {
 	}
 
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "result")) return ;
+
 		this.result = node.getAttr("result").getValue();
 
 		loadConditionsAndResponses(node, this.conditions, this.responses);

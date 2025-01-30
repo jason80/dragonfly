@@ -63,6 +63,9 @@ export class Entity {
 	 * @memberof Entity
 	 */
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "names")) return ;
+
 		this.names = [];
 		node.getAttr("names").getValue().split(',').forEach(n => {
 			this.names.push(n.trim());

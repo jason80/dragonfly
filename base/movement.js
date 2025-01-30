@@ -1,5 +1,7 @@
 import { DFMLNode } from "../dfml/js/main/node.js";
 
+import { Utils } from "./utils.js";
+
 /** Represents an exit and a destiny association for add to place.
  *
  * @export
@@ -26,6 +28,9 @@ export class Connection {
 	 * @memberof Connection
 	 */
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "exit", "destiny")) return ;
+
 		this.exit = node.getAttr("exit").getValue();
 		this.destiny = node.getAttr("destiny").getValue();
 	}

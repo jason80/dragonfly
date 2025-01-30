@@ -8,6 +8,7 @@
 import { Output } from "./output.js";
 import { actions } from "./actions.js";
 import { loadConditionsAndResponses } from "./eventloader.js";
+import { Utils } from "./utils.js";
 
 export class ActionEvent {
 
@@ -68,6 +69,9 @@ export class ActionEvent {
 	 * @memberof ActionEvent
 	 */
 	load(node) {
+
+		if (!Utils.expectedAttributes(node, "actions")) return;
+
 		node.getAttr("actions").getValue().split(",").forEach(a => {
 			const actionClassName = a.trim();
 			const actionClass = actions[actionClassName];

@@ -1,0 +1,99 @@
+book (
+	author: "Javier Candales (Jasón)",
+	title: "Ejemplo de Puertas"
+) {
+	property(name: "player", value: "jugador")
+	include(src: "../../../templates/dict-es.dfml")			// Diccionario en español
+	include(src: "../../../templates/dict-debug.dfml")		// Verbos para depurar
+}
+
+dictionary {
+
+	/*
+		Éste ejemplo describe el mecanismo básico de puertas.
+		En Dragonfly no puede haber un sustantivo dentro de dos contenedores a la vez:
+		¿Cómo es posible crear una puerta? Ya que una puerta es un objeto que es compartido
+		por dos habitaciones.
+
+		La solución consiste en crear dos puertas, una en cada habitación. Luego, sincronizar la
+		apertura de las mismas. El jugador pensará que es una sola.
+	*/
+
+noun(names: "En un depósito, deposito") {
+	describe-place() {
+		"Estoy en un depósito vacio. Al norte hay una puerta."
+	}
+
+	noun(names: "jugador")
+
+	// LA PUERTA DEL DEPOSITO:
+	// Funciona exactamente igual que la puerta de la cocina,
+	// solo varia el ultimo nombre para poder referirse a ella.
+	noun(names: "puerta, madera, pomo, bronce, p-deposito-cocina") {
+
+		// Conserva las mismas propiedades y descripción. El jugador debe tener la
+		// sensación de que es una sola puerta.
+
+		set { "female" "fixed" "scene" "closable" "closed" }
+
+		describe-object() {
+			"La puerta es de madera y tiene un pomo de bronce."
+		}
+
+		// Después de abrir ésta puerta, abrir la otra
+		after(actions: "OpenObject") {
+			attr(instance: "p-cocina-deposito",unset: "closed")
+		}
+
+		// Después de cerrar ésta puerta, cerrar la otra
+		after(actions: "CloseObject") {
+			attr(instance: "p-cocina-deposito", set: "closed")
+		}
+	}
+
+	// Si la puerta está cerrada, el jugador no podrá ir a la cocina.
+	before(actions: "GoTo", cancel: true) {
+		if-direct-equals-exit(exit: "norte")
+		if-is-set(attr: "closed", instance: "p-deposito-cocina")
+
+		"La puerta está cerrada."
+	}
+
+	connection(exit: "norte", destiny: "cocina")
+}
+
+noun(names: "La Cocina, cocina") {
+	describe-place() {
+		"No encuentro nada interesante en la cocina. Por el sur se vuelve al depósito."
+	}
+
+	// LA PUERTA DE LA COCINA
+	noun(names: "puerta, madera, pomo, bronce, p-cocina-deposito") {
+
+		set { "female" "fixed" "scene" "closable" "closed" }
+
+		describe-object() {
+			"La puerta es de madera y tiene un pomo de bronce."
+		}
+
+		// Se sincroniza con la puerta del depósito.
+		after(actions: "OpenObject") {
+			attr(instance: "p-deposito-cocina",unset: "closed")
+		}
+
+		after(actions: "CloseObject") {
+			attr(instance: "p-deposito-cocina", set: "closed")
+		}
+	}
+
+	before(actions: "GoTo", cancel: true) {
+		if-direct-equals-exit(exit: "sur")
+		if-is-set(attr: "closed", instance: "p-cocina-deposito")
+
+		"La puerta está cerrada."
+	}
+
+	connection(exit: "sur", destiny: "deposito")
+}
+
+}

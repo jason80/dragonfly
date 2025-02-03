@@ -1,0 +1,99 @@
+book (
+	author: "Javier Candales (Jasón)",
+	title: "Example of Doors"
+) {
+	property(name: "player", value: "player")
+	include(src: "../../../templates/dict-en.dfml")			// English dictionary
+	include(src: "../../../templates/dict-debug.dfml")		// Debugging verbs
+}
+
+dictionary {
+
+	/*
+		This example describes the basic door mechanism.
+		In Dragonfly, a noun cannot be inside two containers at the same time:
+		How is it possible to create a door? Since a door is an object that is shared
+		between two rooms.
+
+		The solution is to create two doors, one in each room. Then, synchronize the
+		opening of both. The player will think it's just one door.
+	*/
+
+noun(names: "In a Storage Room, storage") {
+	describe-place() {
+		"I'm in an empty storage room. To the north, there is a door."
+	}
+
+	noun(names: "player")
+
+	// THE STORAGE ROOM DOOR:
+	// Works exactly like the kitchen door,
+	// only the last name varies so it can be referenced.
+	noun(names: "door, wood, knob, bronze, p-storage-kitchen") {
+
+		// Keeps the same properties and description. The player should feel
+		// like it's a single door.
+
+		set { "female" "fixed" "scene" "closable" "closed" }
+
+		describe-object() {
+			"The door is made of wood and has a bronze knob."
+		}
+
+		// After opening this door, open the other one
+		after(actions: "OpenObject") {
+			attr(instance: "p-kitchen-storage", unset: "closed")
+		}
+
+		// After closing this door, close the other one
+		after(actions: "CloseObject") {
+			attr(instance: "p-kitchen-storage", set: "closed")
+		}
+	}
+
+	// If the door is closed, the player cannot go to the kitchen.
+	before(actions: "GoTo", cancel: true) {
+		if-direct-equals-exit(exit: "north")
+		if-is-set(attr: "closed", instance: "p-storage-kitchen")
+
+		"The door is closed."
+	}
+
+	connection(exit: "north", destiny: "kitchen")
+}
+
+noun(names: "The Kitchen, kitchen") {
+	describe-place() {
+		"I don't find anything interesting in the kitchen. To the south, you return to the storage room."
+	}
+
+	// THE KITCHEN DOOR
+	noun(names: "door, wood, knob, bronze, p-kitchen-storage") {
+
+		set { "female" "fixed" "scene" "closable" "closed" }
+
+		describe-object() {
+			"The door is made of wood and has a bronze knob."
+		}
+
+		// Synchronizes with the storage room door.
+		after(actions: "OpenObject") {
+			attr(instance: "p-storage-kitchen", unset: "closed")
+		}
+
+		after(actions: "CloseObject") {
+			attr(instance: "p-storage-kitchen", set: "closed")
+		}
+	}
+
+	before(actions: "GoTo", cancel: true) {
+		if-direct-equals-exit(exit: "south")
+		if-is-set(attr: "closed", instance: "p-kitchen-storage")
+
+		"The door is closed."
+	}
+
+	connection(exit: "south", destiny: "storage")
+}
+
+}

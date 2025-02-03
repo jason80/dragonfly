@@ -55,7 +55,7 @@ export class GameOver {
 
 	loadMessage(node) {
 
-		if (!Utils.expectedAttributes(node, "style")) return ;
+		//if (!Utils.expectedAttributes(node, "style")) return ;
 
 		let style = "";
 		if (node.hasAttr("style")) {

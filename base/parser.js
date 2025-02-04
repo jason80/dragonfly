@@ -1,6 +1,7 @@
 import { Action } from "./action.js";
 import { Output } from "./output.js";
 import { Verb } from "./verb.js";
+import { Book } from "./book.js";
 
 /**
  * Main parser module
@@ -33,6 +34,11 @@ export class Parser {
 	 * @memberof Parser
 	 */
 	async parse(line) {
+
+		// Clean unexpected chars
+		const regex = new RegExp(`[${this.book.getProperty("parser-clean")}]`, 'g');
+		line = line.replace(regex, '');
+
 		const tokens = line.trim().split(" ").filter(t => t.trim());
 
 		// Empty line

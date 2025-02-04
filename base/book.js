@@ -41,6 +41,7 @@ export class Book {
 			"show-parsing-process": false,
 			"look-around": "always",
 			"hide-title": false,
+			"parser-clean": "-_#$@&+*;/",
 			"player": "",
 			"prompt": "> ",
 			"text-style": {

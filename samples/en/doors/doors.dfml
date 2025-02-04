@@ -3,6 +3,7 @@ book (
 	title: "Example of Doors"
 ) {
 	property(name: "player", value: "player")
+	property(name: "parser-clean", value: "")
 	include(src: "../../../templates/dict-en.dfml")			// English dictionary
 	include(src: "../../../templates/dict-debug.dfml")		// Debugging verbs
 }

@@ -20,9 +20,10 @@ export class Book {
 	/**
 	 * Creates an instance of Book.
 	 * @param {string} outputID div element will be the main screen of the game.
+	 * @param {string} initialDFMLFile include initial dfml file
 	 * @memberof Book
 	 */
-	constructor(outputID) {
+	constructor(outputID, initialDFMLFile = "") {
 		this.title = "";
 		this.author = "";
 
@@ -91,6 +92,8 @@ export class Book {
 		};
 
 		this.initialState = "";
+
+		if (initialDFMLFile !== "") this.include(initialDFMLFile);
 	}
 
 	/**

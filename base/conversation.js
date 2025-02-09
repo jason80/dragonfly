@@ -31,10 +31,10 @@ export class Topic {
 	 * @memberof Topic
 	 */
 	load(node) {
+		if (node.getName() !== "default" && !Utils.expectedAttributes(node, "match")) return ;
 
-		if (!Utils.expectedAttributes(node, "match")) return ;
-
-		this.match = node.getAttr("match").getValue().split(",");
+		if (node.hasAttr("match"))
+			this.match = node.getAttr("match").getValue().split(",");
 		loadConditionsAndResponses(node, this.conditions, this.responses);
 	}
 };

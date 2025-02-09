@@ -1,0 +1,408 @@
+book(
+	title: "Aventura en el Bosque Místico (Arrancando)",
+	author: "Javier Candales"
+) {
+	property(name: "player", value: "-player")
+	property(name: "show-parsing-process", value: false)
+	property(name: "parser-clean", value: "")
+
+	include(src: "../../../templates/dict-debug.dfml")
+	include(src: "../../../templates/dict-es.dfml")
+}
+
+dictionary {
+	noun(names: "Un Claro en el bosque, forest-clearing") {
+		describe-place() {
+			"Estoy parado en el tranquilo claro de un bosque, rodeado de árboles añosos. La luz del sol se filtra a través de las hojas, y el sonido del canto de los pájaros llena el aire. Hacia el norte, un sendero angosto se abre camino entre los árboles, adentrándose en la niebla del bosque. Hacia el sur, se puede escuchar el suave sonido de un arroyo."
+		}
+
+		// EL JUGADOR
+		noun(names: "jugador, player, -player") {
+
+			describe-object() {
+				"Un aventurero curioso, listo para explorar el mundo a mi alrededor."
+			}
+		}
+
+		// ARBOLES
+		noun(names: "árboles, arbol, bosque") {
+			set { "plural" "scene" "fixed" }
+
+			describe-object() {
+				"Los añosos árboles se estiran hacia lo alto, sus gruesos troncos en parte cubiertos por musgo. Sus ramas se entrelazan formando un denso follaje que filtra la luz del sol transformándola en rayos dorados."
+			}
+		}
+
+		// EL CLARO EN SI MISMO
+		noun(names: "claro") {
+			set { "scene" "fixed" }
+
+			describe-object() {
+				execute() { "x" }
+			}
+		}
+
+		// LUZ DEL SOL
+		noun(names: "luz del sol, rayos, rayos dorados, luz, sol") {
+			set { "fixed" "scene" }
+
+			describe-object() {
+				"La luz de sol se filtra a través del denso follaje, iluminando el suelo del bosque."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+				"La luz del sol permanece inalterable, su calidez constante no influye en tus acciones."
+			}
+		}
+
+		// PAJAROS
+		noun(names: "pájaros, pajaro, aves, ave") {
+			set { "scene" "fixed" }
+
+			describe-object() {
+
+				"Pequeños pájaros revolotean entre las ramas de los árboles, el aire se llena de su alegre canto."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+				"Los pájaros permanecen inalterables, continuan con su canto en los árboles, mas alla de lo que trates de hacer."
+			}
+		}
+
+		connection(exit: "norte", destiny: "small-path")
+		connection(exit: "sur", destiny: "forest-creek")
+	}
+
+	noun(names: "El Arroyo, forest-creek") {
+		describe-place() {
+			"La corriente fluye tranquila, su transparente agua resplance bajo la luz. Cantos rodados definen las orillas, creando una pacífica atmósfera. Cerca de la orilla yace un viejo tronco hueco, su ennegrecida corteza se confunde con el entorno."
+
+			"Hacia el norte, se vuelve al claro."
+		}
+
+		// EL ARROYO EN SI
+		noun(names: "agua, corriente, arroyo") {
+			set { "fixed" "scene" }
+
+			describe-object() {
+				"El agua del arroyo es clara y fresca, fluyendo tranquila por su lecho de cantos rodados."
+			}
+
+			before(actions: "TouchObject", cancel: true) {
+				"El agua se siente refrescante y fria al tacto."
+			}
+		}
+
+		// CANTOS RODADOS
+		noun(names: "cantos rodados, canto rodado, piedras, piedra, canto, cantos, rodados") {
+			set { "scene" "heavy" }
+
+			describe-object() {
+				"Suaves, las desgastadas piedras yacen regadas a lo largo del lecho del arroyo, resplandeciendo con la luz del sol."
+			}
+
+			before(actions: "TouchObject", cancel: true) {
+				"Las piedras se sienten lisas y frias al tacto."
+			}
+		}
+
+		// EL TRONCO
+		noun(names: "tronco hueco, tronco, tronco de arbol, hueco") {
+			set { "fixed" "scene" "container" }
+
+			describe-object() {
+				"Un viejo tronco hueco yace cerca del arroyo, su corteza está avejentada y oscura."
+			}
+
+			// GANZÚA
+			noun(names: "ganzúa, gancho") {
+
+				set { "female" }
+
+				describe-object() {
+					"Una ganzúa fina y resistente, perfecta para abrir cerraduras, sin una llave."
+				}
+			}
+		}
+
+		connection(exit: "norte", destiny: "forest-clearing")
+	}
+
+	noun(names: "En un Sendero Angosto, small-path") {
+		describe-place() {
+			"El sendero es angosto y sinuoso, rodeado de grandes árboles. El suelo está cubierto de hojas secas y crujientes. A la distancia, el sendero dobla hacia el este, adentrándose mas en el bosque. Hacia el sur, el sendero conduce de vuelta hacia el claro."
+		}
+
+		describe-place() {
+			if-contains(container: "small-path", instance: "faint-light")
+
+			"Hacia el noroeste, una luz apenas visible brilla a la distancia, atravezando la niebla."
+		}
+
+		// HOJAS SECAS
+		noun(names: "hojas secas, hojas, hojarasca") {
+			set { "female" "plural" "scene" }
+
+			describe-object() {
+				"Las hojas cubren el suelo, crujiendo bajo mis pies a medida que camino."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+
+				"Nada sucede cuando remuevo las hojas del camino."
+			}
+
+			before(actions: "TakeObject, TakeFrom", cancel: true) {
+				"No tiene sentido recoger las hojas del suelo."
+			}
+		}
+
+		// NIEBLA
+		noun(names: "niebla, neblina") {
+			set { "female" "scene" "fixed" }
+
+			describe-object() {
+				if-not-contains(container: "small-path", instance: "faint-light")
+
+				"La niebla se extiende a lo largo del sendero, creando una misteriosa y opresiva atmósfera. Solo se puede ver unos pocos metros mas adelante."
+			}
+
+			describe-object() {
+				if-contains(container: "small-path", instance: "faint-light")
+
+				"La niebla se extiende a lo largo del sendero, pero se va desvaneciendo a medida que la suave luz resplandece en la distancia."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject, TakeObject", cancel: true) {
+				"La niebla se mantiene, su presencia es palpable pero imperturbable."
+			}
+		}
+
+		before(actions: "GoTo", cancel: true) {
+			if-direct-equals-exit(exit: "no")
+			if-connection-exists(instance: "small-path", exit: "no")
+
+			end-game(result: "victory") {
+				"Has atravesado el bosque sin riesgos."
+
+				"(Presiona Enter para reiniciar el juego.)"
+				pause()
+				restart-game()
+				clear()
+				show-title()
+				execute { "x" }
+			}
+		}
+
+		connection(exit: "sur", destiny: "forest-clearing")
+		connection(exit: "este", destiny: "forest-cabin")
+	}
+
+	noun(names: "La Cabaña, forest-cabin") {
+		describe-place() {
+			"Una pintoresca cabaña de madera se encuentra entre los altos árboles, sus paredes en parte cubiertas por musgo. Bocanadas de humo salen perezosamente por la chimenea de piedra, acusando una hoguera en el interior. Hacia el oeste, el angosto sendero se torna de regreso a los árboles."
+		}
+
+		// LA CABAÑA EN SI
+		noun(names: "cabaña, casa, casilla, rancho, sendero, musgo, chimenea, humo, hoguera, fire,
+		interior") {
+			set { "female" "fixed" "scene" }
+
+			describe-object() {
+				execute() { "x" }
+			}
+		}
+
+		noun(names: "puerta, puerta de la cabaña, puerta de madera") {
+			set { "female" "fixed" "scene" }
+
+			describe-object() {
+				"Una robusta puerta de madera con bisagras de hierro."
+			}
+
+			describe-object() {
+				if-is-not-set(instance: "puerta", attr: "forzada")
+				append { "Parece estar cerrada con llave." }
+			}
+
+			describe-object() {
+				if-is-set(instance: "puerta", attr: "forzada")
+				append { "Ha sido forzada y está abierta." }
+			}
+
+			before(actions: "OpenObject, PushObject, PullObject, PressObject", cancel: true) {
+				if-is-set(attr: "forzada", instance: "puerta")
+
+				"La puerta ya está abierta."
+			}
+
+			before(actions: "OpenObject, PushObject, PullObject, PressObject", cancel: true) {
+				if-is-not-set(attr: "forzada", instance: "puerta")
+
+				"La puerta está cerrada con llave. Tal vez hay una manera de abrirla."
+			}
+
+			before(actions: "BreakObject", cancel: true) {
+				if-is-not-set(attr: "forzada", instance: "puerta")
+
+				"Necesitaría algo putiagudo para forzar la cerradura."
+			}
+
+			before(actions: "BreakObject, BreakWith", cancel: true) {
+				if-is-set(attr: "forzada", instance: "puerta")
+				"La puerta ya se forzó y está abierta."
+			}
+			
+			before(actions: "BreakWith", cancel: true) {
+				if-indirect-equals(instance: "ganzua")
+				if-is-not-set(attr: "forzada", instance: "puerta")
+
+				'La ganzúa hace su trabajo y la cerradura hace un suave "clic". Con un leve empujón la puerta se abre, revelando el interior de la cabaña.'
+
+				attr(set: "forzada", instance: "puerta")
+			}
+		}
+
+		before(actions: "GoTo", cancel: true) {
+			if-direct-equals-exit(exit: "adentro")
+			if-is-not-set(attr: "forzada", instance: "puerta")
+
+			"La puerta de la cabaña no cede. Debería buscar algo con lo cual forzar la puerta."
+		}
+
+		connection(exit: "oeste", destiny: "small-path")
+		connection(exit: "adentro", destiny: "inside-cabin")
+	}
+
+	noun(names: "Dentro de La Cabaña, inside-cabin") {
+
+		describe-place() {
+			"El interior de la cabaña apenas está iluminado, con sombras danzando en las paredes de madera producidas por el fuego parpadeante del hogar de piedra. Hay líneas de estantes en las paredes, llenas de polvorientos libros y frascos con contenidos desconocidos. En el centro hay una robusta mesa."
+		}
+
+		// HOGAR DE PIEDRA
+		noun(names: "hogar de piedra, hogar, fuego, fogon") {
+			set { "fixed" "scene" }
+
+			describe-object() {
+				"Un hogar de piedra con un fuego chisporroteante, su cálido resplandor ilumina la cabaña."
+			}
+
+			before(actions: "PushObject, PullObject, PressObject", cancel: true) {
+				"El hogar está unido a la pared y no se puede mover."
+			}
+
+			before(actions: "TouchObject", cancel: true) {
+				"Tal vez debería abandonar esa idea para no quemarme."
+			}
+		}
+
+		// ESTANTES
+		noun(names: "estantes, estante, libros, libro, frasco, frascos, jarras, jarra") {
+			set { "plural" "scene" "fixed" }
+
+			describe-object() {
+				"Los estantes están llenos de polvorientos libros y frascos con contenidos desconocidos."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject, TakeObject, PressObject", cancel: true) {
+				"Los estantes son viejos y frágiles, mejor dejarlos como están."
+			}
+		}
+
+		// LA MESA
+		noun(names: "mesa, robusta mesa") {
+
+			set { "female" "fixed" "scene" }
+
+			describe-object() {
+				"Hay algunas velas sobre la mesa."
+			}
+
+			describe-object() {
+				if-contains(instance: "nota", container: "inside-cabin")
+				"También hay una nota arrugada."
+			}
+
+			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+				"La mesa es sólida y al parecer no se la puede mover."
+			}
+		}
+
+		// LAS VELAS
+		noun(names: "candles, candle") {
+			set { "scene" "plural" "female" }
+
+			describe-object() {
+				"Unas pocas velas parpadeantes iluminan la mesa con su suave y cálida luz."
+			}
+
+			before(actions: "PressObject, PushObject, PullObject", cancel: true) {
+				"No tiene sentido hacer eso."
+			}
+
+			before(actions: "TouchObject", cancel: true) {
+				"Las velas se sienten cálidas al tacto, con sus llamas parpadeando suavemente."
+			}
+			
+			before(actions: "TakeObject", cancel: true) {
+				"No me interesa agarrar las velas."
+			}
+		}
+
+		// LA NOTA
+		noun(names: "nota, nota arrugada, papel, notita") {
+
+			set { "female" "scene" }
+
+			describe-object() {
+				"Una nota arrugada, con tinta pálida apenas legible."
+			}
+
+			after(actions: "TakeObject") {
+				attr(instance: "nota", unset: "scene")
+			}
+
+			after(actions: "LeaveObject") {
+				if-contains(instance: "nota", container: "inside-cabin")
+				attr(instance: "nota", set: "scene")
+			}
+
+			before(actions: "ReadObject", cancel: true) {
+				'"Para aquellos que buscan la verdad:'
+				'El bosque esconde muchos secretos, pero sólo los valientes los revelarán.'
+				'Sigue la luz dónde la niebla se haga mas densa, y encontrarás lo que buscas."'
+
+				move(instance: "faint-light", destiny: "small-path")
+			}
+		}
+
+		connection(exit: "afuera", destiny: "forest-cabin")
+	}
+
+	noun(names: "TestPlace") {
+		describe-place() {
+			"A test place"
+		}
+
+		connection(exit: "se", destiny: "small-path")
+	}
+
+	noun(names: "tenue luz, luz, faint-light") {
+		set { "fixed" "scene" }
+
+		describe-object() {
+			"Una luz tenue y misteriosa brilla a la distancia, como si te estuviera haciendo señas para guiarte a través de la niebla."
+		}
+
+		before(actions: "TouchObject, PushObject, PullObject, PressObject", cancel: true) {
+			"La luz permanece inalcanzable, su presencia es una guia en la distancia."
+		}
+
+		before(actions: "FollowObject", cancel: true) {
+			"La luz está al noroeste. Comienzo a seguirla y me doy cuenta de que un sendero, oculto por la vegetación, se abre en esa dirección."
+
+			add-connection(instance: "small-path", exit: "no", destiny: "TestPlace")
+		}
+	}
+}

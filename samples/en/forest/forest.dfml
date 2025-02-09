@@ -12,14 +12,14 @@ book(
 dictionary {
 	noun(names: "A Forest Clearing, forest-clearing") {
 		describe-place() {
-			"I stand in a serene forest clearing surrounded by towering trees. Sunlight filters through the leaves, and the sound of chirping birds fills the air. To the north, a narrow path winds through the trees, leading further into the misty forest. To the south, the soft sound of a flowing stream can be heard."
+			"I stand in a serene forest clearing, surrounded by towering trees. Sunlight filters through the leaves, and the sound of chirping birds fills the air. To the north, a narrow path winds through the trees, leading further into the misty forest. To the south, the soft sound of a flowing stream can be heard."
 		}
 
 		// THE PLAYER
 		noun(names: "player, -player") {
 
 			describe-object() {
-				"A curious adventurer, ready to explore the world around them."
+				"A curious adventurer, ready to explore the world around me."
 			}
 		}
 
@@ -115,7 +115,7 @@ dictionary {
 		noun(names: "lockpick, picklock, lock-pick, ganzua") {
 
 			describe-object() {
-				"A slim and sturdy lockpick, perfect for opening locks without a key."
+				"A slim and sturdy lockpick, perfect for opening locks, without a key."
 			}
 		}
 	}
@@ -139,11 +139,11 @@ dictionary {
 			set { "scene" }
 
 			describe-object() {
-				"The dry leaves cover the ground, crunching under your feet as you walk."
+				"The dry leaves cover the ground, crunching under my feet as I walk."
 			}
 
 			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
-				"Nothing happens when you stir the leaves on the path."
+				"Nothing happens when I stir the leaves on the path."
 			}
 
 			before(actions: "TakeObject, TakeFrom", cancel: true) {

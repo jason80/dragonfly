@@ -6,4 +6,5 @@ dictionary {
     verb(names: "move, mv", action: "Move", syntax: "1, to, 2")
     verb(names: "root", action: "Root", syntax: "1")
     verb(names: "verb", action: "VerbInfo", syntax: "1")
+	verb(names: "exitlist", action: "ExitList")
 }

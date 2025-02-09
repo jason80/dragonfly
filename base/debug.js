@@ -309,3 +309,34 @@ export class VerbInfo extends Action {
 		debugPrint(`${verb.names}`);
 	}
 } debugActions.VerbInfo = VerbInfo;
+
+export class ExitList extends Action {
+	constructor() {
+		super();
+	}
+
+	init() {
+		return true;
+	}
+
+	check() {
+		return true;
+	}
+
+	carryOut() {
+		debugPrint("List of possible exits:");
+
+		for (const exit of this.book.dictionary.exits) {
+			debugPrint(exit.toString());
+		}
+	}
+
+	report() {
+
+	}
+
+	responses() {
+		return [];
+	}
+
+} debugActions.ExitList = ExitList;

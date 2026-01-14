@@ -102,13 +102,8 @@ export class LoadGame extends Action {
 	}
 
 	carryOut() {
-		/*if (this.book.loadGame()) {
-			this.fireResponse("game-loaded")
-		} else {  this.fireResponse("cancel-error") }*/
-
 		const p = new DFMLPersistenceSystem(this.book.dictionary);
 		p.load(localStorage.getItem(this.book.title));
-		localStorage.setItem(this.book.title, p.save());
 		this.fireResponse("game-loaded"); 
 	}
 

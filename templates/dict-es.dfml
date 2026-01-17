@@ -305,6 +305,12 @@ dictionary {
 		response(id: "nothing-happens", string: "No puedo seguirl@1(o,a,os,as).")
 	}
 
+	verb(names: "trepar, trepa, ascender, ascende, asciende", action: "ClimbObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "No puedo treparme a mi mismo.")
+		response(id: "nothing-happens", string: "No creo que pueda escalar eso.")
+	}
+
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
 		response(id: "direct-not-found", string: "Ese al que quiero hablar no está.")
 		response(id: "direct-is-the-player", string: "No estoy loco para hablar conmigo mismo.")

@@ -1302,3 +1302,9 @@ export class BreakObject extends DefaultAction {
 		super();
 	}
 } actions.BreakObject = BreakObject;
+
+export class ClimbObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.ClimbObject = ClimbObject;

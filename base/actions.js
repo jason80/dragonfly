@@ -1308,3 +1308,15 @@ export class ClimbObject extends DefaultAction {
 		super();
 	}
 } actions.ClimbObject = ClimbObject;
+
+export class LoadObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.LoadObject = LoadObject;
+
+export class FillObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.FillObject = FillObject;

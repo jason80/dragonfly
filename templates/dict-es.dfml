@@ -32,6 +32,12 @@ dictionary {
 		response(id: "cancel-error", string: "¡Juego NO salvado!")
 	}
 
+	verb(names: "cargar, carga, recarga, recargar", action: "LoadObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "No comprendo la idea.")
+		response(id: "nothing-happens", string: "No puedo cargar eso.")
+	}
+
 	verb(names: "cargar, carga, recupera, recuperar, load", action: "LoadGame") {
 		response(id: "game-loaded", string: "Juego cargado.")
 		response(id: "cancel-error", string: "¡Juego NO cargado!")
@@ -309,6 +315,12 @@ dictionary {
 		response(id: "direct-not-found", string: "No existe eso.")
 		response(id: "direct-is-the-player", string: "No puedo treparme a mi mismo.")
 		response(id: "nothing-happens", string: "No creo que pueda escalar eso.")
+	}
+
+	verb(names: "llenar, llena, rellenar, rellena", action: "FillObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No existe eso.")
+		response(id: "direct-is-the-player", string: "No puedo llenarme a mi mismo.")
+		response(id: "nothing-happens", string: "No puedo llenar eso.")
 	}
 
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {

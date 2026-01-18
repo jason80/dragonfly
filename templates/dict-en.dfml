@@ -272,6 +272,18 @@ dictionary {
 		response(id: "nothing-happens", string: "I don't think I can climb that.")
 	}
 
+	verb(names: "load, reload", action: "LoadObject", syntax: "1") {
+		response(id: "direct-not-found", string: "That doesn't exist.")
+		response(id: "direct-is-the-player", string: "I don't understand the idea.")
+		response(id: "nothing-happens", string: "I cannot load this.")
+	}
+
+	verb(names: "fill, refill", action: "FillObject", syntax: "1") {
+		response(id: "direct-not-found", string: "That doesn't exist.")
+		response(id: "direct-is-the-player", string: "I can't fill myself up.")
+		response(id: "nothing-happens", string: "I cannot fill this.")
+	}
+
 	verb(names: "speak, talk, say, pronounce", action: "TalkTo", syntax: "with/to, 1, ...") {
 		response(id: "direct-not-found", string: "The one I want to talk to isn't here.")
 		response(id: "direct-is-the-player", string: "I'm not crazy to talk to myself.")

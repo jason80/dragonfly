@@ -1320,3 +1320,9 @@ export class FillObject extends DefaultAction {
 		super();
 	}
 } actions.FillObject = FillObject;
+
+export class ShootObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.ShootObject = ShootObject;

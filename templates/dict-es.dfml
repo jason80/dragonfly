@@ -323,6 +323,18 @@ dictionary {
 		response(id: "nothing-happens", string: "No puedo llenar eso.")
 	}
 
+	verb(names: "dispara, disparar, gatillar, gatilla", action: "ShootObject", syntax: "a/al, 1") {
+		response(id: "direct-not-found", string: "No hay eso a lo que disparar.")
+		response(id: "direct-is-the-player", string: "No soy un arma.")
+		response(id: "nothing-happens", string: "No puedo hacer eso.")
+	}
+
+	verb(names: "dispara, disparar, gatillar, gatilla", action: "ShootObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No hay eso a lo que disparar.")
+		response(id: "direct-is-the-player", string: "No soy un arma.")
+		response(id: "nothing-happens", string: "No puedo hacer eso.")
+	}
+
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
 		response(id: "direct-not-found", string: "Ese al que quiero hablar no está.")
 		response(id: "direct-is-the-player", string: "No estoy loco para hablar conmigo mismo.")

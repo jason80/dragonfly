@@ -232,6 +232,67 @@ export class Parser {
 	}
 
 	/**
+	 * Check the multiparameter special verb and returns the associated action.
+	 *
+	 * @param {*} action
+	 * @param {*} tokens
+	 * @return {*} 
+	 * @memberof Parser
+	 */
+	checkMultiparameterVerb(action, completeTokens) {
+		const verb = action.verb;
+		const syntax = verb.syntax;
+
+		const pair = completeTokens.join(" ").split(":");
+
+		let tokens = "";
+		let parameters = "";
+
+		if (pair.length === 1) {
+			this.debug("Separator ':' not found. No parameters.");
+			tokens = pair[0];
+
+		} else if (pair.length > 2) {
+			this.debug("Error: Multiple separators ':' found.");
+			return null;
+		} else {
+			tokens = pair[0].trim();
+			parameters = pair[1].trim();
+		}
+
+		if (syntax.length === 1) {
+			if (!verb.responds(tokens)) {
+				this.debug(`verb: '${verb.getName()}' is not '${tokens}.'`);
+				return null;
+			}
+			this.parameters = parameters;
+			this.debug(`Parameters: '${parameters}'.`);
+			return action;
+		}
+
+		if (syntax.length === 3) {
+			const leftTokens = tokens.split(" ");
+
+			if (syntax[1] !== "1") throw new Error(`Syntax error on verb: ${verb.name}.`);
+
+			if (leftTokens.length < 3) return null;
+
+			if (!this.checkKeyword(leftTokens[1], syntax[0])) return null;
+
+			this.keyword = leftTokens[1];
+			this.directObjectString = leftTokens.slice(2).join(" ");
+			this.parameters = parameters;
+
+			this.debug(`Keyword: '${this.keyword}'.`);
+			this.debug(`Parameters: '${parameters}'.`);
+
+			return action;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Print a debug message if 'showParsingProcess' is activated.
 	 * 
 	 * @param {string} msg debug message.
@@ -242,57 +303,5 @@ export class Parser {
 				fontFamily: "'Courier New', Courier, monospace"
 			});
 		}
-	}
-
-	/** // TODO:
-	 * Check the multiparameter special verb and returns the associated action.
-	 *
-	 * @param {*} action
-	 * @param {*} tokens
-	 * @return {*} 
-	 * @memberof Parser
-	 */
-	checkMultiparameterVerb(action, tokens) {
-		const verb = action.verb;
-		const syntax = verb.syntax;
-
-		const joined = tokens.join(" ");
-		const pair = joined.split(":");
-
-		if (pair.length !== 2) {
-			this.debug("Separator ':' not found.");
-			return false;
-		}
-
-		if (syntax.length === 1) {
-			if (!verb.responds(pair[0])) {
-				this.debug(`verb: '${verb.getName()}' is not '${pair[0]}.'`);
-				return false;
-			}
-			this.parameters = pair[1].trim();
-			this.debug(`Parameters: '${this.parameters}'.`);
-			return action;
-		}
-
-		if (syntax.length === 3) {
-			const leftTokens = pair[0].split(" ");
-
-			if (syntax[1] !== "1") throw new Error(`Syntax error on verb: ${verb.name}.`);
-
-			if (leftTokens.length < 3) return null;
-
-			if (!this.checkKeyword(leftTokens[1], syntax[0])) return null;
-
-			this.keyword = leftTokens[1];
-			this.directObjectString = leftTokens.slice(2).join(" ");
-			this.parameters = pair[1].trim();
-
-			this.debug(`Keyword: '${this.keyword}'.`);
-			this.debug(`Parameters: '${this.parameters}'.`);
-
-			return action;
-		}
-
-		return null;
 	}
 }

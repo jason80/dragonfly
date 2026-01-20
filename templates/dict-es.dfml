@@ -340,6 +340,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "No estoy loco para hablar conmigo mismo.")
 		response(id: "direct-is-not-speaker", string: "#^1 no habl@1(a,a,an,an).")
 		response(id: "nothing-happens", string: "#^1 no respond@1(e,e,en,en).")
+		response(id: "syntax-fail", string: "Prueba con 'hablar con [alguien]'.")
 	}
 
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "Talk", syntax: "...") {

@@ -1,6 +1,8 @@
 # Dragonfly
 *Interactive Fiction Game Engine in Javascript*
 
+*Current version: 0.1.0*
+
 ![Game sample](media/sample1.png)
 
 **You can find some examples in the `samples` directory available in English.**

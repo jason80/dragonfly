@@ -2,6 +2,7 @@ import { Action } from "./action.js";
 import { Output } from "./output.js";
 import { Verb } from "./verb.js";
 import { Book } from "./book.js";
+import { Utils } from "./utils.js";
 
 /**
  * Main parser module
@@ -34,6 +35,12 @@ export class Parser {
 	 * @memberof Parser
 	 */
 	async parse(line) {
+
+		// Dragonfly version
+		if (line.trim().toLowerCase() === "--version") {
+			Utils.showBookInfo(this.book);
+			return;
+		}
 
 		// Clean unexpected chars
 		const regex = new RegExp(`[${this.book.getProperty("parser-clean")}]`, 'g');

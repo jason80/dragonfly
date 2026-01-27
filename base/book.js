@@ -26,6 +26,13 @@ export class Book {
 	constructor(outputID, initialDFMLFile = "") {
 		this.title = "";
 		this.author = "";
+		this.version = ""; // Any format
+		this.description = "";
+		this.genre = "Adventure";
+		this.year = 0;
+		this.language = ""; // en, es, fr, etc.
+		this.storyLength = "Medium"; // Tiny, Short, Medium, Long, Huge
+		this.parental = 0; // 0 = All
 
 		this.player = null;
 
@@ -264,8 +271,62 @@ export class Book {
 		if (node.hasAttr("author"))
 			this.author = node.getAttr("author").getValue();
 
+		if (node.hasAttr("version"))
+			this.version = node.getAttr("version").getValue();
+
+		if (node.hasAttr("genre"))
+			this.genre = node.getAttr("genre").getValue();
+
+		if (node.hasAttr("year"))
+			this.year = node.getAttr("year").getValue();
+
+		if (node.hasAttr("language"))
+			this.language = node.getAttr("language").getValue();
+
+		if (node.hasAttr("story-length")) {
+			const names = ["Tiny", "Short", "Medium", "Long", "Huge"];
+			this.storyLength = node.getAttr("story-length").getValue();
+
+			if (names.includes(this.storyLength) === false) {
+				Output.error(`Book Review: Invalid story length: ${this.storyLength}`);
+				Output.error("Expected Tiny, Short, Medium, Long or Huge.");
+				this.storyLength = "Medium";
+			}
+		}
+
+		if (node.hasAttr("parental")) {
+			const n = parseInt(node.getAttr("parental").getValue(), 10);
+			if (Number.isNaN(n)) {
+				Output.error(`Book Review: Invalid parental: ${node.getAttr("parental").getValue()}`);
+				Output.error("Expected a number.");
+			} else {
+				this.parental = n;
+			}
+		}
+
 		for (const child of node.children) {
 			if (child.getElementType() === DFMLElement.NODE) {
+
+				if (child.getName() === "description") {
+
+					let error = false;
+
+					if (child.children.length > 1) error = true;
+					if (child.children.length === 1) {
+						if (child.children[0].getElementType() !== DFMLElement.DATA) {
+							error = true;
+						} else {
+							if (child.children[0].getValue().getType() !== DFMLValue.STRING) error = true;
+						}
+					}
+
+					if (error) {
+						Output.error("Book Review: Invalid description node.");
+					} else {
+						this.description = child.children[0].getValue().getValue();
+					}
+				}
+
 				if (child.getName() === "property") {
 
 					if (!Utils.expectedAttributes(child, "name", "value")) continue;

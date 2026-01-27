@@ -2,6 +2,14 @@ import { DFMLNode } from "../dfml/js/main/node.js";
 import { Output } from "./output.js";
 
 export class Utils {
+
+	/**
+	 * Returns the current version of Dragonfly.
+	 */
+	static dragonflyVersion() {
+		return '0.1.0';
+	}
+
 	/**
 	 * Returns the 'text' without the accents for sentence comparison.
 	 * (previously normalized NFC).
@@ -77,5 +85,15 @@ export class Utils {
 		});
 
 		return result;
+	}
+
+	static showBookInfo(book) {
+		Output.print(`Title: ${book.title}`);
+		Output.print(`Author: ${book.author} | Year: ${book.year}`);
+		Output.print(`Version: ${book.version} | Dragonfly Version: ${this.dragonflyVersion()}`);
+		Output.print(`Genre: ${book.genre} | Language: ${book.language}`);
+		Output.print(`Story Length: ${book.storyLength}`);
+		Output.print(`Parental: +${book.parental}`);
+		Output.print(`Description: ${book.description}`);
 	}
 }

@@ -36,14 +36,14 @@ export class Output {
 			if (typeof defStyle === "object") {
 				Object.assign(element.style, defStyle);
 			} else {
-				element.className = defStyle;
+				element.style.cssText = defStyle;
 			}
 		}
 		if (style !== undefined) {
 			if (typeof style === "object") {
 				Object.assign(element.style, style);
 			} else {
-				element.className = style;
+				element.style.cssText = style;
 			}
 		}
 	}

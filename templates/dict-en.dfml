@@ -338,5 +338,6 @@ dictionary {
 	exit(names: "up, u, climb, ascend")
 	exit(names: "down, d, descend")
 	exit(names: "inside, in, enter")
-	exit(names: "outside, out, leave, exit")
+	exit(names: "outside, out side, out, leave, exit")
+	exit(names: "otherside, other side, cross)
 }

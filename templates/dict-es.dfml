@@ -379,5 +379,5 @@ dictionary {
 	exit(names: "abajo, aba, baja, bajar")
 	exit(names: "adentro, ad, entra, entrar")
 	exit(names: "afuera, af, sal, salir, sali")
-
+	exit(names: "otro lado, cruza, cruzar")
 }

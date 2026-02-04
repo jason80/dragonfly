@@ -1,0 +1,70 @@
+div {
+	background-color: #333;
+}
+
+.df-default-text,
+.df-prompt,
+.df-input,
+.df-main-title,
+.df-place-title,
+.df-author,
+.df-tip {
+    font-family: Georgia, serif;
+}
+
+.df-place-title,
+.df-main-title {
+    font-weight: bold;
+}
+
+.df-author,
+.df-tip {
+    font-style: italic;
+}
+
+.df-default-text,
+.df-prompt,
+.df-input,
+.df-place-title,
+.df-tip {
+    font-size: 14px;
+}
+
+.df-main-title {
+    font-size: 20px;
+}
+
+.df-author {
+    font-size: 12px;
+}
+
+.df-prompt,
+.df-input {
+    color: #E97; 
+}
+
+.df-place-title {
+    color: #D8D;
+}
+
+.df-default-text {
+    color: #DDD;
+}
+
+.df-main-title,
+.df-author {
+    color: #8C8;
+    text-align: center;
+}
+
+.df-tip {
+    color: #F87;
+}
+
+
+.df-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    background: transparent; /* Importante para que no se vea el cuadro blanco */
+}

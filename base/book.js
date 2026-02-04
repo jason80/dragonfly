@@ -52,50 +52,14 @@ export class Book {
 			"parser-clean": "-_#$@&+*;/",
 			"player": "",
 			"prompt": "> ",
-			"text-style": {
-				fontFamily: 'Georgia, serif',
-				fontSize: '14px',
-				color: '#333'
-			},
-			"prompt-style": {
-				fontFamily: 'Georgia, serif',
-				fontSize: '14px',
-				color: '#731',
-			},
-			"input-style": {
-				fontFamily: 'Georgia, serif',
-				fontSize: '14px',
-				color: '#731',
-				border: "None",
-				outline: "None",
-				flex: "1"
-			},
-			"main-title-style": {
-				fontFamily: "Georgia, serif",
-				fontWeight: "bold",
-				fontSize: '20px',
-				color: '#252',
-				textAlign: 'center'
-			},
-			"author-style": {
-				fontFamily: "Georgia, serif",
-				fontSize: '12px',
-				color: '#252',
-				textAlign: 'center',
-				fontStyle: 'italic'
-			},
-			"place-title-style": {
-				fontFamily: "Georgia, serif",
-				fontWeight: "bold",
-				fontSize: '14px',
-				color: '#505'
-			},
-			"tip-style": {
-				fontFamily: "Georgia, serif",
-				fontSize: "14px",
-				fontStyle: "italic",
-				color: "#A30"
-			}
+			"text-style": "class:df-default-text",
+			"prompt-style": "class:df-prompt",
+			"input-style": "class:df-input",
+			"main-title-style": "class:df-main-title",
+			"author-style": "class:df-author",
+			"place-title-style": "class:df-place-title",
+			"tip-style": "class:df-tip",
+			"theme": "style/dragonfly-light.css"
 		};
 
 		this.initialState = "";
@@ -151,7 +115,7 @@ export class Book {
 		})
 		.then(data => {
 			const dfmlParser = new DFMLParser(data, path);
-			
+
 			try {
 
 				dfmlParser.parse().forEach(e => {
@@ -190,6 +154,9 @@ export class Book {
 			await this.#loadDFMLFile(i);
 		};
 
+		// Load theme
+		Utils.loadCSS(this.properties["theme"]);
+
 		if (this.title.trim() === "") {
 			Output.error("the book title has not been defined");
 			return ;
@@ -204,7 +171,7 @@ export class Book {
 			this.showTitle();
 
 		this.parser.showParsingProcess = this.properties["show-parsing-process"];
-		
+
 		if (this.properties["player"].trim() === "") {
 			Output.error("the player is not declared");
 			return ;

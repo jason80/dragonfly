@@ -1,4 +1,5 @@
 import { Book } from "./book.js";
+import { Utils } from "./utils.js";
 
 /**
  * Output game control module.
@@ -31,20 +32,10 @@ export class Output {
 	 */
 	static #applyStyle(element, style) {
 
-		const defStyle = Output.book.getProperty("text-style");
-		if (defStyle !== undefined) {
-			if (typeof defStyle === "object") {
-				Object.assign(element.style, defStyle);
-			} else {
-				element.style.cssText = defStyle;
-			}
-		}
-		if (style !== undefined) {
-			if (typeof style === "object") {
-				Object.assign(element.style, style);
-			} else {
-				element.style.cssText = style;
-			}
+		if (style === undefined || style === "") {
+			Utils.applyStyle(element, Output.book.getProperty("text-style"));
+		} else {
+			Utils.applyStyle(element, style);
 		}
 	}
 

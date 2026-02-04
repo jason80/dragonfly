@@ -96,4 +96,29 @@ export class Utils {
 		Output.print(`Parental: +${book.parental}`);
 		Output.print(`Description: ${book.description}`);
 	}
+
+	static loadCSS(path) {
+		const style = document.createElement('link');
+		style.rel = 'stylesheet';
+		style.href = path;
+
+		style.onerror = () => {
+			Output.error(`Error loading CSS file: ${path}`);
+		}
+		document.body.appendChild(style);
+	}
+
+	static applyStyle(element, style) {
+		if (style !== undefined) {
+			if (typeof style === "object") {
+				Object.assign(element.style, style);
+			} else {
+				if (style.startsWith("class:")) {
+					// remove class:
+					style = style.slice(6);
+					element.classList.add(style);
+				} else element.style.cssText = style;
+			}
+		}
+	}
 }

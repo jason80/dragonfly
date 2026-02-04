@@ -1,4 +1,5 @@
 import { Output } from "./output.js";
+import { Utils } from "./utils.js";
 
 /**
  * Input system of the game.
@@ -33,7 +34,7 @@ export class Input {
 		inputContainer.appendChild(input);
 		Output.outputDiv.appendChild(inputContainer);
 
-		Object.assign(input.style, this.book.getProperty("input-style"));
+		Utils.applyStyle(input, this.book.getProperty("input-style"));
 
 		input.readOnly = true;
 		input.focus();
@@ -71,12 +72,13 @@ export class Input {
 		});
 
 		const promptSpan = document.createElement('span');
-		Object.assign(promptSpan.style, this.book.getProperty("prompt-style"));
+		Utils.applyStyle(promptSpan, this.book.getProperty("prompt-style"));
+		
 		promptSpan.textContent = this.book.getProperty("prompt");
 		
 		const input = document.createElement('input');
 		input.type = 'text';
-		Object.assign(input.style, this.book.getProperty("input-style"));
+		Utils.applyStyle(input, this.book.getProperty("input-style"));
 		
 		inputContainer.appendChild(promptSpan);
 		inputContainer.appendChild(input);

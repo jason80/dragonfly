@@ -307,7 +307,8 @@ export class Parser {
 	debug(msg) {
 		if (this.showParsingProcess) {
 			Output.print(`Parser: ${msg}`, {
-				fontFamily: "'Courier New', Courier, monospace"
+				fontFamily: "'Courier New', Courier, monospace",
+				color: "#888"
 			});
 		}
 	}

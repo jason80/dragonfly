@@ -5,7 +5,8 @@ export const debugActions = {};
 
 function debugPrint(msg) {
 	Output.print(msg, {
-		fontFamily: "'Courier New', Courier, monospace"
+		fontFamily: "'Courier New', Courier, monospace",
+		color: '#888'
 	});
 }
 

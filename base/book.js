@@ -59,7 +59,7 @@ export class Book {
 			"author-style": "class:df-author",
 			"place-title-style": "class:df-place-title",
 			"tip-style": "class:df-tip",
-			"theme": "../style/dragonfly-light.css"
+			"theme": "https://jason80.github.io/dragonfly/style/dragonfly-light.css"
 		};
 
 		this.initialState = "";

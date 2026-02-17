@@ -3,6 +3,8 @@
 
 *Current version: 0.1.0*
 
+English | [Español](./README.es.md "Dragonfly README in Spanish")
+
 ## What is Dragonfly?
 
 Dragonfly is an interactive fiction game engine. It allows you to create and play interactive fiction games in your browser.
@@ -37,13 +39,13 @@ mygame.dfml
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>My Game</title>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>My Game</title>
 </head>
 <body>
-	<div id="game-area"></div>
-	<script type="module" src="mygame.js"></script>
+   <div id="game-area"></div>
+   <script type="module" src="mygame.js"></script>
 </body>
 </html>
 ```
@@ -54,9 +56,9 @@ mygame.dfml
 import { Book } from "https://jason80.github.io/dragonfly/base/book.js"
 
 window.onload = function() {
-	const book = new Book("game-area", "mygame.dfml");
+   const book = new Book("game-area", "mygame.dfml");
 
-	book.run();
+   book.run();
 }
 ```
 
@@ -66,28 +68,28 @@ window.onload = function() {
 # The book node (header's book):
 book(title: "My Game", author: "John Doe") {
 
-	# Tell to Dragonfly who is the player:
-	property(name: "player", value: "-player")
+   # Tell to Dragonfly who is the player:
+   property(name: "player", value: "-player")
 
-	# Include a pre-defined dictionary:
-	include(src: "https://jason80.github.io/dragonfly/templates/dict-en.dfml")
+   # Include a pre-defined dictionary:
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-en.dfml")
 }
 
 # All objects (nouns) are defined in the dictionary node:
 dictionary {
-	# Define a garden:
-	noun(names: "The Garden, garden") {
-		describe-place {
-			"I’m standing in the middle of a colorful garden."
-		}
+   # Define a garden:
+   noun(names: "The Garden, garden") {
+      describe-place {
+         "I’m standing in the middle of a colorful garden."
+      }
 
-		# Define a player:
-		noun(names: "Vincent, player, -player") {
-			describe-object {
-				"An adventurer, ready to explore the world around me."
-			}
-		}
-	}
+      # Define a player:
+      noun(names: "Vincent, player, -player") {
+         describe-object {
+            "An adventurer, ready to explore the world around me."
+         }
+      }
+   }
 }
 ```
 
@@ -115,4 +117,4 @@ Open the project folder and run the command `Run with Live Server`
 ![Game sample 1](media/sample2.png)
 
 ## Tutorials:
-[Español](./tutorial/spanish.md "Tutorial en español")
+[English](./tutorial/en/start.md "Tutorial in English") | [Español](./tutorial/es/start.md "Tutorial en español")

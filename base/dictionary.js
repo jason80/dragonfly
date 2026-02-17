@@ -5,8 +5,8 @@ import { Noun } from "./noun.js";
 import { Verb } from "./verb.js";
 import { Exit } from "./exit.js";
 import { actions } from "./actions.js";
-import { ListDialog, ObjectChooserDialog, PropperListDialog,
-			loadListDialog, loadObjectChooserDialog, loadPropperListDialog } from "./dialogs.js";
+import { ListDialog, ObjectChooserDialog, ProperListDialog,
+			loadListDialog, loadObjectChooserDialog, loadProperListDialog } from "./dialogs.js";
 import { Conversation } from "./conversation.js";
 import { GameOver } from "./gameover.js";
 
@@ -32,7 +32,7 @@ export class Dictionary {
 		this.conversations = {};
 
 		this.seeListDialog = new ListDialog("You can see: ", ", ", " and ");
-		this.propperListDialog = new PropperListDialog("is here", "are here", ", ", " and ");
+		this.properListDialog = new ProperListDialog("is here", "are here", ", ", " and ");
 		this.objectChooserDialog = new ObjectChooserDialog(this.book, "Which one?", "Never mind.", "Please, enter the correct option.");
 		this.inventoryDialog = new ListDialog("You have: ", ", ", " and ");
 		this.lookInsideDialog = new ListDialog("Inside there is: ", ", ", " and ");
@@ -196,8 +196,8 @@ export class Dictionary {
 				// Dialogs
 				else if (child.getName() ===  "see-list-dialog") {
 					this.seeListDialog = loadListDialog(child); }
-				else if (child.getName() ===  "propper-list-dialog") {
-					this.propperListDialog = loadPropperListDialog(child); }
+				else if (child.getName() ===  "proper-list-dialog") {
+					this.properListDialog = loadProperListDialog(child); }
 				else if (child.getName() ===  "inventory-dialog") {
 					this.inventoryDialog = loadListDialog(child); }
 				else if (child.getName() ===  "look-inside-dialog") {

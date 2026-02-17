@@ -224,7 +224,7 @@ export class Noun extends Entity {
         let result = "";
 
         // If it's a proper noun:
-        if (this.isSet("propper")) {
+        if (this.isSet("proper")) {
             result = this.getName();
         } else {
             for (const a of this.dictionary.articles) {

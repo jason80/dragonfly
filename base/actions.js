@@ -235,11 +235,11 @@ export class LookAround extends Action {
 		this.place.set(["described"]);
 
 		let nouns = []
-		let proppers = []
+		let propers = []
 		this.place.children().forEach(n => {
 			if (n === this.book.player) return;
 			if (n.isSet("scene")) return;
-			if (n.isSet("propper")) proppers.push(n);
+			if (n.isSet("proper")) propers.push(n);
 			else nouns.push(n);
 		});
 
@@ -248,9 +248,9 @@ export class LookAround extends Action {
 			this.book.dictionary.seeListDialog.execute(nouns);
 		}
 
-		if (proppers.length !== 0) {
+		if (propers.length !== 0) {
 			Output.print("")
-			this.book.dictionary.propperListDialog.execute(proppers)
+			this.book.dictionary.properListDialog.execute(propers)
 		}
 	}
 	

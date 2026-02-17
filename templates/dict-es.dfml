@@ -3,7 +3,7 @@ dictionary {
 					separator: ", ",
 					and-separator: " y ")
 
-	propper-list-dialog(singular: "está aquí", plural: "están aquí",
+	proper-list-dialog(singular: "está aquí", plural: "están aquí",
 					separator: ", ", and-separator: " y ")
 
 	inventory-dialog(initial-message: "Tengo en mi poder: ",

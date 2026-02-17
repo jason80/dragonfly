@@ -27,7 +27,7 @@ export class ListDialog {
     }
 }
 
-export class PropperListDialog {
+export class ProperListDialog {
     constructor(singular, plural, separator, andSeparator) {
         this.singular = singular;
         this.plural = plural;
@@ -156,12 +156,12 @@ export function loadListDialog(child) {
     );
 }
 
-export function loadPropperListDialog(child) {
+export function loadProperListDialog(child) {
 
 	if (!Utils.expectedAttributes(child, "singular", "plural",
 		"separator", "and-separator")) return null;
 
-    return new PropperListDialog(
+    return new ProperListDialog(
         child.getAttr("singular").getValue(),
         child.getAttr("plural").getValue(),
         child.getAttr("separator").getValue(),

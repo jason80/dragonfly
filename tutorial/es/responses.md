@@ -73,6 +73,7 @@ attr | Agrega o quita un atributo a un objeto.
 variable | Agrega o quita una variable a un objeto estableciendo su valor.
 append-name | Agrega un nombre a un objeto.
 move | Mueve un objeto a otro lugar.
+root | Mueve un objeto a la raíz del árbol de objetos.
 tip | Muestra un mensaje de ayuda al jugador.
 execute | Ejecuta una oración como si lo hiciera el jugador: ej: `soltar el pañuelo`.
 add-connection | Agrega una conexión entre dos estancias.

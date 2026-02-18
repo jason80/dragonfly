@@ -237,6 +237,31 @@ export class Move extends ActionResponse {
 	}
 } responses.Move = Move;
 
+export class Root extends ActionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+	}
+
+	toString() {
+		return `Move "${this.instance}" to root`;
+	}
+
+	async execute(action) {
+		const objList = action.book.dictionary.getNouns(this.instance);
+		if (objList.length === 0) {
+			Output.error(`On Root response: noun "${this.instance}" not found in dictionary.`);
+		}
+
+		objList[0].container = null;
+	}
+	
+	load(node) {
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+		this.instance = node.getAttr("instance").getValue();
+	}
+} responses.Root = Root;
+
 export class Tip extends ActionResponse {
 	constructor() {
 		super();

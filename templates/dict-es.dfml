@@ -51,7 +51,7 @@ dictionary {
 	verb(names: "examinar, examina, mirar, mira, busca, buscar, revisa, revisar, x, m",
 			action: "LookInside", syntax: "en/dentro/adentro, 1") {
 		response(id: "direct-not-found", string: "No encuentro eso.")
-		response(id: "direct-is-the-player", string: "Puedes probar con: inventario ó i.")
+		response(id: "direct-is-the-player", string: "Puedes probar con: inventario o i.")
 		response(id: "direct-is-not-container", string: "No puedo ver adentro de #1.")
 		response(id: "direct-is-closed", string: "#^1 est@1(á,á,án,án) cerrad@1(o,a,os,as).")
 		response(id: "container-is-empty", string: "No hay nada en #1.")

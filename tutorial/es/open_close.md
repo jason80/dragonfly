@@ -46,4 +46,4 @@ Ahora, el jugador no podrá ver lo que hay dentro de la caja a menos que la abra
 
 No necesariamente un objeto debe ser un contenedor para ser "cerrable". Por ejemplo, una puerta puede ser cerrada pero no contener nada.
 
-[<<< Movimiento](movement.md) | [Verbos y Acciones >>>](verbs_actions.md)
+[<<< Movimiento](movement.md) | [Sustantivos >>>](nouns.md)

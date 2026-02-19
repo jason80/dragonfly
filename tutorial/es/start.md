@@ -103,7 +103,7 @@ after(actions: "ExamineObject") {
 }
 ```
 
-´"Texto de la descripción"´ tambien es una abreviación. El texto solitario entre comillas que se encuentra dentro de un evento, Dragonfly lo reemplazará por una respuesta de acción "Print". Es decir, el texto se imprimirá en la pantalla. Siempre debe estar entre comillas (simples o dobles):
+`"Texto de la descripción"` tambien es una abreviación. El texto solitario entre comillas que se encuentra dentro de un evento, Dragonfly lo reemplazará por una respuesta de acción "Print". Es decir, el texto se imprimirá en la pantalla. Siempre debe estar entre comillas (simples o dobles):
 
 ```dfml
 after(actions: "ExamineObject") {
@@ -343,38 +343,11 @@ before(actions: "ReadObject", cancel: true) {
 }
 ```
 
-### Contenedores
-
-En Dragonfly, *todos los sustantivos son contenedores*. Existe una jerarquia en forma de árbol que representa a hijos con un solo padre. *Un objeto no puede estar en dos lugares al mismo tiempo*. Hasta ahora, el ejemplo de este tutorial viene a estar representado de la siguiente forma:
-
-Dentro de `jardin` hay cuatro sustantivos y uno de ellos es el `jugador`. No existen límites para el autor de aventuras al organizar la estructura de los sustantivos: *podemos meter un camión dentro de un alfiler*. Conceptualmete está mal, pero Dragonfly lo permite. Es por eso que el jugador está limitado.
-
-El jugador no podrá `"meter/insertar cosas dentro del objeto"` si el objeto no tiene establecido el atributo `"container"`. Tampoco podrá `"mirar dentro del objeto"`.
-
-Ahora vamos a crear una fuente de agua dentro del jardín. Y dentro de la fuente, una llave. Para esto, agregamos el siguiente código:
-
-```
-noun(names: "fuente de agua, fuente, agua") {
-   set { "female" "fixed" "scene" "container" }
-
-   describe-object {
-      "Una fuente de agua proyecta chorros de agua produciendo un sonido relajante."
-   }
-
-   noun(names: "llave, llave antigua") {
-      describe-object {
-         "Una antigua llave de bronce."
-      }
-   }
-
-}
-```
-
-Prueba ahora `"mirar en la fuente"`, `"sacar la llave de la fuente"` y `"dejar la llave en la fuente"`. Cuando sacas algo de adentro de algo, el objeto va a parar al inventario.
-
 ### Inventario
 
 En Dragonfly, todos los sustantivos que estén dentro del jugador se consideran parte del inventario. Puedes consultar tu inventario con: `"inventario"`, `"inv"` o `"i"`.
+
+En la sección de **Sustantivos** se explicará el tema de contenedores.
 
 ---
 

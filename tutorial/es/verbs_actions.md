@@ -73,7 +73,7 @@ noun(names: "leño, tronco, madera") {
    }
 
    before(actions: "TakeObject", cancel: true) {
-	  "¡El leño está caliente! mejor espero que se enfríe un poco antes de recogerlo."
+      "¡El leño está caliente! mejor espero que se enfríe un poco antes de recogerlo."
    }
 }
 ```
@@ -99,7 +99,7 @@ noun(names: "leño, tronco, madera") {
    }
 
    after(actions: "TakeObject", cancel: true) {
-	  "Recojo el leño, está caliente pero lo llevo conmigo de todas formas."
+      "Recojo el leño, está caliente pero lo llevo conmigo de todas formas."
    }
 }
 ```
@@ -110,4 +110,4 @@ De la misma manera, si no cancelamos el evento, el mensaje por defecto se mostra
 ```Recojo el leño, está caliente pero lo llevo conmigo de todas formas.```
 ```Recojo el leño.```
 
-[<<< Abrir y Cerrar](open_close.md) | [Respuestas >>>](responses.md)	
+[<<< Sustantivos](nouns.md) | [Respuestas >>>](responses.md)	

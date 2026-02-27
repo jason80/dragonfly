@@ -1,6 +1,8 @@
 import { Action } from "./action.js";
 import { Output } from "./output.js";
 
+import { actions } from "./actions.js";
+
 export const debugActions = {};
 
 function debugPrint(msg) {
@@ -310,6 +312,49 @@ export class VerbInfo extends Action {
 		debugPrint(`${verb.names}`);
 	}
 } debugActions.VerbInfo = VerbInfo;
+
+class ActionInfo extends Action {
+	constructor() {
+		super();
+		this.action = null;
+	}
+
+	init() {
+
+		this.action = actions[this.book.parser.directObjectString];
+		
+		if (this.action === undefined) {
+			debugPrint(`Action: "${this.book.parser.directObjectString}" not found.`);
+			return false;
+		}
+
+		return true;
+	}
+
+	check() {
+		return true;
+	}
+
+	carryOut() {
+		debugPrint(`Action: "${this.action.name}":`);
+		const actionInstance = new this.action();
+		for (const r of actionInstance.responses()) {
+			debugPrint(
+				`response(id: "${r}", string: "")`
+			);
+		}
+	}
+
+	report() {
+		
+	}
+
+	responses() {
+		return [];
+	}
+}
+
+debugActions.ActionInfo = ActionInfo;
 
 export class ExitList extends Action {
 	constructor() {

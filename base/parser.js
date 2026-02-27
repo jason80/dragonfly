@@ -235,7 +235,10 @@ export class Parser {
 	 * @memberof Parser
 	 */
 	cleanArticles(obj) {
-		return obj.toLowerCase().split(" ").filter(w => !this.book.dictionary.getArticle(w)).join(" ").trim();
+		return obj.split(" ").filter(w => {
+			const wordLower = w.toLowerCase();
+			return !this.book.dictionary.getArticle(wordLower);
+		}).join(" ").trim();
 	}
 
 	/**

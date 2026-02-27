@@ -123,6 +123,7 @@ export class Inventory extends Action {
 	}
 
 	async init() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.player)
 		return true;
 	}
@@ -138,6 +139,7 @@ export class Inventory extends Action {
 			this.book.dictionary.inventoryDialog.execute(lst)
 		}
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.player)
 	}
 
@@ -167,6 +169,7 @@ export class ExamineObject extends Action {
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -177,7 +180,9 @@ export class ExamineObject extends Action {
 	}
 
 	carryOut() {
-		this.sendEventLater(this.book.parser.directObject) }
+		this.sendEventLater(this.book.player.container)
+		this.sendEventLater(this.book.parser.directObject)
+	}
 
 	report() {
 		this.book.parser.directObject.set(["described"]);
@@ -275,6 +280,7 @@ export class LookInside extends Action {
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -299,6 +305,7 @@ export class LookInside extends Action {
 			this.book.dictionary.lookInsideDialog.execute(childs)
 		}
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 	}
 
@@ -326,6 +333,7 @@ export class TakeObject extends Action {
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -346,6 +354,8 @@ export class TakeObject extends Action {
 		// Move the DO to player's inventory
 		this.book.parser.directObject.container = this.book.player
 		this.book.parser.directObject.set(["taken"])
+
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 	}
 
@@ -372,6 +382,7 @@ export class LeaveObject extends Action {
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -386,6 +397,7 @@ export class LeaveObject extends Action {
 		noun.container = this.book.player.container;
 		noun.set(["leaved"]);
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(noun);
 	}
 
@@ -414,6 +426,7 @@ export class TakeFrom extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.indirectObject)
 
 		return true;
@@ -433,6 +446,8 @@ export class TakeFrom extends Action {
 
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
+
+		this.sendEventLater(this.book.player.container)
 
 		// Send the before event now
 		return this.book.parser.directObject.doBefore()
@@ -478,6 +493,7 @@ export class LeaveIn extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 
@@ -500,6 +516,8 @@ export class LeaveIn extends Action {
 		// Move the object to the container
 		this.book.parser.directObject.container = this.book.parser.indirectObject
 		this.book.parser.directObject.set(["leaved"])
+
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 	}
@@ -528,6 +546,7 @@ export class PullObject extends Action {
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -542,6 +561,7 @@ export class PullObject extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 	}
 
@@ -568,6 +588,7 @@ export class PushObject extends Action {
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -582,6 +603,7 @@ export class PushObject extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 	}
 
@@ -612,6 +634,7 @@ export class OpenObject extends Action {
 
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -631,6 +654,8 @@ export class OpenObject extends Action {
 
 	carryOut() {
 		this.book.parser.directObject.unset(["closed"])
+
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 	}
 
@@ -660,6 +685,7 @@ export class CloseObject extends Action {
 
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -679,6 +705,8 @@ export class CloseObject extends Action {
 
 	carryOut() {
 		this.book.parser.directObject.set(["closed"])
+
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 	}
 
@@ -717,6 +745,7 @@ export class OpenWith extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 
@@ -740,6 +769,7 @@ export class OpenWith extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 	}
@@ -779,6 +809,7 @@ export class CloseWith extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 
@@ -802,6 +833,7 @@ export class CloseWith extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 	}
@@ -918,6 +950,7 @@ export class TalkTo extends Action {
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
 		return true;
@@ -932,6 +965,7 @@ export class TalkTo extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 	}
 
@@ -965,6 +999,7 @@ export class GiveTo extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 
@@ -983,6 +1018,7 @@ export class GiveTo extends Action {
 		// Move direct inner indirect
 		this.book.parser.directObject.container = this.book.parser.indirectObject
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 	}
@@ -1023,6 +1059,7 @@ export class CutWith extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 
@@ -1040,6 +1077,7 @@ export class CutWith extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 	}
@@ -1080,6 +1118,7 @@ export class TieWith extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 
@@ -1097,6 +1136,7 @@ export class TieWith extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 	}
@@ -1137,6 +1177,7 @@ export class TieTo extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 
@@ -1154,6 +1195,7 @@ export class TieTo extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 	}
@@ -1194,6 +1236,7 @@ export class BreakWith extends Action {
 		this.book.parser.indirectObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.indirectObject) return false
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 
@@ -1211,6 +1254,7 @@ export class BreakWith extends Action {
 	}
 
 	carryOut() {
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 		this.sendEventLater(this.book.parser.indirectObject)
 	}

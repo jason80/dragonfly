@@ -187,6 +187,8 @@ export class Action {
 	}
 
 	init() {
+		this.sendEventLater(this.book.player.container)
+
 		return true;
 	}
 
@@ -195,7 +197,7 @@ export class Action {
 	}
 
 	carryOut() {
-		
+		this.sendEventLater(this.book.player.container)
 	}
 
 	report() {
@@ -238,6 +240,7 @@ export class DefaultAction extends Action {
 			return false;
 		}
 
+		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject);
 
 		return true;
@@ -251,7 +254,8 @@ export class DefaultAction extends Action {
 	}
 
 	async carryOut() {
-		
+		this.sendEventLater(this.book.player.container)
+		this.sendEventLater(this.book.parser.directObject);
 	}
 
 	async report() {

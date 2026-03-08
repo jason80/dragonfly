@@ -170,9 +170,10 @@ export class Parser {
 		// Case 3: Keyword and direct object
 		if (syntax.length === 2 && syntax[1] === "1") {
 			if (tokens.length <= 1) return null;
-			if (this.checkKeyword(tokens[1], syntax[0])) {
-				this.keyword = tokens[1];
-				this.directObjectString = tokens.slice(2).join(" ");
+			let result = this.checkKeyword(1, tokens, syntax[0]);
+			if (result) {
+				this.keyword = result.keyword;
+				this.directObjectString = tokens.slice(result.end).join(" ");
 				return action;
 			} else {
 				return null;
@@ -183,7 +184,8 @@ export class Parser {
 		if (syntax.length === 3) {
 			if (syntax[1] !== "1" && syntax[1] !== "2") {
 				let ti = 1;
-				while (ti < tokens.length && !this.checkKeyword(tokens[ti], syntax[1])) {
+				let result = null;
+				while (ti < tokens.length && (result = this.checkKeyword(ti, tokens, syntax[1])) === null) {
 					if (syntax[0] === "1") {
 						this.directObjectString += tokens[ti] + " ";
 					} else {
@@ -193,9 +195,10 @@ export class Parser {
 				}
 
 				if (ti >= tokens.length) return null;
-				this.keyword = tokens[ti];
+				this.keyword = result.keyword;
 
-				ti++;
+				ti = result.end;
+
 				while (ti < tokens.length) {
 					if (syntax[2] === "1") {
 						this.directObjectString += tokens[ti] + " ";
@@ -218,13 +221,39 @@ export class Parser {
 	/**
 	 * Check if the keyword is in keyword list.
 	 *
-	 * @param {string} keyword the keyword string.
-	 * @param {string} kwList the keyword list separated by /
-	 * @return {boolean} true if the kw is in kw list.
+	 * @param {number} start the start index.
+	 * @param {Array<string>} the token list.
+	 * @param {string} keywords the keyword list.
+	 * @return {dictionary} null if not found. For otherwise, the keyword and the end index.
 	 * @memberof Parser
 	 */
-	checkKeyword(keyword, kwList) {
-		return kwList.toLowerCase().split("/").includes(keyword.toLowerCase());
+
+	checkKeyword(start, tokens, keywords) {
+
+		// Separate keywords
+		for (const kw of keywords.toLowerCase().split("/")) {
+
+			let index = start;
+			let match = true;
+
+			// Check word by word
+			for (const w of kw.split(" ")) {
+				if (tokens[index].toLowerCase() !== w) {
+					match = false; break;
+				}
+				index ++;
+			}
+
+			if (match) {
+				return {
+					// Join the keyword
+					keyword: tokens.slice(start, index).join(" "),
+					end: index // End index
+				};
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -287,10 +316,12 @@ export class Parser {
 
 			if (leftTokens.length < 3) return null;
 
-			if (!this.checkKeyword(leftTokens[1], syntax[0])) return null;
+			//if (!this.checkKeyword(leftTokens[1], syntax[0])) return null;
+			const result = this.checkKeyword(1, leftTokens, syntax[0]);
+			if (!result) return null;
 
-			this.keyword = leftTokens[1];
-			this.directObjectString = leftTokens.slice(2).join(" ");
+			this.keyword = result.keyword;
+			this.directObjectString = leftTokens.slice(result.end).join(" ");
 			this.parameters = parameters;
 
 			this.debug(`Keyword: '${this.keyword}'.`);

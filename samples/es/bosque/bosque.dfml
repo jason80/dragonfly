@@ -6,7 +6,7 @@ book(
 	property(name: "show-parsing-process", value: false)
 	property(name: "parser-clean", value: "")
 
-	include(src: "https://jason80.github.io/dragonfly/templates/dict-es.dfml")
+	include(src: "https://jason80.github.io/dragonfly/templates/dict-es1.dfml")
 	include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml")
 }
 

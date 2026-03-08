@@ -29,8 +29,8 @@ book(title: "Tutorial de Dragonfly", author: "Juan Perez") {
     # El jugador:
     property(name: "player", value: "-player")
 
-    # El diccionario en español:
-    include(src: "https://jason80.github.io/dragonfly/templates/dict-es.dfml")
+    # El diccionario en español (primera persona):
+    include(src: "https://jason80.github.io/dragonfly/templates/dict-es1.dfml")
 }
 
 # Los objetos se definen dentro del nodo 'dictionary':
@@ -59,7 +59,7 @@ dictionary {
 * En este caso se establece la propiedad `player` con el valor "-player".
 * Se incluye el diccionario en español para no tener que definir los verbos, artículos, etc. de nuestro juego.
 
-*Nota: El diccionario está disponible en https://jason80.github.io/dragonfly/templates/dict-es.dfml pero lo puedes descargar y usar localmente, y hacerle modificaciones.*
+*Nota: El diccionario está disponible en https://jason80.github.io/dragonfly/templates/dict-es1.dfml pero lo puedes descargar y usar localmente, y hacerle modificaciones. El número 1 indica que es el diccionario está en primera persona. Si quieres el diccionario en segunda persona, cambia el 1 por un 2.*
 
 * Dentro del nodo `dictionary` se declaran todos los elementos del libro. En este caso, un `noun` (sustantivo u objeto) como un lugar: El Jardin. Y dentro del lugar estará el sustantivo jugador.
 

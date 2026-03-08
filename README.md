@@ -71,8 +71,8 @@ book(title: "My Game", author: "John Doe") {
    # Tell to Dragonfly who is the player:
    property(name: "player", value: "-player")
 
-   # Include a pre-defined dictionary:
-   include(src: "https://jason80.github.io/dragonfly/templates/dict-en.dfml")
+   # Include a pre-defined dictionary (first person):
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-en1.dfml")
 }
 
 # All objects (nouns) are defined in the dictionary node:

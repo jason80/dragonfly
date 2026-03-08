@@ -3,7 +3,7 @@ book (
 	title: "Ejemplo de Puertas"
 ) {
 	property(name: "player", value: "jugador")
-	include(src: "../../../templates/dict-es.dfml")			// Diccionario en español
+	include(src: "../../../templates/dict-es1.dfml")		// Diccionario en español en primera persona
 	include(src: "../../../templates/dict-debug.dfml")		// Verbos para depurar
 }
 

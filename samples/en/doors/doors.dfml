@@ -4,7 +4,7 @@ book (
 ) {
 	property(name: "player", value: "player")
 	property(name: "parser-clean", value: "")
-	include(src: "../../../templates/dict-en.dfml")			// English dictionary
+	include(src: "../../../templates/dict-en1.dfml")		// First person English dictionary
 	include(src: "../../../templates/dict-debug.dfml")		// Debugging verbs
 }
 

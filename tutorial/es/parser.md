@@ -50,7 +50,7 @@ Ejecuta la acción asociada al verbo encontrado, pasando como parámetros los ob
 
 ## Diferencias entre sintaxis:
 
-Los verbos se declaran con el nodo clave `verb`, y cada uno tiene una acción y una sintaxis asociada Vienen declarados en `templates/dict-es.dfml`. Al ser `multiname` puede haber varios verbos con el mismo nombre pero con sintaxis diferentes. El parser se encarga de identificar cuál es el verbo más adecuado según la sintaxis de la oración ingresada por el jugador. Veamos cuatro verbos con el mismo nombre pero con sintaxis diferente:
+Los verbos se declaran con el nodo clave `verb`, y cada uno tiene una acción y una sintaxis asociada Vienen declarados en `templates/dict-es1.dfml`. Al ser `multiname` puede haber varios verbos con el mismo nombre pero con sintaxis diferentes. El parser se encarga de identificar cuál es el verbo más adecuado según la sintaxis de la oración ingresada por el jugador. Veamos cuatro verbos con el mismo nombre pero con sintaxis diferente:
 
 
 ```

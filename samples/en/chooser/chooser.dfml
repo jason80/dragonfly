@@ -6,7 +6,7 @@ book(
 	property(name: "show-parsing-process", value: false)
 
 	include(src: "../../../templates/dict-debug.dfml")
-	include(src: "../../../templates/dict-en.dfml")
+	include(src: "../../../templates/dict-en1.dfml")
 }
 
 dictionary {

@@ -71,8 +71,8 @@ book(title: "Mi Juego", author: "Juan Pérez") {
    # Indica a Dragonfly quién es el jugador:
    property(name: "player", value: "-player")
 
-   # Incluye un diccionario predefinido:
-   include(src: "https://jason80.github.io/dragonfly/templates/dict-es.dfml")
+   # Incluye un diccionario predefinido (primera persona):
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-es1.dfml")
 }
 
 # Todos los objetos (sustantivos) se definen en el nodo dictionary:

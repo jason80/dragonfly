@@ -182,16 +182,18 @@ dictionary {
 			if-direct-equals-exit(exit: "no")
 			if-connection-exists(instance: "small-path", exit: "no")
 
-			end-game(result: "victory") {
-				"Has atravesado el bosque sin riesgos."
-
-				"(Presiona Enter para reiniciar el juego.)"
-				pause()
-				restart-game()
-				clear()
-				show-title()
-				execute { "x" }
+			print(style: "color: green; font-size: 1.5em;") {
+				"VICTORIA"
 			}
+			
+			"Has atravesado el bosque sin riesgos."
+
+			"(Presiona Enter para reiniciar el juego.)"
+			pause()
+			restart-game()
+			clear()
+			show-title()
+			execute { "x" }
 		}
 
 		connection(exit: "sur", destiny: "forest-clearing")

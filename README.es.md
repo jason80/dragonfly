@@ -1,7 +1,7 @@
 # Dragonfly
 *Motor de Ficción Interactiva en Javascript*
 
-*Versión actual: 0.1.1*
+*Versión actual: 0.1.2*
 
 [English](./README.md "Dragonfly README in English") | Español
 

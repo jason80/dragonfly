@@ -82,7 +82,6 @@ show-title | Muestra un título del juego.
 run-conversation | Inicia una conversación con un personaje.
 pause | Se queda esperando a que el jugador presione `Enter`.
 clear | Limpia la pantalla.
-end-game | Finaliza el juego mostrando un mensaje de victoria o derrota.
 restart-game | Reinicia el juego.
 
 [<<< Verbos y Acciones](verbs_actions.md) | [Condiciones >>>](conditions.md)

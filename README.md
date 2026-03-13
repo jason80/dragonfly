@@ -1,7 +1,7 @@
 # Dragonfly
 *Interactive Fiction Game Engine in Javascript*
 
-*Current version: 0.1.1*
+*Current version: 0.1.2*
 
 English | [Español](./README.es.md "Dragonfly README in Spanish")
 

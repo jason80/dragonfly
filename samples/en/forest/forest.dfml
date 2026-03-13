@@ -176,15 +176,17 @@ dictionary {
 			if-direct-equals-exit(exit: "nw")
 			if-connection-exists(instance: "small-path", exit: "nw")
 
-			end-game(result: "victory") {
-				"You have made it out of the forest safe and sound."
-				"(Press Enter to restart the game)"
-				pause()
-				restart-game()
-				clear()
-				show-title()
-				execute { "x" }
+			print(style: "color: green; font-size: 1.5em;") {
+				"VICTORY"
 			}
+
+			"You have made it out of the forest safe and sound."
+			"(Press Enter to restart the game)"
+			pause()
+			restart-game()
+			clear()
+			show-title()
+			execute { "x" }
 		}
 
 		connection(exit: "south", destiny: "forest-clearing")

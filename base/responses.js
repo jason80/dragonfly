@@ -4,8 +4,6 @@ import { ActionResponse } from "./actionresponse.js";
 import { Output } from "./output.js";
 import { Help } from "./help.js";
 import { Connection } from "./movement.js";
-import { ResultType } from "./gameover.js";
-import { loadConditionsAndResponses } from "./eventloader.js";
 import { Utils } from "./utils.js";
 
 export const responses = {};
@@ -469,43 +467,6 @@ export class Clear extends ActionResponse {
 
 	load(node) {}
 } responses.Clear = Clear;
-
-export class EndGame extends ActionResponse {
-	constructor() {
-		super();
-		this.result = "";
-		//this.message = "";
-		this.responses = [];
-		this.conditions = [];
-	}
-
-	toString() {
-		return "End game";
-	}
-
-	async execute(action) {
-		let victory = true;
-		if (this.result === "victory") victory = true;
-		else if (this.result === "defeat") victory = false;
-		else {
-			Output.error(`On EndGame: expected "victory" or "defeat" value on result attr.`);
-		}
-
-		await action.book.dictionary.gameover.run(
-			victory ? ResultType.VICTORY : ResultType.DEFEAT,
-			action, this.conditions, this.responses
-		);
-	}
-
-	load(node) {
-
-		if (!Utils.expectedAttributes(node, "result")) return ;
-
-		this.result = node.getAttr("result").getValue();
-
-		loadConditionsAndResponses(node, this.conditions, this.responses);
-	}
-} responses.EndGame = EndGame;
 
 export class RestartGame extends ActionResponse {
 	constructor() {

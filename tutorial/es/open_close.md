@@ -44,6 +44,8 @@ set { "female" "container" "closable" "closed" }
 
 Ahora, el jugador no podrá ver lo que hay dentro de la caja a menos que la abra. Para eso, deberá usar el comando `abrir la caja` o `abre la caja`. Y para cerrarla: `cerrar la caja` o `cierra la caja`.
 
-No necesariamente un objeto debe ser un contenedor para ser "cerrable". Por ejemplo, una puerta puede ser cerrada pero no contener nada.
+No necesariamente un objeto debe ser un contenedor para ser `cerrable`. Por ejemplo, una **puerta** puede ser cerrada pero no contener nada.
+
+Si quieres saber más, consulta la sección [Puertas](doors.md) para poder crearlas.
 
 [<<< Movimiento](movement.md) | [Sustantivos >>>](nouns.md)

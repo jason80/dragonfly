@@ -118,3 +118,6 @@ Open the project folder and run the command `Run with Live Server`
 
 ## Tutorials:
 [English](./tutorial/en/start.md "Tutorial in English") | [Español](./tutorial/es/start.md "Tutorial en español")
+
+#### More documentation:
+[Doors](./tutorial/en/doors.md "Doors tutorial") | [Puertas](./tutorial/es/doors.md "Tutorial de puertas")

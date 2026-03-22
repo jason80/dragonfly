@@ -106,8 +106,8 @@ export class Input {
 				if (this.historyIndex === -1) {
 					this.historyIndex = 0;
 				} else {
-					this.historyIndex ++;
-					if (this.historyIndex >= this.history.size) this.historyIndex = 0;
+					this.historyIndex --;
+					if (this.historyIndex < 0) this.historyIndex = this.history.size - 1;
 				}
 
 				input.value = Array.from(this.history)[this.historyIndex];
@@ -120,8 +120,8 @@ export class Input {
 				if (this.historyIndex === -1) {
 					this.historyIndex = this.history.size - 1;
 				} else {
-					this.historyIndex --;
-					if (this.historyIndex < 0) this.historyIndex = this.history.size - 1;
+					this.historyIndex ++;
+					if (this.historyIndex >= this.history.size) this.historyIndex = 0;
 				}
 
 				input.value = Array.from(this.history)[this.historyIndex];

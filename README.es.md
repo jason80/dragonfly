@@ -1,5 +1,4 @@
-# Dragonfly
-*Motor de Ficción Interactiva en Javascript*
+![Logo](media/logo.png)
 
 *Versión actual: 0.1.2*
 

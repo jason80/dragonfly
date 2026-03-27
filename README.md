@@ -1,5 +1,4 @@
-# Dragonfly
-*Interactive Fiction Game Engine in Javascript*
+![Logo](media/logo.png)
 
 *Current version: 0.1.2*
 

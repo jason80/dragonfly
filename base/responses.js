@@ -5,8 +5,69 @@ import { Output } from "./output.js";
 import { Help } from "./help.js";
 import { Connection } from "./movement.js";
 import { Utils } from "./utils.js";
+import { loadResponses } from "./eventloader.js";
 
 export const responses = {};
+
+/************************************************************/
+/*					RESPONSES								*/
+/************************************************************/
+
+export class CancelEvent extends ActionResponse {
+
+	constructor() {
+		super();
+	}
+
+	toString() {
+		return "cancel event";
+	}
+
+	async execute(action) {
+		action.eventControl.cancel = true;
+	}
+
+	load(node) {}
+	
+}
+responses.CancelEvent = CancelEvent;
+
+export class ResumeEvent extends ActionResponse {
+
+	constructor() {
+		super();
+	}
+
+	toString() {
+		return "resume event";
+	}
+
+	async execute(action) {
+		action.eventControl.cancel = false;
+	}
+
+	load(node) {}
+	
+}
+responses.ResumeEvent = ResumeEvent;
+
+export class Break extends ActionResponse {
+
+	constructor() {
+		super();
+	}
+
+	toString() {
+		return "break";
+	}
+
+	async execute(action) {
+		action.eventControl.brk = true;
+	}
+
+	load(node) {}
+}
+responses.Break = Break;
 
 export class Print extends ActionResponse {
 
@@ -483,3 +544,422 @@ export class RestartGame extends ActionResponse {
 
 	load(node) {}
 } responses.RestartGame = RestartGame;
+
+/********************************************************************/
+/*					CONDITIONS										*/
+/********************************************************************/
+
+/**
+ * Execute nested responses if the condition is true.
+ *
+ * @export
+ * @class Condition
+ */
+export class ConditionResponse extends ActionResponse {
+	/**
+	 * Creates an instance of Condition.
+	 * @memberof Condition
+	 */
+	constructor() {
+		super();
+		this.responses = [];
+	}
+
+	/** 
+	 * Checks if the condition is true. (Override this method)
+	 * 
+	 * @param {Action} action Current action
+	 * @return {boolean} true if the condition is true.
+	 * 
+	 */
+	check(action) {
+		return true;
+	}
+
+	/** 
+	 * Executes the condition response.
+	 * 
+	 * @param {Action} action Current action
+	 * 
+	 */
+	async execute(action) {
+		if (!this.check(action)) return ;
+
+		for (const r of this.responses) {
+			await r.execute(action);
+		}
+	}
+
+	load(node) {
+		loadResponses(node, this.responses);
+	}
+};
+
+
+export class IfIsSet extends ConditionResponse {
+	constructor() {
+		super();
+
+		this.instance = "";
+		this.attr = "";
+	}
+
+	toString() {
+		return `If is set "${this.attr}" on "${this.instance}"`;
+	}
+
+	check(action) {
+		// Gets the noun
+		const noun = action.book.dictionary.getNouns(this.instance);
+		if (noun.length === 0) {
+			 
+			Output.error(`On IfIsSet condition: instance "${this.instance}" not found in dictionary.`);
+		}
+	
+		return noun[0].isSet(this.attr);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "attr")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.attr = node.getAttr("attr").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfIsSet = IfIsSet;
+
+export class IfIsNotSet extends ConditionResponse {
+	constructor() {
+		super();
+
+		this.instance = "";
+		this.attr = "";
+	}
+
+	toString() {
+		return `If is not set "${this.attr}" on "${this.instance}"`;
+	}
+
+	check(action) {
+		// Gets the noun
+		const noun = action.book.dictionary.getNouns(this.instance)
+		if (noun.length === 0) {
+			 
+			Output.error(`On IfIsNotSet condition: instance "${this.instance}" not found in dictionary.`);
+		}
+		return !noun[0].isSet(this.attr);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "attr")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.attr = node.getAttr("attr").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfIsNotSet = IfIsNotSet;
+
+export class IfDirectEqualsExit extends ConditionResponse {
+	constructor() {
+		super();
+		this.exit = "";
+	}
+
+	toString() {
+		return `If direct equals exit: "${this.exit}"`;
+	}
+
+	check(action) {
+		const e = action.book.dictionary.getExit(this.exit);
+		if (!e) {
+			 
+			Output.error(`On IfDirectEqualsExit condition: exit "${this.exit}" not found in dictionary.`);
+		}
+
+		return e.responds(action.book.parser.directObjectString);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "exit")) return ;
+
+		this.exit = node.getAttr("exit").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfDirectEqualsExit = IfDirectEqualsExit;
+		
+export class IfContains extends ConditionResponse {
+	constructor() {
+		super();
+		this.container = "";
+		this.instance = "";
+	}
+
+	toString() {
+		return `If "${this.container}" contains "${this.instance}"`;
+	}
+
+	check(action) {
+		const cont = action.book.dictionary.getNouns(this.container)
+		if (cont.length === 0) {
+			 
+			Output.error(`On If contains condition: container "${this.container}" not found in dictionary.`);
+		}
+
+		return cont[0].contains(this.instance);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "container")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.container = node.getAttr("container").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfContains = IfContains;
+
+export class IfNotContains extends ConditionResponse {
+	constructor() {
+		super();
+		this.container = "";
+		this.instance = "";
+	}
+
+	toString() {
+		return `"If ${this.container}" not contains "${this.instance}"`;
+	}
+
+	check(action) {
+		const cont = action.book.dictionary.getNouns(this.container)
+		if (cont.length === 0) {
+			
+			Output.error(`On IfNotContains condition: container "${this.container}" not found in dictionary.`);
+		}
+
+		return !cont[0].contains(this.instance);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "container")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.container = node.getAttr("container").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfNotContains = IfNotContains;
+
+export class IfDirectEquals extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+	}
+
+	toString() {
+		return `If direct equals "${this.instance}"`;
+	}
+
+	check(action) {
+		const obj = action.book.parser.directObject;
+		if (!obj) return false;
+
+		return obj.responds(this.instance);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfDirectEquals = IfDirectEquals;
+
+export class IfDirectNotEquals extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+	}
+
+	toString() {
+		return `If direct not equals "${this.instance}"`;
+	}
+
+	check(action) {
+		const obj = action.book.parser.directObject;
+		if (!obj) return true;
+
+		return !obj.responds(this.instance);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfDirectNotEquals = IfDirectNotEquals;
+
+export class IfIndirectEquals extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+	}
+
+	toString() {
+		return `If indirect equals "${this.instance}"`;
+	}
+
+	check(action) {
+		const obj = action.book.parser.indirectObject;
+		if (!obj) return false;
+
+		return obj.responds(this.instance);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfIndirectEquals = IfIndirectEquals;
+
+export class IfIndirectNotEquals extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+	}
+
+	toString() {
+		return `If indirect equals "${this.instance}"`;
+	}
+
+	check(action) {
+		const obj = action.book.parser.indirectObject;
+		if (!obj) return true;
+
+		return !obj.responds(this.instance);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfIndirectNotEquals = IfIndirectNotEquals;
+
+export class IfVariableEquals extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.variable = "";
+		this.value = "";
+	}
+
+	toString() {
+		return `If variable "${this.variable}" equals to "${this.value}."`;
+	}
+
+	check(action) {
+		const obj = action.book.dictionary.getNouns(this.instance);
+
+		if (obj.length === 0) {
+			
+			Output.error(`On condition "IfVariableEquals" instance "${this.instance}" not found in dictionary.`);
+		}
+
+		return obj[0].getVariable(this.variable) === this.value;
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "variable", "value")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.variable = node.getAttr("variable").getValue();
+		this.value = node.getAttr("value").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfVariableEquals = IfVariableEquals;
+
+export class IfConnectionExists extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.exit = "";
+	}
+
+	toString() {
+		return `Connection "${this.exit}" exists in "${this.instance}."`;
+	}
+
+	check(action) {
+		const place = action.book.dictionary.getNouns(this.instance);
+		if (place.length === 0) {
+			Output.error(`On condition "IfConnectionExists" instance "${this.instance}" not found in dictionary.`);
+		}
+
+		return place[0].getConnection(this.exit) != null;
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "exit")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.exit = node.getAttr("exit").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+
+} responses.IfConnectionExists = IfConnectionExists;
+
+export class IfConnectionNotExists extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.exit = "";
+	}
+
+	toString() {
+		return `Connection "${this.exit}" not exists in "${this.instance}."`;
+	}
+
+	check(action) {
+		const place = action.book.dictionary.getNouns(this.instance);
+		if (place.length === 0) {
+			Output.error(`On condition "IfConnectionNotExists" instance "${this.instance}" not found in dictionary.`);
+		}
+
+		return place[0].getConnection(this.exit) == null;
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "exit")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.exit = node.getAttr("exit").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+
+} responses.IfConnectionNotExists = IfConnectionNotExists;

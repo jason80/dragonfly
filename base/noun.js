@@ -176,9 +176,7 @@ export class Noun extends Entity {
 		for (const actionEvent of eventList) {
 			// If match action with list
 			if (actionEvent.match(action)) {
-				// Check if actionevent's conditions return true
-				if (!actionEvent.checkConditions(action)) continue;
-				
+
 				// Execute responses
 				await actionEvent.execute(action);
 				result = !actionEvent.cancel;

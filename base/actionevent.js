@@ -7,7 +7,7 @@
 
 import { Output } from "./output.js";
 import { actions } from "./actions.js";
-import { loadConditionsAndResponses } from "./eventloader.js";
+import { loadResponses } from "./eventloader.js";
 import { Utils } from "./utils.js";
 
 export class ActionEvent {
@@ -19,8 +19,8 @@ export class ActionEvent {
 	constructor() {
 		this.actions = [];
 		this.cancel = false;
+		this.initialCancel = false;
 		this.responses = []
-		this.conditions = []
 	}
 
 	/**
@@ -35,31 +35,21 @@ export class ActionEvent {
 	}
 
 	/**
-	 * Checks the conditions of the event to be executed.
-	 *
-	 * @param {Action} action Current action to be executed.
-	 * @return {boolean} true if all conditions are met.
-	 * @memberof ActionEvent
-	 */
-	checkConditions(action) {
-		let check = true;
-		this.conditions.forEach(c => {
-			if (!c.check(action)) check = false;
-		});
-
-		return check;
-	}
-
-	/**
 	 * Executes all responses in the order they were added.
 	 *
 	 * @param {Action} action current action.
 	 * @memberof ActionEvent
 	 */
 	async execute(action) {
+		action.eventControl = { cancel: this.initialCancel, brk: false };
+
 		for (const r of this.responses) {
 			await r.execute(action);
+
+			if (action.eventControl.brk) break;
 		}
+
+		this.cancel = action.eventControl.cancel;
 	}
 
 	/**
@@ -84,10 +74,10 @@ export class ActionEvent {
 		});
 
 		if (node.hasAttr("cancel"))
-			this.cancel = node.getAttr("cancel").getValue() === "true";
-		else this.cancel = false;
+			this.initialCancel = node.getAttr("cancel").getValue() === "true";
+		else this.initialCancel = false;
 
-		loadConditionsAndResponses(node, this.conditions, this.responses);
+		loadResponses(node, this.responses);
 	}
 
 };

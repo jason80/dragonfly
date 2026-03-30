@@ -23,6 +23,8 @@ export class Action {
 		this.book = null;
 		this.verb = null;
 		this.sendingEvents = [];
+
+		this.eventControl = null;
 	}
 
 	/**
@@ -167,6 +169,7 @@ export class Action {
 	toString() {
 		return this.constructor.name;
 	}
+
 };
 
 /**
@@ -265,4 +268,5 @@ export class DefaultAction extends Action {
 	responses() {
 		return ["nothing-happens", "direct-not-found", "direct-is-the-player"]
 	}
+
 }

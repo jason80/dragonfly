@@ -1,7 +1,7 @@
 import { DFMLElement } from "../dfml/js/main/element.js";
 import { DFMLNode } from "../dfml/js/main/node.js";
 import { Action } from "./action.js";
-import { loadConditionsAndResponses } from "./eventloader.js";
+import { loadResponses } from "./eventloader.js";
 import { Utils } from "./utils.js";
 
 /**
@@ -20,7 +20,6 @@ export class Topic {
 	 */
 	constructor() {
 		this.match = [];
-		this.conditions = [];
 		this.responses = [];
 	}
 
@@ -35,7 +34,7 @@ export class Topic {
 
 		if (node.hasAttr("match"))
 			this.match = node.getAttr("match").getValue().split(",");
-		loadConditionsAndResponses(node, this.conditions, this.responses);
+		loadResponses(node, this.responses);
 	}
 };
 
@@ -97,9 +96,6 @@ export class Conversation {
 	 * @memberof Conversation
 	 */
 	runTopic(action, topic) {
-		for (const c of topic.conditions) {
-			if (!c.check(action)) return false;
-		}
 
 		for (const r of topic.responses) {
 			r.execute(action);

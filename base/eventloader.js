@@ -2,22 +2,19 @@ import { DFMLNode } from "../dfml/js/main/node.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
 import { DFMLValue } from "../dfml/js/main/value.js";
 import { ActionResponse } from "./actionresponse.js";
-import { Condition } from "./condition.js";
 import { responses } from "./responses.js";
-import { conditions } from "./conditions.js";
 import { Output } from "./output.js";
 import { Utils } from "./utils.js";
 
 
 /**
- * Load conditions and responses from dfml node. can be event or conversation topic.
+ * Load responses from dfml node. can be event or conversation topic.
  *
  * @param {DFMLNode} node The dfml node.
- * @param {Array<Condition>} conditionList Condition list to add.
  * @param {Array<ActionResponse>} responseList Response list to add.
  */
-export function loadConditionsAndResponses(node, conditionList, responseList) {
-	// Load responses and conditions
+export function loadResponses(node, responseList) {
+	// Load responses
 	node.children.forEach(child => {
 
 		// Simple text found: create a message response:
@@ -28,13 +25,11 @@ export function loadConditionsAndResponses(node, conditionList, responseList) {
 			responseList.push(message);
 		}
 
-		// Condition or response found:
+		// Response found:
 		if (child.getElementType() === DFMLElement.NODE) {
 			if (child.getName() === "response") {
 				loadResponse(child, responseList);
-			} else if (child.getName() === "if") {
-				loadCondition(child, conditionList);
-			} else { // Refers to Condition or Response class name
+			} else { // Response class name
 
 				// Convert to class name style
 				let className = child.getName()
@@ -42,13 +37,8 @@ export function loadConditionsAndResponses(node, conditionList, responseList) {
 						.map(word => word.charAt(0).toUpperCase() + word.slice(1))
 						.join('');
 
-				if (className.startsWith("If")) {
-					child.setAttrString("class", className.slice(2));
-					loadCondition(child, conditionList);
-				} else {
-					child.setAttrString("class", className);
-					loadResponse(child, responseList);
-				}
+				child.setAttrString("class", className);
+				loadResponse(child, responseList);
 			}
 		}
 	});
@@ -72,26 +62,5 @@ function loadResponse(node, responseList) {
 		const response = new responseClass();
 		response.load(node);
 		responseList.push(response);
-	}
-}
-
-/**
- * Load single condition.
- *
- * @param {DFMLNode} node the condition node.
- * @param {Array<Condition>} conditionList Condition list to add.
- */
-function loadCondition(node, conditionList) {
-
-	if (!Utils.expectedAttributes(node, "class")) return ;
-
-	const condClassName = node.getAttr("class").getValue();
-	const condClass = conditions[condClassName];
-	if (!condClass) {
-		Output.error(`condition class "${condClassName}" not exists.`);
-	} else {
-		const cond = new condClass();
-		cond.load(node);
-		conditionList.push(cond);
 	}
 }

@@ -19,7 +19,7 @@ export class Help {
 	 * @memberof Help
 	 */
 	static tip(message) {
-		Output.print(`[ ${message} ]`, this.book.getProperty("tip-style"));
+		Output.print(`${message}`, this.book.getProperty("tip-style"));
 	}
 
 	/**

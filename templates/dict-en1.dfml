@@ -157,44 +157,44 @@ dictionary {
 		response(id: "syntax-fail", string: "I don't know what to press.")
 	}
 
-	verb(names: "cut, slice, chop, slash", action: "CutWith",  
-		syntax: "1, with/using, 2") {  
-		response(id: "direct-not-found", string: "That doesn't exist to cut.")  
-		response(id: "indirect-not-found", string: "I don't have that to cut with.")  
-		response(id: "direct-is-the-player", string: "I'm not cutting myself.")  
-		response(id: "indirect-is-the-player", string: "I'm not a sword.")  
-		response(id: "nothing-happens", string: "I can't cut #1 with that.")  
-		response(id: "syntax-fail", string: "Try 'cut object' or 'cut object with another'.")  
+	verb(names: "cut, slice, chop, slash", action: "CutWith",
+		syntax: "1, with/using, 2") {
+		response(id: "direct-not-found", string: "That doesn't exist to cut.")
+		response(id: "indirect-not-found", string: "I don't have that to cut with.")
+		response(id: "direct-is-the-player", string: "I'm not cutting myself.")
+		response(id: "indirect-is-the-player", string: "I'm not a sword.")
+		response(id: "nothing-happens", string: "I can't cut #1 with that.")
+		response(id: "syntax-fail", string: "Try 'cut object' or 'cut object with another'.")
 	}
 
-	verb(names: "cut, slice, chop, slash", action: "CutObject", syntax: "1") {  
-		response(id: "direct-not-found", string: "There is no such thing to cut.")  
-		response(id: "direct-is-the-player", string: "I’m not doing that.")  
-		response(id: "nothing-happens", string: "That can't be cut.")  
+	verb(names: "cut, slice, chop, slash", action: "CutObject", syntax: "1") {
+		response(id: "direct-not-found", string: "There is no such thing to cut.")
+		response(id: "direct-is-the-player", string: "I’m not doing that.")
+		response(id: "nothing-happens", string: "That can't be cut.")
 	}
 
-	verb(names: "tie, knot", action: "TieWith", syntax: "1, with/using, 2") {  
-		response(id: "direct-not-found", string: "There is no such thing to tie.")  
-		response(id: "indirect-not-found", string: "I don't have anything to tie that with.")  
-		response(id: "direct-is-the-player", string: "I’m not tying myself to anything!")  
-		response(id: "indirect-is-the-player", string: "You’re crazy.")  
-		response(id: "nothing-happens", string: "I can't tie #1 with #2.")  
-		response(id: "syntax-fail", string: "Try with 'tie object', 'tie object with another', or 'tie object to another'.")  
+	verb(names: "tie, knot", action: "TieWith", syntax: "1, with/using, 2") {
+		response(id: "direct-not-found", string: "There is no such thing to tie.")
+		response(id: "indirect-not-found", string: "I don't have anything to tie that with.")
+		response(id: "direct-is-the-player", string: "I’m not tying myself to anything!")
+		response(id: "indirect-is-the-player", string: "You’re crazy.")
+		response(id: "nothing-happens", string: "I can't tie #1 with #2.")
+		response(id: "syntax-fail", string: "Try with 'tie object', 'tie object with another', or 'tie object to another'.")
 	}
 
-	verb(names: "tie, knot", action: "TieTo", syntax: "1, to, 2") {  
-		response(id: "direct-not-found", string: "I can't tie it to something that isn't there.")  
-		response(id: "indirect-not-found", string: "That thing I want to tie doesn’t exist.")  
-		response(id: "direct-is-the-player", string: "I’m not tying myself to anything!")  
-		response(id: "indirect-is-the-player", string: "You’re crazy.")  
-		response(id: "nothing-happens", string: "I can't tie #1 to #2.")  
-		response(id: "syntax-fail", string: "Try with 'tie object', 'tie object with another', or 'tie object to another'.")  
+	verb(names: "tie, knot", action: "TieTo", syntax: "1, to, 2") {
+		response(id: "direct-not-found", string: "I can't tie it to something that isn't there.")
+		response(id: "indirect-not-found", string: "That thing I want to tie doesn’t exist.")
+		response(id: "direct-is-the-player", string: "I’m not tying myself to anything!")
+		response(id: "indirect-is-the-player", string: "You’re crazy.")
+		response(id: "nothing-happens", string: "I can't tie #1 to #2.")
+		response(id: "syntax-fail", string: "Try with 'tie object', 'tie object with another', or 'tie object to another'.")
 	}
 
-	verb(names: "tie, knot", action: "TieObject", syntax: "1") {  
-		response(id: "direct-not-found", string: "That’s not here.")  
-		response(id: "direct-is-the-player", string: "I don’t have any laces.")  
-		response(id: "nothing-happens", string: "It doesn't make sense to tie that.")  
+	verb(names: "tie, knot", action: "TieObject", syntax: "1") {
+		response(id: "direct-not-found", string: "That’s not here.")
+		response(id: "direct-is-the-player", string: "I don’t have any laces.")
+		response(id: "nothing-happens", string: "It doesn't make sense to tie that.")
 	}
 
 	verb(names: "break, breaks, breaking, force, forces, forcing, violate, violates, violating", action: "BreakWith", syntax: "1, with/by, 2") {
@@ -212,10 +212,10 @@ dictionary {
 		response(id: "nothing-happens", string: "It doesn't make sense to break that.")
 	}
 
-	verb(names: "read, interpret, comprehend", action: "ReadObject", syntax: "1") {  
-		response(id: "direct-not-found", string: "There’s nothing like that to read.")  
-		response(id: "direct-is-the-player", string: "I’m not a book.")  
-		response(id: "nothing-happens", string: "That can’t be read.")  
+	verb(names: "read, interpret, comprehend", action: "ReadObject", syntax: "1") {
+		response(id: "direct-not-found", string: "There’s nothing like that to read.")
+		response(id: "direct-is-the-player", string: "I’m not a book.")
+		response(id: "nothing-happens", string: "That can’t be read.")
 	}
 
 	verb(names: "smoke", action: "SmokeObject", syntax: "1") {
@@ -282,6 +282,12 @@ dictionary {
 		response(id: "direct-not-found", string: "That doesn't exist.")
 		response(id: "direct-is-the-player", string: "I can't fill myself up.")
 		response(id: "nothing-happens", string: "I cannot fill this.")
+	}
+
+	verb(names: "eat, consume, dine, ingest, devour, snack, munch", action: "EatObject", syntax: "1") {
+		response(id: "direct-not-found", string: "That doesn't exist.")
+		response(id: "direct-is-the-player", string: "I can't eat myself.")
+		response(id: "nothing-happens", string: "I can't eat #1.")
 	}
 
 	verb(names: "shoot, fire", action: "ShootObject", syntax: "to, 1") {

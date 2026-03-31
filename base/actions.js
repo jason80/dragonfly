@@ -23,7 +23,7 @@ export class UnknownVerb extends Action {
 	}
 
 	report() {
-		
+
 	}
 
 	responses() {
@@ -50,7 +50,7 @@ export class Clear extends Action {
 	}
 
 	report() {
-		
+
 	}
 
 	responses() {
@@ -75,11 +75,11 @@ export class SaveGame extends Action {
 	carryOut() {
 		const p = new DFMLPersistenceSystem(this.book.dictionary);
 		localStorage.setItem(this.book.title, p.save());
-		this.fireResponse("game-saved"); 
+		this.fireResponse("game-saved");
 	}
 
 	report() {
-		
+
 	}
 
 	responses() {
@@ -104,11 +104,11 @@ export class LoadGame extends Action {
 	carryOut() {
 		const p = new DFMLPersistenceSystem(this.book.dictionary);
 		p.load(localStorage.getItem(this.book.title));
-		this.fireResponse("game-loaded"); 
+		this.fireResponse("game-loaded");
 	}
 
 	report() {
-		
+
 	}
 
 	responses() {
@@ -135,7 +135,7 @@ export class Inventory extends Action {
 	carryOut() {
 		let lst = this.book.player.children()
 		if (lst.length === 0) { this.fireResponse("inventory-is-empty")
-		} else { 
+		} else {
 			this.book.dictionary.inventoryDialog.execute(lst)
 		}
 
@@ -144,7 +144,7 @@ export class Inventory extends Action {
 	}
 
 	report() {
-		
+
 	}
 
 	responses() {
@@ -258,7 +258,7 @@ export class LookAround extends Action {
 			this.book.dictionary.properListDialog.execute(propers)
 		}
 	}
-	
+
 	responses() {
 		return []
 	}
@@ -301,7 +301,7 @@ export class LookInside extends Action {
 		const childs = this.book.parser.directObject.children();
 		if (childs.length === 0) {
 			this.fireResponse("container-is-empty")
-		} else { 
+		} else {
 			this.book.dictionary.lookInsideDialog.execute(childs)
 		}
 
@@ -310,7 +310,7 @@ export class LookInside extends Action {
 	}
 
 	report() {
-		
+
 	}
 
 	responses() {
@@ -889,14 +889,14 @@ export class GoTo extends Action {
 			let v = this.book.dictionary.verbByAction("LookAround");
 			await this.book.execute(v.getName());
 		}
-		
+
 		this.sendEventLater(this.book.player.container);
 	}
 
 	report() {
-		
+
 	}
-	
+
 	responses() {
 		return ["exit-not-exists", "exit-not-found"]
 	}
@@ -914,7 +914,7 @@ export class Talk extends Action {
 
 		return true;
 	}
-		
+
 	async check() {
 		return true;
 	}
@@ -926,7 +926,7 @@ export class Talk extends Action {
 	}
 
 	report() {
-		
+
 	}
 
 	responses() {
@@ -955,7 +955,7 @@ export class TalkTo extends Action {
 
 		return true;
 	}
-	
+
 	async check() {
 		if (this.book.parser.directObject == this.book.player)
 			return this.fireResponse("direct-is-the-player")
@@ -1370,3 +1370,9 @@ export class ShootObject extends DefaultAction {
 		super();
 	}
 } actions.ShootObject = ShootObject;
+
+export class EatObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.EatObject = EatObject;

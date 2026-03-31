@@ -317,6 +317,12 @@ dictionary {
 		response(id: "nothing-happens", string: "No puedes llenar eso.")
 	}
 
+	verb(names: "comer, come, consumir, consume, consumi, cenar, cena, ingerir, ingiere, ingeri, devorar, devora, merendar, merienda, merenda, mascar, masca", action: "EatObject", syntax: "1") {
+		response(id: "direct-not-found", string: "Eso no existe para comer.")
+		response(id: "direct-is-the-player", string: "¡No puedes comerte a ti mismo!")
+		response(id: "nothing-happens", string: "No puedes comer #1.")
+	}
+
 	verb(names: "dispara, disparar, gatillar, gatilla", action: "ShootObject", syntax: "a/al, 1") {
 		response(id: "direct-not-found", string: "No hay eso a lo que disparar.")
 		response(id: "direct-is-the-player", string: "No eres un arma.")

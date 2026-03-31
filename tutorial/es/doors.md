@@ -110,11 +110,13 @@ noun(names: "El Comedor, comedor") {
    // ...
 
    // Si la salida es "norte" y la puerta está cerrada se bloquea el paso.
-   before(actions: "GoTo", cancel: true) {
-      if-direct-equals-exit(exit: "norte")
-      if-is-set(instance: "p-comedor-cocina", attr: "closed")
-
-      "La puerta está cerrada."
+   before(actions: "GoTo") {
+      if-direct-equals-exit(exit: "norte") {
+         if-is-set(instance: "p-comedor-cocina", attr: "closed") {
+            "La puerta está cerrada."
+            cancel-event()
+         }
+      }
    }
 }
 ```
@@ -125,11 +127,13 @@ noun(names: "La Cocina, cocina") {
    // ...
 
    // Si la salida es "sur" y la puerta está cerrada se bloquea el paso.
-   before(actions: "GoTo", cancel: true) {
-      if-direct-equals-exit(exit: "sur")
-      if-is-set(instance: "p-cocina-comedor", attr: "closed")
-
-      "La puerta está cerrada."
+   before(actions: "GoTo") {
+      if-direct-equals-exit(exit: "sur") {
+         if-is-set(instance: "p-cocina-comedor", attr: "closed") {
+            "La puerta está cerrada."
+            cancel-event()
+         }
+      }
    }
 }
 ```

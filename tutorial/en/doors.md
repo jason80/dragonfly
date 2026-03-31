@@ -111,11 +111,13 @@ noun(names: "The Dining Room, dining-room") {
    // ...
 
    // If the exit is "north" and the door is closed, the path is blocked.
-   before(actions: "GoTo", cancel: true) {
-      if-direct-equals-exit(exit: "north")
-      if-is-set(instance: "d-diningroom-kitchen", attr: "closed")
-
-      "The door is closed."
+   before(actions: "GoTo") {
+      if-direct-equals-exit(exit: "north") {
+         if-is-set(instance: "d-diningroom-kitchen", attr: "closed") {
+            "The door is closed."
+            cancel-event()
+         }
+      }
    }
 }
 ```
@@ -126,11 +128,13 @@ noun(names: "The Kitchen, kitchen") {
    // ...
 
    // If the exit is "south" and the door is closed, the path is blocked.
-   before(actions: "GoTo", cancel: true) {
-      if-direct-equals-exit(exit: "south")
-      if-is-set(instance: "d-kitchen-diningroom", attr: "closed")
-
-      "The door is closed."
+   before(actions: "GoTo") {
+      if-direct-equals-exit(exit: "south") {
+         if-is-set(instance: "d-kitchen-diningroom", attr: "closed") {
+            "The door is closed."
+            cancel-event()
+         }
+      }
    }
 }
 ```

@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Versión actual: 0.1.2*
+*Versión actual: 0.2.0*
 
 [English](./README.md "Dragonfly README in English") | Español
 
@@ -114,6 +114,16 @@ Abre la carpeta del proyecto y ejecuta el comando Run with Live Server
 (instala la extensión Live Server si es necesario).
 
 ![Game sample 1](media/sample2-es.png)
+
+## Descargar Dragonfly
+
+Puedes clonar el proyecto utilizando git de la siguiente forma:
+
+```sh
+git clone --recurse-submodules https://github.com/jason80/dragonfly mygame
+```
+
+El parámetro `--recurse-submodules` sirve para descargar el módulo `dfml` del cuál Dragonfly depende.
 
 ## Tutoriales:
 [English](./tutorial/en/start.md "Tutorial in English") | [Español](./tutorial/es/start.md "Tutorial en español")

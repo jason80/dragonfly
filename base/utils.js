@@ -7,13 +7,13 @@ export class Utils {
 	 * Returns the current version of Dragonfly.
 	 */
 	static dragonflyVersion() {
-		return '0.1.2';
+		return '0.2.0';
 	}
 
 	/**
 	 * Returns the 'text' without the accents for sentence comparison.
 	 * (previously normalized NFC).
-	 * 
+	 *
 	 *
 	 * @static
 	 * @param {string} text tarjet text.
@@ -21,10 +21,10 @@ export class Utils {
 	 * @memberof Utils
 	 */
 	static noAccents(text) {
-		// 
+		//
 		let copy = '';
 		text = text.normalize('NFC');
-	
+
 		for (let i = 0; i < text.length; i++) {
 			let c = text[i];
 			if (c === '\u00E0' || c === '\u00E1' || c === '\u00E2' || c === '\u00E3' || c === '\u00E4' || c === '\u00E5') {
@@ -43,10 +43,10 @@ export class Utils {
 				copy += c;
 			}
 		}
-	
+
 		return copy;
 	}
-  
+
 	/**
 	 * Compare both texts regardless of accentuation.
 	 *
@@ -59,15 +59,15 @@ export class Utils {
 	static isEquals(text1, text2) {
 		return Utils.noAccents(
 			text1.trim().toLowerCase()
-		) === 
+		) ===
 		Utils.noAccents(
 			text2.trim().toLowerCase()
 		);
 	}
 
-	
+
 	/**
-	 * 
+	 *
 	 * @static
 	 * @param {DFMLNode} node
 	 * @param {*} args

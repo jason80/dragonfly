@@ -21,6 +21,7 @@ export class ActionEvent {
 		this.cancel = false;
 		this.initialCancel = false;
 		this.responses = []
+		this.allActions = false;
 	}
 
 	/**
@@ -31,7 +32,9 @@ export class ActionEvent {
 	 * @memberof ActionEvent
 	 */
 	match(action) {
-		return this.actions.includes(action.constructor);
+		return this.allActions ?
+			!this.actions.includes(action.constructor) :
+			this.actions.includes(action.constructor);
 	}
 
 	/**
@@ -62,7 +65,17 @@ export class ActionEvent {
 
 		if (!Utils.expectedAttributes(node, "actions")) return;
 
-		node.getAttr("actions").getValue().split(",").forEach(a => {
+		let strActions = "";
+		if (node.getAttr("actions").getValue() === "*") {
+
+			if (!Utils.expectedAttributes(node, "except")) return;
+
+			// All actions except ...
+			this.allActions = true;
+			strActions = node.getAttr("except").getValue();
+		} else strActions = node.getAttr("actions").getValue();
+
+		strActions.split(",").forEach(a => {
 			const actionClassName = a.trim();
 			const actionClass = actions[actionClassName];
 

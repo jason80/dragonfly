@@ -963,3 +963,25 @@ export class IfConnectionNotExists extends ConditionResponse {
 	}
 
 } responses.IfConnectionNotExists = IfConnectionNotExists;
+
+export class IfActionEquals extends ConditionResponse {
+	constructor() {
+		super();
+		this.actionName = "";
+	}
+
+	toString() {
+		return `If action equals "${this.actionName}"`;
+	}
+
+	check(action) {
+		return this.actionName === action.constructor.name;
+	}
+
+	load(node) {
+		if (!Utils.expectedAttributes(node, "action")) return ;
+		this.actionName = node.getAttr("action").getValue();
+		
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfActionEquals = IfActionEquals;

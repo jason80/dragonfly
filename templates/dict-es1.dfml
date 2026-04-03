@@ -37,12 +37,12 @@ dictionary {
 		response(id: "cancel-error", string: "¡Juego NO cargado!")
 	}
 
-	verb(names: "inventario, i, inv", action: "Inventory") {
+	verb(names: "inventario, i, inv, invent, bulto, mochila", action: "Inventory") {
 		response(id: "inventory-is-empty", string: "No tengo nada en mi poder.")
 		response(id: "syntax-fail", string: "Escribe 'inventario' o 'i' para saber lo que llevo.")
 	}
 
-	verb(names: "examinar, examina, mirar, mira, busca, buscar, revisa, revisar, x, m",
+	verb(names: "examinar, examina, mirar, mira, busca, buscar, revisa, revisar, x, m, inspeccionar, inspecciona",
 			action: "LookInside", syntax: "en/dentro/adentro, 1") {
 		response(id: "direct-not-found", string: "No encuentro eso.")
 		response(id: "direct-is-the-player", string: "Puedes probar con: inventario o i.")
@@ -51,23 +51,23 @@ dictionary {
 		response(id: "container-is-empty", string: "No hay nada en #1.")
 	}
 
-	verb(names: "examinar, examina, mirar, mira, x, m",
+	verb(names: "examinar, examina, mirar, mira, x, m, inspeccionar, inspecciona",
 			action: "ExamineObject", syntax: "a/al, 1") {
 		response(id: "direct-not-found", string: "No hay eso.")
 	}
 
-	verb(names: "examinar, examina, mirar, mira, x, m",
+	verb(names: "examinar, examina, mirar, mira, x, m, inspeccionar, inspecciona",
 			action: "ExamineObject", syntax: "1") {
 		response(id: "direct-not-found", string: "No hay eso.")
 	}
 
-	verb(names: "examinar, examina, mirar, mira, ver, x, m",
+	verb(names: "examinar, examina, mirar, mira, ver, x, m, inspeccionar, inspecciona",
 			action: "LookAround")
 
-	verb(names: "examinate, examinarme, examinarte, mirate, mirarme, mirarte, soy, yo",
+	verb(names: "examinate, examinarme, examinarte, mirate, mirarme, mirarte, soy, yo, inspeccionarme, inspeccionate",
 			action: "ExamineMe")
 
-	verb(names: "toma, tomar, agarra, agarrar, recoger, recoge, coge, coger, junta, juntar, obtener, obtiene, sustrae, sustraer, sacar, saca, extrae, estraer",
+	verb(names: "toma, tomar, agarra, agarrar, recoger, recoge, coge, coger, junta, juntar, obtener, obtiene, sustrae, sustraer, sacar, saca, extrae, extraer",
 		syntax: "1, de/desde/del, 2", action: "TakeFrom") {
 		response(id: "indirect-not-found", string: "No se de dónde lo quieres sacar.")
 		response(id: "indirect-is-not-container", string: "No puedo sacar cosas de #2.")
@@ -336,7 +336,7 @@ dictionary {
 	}
 
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
-		response(id: "direct-not-found", string: "Ese al que quiero hablar no está.")
+		response(id: "direct-not-found", string: "Ese con el que quiero hablar no está.")
 		response(id: "direct-is-the-player", string: "No estoy loco para hablar conmigo mismo.")
 		response(id: "direct-is-not-speaker", string: "#^1 no habl@1(a,a,an,an).")
 		response(id: "nothing-happens", string: "#^1 no respond@1(e,e,en,en).")

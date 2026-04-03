@@ -7,7 +7,7 @@ export class Utils {
 	 * Returns the current version of Dragonfly.
 	 */
 	static dragonflyVersion() {
-		return '0.2.0';
+		return '0.2.1';
 	}
 
 	/**

@@ -1,401 +1,395 @@
 book(
-	title: "Mystic Forest Adventure (Getting Started)",
-	author: "Javier Candales (Jasón)"
+   title: "The Forest",
+   author: "Javier Candales (Jasón)",
+   version: "1",
+   genre: "Adventure",
+   year: 2026,
+   language: "en",
+   story-length: "Tiny",
+   parental: 0
 ) {
-	property(name: "player", value: "-player")
-	property(name: "show-parsing-process", value: false)
 
-	include(src: "../../../templates/dict-debug.dfml")
-	include(src: "../../../templates/dict-en1.dfml")
+   description {
+      "'You will have to get out of the forest by solving some puzzles'. Example of a short adventure in Dragonfly."
+   }
+
+   property(name: "player", value: "-player")
+   property(name: "show-parsing-process", value: false) // Shows the parsing process
+   //property(name: "parser-clean", value: "") // Characters to clean
+
+
+   // English dictionary (second person)
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-en1.dfml")
+
+   // Debugging dictionary
+   //include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml")
 }
 
 dictionary {
-	noun(names: "A Forest Clearing, forest-clearing") {
-		describe-place() {
-			"I stand in a serene forest clearing, surrounded by towering trees. Sunlight filters through the leaves, and the sound of chirping birds fills the air. To the north, a narrow path winds through the trees, leading further into the misty forest. To the south, the soft sound of a flowing stream can be heard."
-		}
-
-		// THE PLAYER
-		noun(names: "player, -player") {
-
-			describe-object() {
-				"A curious adventurer, ready to explore the world around me."
-			}
-		}
-
-		// TREES
-		noun(names: "trees, tree, forest") {
-			set { "plural" "scene" "fixed" }
-
-			describe-object() {
-				"The towering trees stretch high above, their thick trunks covered in patches of moss. Their branches intertwine, forming a dense canopy that filters the sunlight into soft, golden beams."
-			}
-		}
-
-		// CLEARING IT SELF
-		noun(names: "clearing") {
-			set { "scene" "fixed" }
-
-			describe-object() {
-				execute() { "examine" }
-			}
-		}
-
-		// SUNLIGHT
-		noun(names: "sunlight, light, sun") {
-			set { "fixed" "scene" }
-
-			describe-object() {
-				"The sunlight filters through the dense foliage, casting rays that illuminate the forest floor."
-			}
-
-			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
-				"The sunlight remains undisturbed, its warmth constant, no matter what actions you try to take."
-			}
-		}
-
-		// BIRDS
-		noun(names: "birds, bird") {
-			set { "scene" "fixed" }
-
-			describe-object() {
-				"Small birds flit among the branches of the trees, their cheerful chirping filling the air."
-			}
-
-			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
-				"The birds remain undisturbed, continuing their song in the trees, no matter what you try to do."
-			}
-		}
-
-		connection(exit: "north", destiny: "small-path")
-		connection(exit: "south", destiny: "forest-creek")
-	}
-
-	noun(names: "Creek, forest-creek") {
-	describe-place() {
-		"The stream flows gently, its clear water glimmering under the light. Smooth stones line its banks, creating a peaceful atmosphere. Near the water’s edge lies an old hollow log, its darkened bark blending with the surroundings."
-		"To the north, it leads back to the clearing."
-	}
-
-	// THE CREEK ITSELF
-	noun(names: "water, stream, creek") {
-		set { "fixed" "scene" }
-
-		describe-object() {
-			"The creek's water is clear and cool, flowing steadily over its bed of stones."
-		}
-
-		before(actions: "TouchObject", cancel: true) {
-			"The water feels refreshing and cool to the touch."
-		}
-	}
-
-	// SMOOTH STONES
-	noun(names: "stones, stone, rocks, rock") {
-		set { "scene" "heavy" }
-
-		describe-object() {
-			"Smooth, water-worn stones lie scattered along the creek bed, glistening in the sunlight."
-		}
-
-		before(actions: "TouchObject", cancel: true) {
-			"The stones feel smooth and cool under your fingers."
-		}
-	}
-
-	// HOLLOW LOG
-	noun(names: "hollow log, log, tree trunk") {
-		set { "fixed" "scene" "container" }
-
-		describe-object() {
-			"An old hollow log lies near the stream, its bark weathered and darkened with age."
-		}
-
-		// LOCKPICK
-		noun(names: "lockpick, picklock, lock-pick, ganzua") {
-
-			describe-object() {
-				"A slim and sturdy lockpick, perfect for opening locks, without a key."
-			}
-		}
-	}
-
-	connection(exit: "north", destiny: "forest-clearing")
-}
-
-	noun(names: "Small Path, small-path") {
-		describe-place() {
-			"The path is narrow and winding, surrounded by tall trees. The ground is covered with dry, crunchy leaves. In the distance, the path curves to the east, leading deeper into the forest. To the south, the path leads back to the serene forest clearing."
-		}
-
-		describe-place() {
-			if-contains(container: "small-path", instance: "faint-light")
-
-			"A faint light glows in the distance to the northwest, cutting through the mist."
-		}
-
-		// DRY LEAVES
-		noun(names: "dry leaves, leaves") {
-			set { "scene" }
-
-			describe-object() {
-				"The dry leaves cover the ground, crunching under my feet as I walk."
-			}
-
-			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
-				"Nothing happens when I stir the leaves on the path."
-			}
-
-			before(actions: "TakeObject, TakeFrom", cancel: true) {
-				"It doesn't make sense to pick up the leaves from the ground."
-			}
-		}
-
-		// THE MIST
-		noun(names: "mist") {
-			set { "scene" "fixed" }
-
-			describe-object() {
-				if-not-contains(container: "small-path", instance: "faint-light")
-
-				"The mist stretches along the path, giving it a mysterious and oppressive air. It's hard to see more than a few meters ahead."
-			}
-
-			describe-object() {
-				if-contains(container: "small-path", instance: "faint-light")
-
-				"The mist stretches along the path, but it thins as it approaches the faint light glowing in the distance."
-			}
-
-			before(actions: "TouchObject, PushObject, PullObject, TakeObject", cancel: true) {
-				"The mist stays still, its presence palpable but unchanging."
-			}
-		}
-
-		before(actions: "GoTo", cancel: true) {
-			if-direct-equals-exit(exit: "nw")
-			if-connection-exists(instance: "small-path", exit: "nw")
-
-			print(style: "color: green; font-size: 1.5em;") {
-				"VICTORY"
-			}
-
-			"You have made it out of the forest safe and sound."
-			"(Press Enter to restart the game)"
-			pause()
-			restart-game()
-			clear()
-			show-title()
-			execute { "x" }
-		}
-
-		connection(exit: "south", destiny: "forest-clearing")
-		connection(exit: "east", destiny: "forest-cabin")
-	}
-
-	noun(names: "The Cabin, forest-cabin") {
-		describe-place() {
-			"A quaint wooden cabin stands nestled among the towering trees, its weathered walls covered in patches of moss. Smoke curls lazily from the stone chimney, hinting at a warm fire inside. To the west, the narrow forest path winds back into the trees."
-		}
-
-		// THE CABIN IT SELF
-		noun(names: "cabin, house, patches, patch, moss, chimney, fire") {
-			set { "fixed" "scene" }
-
-			describe-object() {
-				execute() { "examine" }
-			}
-		}
-
-		noun(names: "door, cabin door, wooden door") {
-			set { "fixed" "scene" }
-
-			describe-object() {
-				"A sturdy wooden door with iron hinges."
-			}
-
-			describe-object() {
-				if-is-not-set(instance: "cabin door", attr: "forced")
-				append { "It seems to be locked." }
-			}
-
-			describe-object() {
-				if-is-set(instance: "cabin door", attr: "forced")
-				append { "Has been forced and is open." }
-			}
-
-			before(actions: "OpenObject, PushObject, PullObject, PressObject", cancel: true) {
-				if-is-set(attr: "forced", instance: "cabin door")
-				"The door is locked. Perhaps there's a way to unlock it."
-			}
-
-			before(actions: "OpenObject, PushObject, PullObject, PressObject", cancel: true) {
-				if-is-not-set(attr: "forced", instance: "cabin door")
-				"The door is already open"
-			}
-
-			before(actions: "BreakObject", cancel: true) {
-				if-is-not-set(attr: "forced", instance: "cabin door")
-
-				"I would need something pointed to force the lock."
-			}
-
-			before(actions: "BreakObject, BreakWith", cancel: true) {
-				if-is-set(attr: "forced", instance: "cabin door")
-				"The door is already forced open."
-			}
-			
-			before(actions: "BreakWith", cancel: true) {
-				if-indirect-equals(instance: "lockpick")
-				if-is-not-set(attr: "forced", instance: "cabin door")
-
-				"The lock clicks softly as the pick does its job. With a gentle push, the door creaks open, revealing the cabin's interior."
-
-				attr(set: "forced", instance: "cabin door")
-			}
-		}
-
-		before(actions: "GoTo", cancel: true) {
-			if-direct-equals-exit(exit: "inside")
-			if-is-not-set(attr: "forced", instance: "cabin door")
-
-			"The cabin door doesn't budge."
-			"I should look for something to open the door with."
-		}
-
-		connection(exit: "west", destiny: "small-path")
-		connection(exit: "inside", destiny: "inside-cabin")
-	}
-
-	noun(names: "Inside The Cabin, inside-cabin") {
-
-		describe-place() {
-			"The interior of the cabin is dimly lit, with shadows dancing on the wooden walls from the flickering fire in the stone hearth. Shelves line the walls, filled with dusty books and jars of unknown contents. A sturdy table stands in the center."
-		}
-
-		// STONE HEARTH
-		noun(names: "stone hearth, hearth, fire, fireplace") {
-			set { "fixed" "scene" }
-
-			describe-object() {
-				"A stone hearth holds a crackling fire, its warm glow lighting the cabin."
-			}
-
-			before(actions: "PushObject, PullObject, PressObject", cancel: true) {
-				"The hearth is fixed to the wall and immovable."
-			}
-
-			before(actions: "TouchObject", cancel: true) {
-				"Maybe I should drop that idea to avoid getting burned."
-			}
-		}
-
-		// SHELVES
-		noun(names: "shelves, shelf, books, jars") {
-			set { "scene" "fixed" }
-
-			describe-object() {
-				"The shelves are filled with dusty books and jars of unknown contents."
-			}
-
-			before(actions: "TouchObject, PushObject, PullObject, TakeObject, PressObject", cancel: true) {
-				"The shelves are old and fragile, better to leave them undisturbed."
-			}
-		}
-
-		// THE TABLE
-		noun(names: "table, sturdy table") {
-
-			set { "fixed" "scene" }
-
-			describe-object() {
-				"The sturdy table is covered with a few candles."
-			}
-
-			describe-object() {
-				if-contains(instance: "note", container: "inside-cabin")
-				"A crumpled note lies on it."
-			}
-
-			before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
-				"The table is solid and doesn't seem to move."
-			}
-		}
-
-		// THE CANDLES
-		noun(names: "candles, candle") {
-			set { "scene" "plural" "female" }
-
-			describe-object() {
-				"A few flickering candles illuminate the table with their soft, warm light."
-			}
-
-			before(actions: "PressObject, PushObject, PullObject", cancel: true) {
-				"It doesn't make sense to do that."
-			}
-
-			before(actions: "TouchObject", cancel: true) {
-				"The candles feel warm to the touch, their flames gently flickering."
-			}
-			
-			before(actions: "TakeObject", cancel: true) {
-				"I'm not interested in taking the candles."
-			}
-		}
-
-		// THE NOTE
-		noun(names: "note, crumpled note, paper") {
-
-			set { "scene" }
-
-			describe-object() {
-				"A crumpled and faded note, with barely legible ink."
-			}
-
-			after(actions: "TakeObject") {
-				attr(instance: "note", unset: "scene")
-			}
-
-			after(actions: "LeaveObject") {
-				if-contains(instance: "note", container: "inside-cabin")
-				attr(instance: "note", set: "scene")
-			}
-
-			before(actions: "ReadObject", cancel: true) {
-				'"To those who seek the truth:'
-				'The forest hides many secrets, but only the brave will uncover them.'
-				'Follow the light where the mist grows thicker, and you shall find what you seek."'
-
-				move(instance: "faint-light", destiny: "small-path")
-			}
-		}
-
-		connection(exit: "outside", destiny: "forest-cabin")
-	}
-
-	noun(names: "TestPlace") {
-		describe-place() {
-			"A test place"
-		}
-
-		connection(exit: "se", destiny: "small-path")
-	}
-
-	noun(names: "faint light, light, faint-light") {
-		set { "fixed" "scene" }
-
-		describe-object() {
-			"A faint and mysterious light glows in the distance, almost beckoning you forward through the mist."
-		}
-
-		before(actions: "TouchObject, PushObject, PullObject, PressObject", cancel: true) {
-			"The light remains untouchable, its presence a distant guide."
-		}
-
-		before(actions: "FollowObject", cancel: true) {
-			"The light is to the northwest. I begin to follow it and realize that a path, hidden by the vegetation, opens in that direction."
-
-			add-connection(instance: "small-path", exit: "nw", destiny: "TestPlace")
-		}
-	}
+   noun(names: "A Clearing in the Forest, -clearing") {
+      describe-place() {
+         "You are standing in a peaceful clearing in a forest, surrounded by ancient trees. To the north, a narrow path leads into the fog. To the south, you can hear the soft sound of a creek."
+      }
+
+      // THE PLAYER
+      noun(names: "player, adventurer, me, -player") {
+
+         describe-object() {
+            "A curious adventurer, ready to explore the world around me."
+         }
+      }
+
+      // TREES
+      noun(names: "trees, tree, forest, woods") {
+         set { "plural" "scene" "fixed" }
+
+         describe-object() {
+            "The ancient trees stretch high above, their thick trunks partially covered in moss."
+         }
+      }
+
+      // THE CLEARING ITSELF
+      noun(names: "clearing, forest clearing") {
+         set { "scene" "fixed" }
+
+         describe-object() {
+            execute() { "x" }
+         }
+      }
+
+
+      connection(exit: "north", destiny: "-path")
+      connection(exit: "south", destiny: "-creek")
+   }
+
+   noun(names: "The Creek, forest-creek, -creek") {
+      describe-place() {
+         "The stream flows gently. Pebbles define the banks, creating a peaceful atmosphere. Near the bank lies an old hollow log, its blackened bark blending into the surroundings."
+         "To the north, it leads back to the clearing."
+      }
+
+      // THE CREEK ITSELF
+      noun(names: "water, stream, creek") {
+         set { "fixed" "scene" }
+
+         describe-object() {
+            "The water in the creek is clear and cool."
+         }
+
+         before(actions: "TouchObject", cancel: true) {
+            "The water feels refreshing and cold to the touch."
+         }
+      }
+
+      // PEBBLES
+      noun(names: "pebbles, pebble, stones, stone, boulders, boulder") {
+         set { "scene" "heavy" }
+
+         describe-object() {
+            "Smooth, worn stones lie scattered along the bed of the creek."
+         }
+
+         before(actions: "TouchObject", cancel: true) {
+            "The stones feel smooth and cold to the touch."
+         }
+      }
+
+      // THE LOG
+      noun(names: "hollow log, log, tree log, hollow") {
+         set { "fixed" "scene" "container" }
+
+         describe-object() {
+            "An old hollow log lies near the creek, its bark weathered and dark."
+         }
+
+         // LOCKPICK
+         noun(names: "lockpick, pick, hook") {
+
+            set { "female" }
+
+            describe-object() {
+               "A thin and sturdy lockpick, perfect for picking locks without a key."
+            }
+         }
+      }
+
+      connection(exit: "north", destiny: "-clearing")
+   }
+
+   noun(names: "On a Narrow Path, -path") {
+      describe-place() {
+         "The fog rolls across the path. The ground is covered with dry, crunchy leaves. In the distance, the path bends to the east, leading deeper into the forest. To the south, it leads back to the clearing."
+         if-contains(container: "-path", instance: "faint-light") {
+            "A barely visible light shines in the distance, piercing through the fog."
+         }
+      }
+
+      // DRY LEAVES
+      noun(names: "dry leaves, leaves, leaf, foliage") {
+         set { "female" "plural" "scene" }
+
+         describe-object() {
+            "The leaves cover the ground, crunching under your feet as you walk."
+         }
+
+         before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+
+            "Nothing happens when you move the leaves out of the way."
+         }
+
+         before(actions: "TakeObject, TakeFrom", cancel: true) {
+            "There is no point in picking up the leaves from the ground."
+         }
+      }
+
+      // FOG
+      noun(names: "fog, mist") {
+         set { "female" "scene" "fixed" }
+
+         describe-object() {
+
+            "The fog rolls across the path, "
+
+            if-not-contains(container: "-path", instance: "faint-light") {
+
+               append() { 
+                  "creating a mysterious and oppressive atmosphere. You can only see a few meters ahead."
+               }
+            }
+
+            if-contains(container: "-path", instance: "faint-light") {
+               append() { "but it begins to dissipate as the soft light glows in the distance."
+               }
+            }
+         }
+
+         before(actions: "TouchObject, PushObject, PullObject, TakeObject", cancel: true) {
+            "The fog remains, its presence palpable but undisturbed."
+         }
+      }
+
+      before(actions: "GoTo") {
+         if-direct-equals-exit(exit: "nw") {
+            if-connection-exists(instance: "-path", exit: "nw") {
+
+               print(style: "color: green; font-size: 1.5em;") {
+                  "You won!"
+               }
+               
+               "You have safely made it through the forest."
+               "(Press Enter to restart the game.)"
+               pause()
+               restart-game()
+               clear()
+               show-title()
+               execute { "x" }
+
+               cancel-event()
+  
+           }
+         }
+      }
+
+      connection(exit: "south", destiny: "-clearing")
+      connection(exit: "east", destiny: "-cabin")
+   }
+
+   noun(names: "The Cabin, -cabin") {
+      describe-place() {
+         "A picturesque wooden cabin stands among the tall trees. Puffs of smoke drift lazily from the stone chimney. To the west, the narrow path winds back into the trees."
+      }
+
+      // THE CABIN ITSELF
+      noun(names: "cabin, house, cottage, path, moss, chimney, smoke, fire, interior") {
+         set { "female" "fixed" "scene" }
+
+         describe-object() {
+            execute() { "x" }
+         }
+      }
+
+      noun(names: "door, cabin door, wooden door") {
+         set { "female" "fixed" "scene" }
+
+         describe-object() {
+            "A heavy wooden door with iron hinges."
+            if-is-not-set(instance: "door", attr: "forced") {
+               append { "It seems to be locked."
+               }
+            }
+
+            if-is-set(instance: "door", attr: "forced") {
+               append { "It has been picked open."
+               }
+            }
+         }
+
+         before(actions: "OpenObject, PushObject, PullObject, PressObject", cancel: true) {
+            if-is-set(attr: "forced", instance: "door") {
+               "The door is already open."
+            }
+         
+            if-is-not-set(attr: "forced", instance: "door") {
+
+               "The door is locked. Perhaps there is a way to open it."
+            }
+         }
+
+         before(actions: "BreakObject", cancel: true) {
+            if-is-not-set(attr: "forced", instance: "door") {
+               "I would need something sharp to pick the lock."
+            }
+
+            if-is-set(attr: "forced", instance: "door") {
+               "The door has already been picked open."
+            }
+         }
+         
+         before(actions: "BreakWith", cancel: true) {
+            if-indirect-equals(instance: "lockpick") {
+               if-is-not-set(attr: "forced", instance: "door") {
+
+                  'The lockpick does its job and the lock makes a soft "click".
+With a slight push, the door swings open, revealing the inside of the cabin.'
+                  attr(set: "forced", instance: "door")
+               }
+            }
+         }
+      }
+
+      before(actions: "GoTo") {
+         if-direct-equals-exit(exit: "inside") {
+            if-is-not-set(attr: "forced", instance: "door") {
+               "The cabin door does not budge. I should look for something to pick the lock with."
+               cancel-event()
+            }
+         }
+      }
+
+      connection(exit: "west", destiny: "-path")
+      connection(exit: "inside", destiny: "-inside-cabin")
+   }
+
+   noun(names: "Inside The Cabin, -inside-cabin") {
+
+      describe-place() {
+         "The inside of the cabin is dimly lit, with shadows dancing on the wooden walls cast by the flickering fire in the stone fireplace. There are rows of shelves filled with dusty books and jars of unknown contents. In the center stands a sturdy table."
+      }
+
+      // STONE FIREPLACE
+      noun(names: "stone fireplace, fireplace, fire, hearth") {
+         set { "fixed" "scene" }
+
+         describe-object() {
+            "A stone fireplace with a crackling fire, its warm glow illuminating the cabin."
+         }
+
+         before(actions: "PushObject, PullObject, PressObject", cancel: true) {
+            "The fireplace is built into the wall and cannot be moved."
+         }
+
+         before(actions: "TouchObject", cancel: true) {
+            "You should abandon that idea so you don't get burned."
+         }
+      }
+
+      // SHELVES
+      noun(names: "shelves, shelf, books, book, jar, jars") {
+         set { "plural" "scene" "fixed" }
+
+         describe-object() {
+            "The shelves are filled with dusty books and jars with unknown contents."
+         }
+
+         before(actions: "TouchObject, PushObject, PullObject, TakeObject, PressObject", cancel: true) {
+            "The shelves are old and fragile, better to leave them as they are."
+         }
+      }
+
+      // THE TABLE
+      noun(names: "table, sturdy table") {
+
+         set { "female" "fixed" "scene" }
+
+         describe-object() {
+            "There are a few candles on the table."
+            if-contains(instance: "note", container: "-inside-cabin") {
+               "There is also a crumpled note."
+            }
+         }
+
+         before(actions: "TouchObject, PushObject, PullObject", cancel: true) {
+            "The table is solid and it seems it cannot be moved."
+         }
+      }
+
+      // THE CANDLES
+      noun(names: "candles, candle") {
+         set { "scene" "plural" "female" }
+
+         describe-object() {
+            "A few flickering candles illuminate the table with their soft, warm light."
+         }
+
+         before(actions: "PressObject, PushObject, PullObject", cancel: true) {
+            "There is no point in doing that."
+         }
+
+         before(actions: "TouchObject", cancel: true) {
+            "The candles feel warm to the touch."
+         }
+         
+         before(actions: "TakeObject", cancel: true) {
+            "What is the point of taking the candles with you?"
+         }
+      }
+
+      // THE NOTE
+      noun(names: "note, crumpled note, paper") {
+
+         set { "female" "scene" }
+
+         describe-object() {
+            "A crumpled note, with pale ink that is barely legible."
+         }
+
+         after(actions: "TakeObject") {
+            attr(instance: "note", unset: "scene")
+         }
+
+         after(actions: "LeaveObject") {
+            if-contains(instance: "note", container: "-inside-cabin") {
+               attr(instance: "note", set: "scene")
+            }
+        
+         }
+
+         before(actions: "ReadObject", cancel: true) {
+            '"To those who seek the truth:'
+            'The forest hides many secrets, but only the brave will reveal them.'
+            'Follow the light where the fog becomes thickest, and you will find what you seek."'
+
+            move(instance: "faint-light", destiny: "-path")
+         }
+      }
+
+      connection(exit: "outside", destiny: "-cabin")
+   }
+
+   noun(names: "faint light, light, faint-light") {
+      set { "fixed" "scene" }
+
+      describe-object() {
+         "A faint and mysterious light shines in the distance, as if beckoning you to guide you through the fog."
+      }
+
+      before(actions: "TouchObject, PushObject, PullObject, PressObject", cancel: true) {
+         "The light remains unreachable, its presence a guide in the distance."
+      }
+
+      before(actions: "FollowObject", cancel: true) {
+         "The light is to the northwest. I begin to follow it and notice that a path, hidden by the overgrown vegetation, opens up in that direction."
+         add-connection(instance: "-path", exit: "nw", destiny: "ending ...")
+      }
+   }
 }

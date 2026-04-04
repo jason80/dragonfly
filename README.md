@@ -132,3 +132,5 @@ The `--recurse-submodules` parameter is used to download the `dfml` module, whic
 * [Doors](./tutorial/en/doors.md "Doors tutorial") | [Puertas](./tutorial/es/doors.md "Tutorial de puertas")
 
 * [Darkness](./tutorial/en/darkness.md "Darkness tutorial") | [Oscuridad](./tutorial/es/darkness.md "Tutorial de oscuridad")
+
+* [Debug](./tutorial/en/debug.md "Debug tutorial") | [Depuración](./tutorial/es/debug.md "Tutorial de depuración")

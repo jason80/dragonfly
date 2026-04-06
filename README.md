@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Current version: 0.2.1*
+*Current version: 0.3.0*
 
 English | [Español](./README.es.md "Dragonfly README in Spanish")
 
@@ -18,7 +18,13 @@ Dragonfly is an interactive fiction game engine. It allows you to create and pla
 
 ![Game sample 1](media/sample1.png)
 
-**You can find some examples in the `samples` directory.**
+---
+
+## Sample Games
+
+| Game | Description | Topics Covered
+|---|---|---|
+| [The Forest](https://jason80.github.io/dragonfly/samples/en/forest/forest.html "The Forest") | Simple example with five locations | Basics: Movement, attributes, containers, ending |
 
 ---
 
@@ -67,7 +73,7 @@ window.onload = function() {
 # The book node (header's book):
 book(title: "My Game", author: "John Doe") {
 
-   # Tell to Dragonfly who is the player:
+   # Tell Dragonfly who the player is:
    property(name: "player", value: "-player")
 
    # Include a pre-defined dictionary (first person):
@@ -96,7 +102,7 @@ dictionary {
 
 ## Run the game
 
-Runs the game in your browser at server:
+Run the game in your browser using a local server:
 
 ### Using Python3:
 

@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Versión actual: 0.2.1*
+*Versión actual: 0.3.0*
 
 [English](./README.md "Dragonfly README in English") | Español
 
@@ -18,7 +18,13 @@ Dragonfly es un motor de juegos de ficción interactiva. Permite crear y jugar a
 
 ![Game sample 1](media/sample1-es.png)
 
-**Puedes encontrar algunos ejemplos en el directorio `samples`.**
+---
+
+## Juegos de ejemplo
+
+| Juego | Descripción | Temas abordados
+|---|---|---|
+| [El Bosque](https://jason80.github.io/dragonfly/samples/es/bosque/bosque.html) | Un juego simple con cinco locaciones | Básicos: Movimiento, atributos, contenedores, final |
 
 ---
 

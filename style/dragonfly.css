@@ -1,0 +1,55 @@
+.df-default-text,
+.df-prompt,
+.df-input,
+.df-main-title,
+.df-place-title,
+.df-author,
+.df-tip,
+.df-ambient {
+    font-family: Georgia, serif;
+}
+
+.df-place-title,
+.df-main-title {
+    font-weight: bold;
+}
+
+.df-author,
+.df-tip,
+.df-ambient {
+    font-style: italic;
+}
+
+.df-default-text,
+.df-prompt,
+.df-input,
+.df-place-title,
+.df-tip,
+.df-ambient {
+    font-size: 14px;
+}
+
+.df-main-title {
+    font-size: 20px;
+}
+
+.df-author {
+    font-size: 12px;
+}
+
+.df-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    background: transparent;
+}
+
+.df-main-title,
+.df-author {
+    text-align: center;
+}
+
+
+body {
+	padding: 15px;
+}

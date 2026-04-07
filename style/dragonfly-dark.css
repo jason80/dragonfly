@@ -1,38 +1,4 @@
-.df-default-text,
-.df-prompt,
-.df-input,
-.df-main-title,
-.df-place-title,
-.df-author,
-.df-tip {
-    font-family: Georgia, serif;
-}
-
-.df-place-title,
-.df-main-title {
-    font-weight: bold;
-}
-
-.df-author,
-.df-tip {
-    font-style: italic;
-}
-
-.df-default-text,
-.df-prompt,
-.df-input,
-.df-place-title,
-.df-tip {
-    font-size: 14px;
-}
-
-.df-main-title {
-    font-size: 20px;
-}
-
-.df-author {
-    font-size: 12px;
-}
+@import url("dragonfly.css");
 
 .df-prompt,
 .df-input {
@@ -50,21 +16,17 @@
 .df-main-title,
 .df-author {
     color: #8C8;
-    text-align: center;
 }
 
 .df-tip {
     color: #F87;
 }
 
-.df-input {
-    border: none;
-    outline: none;
-    flex: 1;
-    background: transparent; /* Importante para que no se vea el cuadro blanco */
+.df-ambient {
+    color: rgb(54, 173, 54);
 }
 
 body {
+    color: #DDD;
 	background-color: #333;
-	padding: 15px;
 }

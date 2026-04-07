@@ -417,6 +417,10 @@ export class Noun extends Entity {
 
 					}
 
+				} else if (e.getName() === "procedure") {
+					const proc = new Procedure();
+					proc.load(e);
+					this.dictionary.procedures.set(proc.name, proc);
 				}
 			}
 		});

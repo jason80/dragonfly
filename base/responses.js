@@ -545,6 +545,35 @@ export class RestartGame extends ActionResponse {
 	load(node) {}
 } responses.RestartGame = RestartGame;
 
+export class Call extends ActionResponse {
+	constructor() {
+		super();
+		this.proc = "";
+	}
+
+	toString() {
+		return `Call ${this.proc}.`;
+	}
+
+	async execute(action) {
+
+		const proc = action.book.dictionary.procedures.get(this.proc);
+		if (proc === undefined) {
+			Output.error(`Procedure '${this.proc}' not found.`);
+			return ;
+		}
+
+		await proc.execute(action);
+	}
+
+	load(node) {
+		if (!Utils.expectedAttributes(node, "procedure")) return ;
+
+		this.proc = node.getAttr("procedure").getValue();
+	}
+
+} responses.Call = Call;
+
 /********************************************************************/
 /*					CONDITIONS										*/
 /********************************************************************/

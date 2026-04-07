@@ -81,4 +81,4 @@ verb(names: "examine, look, see, find, seek, ex, x, l",
 
 **Multi-parameter verbs:** Cases such as TalkTo involve a sentence after the direct object, which is interpreted as a message to be sent to the character being spoken to. In this case, the parser identifies the verb, looks for a direct object that matches the syntax, and then takes the rest of the sentence as the message to be sent.
 
-[<<< Conditions](../en/conditions.md "Conditions tutorial in English") | [>>>](.md)
+[<<< Conditions](conditions.md "Conditions tutorial in English") | [Procedures >>>](procedures.md "Procedures tutorial in English")

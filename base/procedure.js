@@ -9,8 +9,13 @@ export class Procedure {
    }
 
    async execute(action) {
+
+      if (action.eventControl.brk) return ;
+
       for (const response of this.responses) {
          await response.execute(action);
+
+         if (action.eventControl.brk) break;
       }
    }
 

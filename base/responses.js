@@ -612,10 +612,14 @@ export class ConditionResponse extends ActionResponse {
 	 * 
 	 */
 	async execute(action) {
+		if (action.eventControl.brk) return ;
+
 		if (!this.check(action)) return ;
 
 		for (const r of this.responses) {
 			await r.execute(action);
+
+			if (action.eventControl.brk) break;
 		}
 	}
 

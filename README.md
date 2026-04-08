@@ -139,4 +139,6 @@ The `--recurse-submodules` parameter is used to download the `dfml` module, whic
 
 * [Darkness](./tutorial/en/darkness.md "Darkness tutorial") | [Oscuridad](./tutorial/es/darkness.md "Tutorial de oscuridad")
 
+* [Ambient sounds (Sequences)](./tutorial/en/sequences.md "Ambient sounds (Sequences) tutorial") | [Sonidos ambientales (Secuencias)](./tutorial/es/sequences.md "Tutorial de sonidos ambientales (secuencias)")
+
 * [Debug](./tutorial/en/debug.md "Debug tutorial") | [Depuración](./tutorial/es/debug.md "Tutorial de depuración")

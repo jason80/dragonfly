@@ -574,6 +574,76 @@ export class Call extends ActionResponse {
 
 } responses.Call = Call;
 
+export class Sequence extends ActionResponse {
+	constructor() {
+		super();
+		this.responses = [];
+		this.index = -1;
+		this.chance = 1.0;
+	}
+
+	toString() {
+		return "Sequence";
+	}
+
+	async execute(action) {
+
+		if (action.eventControl.brk) return ;
+
+		if (this.responses.length === 0) return ;
+
+		if (Math.random() > this.chance) return ;
+
+		this.index ++;
+		if (this.index >= this.responses.length) this.index = 0;
+
+		await this.responses[this.index].execute(action);
+	}
+
+	load(node) {
+
+		// Load shuffle
+		let shuffle = false;
+		if (node.hasAttr("shuffle")) {
+			if (node.getAttr("shuffle").getType() === DFMLValue.BOOLEAN) {
+				shuffle = node.getAttr("randomize").getValue() === "true";
+			} else {
+				Output.error("Warning: Sequence attr shuffle must be a boolean. Assuming false.");
+			}
+		}
+
+		// Load chance
+		let error = false;
+		if (node.hasAttr("chance")) {
+			if (node.getAttr("chance").getType() === DFMLValue.DOUBLE) {
+				try {
+					this.chance = parseFloat(node.getAttr("chance").getValue());
+				} catch (e) {
+					error = true;
+				}
+			} else {
+				error = true;
+			}
+		}
+
+		if (error)
+			Output.error("Warning: Sequence chance must be a double. Assuming 1.0.");
+
+		// Load resoonses
+		loadResponses(node, this.responses);
+
+		if (this.responses.length === 0) {
+			Output.error("Warning: Sequence must have at least one response.");
+		}
+
+		// Randomize responses
+		if (shuffle) {
+			this.responses.sort(() => Math.random() - 0.5);
+		}
+	}
+
+} responses.Sequence = Sequence;
+
 /********************************************************************/
 /*					CONDITIONS										*/
 /********************************************************************/

@@ -23,7 +23,6 @@ dictionary {
 
 	verb(names: "guardar, guarda, salvar, salva, save", action: "SaveGame") {
 		response(id: "game-saved", string: "Juego salvado.")
-		response(id: "cancel-error", string: "¡Juego NO salvado!")
 	}
 
 	verb(names: "cargar, carga, recarga, recargar", action: "LoadObject", syntax: "1") {
@@ -34,7 +33,6 @@ dictionary {
 
 	verb(names: "cargar, carga, recupera, recuperar, load", action: "LoadGame") {
 		response(id: "game-loaded", string: "Juego cargado.")
-		response(id: "cancel-error", string: "¡Juego NO cargado!")
 	}
 
 	verb(names: "inventario, i, inv, invent, bulto, mochila", action: "Inventory") {
@@ -353,6 +351,30 @@ dictionary {
 		response(id: "indirect-is-the-player", string: "Ya l@1(o,a,os,as) tengo.")
 		response(id: "indirect-is-not-interactive", string: "No puedo darle #1 a #2.")
 		response(id: "given-to-indirect", string: "Le doy #1 a #2.")
+	}
+
+	verb(names: "saltar, salta, salte, brincar, brinca", action: "Jump") {
+		response(id: "nothing-happens", string: "Como un  conejo me pongo a saltar en mi sitio.")
+	}
+
+	verb(names: "gritar, grita", action: "Scream") {
+		response(id: "nothing-happens", string: "Me pongo a gritar como un desaforado.")
+	}
+
+	verb(names: "llorar, llora", action: "Cry") {
+		response(id: "nothing-happens", string: "Me pongo a llorar como un recién nacido.")
+	}
+
+	verb(names: "escucha, escuchar, oye, oi, oir", action: "Listen") {
+		response(id: "nothing-happens", string: "No escucho nada interesante.")
+	}
+
+	verb(names: "dormir, duerme, dormi, dormitar, dormita", action: "Sleep") {
+		response(id: "nothing-happens", string: "No tengo sueño.")
+	}
+
+	verb(names: "oler, huele, olfatear, olfatea", action: "Smell") {
+		response(id: "nothing-happens", string: "Nada fuera de lo normal.")
 	}
 
 	article(name: "el", genre: "male", number: "singular", indefinited: "false")

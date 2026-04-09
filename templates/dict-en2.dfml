@@ -8,7 +8,6 @@ dictionary {
 
 	verb(names: "save", action: "SaveGame") {
 		response(id: "game-saved", string: "Game saved.")
-		response(id: "cancel-error", string: "¡Game NOT saved!")
 	}
 
 	verb(names: "load, reload", action: "LoadObject", syntax: "1") {
@@ -19,7 +18,6 @@ dictionary {
 
 	verb(names: "load", action: "LoadGame") {
 		response(id: "game-loaded", string: "Game loaded.")
-		response(id: "cancel-error", string: "¡Game NOT loaded!")
 	}
 
 	verb(names: "inventory, i, inv", action: "Inventory") {
@@ -320,6 +318,30 @@ dictionary {
 		response(id: "indirect-is-not-interactive", string: "You can't give #1 to #2.")
 		response(id: "given-to-indirect", string: "You give #1 to #2.")
 	}
+
+	verb(names: "jump, leap", action: "Jump") {
+      response(id: "nothing-happens", string: "You start jumping on the spot like a rabbit.")
+   }
+
+   verb(names: "scream, shout", action: "Scream") {
+      response(id: "nothing-happens", string: "You start screaming like a madman.")
+   }
+
+   verb(names: "cry, weep", action: "Cry") {
+      response(id: "nothing-happens", string: "You start crying like a newborn.")
+   }
+
+   verb(names: "listen, hear", action: "Listen") {
+      response(id: "nothing-happens", string: "You don't hear anything interesting.")
+   }
+
+   verb(names: "sleep, doze", action: "Sleep") {
+      response(id: "nothing-happens", string: "You are not sleepy.")
+   }
+
+   verb(names: "smell, sniff", action: "Smell") {
+      response(id: "nothing-happens", string: "Nothing out of the ordinary.")
+   }
 
 	article(name: "the", genre: "male", number: "singular", indefinited: "false")
 	article(name: "the", genre: "female", number: "singular", indefinited: "false")

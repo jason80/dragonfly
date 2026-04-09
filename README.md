@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Current version: 0.3.0*
+*Current version: 0.4.0*
 
 English | [Español](./README.es.md "Dragonfly README in Spanish")
 
@@ -142,3 +142,5 @@ The `--recurse-submodules` parameter is used to download the `dfml` module, whic
 * [Ambient sounds (Sequences)](./tutorial/en/sequences.md "Ambient sounds (Sequences) tutorial") | [Sonidos ambientales (Secuencias)](./tutorial/es/sequences.md "Tutorial de sonidos ambientales (secuencias)")
 
 * [Debug](./tutorial/en/debug.md "Debug tutorial") | [Depuración](./tutorial/es/debug.md "Tutorial de depuración")
+
+* [Actions table](./tutorial/en/actions_table.md) | [Tabla de acciones](./tutorial/es/actions_table.md)

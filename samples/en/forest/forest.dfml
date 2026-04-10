@@ -19,7 +19,7 @@ book(
 
 
    // English dictionary (second person)
-   include(src: "../../../templates/dict-en2.dfml")
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-en2.dfml")
 
    // Debugging dictionary
    //include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml")

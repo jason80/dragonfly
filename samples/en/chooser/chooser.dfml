@@ -5,14 +5,15 @@ book(
 	property(name: "player", value: "-player")
 	property(name: "show-parsing-process", value: false)
 
-	include(src: "../../../templates/dict-debug.dfml")
-	include(src: "../../../templates/dict-en1.dfml")
+	include(src: "https://jason80.github.io/dragonfly/templates/dict-en2.dfml")
+	include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml")
 }
 
 dictionary {
 	noun(names: "A Testing Place") {
 		describe-place() {
 			"You are in a place designed for testing objects in Dragonfly."
+			"Try: 'get the ball'."
 		}
 
 		noun(names: "-player")

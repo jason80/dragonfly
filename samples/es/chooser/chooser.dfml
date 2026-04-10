@@ -1,0 +1,38 @@
+book(
+	title: "Prueba de Diálogo de Objetos",
+	author: "Javier Candales (Jasón)"
+) {
+	property(name: "player", value: "-player")
+	property(name: "show-parsing-process", value: false)
+
+	include(src: "https://jason80.github.io/dragonfly/templates/dict-es2.dfml")
+	include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml")
+}
+
+dictionary {
+	noun(names: "Un Lugar de Prueba") {
+		describe-place() {
+			"Estás en un lugar diseñado para probar objetos en Dragonfly."
+			"Prueba: 'recoge la bola'."
+		}
+
+		noun(names: "-player")
+
+		noun(names: "bola roja, bola, roja") {
+			set { "female" }
+
+			describe-object() {
+				"Una bola roja."
+			}
+		}
+
+		noun(names: "bola azúl, bola, azul") {
+			set { "female" }
+
+			describe-object() {
+				"Una bola azúl."
+			}
+		}
+	}
+
+}

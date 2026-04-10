@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Current version: 0.4.0*
+*Current version: 0.4.1*
 
 English | [Español](./README.es.md "Dragonfly README in Spanish")
 

@@ -1,4 +1,4 @@
-import { Book } from "../../../base/book.js"
+import { Book } from "https://jason80.github.io/dragonfly/base/book.js"
 
 window.onload = function() {
 	const book = new Book(

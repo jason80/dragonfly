@@ -111,7 +111,7 @@ export class ObjectChooserDialog {
 		inputContainer.appendChild(input);
 		Output.outputDiv.appendChild(inputContainer);
 
-		Object.assign(input.style, this.book.getProperty("input-style"));
+        Utils.applyStyle(input, this.book.getProperty("input-style"));
 
 		input.focus();
 

@@ -1,5 +1,7 @@
 # Darkness
 
+English | [Español](../es/darkness.md)
+
 In Dragonfly, the concepts of "darkness" and "light" do not exist natively. We might say that a place is dark, but if the player checks their inventory or examines an object in it, they shouldn't be able to do so.
 
 Stopping every action that requires "light" in a dark place would be very tedious. That is why the concept of "capturing all actions" exists.

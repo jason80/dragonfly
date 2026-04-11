@@ -1,5 +1,7 @@
 # Doors
 
+English | [Español](../es/doors.md)
+
 Doors are objects that can be opened and closed. The mechanism ensures that the player cannot pass through an exit if the door is closed. No external libraries are needed to create doors.
 
 ### The Problem

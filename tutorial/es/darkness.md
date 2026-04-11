@@ -1,5 +1,7 @@
 # Oscuridad
 
+[English](../en/darkness.md) | Español
+
 En Dragonfly no existe el concepto de "oscuridad" ni "luz". Nosotros podríamos decir que un lugar está oscuro, pero si el jugador consulta su inventario o examina algún objeto del mismo, no tendría que poder hacerlo.
 
 Frenar cada acción que requeira "luz" en un lugar en tinieblas sería muy engorroso. Para eso existe el concepto de "capturar todas las acciones".

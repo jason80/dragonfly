@@ -1,6 +1,6 @@
 # Sequences
 
-English | [Spanish](../es/sequences.md "Sequences spanish Tutorial")
+English | [Español](../es/sequences.md)
 
 Sequences are responses that group other responses together. Internally, they hold a counter: when the sequence "executes," it triggers the response pointed to by the counter index and then increments it. Once all responses have been executed, the sequence starts over from the first one.
 

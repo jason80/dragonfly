@@ -1,6 +1,6 @@
 ## Verbos y Acciones
 
-[English](../en/verbs_actions.md "Verbs and Actions tutorial in English") | Español
+[English](../en/verbs_actions.md) | Español
 
 Cuando el jugador escribe una oración, Dragonfly la analiza sintácticamente para identificar el verbo y los parámetros. Por ejemplo, si el jugador escribe `mirar la caja`, Dragonfly identifica el verbo `mirar` y el parámetro `caja`.
 

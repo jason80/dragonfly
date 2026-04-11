@@ -1,6 +1,6 @@
 ## Movimiento
 
-[English](../en/movement.md "Movement tutorial in English") | Español
+[English](../en/movement.md) | Español
 
 La mayoría de juegos conversacionales no se limitan a una sola estancia. La forma de indicar al jugador que se mueva a través de ellas es con puntos cardinales. Supongamos que al `este` de nuestro jardín hay un camino empedrado. Vamos a crear el lugar:
 

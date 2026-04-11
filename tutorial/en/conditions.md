@@ -1,6 +1,6 @@
 ## Conditions
 
-English | [Espanol](../es/conditions.md "Condiciones tutorial en Espanol")
+English | [Español](../es/conditions.md)
 
 Attending an event becomes more dynamic when you can add conditions to the side of the responses. This allows the event to only execute if the conditions are met.
 

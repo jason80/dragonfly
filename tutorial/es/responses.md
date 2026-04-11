@@ -1,6 +1,6 @@
 ## Respuestas
 
-[English](../en/responses.md "Verbs and Actions tutorial in English") | Español
+[English](../en/responses.md) | Español
 
 Al atender un evento, por ejemplo **before**, pudimos observar que mostramos un mensaje personalizado, se cancele o no la acción:
 

@@ -1,6 +1,6 @@
 # Dragonfly Actions Table
 
-English | [Spanish](../es/actions_table.md)
+English | [Español](../es/actions_table.md)
 
 This table contains all the actions available in Dragonfly to define verbs.
 

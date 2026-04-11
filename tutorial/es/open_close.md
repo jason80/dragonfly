@@ -1,6 +1,6 @@
 ## Abrir y Cerrar
 
-[English](../en/open_close.md "Open and Close tutorial in English") | Español
+[English](../en/open_close.md) | Español
 
 En muchos juegos conversacionales, el jugador se encuentra con objetos que pueden ser abiertos o cerrados. Para eso, Dragonfly tiene un sistema de atributos para los objetos.
 

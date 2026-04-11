@@ -1,6 +1,6 @@
 ## Sustantivos
 
-[English](../en/nouns.md "Nouns tutorial in English") | Español
+[English](../en/nouns.md) | Español
 
 Como se ha dicho antes, los sustantivos son los objetos del juego. Es un tipo de deriva de `Entity` y tiene la propiedad de ser `multiname`, es decir, puede tener varios nombres.
 

@@ -2,7 +2,7 @@
 
 *Current version: 0.4.1*
 
-English | [Español](./README.es.md "Dragonfly README in Spanish")
+English | [Español](./README.es.md)
 
 ## What is Dragonfly?
 
@@ -132,15 +132,15 @@ git clone --recurse-submodules https://github.com/jason80/dragonfly mygame
 The `--recurse-submodules` parameter is used to download the `dfml` module, which Dragonfly depends on.
 
 ## Tutorials:
-[English](./tutorial/en/start.md "Tutorial in English") | [Español](./tutorial/es/start.md "Tutorial en español")
+[English](./tutorial/en/start.md) | [Español](./tutorial/es/start.md)
 
 #### More documentation:
-* [Doors](./tutorial/en/doors.md "Doors tutorial") | [Puertas](./tutorial/es/doors.md "Tutorial de puertas")
+* [Doors](./tutorial/en/doors.md) | [Puertas](./tutorial/es/doors.md)
 
-* [Darkness](./tutorial/en/darkness.md "Darkness tutorial") | [Oscuridad](./tutorial/es/darkness.md "Tutorial de oscuridad")
+* [Darkness](./tutorial/en/darkness.md) | [Oscuridad](./tutorial/es/darkness.md)
 
-* [Ambient sounds (Sequences)](./tutorial/en/sequences.md "Ambient sounds (Sequences) tutorial") | [Sonidos ambientales (Secuencias)](./tutorial/es/sequences.md "Tutorial de sonidos ambientales (secuencias)")
+* [Ambient sounds (Sequences)](./tutorial/en/sequences.md) | [Sonidos ambientales (Secuencias)](./tutorial/es/sequences.md)
 
-* [Debug](./tutorial/en/debug.md "Debug tutorial") | [Depuración](./tutorial/es/debug.md "Tutorial de depuración")
+* [Debug](./tutorial/en/debug.md) | [Depuración](./tutorial/es/debug.md)
 
 * [Actions table](./tutorial/en/actions_table.md) | [Tabla de acciones](./tutorial/es/actions_table.md)

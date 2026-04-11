@@ -1,6 +1,6 @@
 ## Verb and Actions
 
-English | [Español](../es/verbs_actions.md "Verbs and Actions tutorial in Spanish")
+English | [Español](../es/verbs_actions.md)
 
 When the player types a sentence, Dragonfly parses it syntactically to identify the verb and the parameters. For example, if the player types look `examine box`, Dragonfly identifies the verb `examine` and the parameter `box`.
 

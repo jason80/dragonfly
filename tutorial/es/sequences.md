@@ -1,6 +1,6 @@
 # Secuencias
 
-[English](../en/sequences.md "Sequences english Tutorial") | Español
+[English](../en/sequences.md) | Español
 
 Las secuencias son respuestas que agrupan otras respuestas. Internamente tienen un contador, cuando la secuencia se "ejecuta" se ejecuta la respuesta donde apunta el índice del contador y luego incrementa el contador. Si ya se ejecutaron todas las respuestas, vuelven a empezar con la primera.
 

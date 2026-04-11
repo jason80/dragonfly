@@ -1,6 +1,6 @@
 # Depuración
 
-[English](./debug.md "Debug tutorial") | Español
+[English](./debug.md) | Español
 
 Dragonfly ofrece herramientas para depurar, es decir, permiten ver el proceso de parsing, consultar los elementos del juego y establecer atributos y valores de variables en tiempo de ejecución.
 

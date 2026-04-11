@@ -1,5 +1,7 @@
 # Puertas
 
+[English](../en/doors.md) | Español
+
 Las puertas son objetos que se pueden abrir y cerrar. El mecanismo consiste en que el jugador no pueda pasar por una salida si la puerta está cerrada. No hace falta incluir ninguna librería para poder crear puertas.
 
 ### El Problema

@@ -1,6 +1,6 @@
 # Tutorial de Dragonfly en español
 
-[English](../en/start.md "Tutorial in English") | Español
+[English](../en/start.md) | Español
 
 ## Comenzando
 

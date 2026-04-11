@@ -1,6 +1,6 @@
 ## Condiciones
 
-[English](../en/conditions.md "Conditions tutorial in English") | Español
+[English](../en/conditions.md) | Español
 
 Atender un evento se vuelve más dinámico cuando se pueden agregar condiciones a la par de las respuestas. Esto permite que el evento solo se ejecute si se cumplen estas condiciones.
 

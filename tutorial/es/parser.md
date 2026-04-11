@@ -1,6 +1,6 @@
 ## El Parser
 
-[English](../en/parser.md "Parser tutorial in English") | Español
+[English](../en/parser.md) | Español
 
 El parser es el componente del motor de juego que se encarga de interpretar la entrada del jugador y traducirlos en acciones dentro del juego.
 
@@ -89,4 +89,4 @@ Incluso dos de ellos apuntan a la misma acción, pero con sintaxis diferente.
 
 **Verbos multiparámetros:** Casos como TalkTo involucran una oración después del objeto directo, que se interpreta como un mensaje a enviar al personaje con el que se habla. En este caso, el parser identifica el verbo, busca un objeto directo que coincida con la sintaxis y luego toma el resto de la oración como el mensaje a enviar.
 
-[<<< Condiciones](conditions.md "Conditions tutorial in Spanish") | [Procedimientos >>>](procedures.md "Procedures tutorial in Spanish")
+[<<< Condiciones](conditions.md) | [Procedimientos >>>](procedures.md)

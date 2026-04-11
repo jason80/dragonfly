@@ -1,6 +1,6 @@
 # Debug
 
-English | [Español](./es/debug.md "Tutorial de depuración")
+English | [Español](./es/debug.md)
 
 Dragonfly offers tools for debugging, that is, they allow you to see the parsing process, query the game elements and set variables and attribute values at runtime.
 

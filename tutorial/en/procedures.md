@@ -52,4 +52,4 @@ noun(name: "The Final Tunnel, final-tunnel") {
 
 When a procedure is called, envent information is inherited: the action, the direct object and the indirect object, the flow control, etc. Therefore, you can call responses like `cancel-event`, `resume-event` and `break`.
 
-[<<< The Parser](parser.md "Parser tutorial in English")
+[<<< The Parser](parser.md)

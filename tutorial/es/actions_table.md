@@ -1,6 +1,6 @@
 # Tabla de Acciones de Dragonfly
 
-[English](../en/actions_table.md "English version") | Español
+[English](../en/actions_table.md) | Español
 
 Tabla con todas las acciones disponibles en Dragonfly para definir verbos.
 

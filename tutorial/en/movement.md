@@ -1,6 +1,6 @@
 ## Movement
 
-English | [Spanish](../es/movement.md "Movement tutorial in Spanish")
+English | [Español](../es/movement.md)
 
 Mostly conversational games do not limit themselves to one place. The way to indicate the player to move through them is with cardinal points. Let's say that there is a path to the `east` of our garden. Let's create the place:
 

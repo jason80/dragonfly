@@ -25,6 +25,7 @@ Dragonfly es un motor de juegos de ficción interactiva. Permite crear y jugar a
 | Juego | Descripción | Temas abordados
 |---|---|---|
 | [El Bosque](https://jason80.github.io/dragonfly/samples/es/bosque/bosque.html) | Un juego simple con cinco locaciones | Básicos: Movimiento, atributos, contenedores, final |
+| [Chooser](https://jason80.github.io/dragonfly/samples/es/chooser/chooser.html) | Prueba de diálogo de objetos | Básicos: Diálogo, objetos, contenedores, inventario |
 
 ---
 

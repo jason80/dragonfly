@@ -90,11 +90,7 @@ dictionary {
       }
 
       # Definición del jugador:
-      noun(names: "Vincent, jugador, -player") {
-         describe-object {
-            "Un aventurero, listo para explorar el mundo que me rodea."
-         }
-      }
+      noun(names: "Vincent, jugador, -player")
    }
 }
 ```

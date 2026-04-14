@@ -43,11 +43,7 @@ dictionary {
       }
 
       # Define the player inside the garden:
-      noun(names: "Vincent, player, -player") {
-         describe-object {
-            "I am a prepared adventurer to know the world."
-         }
-      }
+      noun(names: "Vincent, player, -player")
    }
 }
 ```

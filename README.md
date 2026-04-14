@@ -90,11 +90,7 @@ dictionary {
       }
 
       # Define a player:
-      noun(names: "Vincent, player, -player") {
-         describe-object {
-            "An adventurer, ready to explore the world around me."
-         }
-      }
+      noun(names: "Vincent, player, -player")
    }
 }
 ```

@@ -42,11 +42,7 @@ dictionary {
       }
 
       # Define al jugador dentro del jardin:
-      noun(names: "Vicente, jugador, player, -player") {
-         describe-object {
-            "Soy un aventurero preparado para conocer el mundo."
-         }
-      }
+      noun(names: "Vicente, jugador, player, -player")
    }
 }
 ```

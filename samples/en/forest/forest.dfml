@@ -35,7 +35,9 @@ dictionary {
       noun(names: "player, adventurer, me, -player") {
 
          describe-object() {
-            "A curious adventurer, ready to explore the world around me."
+            if-direct-equals(instance: "-player") {
+               "A curious adventurer, ready to explore the world around me."
+            }
          }
       }
 

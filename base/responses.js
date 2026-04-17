@@ -860,6 +860,56 @@ export class IfNotContains extends ConditionResponse {
 	}
 } responses.IfNotContains = IfNotContains;
 
+export class IfCurrentPlaceContains extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+	}
+
+	toString() {
+		return `If current place contains "${this.instance}"`;
+	}
+
+	check(action) {
+		const cont = action.book.player.container;
+		return cont.contains(this.instance);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfCurrentPlaceContains = IfCurrentPlaceContains;
+
+export class IfCurrentPlaceNotContains extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+	}
+
+	toString() {
+		return `If current place not contains "${this.instance}"`;
+	}
+
+	check(action) {
+		const cont = action.book.player.container;
+		return !cont.contains(this.instance);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfCurrentPlaceNotContains = IfCurrentPlaceNotContains;
+
 export class IfDirectEquals extends ConditionResponse {
 	constructor() {
 		super();

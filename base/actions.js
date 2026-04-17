@@ -189,7 +189,9 @@ export class ExamineObject extends Action {
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
-		this.sendEventLater(this.book.player)
+		// Prevent double sending event to player
+		if (this.book.player !== this.book.parser.directObject)
+			this.sendEventLater(this.book.player)
 		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 
@@ -201,7 +203,9 @@ export class ExamineObject extends Action {
 	}
 
 	carryOut() {
-		this.sendEventLater(this.book.player)
+		// Prevent double sending event to player
+		if (this.book.player !== this.book.parser.directObject)
+			this.sendEventLater(this.book.player)
 		this.sendEventLater(this.book.player.container)
 		this.sendEventLater(this.book.parser.directObject)
 	}

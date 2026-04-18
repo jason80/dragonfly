@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Versión actual: 0.4.1*
+*Versión actual: 0.5.0*
 
 [English](./README.md) | Español
 
@@ -142,3 +142,7 @@ El parámetro `--recurse-submodules` sirve para descargar el módulo `dfml` del 
 * [Debug](./tutorial/en/debug.md) | [Depuración](./tutorial/es/debug.md)
 
 * [Actions table](./tutorial/en/actions_table.md) | [Tabla de acciones](./tutorial/es/actions_table.md)
+
+* [Responses table](./tutorial/en/responses_table.md) | [Tabla de respuestas](./tutorial/es/responses_table.md)
+
+* [Conditions table](./tutorial/en/conditions_table.md) | [Tabla de condiciones](./tutorial/es/conditions_table.md)

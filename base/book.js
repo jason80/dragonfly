@@ -141,8 +141,14 @@ export class Book {
 	 */
 	async run() {
 
-		// Ever focus last input created
-		document.addEventListener("click", () => {
+		// Ever focus last input created y key pressed
+		document.addEventListener("keydown", event => {
+
+			// If press Ctrl, Alt o Meta (Cmd in Mac), cancel
+			if (event.ctrlKey || event.altKey || event.metaKey) {
+				return;
+			}
+
 			const enabledInput = document.querySelector("input:enabled");
 			if (enabledInput) {
 				enabledInput.focus();

@@ -83,7 +83,7 @@ export class Parser {
 				await action.execute();
 			} else {
 				this.debug("exit not found.");
-				this.parse("?");
+				await this.parse("?");
 			}
 			return;
 		}

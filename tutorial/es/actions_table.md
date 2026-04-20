@@ -157,6 +157,7 @@ Se pueden mostrar todas en una lista:
 * **FillObject**
 * **ShootObject**
 * **EatObject**
+* **HangObject**
 
 ---
 

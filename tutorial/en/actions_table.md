@@ -10,7 +10,7 @@ All the actions send events to the player and the place where it is (in that ord
 
 ## Specific Actions:
 
-<table border="1">
+<table>
   <thead>
     <tr>
       <th>Name</th>
@@ -159,6 +159,7 @@ They can all be shown in a list:
 * **FillObject**
 * **ShootObject**
 * **EatObject**
+* **HangObject**
 
 ---
 

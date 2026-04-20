@@ -1450,6 +1450,12 @@ export class EatObject extends DefaultAction {
 	}
 } actions.EatObject = EatObject;
 
+export class HangObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.HangObject = HangObject;
+
 /**************************************************************/
 /*                                                            */
 /*                      Single Actions                        */

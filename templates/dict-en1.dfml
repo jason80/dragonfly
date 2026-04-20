@@ -300,6 +300,12 @@ dictionary {
 		response(id: "nothing-happens", string: "I can't do that.")
 	}
 
+	verb(names: "hang", action: "HangObject", syntax: "1") {
+		response(id: "nothing-happens", string: "I can't hang that.")
+		response(id: "direct-not-found", string: "I don't hang things that don't exist.")
+		response(id: "direct-is-the-player", string: "I'm not that desperate!")
+	}
+
 	verb(names: "speak, talk, say, pronounce", action: "TalkTo", syntax: "with/to, 1, ...") {
 		response(id: "direct-not-found", string: "The one I want to talk to isn't here.")
 		response(id: "direct-is-the-player", string: "I'm not crazy to talk to myself.")

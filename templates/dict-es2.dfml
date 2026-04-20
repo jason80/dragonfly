@@ -334,6 +334,12 @@ dictionary {
 		response(id: "nothing-happens", string: "No puedes hacer eso.")
 	}
 
+	verb(names: "colgar, colga, cuelga", action: "HangObject", syntax: "1") {
+		response(id: "nothing-happens", string: "No puedes colgar eso.")
+		response(id: "direct-not-found", string: "No puedes colgar cosas que no existen.")
+		response(id: "direct-is-the-player", string: "¿Tan desesperado estas?")
+	}
+
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
 		response(id: "direct-not-found", string: "Ese al que quieres hablar no está.")
 		response(id: "direct-is-the-player", string: "No estas loco para hablar contigo mismo.")

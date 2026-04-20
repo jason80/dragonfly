@@ -907,17 +907,16 @@ export class GoTo extends Action {
 
 	constructor() {
 		super();
+
+		this.exit = null;
+		this.conn = null;
 	}
 
 	async init() {
 
 		// Get exit from dictionary
-		const exit = this.book.dictionary.getExit(this.book.parser.directObjectString);
-		if (!exit) return this.fireResponse("exit-not-exists");
-
-		// Get connection from dictionary
-		this.conn = this.book.player.container.getConnection(exit.getName());
-		if (!this.conn) return this.fireResponse("exit-not-found");
+		this.exit = this.book.dictionary.getExit(this.book.parser.directObjectString);
+		if (!this.exit) return this.fireResponse("exit-not-exists");
 
 		this.sendEventLater(this.book.player)
 		this.sendEventLater(this.book.player.container)
@@ -926,6 +925,10 @@ export class GoTo extends Action {
 	}
 
 	async check() {
+		// Get connection from dictionary
+		this.conn = this.book.player.container.getConnection(this.exit.getName());
+		if (!this.conn) return this.fireResponse("exit-not-found");
+
 		return true;
 	}
 

@@ -89,7 +89,32 @@ response(class: "IfContains", container: "player", instance: "magic stone") {
         <tr>
             <td><code>if-variable-equals</code></td>
             <td>Si la variable de la instancia tiene el valor especificado.</td>
-            <td><code>instance</code>, <code>variable</code>, <code>value</code></td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-not-equals</code></td>
+            <td>Si la variable de la instancia no tiene el valor especificado.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-lt</code></td>
+            <td>Si la variable de la instancia es menor que el valor especificado.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-gt</code></td>
+            <td>Si la variable de la instancia es mayor que el valor especificado.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-lte</code></td>
+            <td>Si la variable de la instancia es menor o igual que el valor especificado.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-gte</code></td>
+            <td>Si la variable de la instancia es mayor o igual que el valor especificado.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
         </tr>
         <tr>
             <td><code>if-connection-exists</code></td>

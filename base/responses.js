@@ -1104,12 +1104,12 @@ export class IfVariableEquals extends ConditionResponse {
 	constructor() {
 		super();
 		this.instance = "";
-		this.variable = "";
+		this.name = "";
 		this.value = "";
 	}
 
 	toString() {
-		return `If variable "${this.variable}" equals to "${this.value}."`;
+		return `If variable "${this.name}" equals to "${this.value}."`;
 	}
 
 	check(action) {
@@ -1120,20 +1120,219 @@ export class IfVariableEquals extends ConditionResponse {
 			Output.error(`On condition "IfVariableEquals" instance "${this.instance}" not found in dictionary.`);
 		}
 
-		return obj[0].getVariable(this.variable) === this.value;
+		return obj[0].getVariable(this.name) === this.value;
 	}
 
 	load(node) {
 
-		if (!Utils.expectedAttributes(node, "instance", "variable", "value")) return ;
+		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
 
 		this.instance = node.getAttr("instance").getValue();
-		this.variable = node.getAttr("variable").getValue();
+		this.name = node.getAttr("name").getValue();
 		this.value = node.getAttr("value").getValue();
 
 		ConditionResponse.prototype.load.call(this, node);
 	}
 } responses.IfVariableEquals = IfVariableEquals;
+
+export class IfVariableNotEquals extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.name = "";
+		this.value = "";
+	}
+
+	toString() {
+		return `If variable "${this.name}" not equals to "${this.value}."`;
+	}
+
+	check(action) {
+		const obj = action.book.dictionary.getNouns(this.instance);
+
+		if (obj.length === 0) {
+			
+			Output.error(`On condition "IfVariableNotEquals" instance "${this.instance}" not found in dictionary.`);
+		}
+
+		return obj[0].getVariable(this.name) !== this.value;
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.name = node.getAttr("name").getValue();
+		this.value = node.getAttr("value").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfVariableNotEquals = IfVariableNotEquals;
+
+export class IfVariableLt extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.name = "";
+		this.value = "";
+	}
+
+	toString() {
+		return `If variable "${this.name}" less than "${this.value}."`;
+	}
+
+	check(action) {
+		const obj = action.book.dictionary.getNouns(this.instance);
+
+		if (obj.length === 0) {
+			
+			Output.error(`On condition "IfVariableLt" instance "${this.instance}" not found in dictionary.`);
+			return false;
+		}
+
+		if (!(this.name in obj[0].variables)) {
+			Output.error(`On condition "IfVariableLt" variable "${this.name}" not found in noun "${this.instance}".`);
+			return false;
+		}
+
+		return parseInt(obj[0].getVariable(this.name)) < parseInt(this.value);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.name = node.getAttr("name").getValue();
+		this.value = node.getAttr("value").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfVariableLt = IfVariableLt;
+
+export class IfVariableGt extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.name = "";
+		this.value = "";
+	}
+
+	toString() {
+		return `If variable "${this.name}" greater than "${this.value}."`;
+	}
+
+	check(action) {
+		const obj = action.book.dictionary.getNouns(this.instance);
+
+		if (obj.length === 0) {
+			
+			Output.error(`On condition "IfVariableGt" instance "${this.instance}" not found in dictionary.`);
+			return false;
+		}
+
+		if (!(this.name in obj[0].variables)) {
+			Output.error(`On condition "IfVariableGt" variable "${this.name}" not found in noun "${this.instance}".`);
+			return false;
+		}
+
+		return parseInt(obj[0].getVariable(this.name)) > parseInt(this.value);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.name = node.getAttr("name").getValue();
+		this.value = node.getAttr("value").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfVariableGt = IfVariableGt;
+
+export class IfVariableLte extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.name = "";
+		this.value = "";
+	}
+
+	toString() {
+		return `If variable "${this.name}" less or equal than "${this.value}."`;
+	}
+
+	check(action) {
+		const obj = action.book.dictionary.getNouns(this.instance);
+
+		if (obj.length === 0) {
+			
+			Output.error(`On condition "IfVariableLte" instance "${this.instance}" not found in dictionary.`);
+			return false;
+		}
+
+		if (!(this.name in obj[0].variables)) {
+			Output.error(`On condition "IfVariableLte" variable "${this.name}" not found in noun "${this.instance}".`);
+			return false;
+		}
+
+		return parseInt(obj[0].getVariable(this.name)) <= parseInt(this.value);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.name = node.getAttr("name").getValue();
+		this.value = node.getAttr("value").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfVariableLte = IfVariableLte;
+
+export class IfVariableGte extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.name = "";
+		this.value = "";
+	}
+
+	toString() {
+		return `If variable "${this.name}" greater or equal than "${this.value}."`;
+	}
+
+	check(action) {
+		const obj = action.book.dictionary.getNouns(this.instance);
+
+		if (obj.length === 0) {
+			
+			Output.error(`On condition "IfVariableGte" instance "${this.instance}" not found in dictionary.`);
+			return false;
+		}
+
+		if (!(this.name in obj[0].variables)) {
+			Output.error(`On condition "IfVariableGte" variable "${this.name}" not found in noun "${this.instance}".`);
+			return false;
+		}
+
+		return parseInt(obj[0].getVariable(this.name)) >= parseInt(this.value);
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.name = node.getAttr("name").getValue();
+		this.value = node.getAttr("value").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+} responses.IfVariableGte = IfVariableGte;
 
 export class IfConnectionExists extends ConditionResponse {
 	constructor() {

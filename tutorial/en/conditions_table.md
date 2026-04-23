@@ -87,9 +87,34 @@ response(class: "IfContains", container: "player", instance: "magic stone") {
             <td><code>instance</code></parameters>
         </tr>
         <tr>
-            <td><code>if-variable-equals</code></name>
-            <td>If the instance's variable has the specified value.</description>
-            <td><code>instance</code>, <code>variable</code>, <code>value</code></parameters>
+            <td><code>if-variable-equals</code></td>
+            <td>If the variable of the instance has the value specified.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-not-equals</code></td>
+            <td>If the variable of the instance does NOT have the value specified.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-lt</code></td>
+            <td>If the variable of the instance is less than the value specified.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-gt</code></td>
+            <td>If the variable of the instance is greater than the value specified.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-lte</code></td>
+            <td>If the variable of the instance is less than or equal to the value specified.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>if-variable-gte</code></td>
+            <td>If the variable of the instance is greater than or equal to the value specified.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
         </tr>
         <tr>
             <td><code>if-connection-exists</code></name>

@@ -56,9 +56,19 @@ In the following table, response names will be shown using the first nomenclatur
             <td><code>instance</code>, <code>set</code> (optional), <code>unset</code> (optional)</td>
         </tr>
         <tr>
-            <td><code>variable</code></td>
+            <td><code>variable-set</code></td>
             <td>Assigns a value to a variable of an object.</td>
-            <td><code>instance</code>, <code>variable</code>, <code>set</code></td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code></td>
+        </tr>
+        <tr>
+            <td><code>variable-add</code></td>
+            <td>Adds (sums) a value to a variable of an object.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code>(optional: default: "1")</td>
+        </tr>
+        <tr>
+            <td><code>variable-sub</code></td>
+            <td>Subtracts a value to a variable of an object.</td>
+            <td><code>instance</code>, <code>name</code>, <code>value</code>(optional: default: "1")</td>
         </tr>
         <tr>
             <td><code>append-name</code></td>

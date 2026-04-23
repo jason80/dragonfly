@@ -6,6 +6,7 @@ import { Help } from "./help.js";
 import { Connection } from "./movement.js";
 import { Utils } from "./utils.js";
 import { loadResponses } from "./eventloader.js";
+import { Action } from "./action.js";
 
 export const responses = {};
 
@@ -194,38 +195,119 @@ export class Attr extends ActionResponse {
 	}
 } responses.Attr = Attr;
 
-export class Variable extends ActionResponse {
+export class VariableSet extends ActionResponse {
 	constructor() {
 		super();
 		this.instance = "";
-		this.variable = "";
-		this.set = "";
+		this.name = "";
+		this.value = "";
 	}
 
 	toString() {
-		return `Set "${this.set}" to variable "${this.variable}", instance: "${this.instance}".`;
+		return `Set "${this.value}" to variable "${this.name}", instance: "${this.instance}".`;
 	}
 
 	async execute(action) {
 		list = action.book.dictionary.getNouns(this.instance);
 		if (list.length === 0) {
-			Output.error(`On Variable response: noun "${this.instance}" not found in dictionary.`);
+			Output.error(`On VariableSet response: noun "${this.instance}" not found in dictionary.`);
 		}
 
 		const obj = list[0];
 
-		obj.setVariable(this.variable, this.set);
+		obj.setVariable(this.name, this.value);
 	}
 
 	load(node) {
 
-		if (!Utils.expectedAttributes(node, "instance", "variable", "set")) return ;
+		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
 
 		this.instance = node.getAttr("instance").getValue();
-		this.variable = node.getAttr("variable").getValue();
-		this.set = node.getAttr("set").getValue();
+		this.name = node.getAttr("name").getValue();
+		this.value = node.getAttr("value").getValue();
 	}
-} responses.Variable = Variable;
+} responses.VariableSet = VariableSet;
+
+export class VariableAdd extends ActionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.name = "";
+		this.value = "1";
+	}
+
+	toString() {
+		return `Add "${this.value}" to variable "${this.name}", instance: "${this.instance}".`;
+	}
+
+	async execute(action) {
+		const list = action.book.dictionary.getNouns(this.instance);
+		if (list.length === 0) {
+			Output.error(`On VariableAdd response: noun "${this.instance}" not found in dictionary.`);
+		}
+
+		const obj = list[0];
+
+		if (this.name in obj.variables) {
+
+			const result = (parseInt(obj.variables[this.name]) + parseInt(this.value));
+			obj.variables[this.name] = result + "";
+		} else {
+			Output.error(`On VariableAdd response: variable "${this.name}" not found in noun "${this.instance}".`);
+		}
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "name")) return ;
+
+		if (node.hasAttr("value"))
+			this.value = node.getAttr("value").getValue();
+
+		this.instance = node.getAttr("instance").getValue();
+		this.name = node.getAttr("name").getValue();
+	}
+} responses.VariableAdd = VariableAdd;
+
+export class VariableSub extends ActionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.name = "";
+		this.value = "1";
+	}
+
+	toString() {
+		return `Subtract "${this.value}" to variable "${this.name}", instance: "${this.instance}".`;
+	}
+
+	async execute(action) {
+		const list = action.book.dictionary.getNouns(this.instance);
+		if (list.length === 0) {
+			Output.error(`On VariableSub response: noun "${this.instance}" not found in dictionary.`);
+		}
+
+		const obj = list[0];
+
+		if (this.name in obj.variables) {
+			const result = (parseInt(obj.variables[this.name]) - parseInt(this.value));
+			obj.variables[this.name] = result + "";
+		} else {
+			Output.error(`On VariableSub response: variable "${this.name}" not found in noun "${this.instance}".`);
+		}
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "name")) return ;
+
+		if (node.hasAttr("value"))
+			this.value = node.getAttr("value").getValue();
+
+		this.instance = node.getAttr("instance").getValue();
+		this.name = node.getAttr("name").getValue();
+	}
+} responses.VariableSub = VariableSub;
 
 export class AppendName extends ActionResponse {
 	constructor() {

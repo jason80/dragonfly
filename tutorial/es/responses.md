@@ -70,7 +70,7 @@ Respuesta | Descripción
 print | Muestra un mensaje personalizado.
 append | Como `print`, pero el mensaje se agrega a continuación del último mensaje mostrado.
 attr | Agrega o quita un atributo a un objeto.
-variable | Agrega o quita una variable a un objeto estableciendo su valor.
+variable-set | Establece el valor de una variable a un objeto.
 append-name | Agrega un nombre a un objeto.
 move | Mueve un objeto a otro lugar.
 root | Mueve un objeto a la raíz del árbol de objetos.

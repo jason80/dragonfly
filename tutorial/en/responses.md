@@ -68,6 +68,7 @@ Response | Description
 print | Displays a custom message.
 append | As `print`, but the message is added to the end of the last message shown.
 attr | Adds or removes an attribute to an object.
+variable-set | Sets the value of a variable to an object.
 move | Moves an object to another location.
 root | Moves an object to the root of the object tree.
 tip | Displays a message of help to the player.

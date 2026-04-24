@@ -121,8 +121,8 @@ export class Noun extends Entity {
 	 * @memberof Noun
 	 */
 	getVariable(name) {
-		if (name in variables) {
-			return variables[name];
+		if (name in this.variables) {
+			return this.variables[name];
 		}
 		
 		return "";

@@ -138,6 +138,9 @@ export class Output {
 	 * Examples:
 	 * "#^1 @1(is,is,are,are) in the box" --> "The ball is in the box"
 	 * (assuming "the ball" is male plural)
+	 * 
+	 * $: variable dereferencing
+	 * Format: $(noun.variable)
 	 *
 	 * @param {string} text The text to process and replace.
 	 * @return {string} The resulting text with replacements.
@@ -149,6 +152,14 @@ export class Output {
 
 		while (i < text.length) {
 			let ch = text[i];
+
+			// Escape characters
+			if (i < text.length - 1) {
+				if (ch == "#" && text[i + 1] == "#") { result += "#"; i += 2; continue; }
+				if (ch == "%" && text[i + 1] == "%") { result += "%"; i += 2; continue; }
+				if (ch == "@" && text[i + 1] == "@") { result += "@"; i += 2; continue; }
+				if (ch == "$" && text[i + 1] == "$") { result += "$"; i += 2; continue; }
+			}
 
 			if (ch === "#" || ch === "%" || ch === "@") {
 				let obj = null;
@@ -208,6 +219,24 @@ export class Output {
 						result += objName;
 					}
 				}
+			} else if (ch === "$") {
+				i ++;
+				if (text[i] === "(") {
+					i ++;
+					let params = "";
+					while (i < text.length) {
+						if (text[i] === ")") {
+							result += this.replaceVariable(params);
+							break;
+						}
+						params += text[i];
+						i ++;
+					}
+					i ++;
+					continue;
+				} else {
+					Output.error('Output: expected character "(" after $$.');
+				}
 			} else {
 				result += ch;
 			}
@@ -245,5 +274,33 @@ export class Output {
 
 		// Apply capitalization if needed
 		return capitalize ? result.charAt(0).toUpperCase() + result.slice(1) : result;
+	}
+
+	/** Get the value of a variable to replace it in the text.
+	 * 
+	 * @param { string } params Object name + "." + variable name
+	 * @return { string} The value of the variable
+	 * @memberof Output
+	 */
+	static replaceVariable(params) {
+		const pair = params.split(".");
+		
+		if (pair.length !== 2) {
+			Output.error(`Output: expected noun name and variable name: "${params}"`);
+			return "ERROR";
+		}
+		
+		const obj = this.book.dictionary.getNouns(pair[0]);
+		if (obj.length === 0) {
+			Output.error(`Output: noun "${pair[0]}" not found in dictionary.`);
+			return "ERROR";
+		}
+
+		if (!(pair[1] in obj[0].variables)) {
+			Output.error(`Output: variable "${pair[1]}" not found in noun "${pair[0]}".`);
+			return "ERROR";
+		}
+
+		return obj[0].variables[pair[1]];
 	}
 }

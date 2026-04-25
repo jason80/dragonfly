@@ -215,7 +215,7 @@ export class VariableSet extends ActionResponse {
 
 		const obj = list[0];
 
-		obj.setVariable(this.name, this.value);
+		obj.setVariable(this.name, Output.replaceObjects(this.value));
 	}
 
 	load(node) {
@@ -250,7 +250,7 @@ export class VariableAdd extends ActionResponse {
 
 		if (this.name in obj.variables) {
 
-			const result = (parseInt(obj.variables[this.name]) + parseInt(this.value));
+			const result = (parseInt(obj.variables[this.name]) + parseInt(Output.replaceObjects(this.value)));
 			obj.variables[this.name] = result + "";
 		} else {
 			Output.error(`On VariableAdd response: variable "${this.name}" not found in noun "${this.instance}".`);
@@ -290,7 +290,7 @@ export class VariableSub extends ActionResponse {
 		const obj = list[0];
 
 		if (this.name in obj.variables) {
-			const result = (parseInt(obj.variables[this.name]) - parseInt(this.value));
+			const result = (parseInt(obj.variables[this.name]) - parseInt(Output.replaceObjects(this.value)));
 			obj.variables[this.name] = result + "";
 		} else {
 			Output.error(`On VariableSub response: variable "${this.name}" not found in noun "${this.instance}".`);
@@ -1120,7 +1120,7 @@ export class IfVariableEquals extends ConditionResponse {
 			Output.error(`On condition "IfVariableEquals" instance "${this.instance}" not found in dictionary.`);
 		}
 
-		return obj[0].getVariable(this.name) === this.value;
+		return obj[0].getVariable(this.name) === Output.replaceObjects(this.value);
 	}
 
 	load(node) {
@@ -1155,7 +1155,7 @@ export class IfVariableNotEquals extends ConditionResponse {
 			Output.error(`On condition "IfVariableNotEquals" instance "${this.instance}" not found in dictionary.`);
 		}
 
-		return obj[0].getVariable(this.name) !== this.value;
+		return obj[0].getVariable(this.name) !== Output.replaceObjects(this.value);
 	}
 
 	load(node) {
@@ -1196,7 +1196,7 @@ export class IfVariableLt extends ConditionResponse {
 			return false;
 		}
 
-		return parseInt(obj[0].getVariable(this.name)) < parseInt(this.value);
+		return parseInt(obj[0].getVariable(this.name)) < parseInt(Output.replaceObjects(this.value));
 	}
 
 	load(node) {
@@ -1237,7 +1237,7 @@ export class IfVariableGt extends ConditionResponse {
 			return false;
 		}
 
-		return parseInt(obj[0].getVariable(this.name)) > parseInt(this.value);
+		return parseInt(obj[0].getVariable(this.name)) > parseInt(Output.replaceObjects(this.value));
 	}
 
 	load(node) {
@@ -1278,7 +1278,7 @@ export class IfVariableLte extends ConditionResponse {
 			return false;
 		}
 
-		return parseInt(obj[0].getVariable(this.name)) <= parseInt(this.value);
+		return parseInt(obj[0].getVariable(this.name)) <= parseInt(Output.replaceObjects(this.value));
 	}
 
 	load(node) {
@@ -1319,7 +1319,7 @@ export class IfVariableGte extends ConditionResponse {
 			return false;
 		}
 
-		return parseInt(obj[0].getVariable(this.name)) >= parseInt(this.value);
+		return parseInt(obj[0].getVariable(this.name)) >= parseInt(Output.replaceObjects(this.value));
 	}
 
 	load(node) {

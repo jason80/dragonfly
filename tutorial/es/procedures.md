@@ -52,4 +52,4 @@ noun(names: "El Final del Túnel, final-tunel) {
 
 Cuando se llama a un procedimiento, se hereda la información del evento: la acción, el objeto directo y el objeto indirecto, el control de flujo, etc. Por lo tanto se pueden llamar a respuestas como `cancel-event`, `resume-event`y `break`.
 
-[<<< El Parser](parser.md)
+[<<< El Parser](parser.md) | [Variables >>>](variables.md)

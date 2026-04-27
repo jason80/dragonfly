@@ -1,0 +1,43 @@
+Vestíbulo de la Ópera
+
+Estás en un amplio vestíbulo, espléndidamente decorado en rojo y oro, con lustrosas arañas sobre tu cabeza. La entrada desde la calle está al norte, y hay puertas al sur y al oeste.
+> sur
+
+Bar del Vestíbulo
+
+Está todo oscuro y no puedes ver nada.
+> norte
+
+Vestíbulo de la Ópera
+
+Estás en un amplio vestíbulo, espléndidamente decorado en rojo y oro, con lustrosas arañas sobre tu cabeza. La entrada desde la calle está al norte, y hay puertas al sur y al oeste.
+> inventario
+
+Tienes en tu poder: una capa de terciopelo.
+> oeste
+
+Guardarropa
+
+Las paredes de esta pequeña habitación claramente alguna vez estuvieron cubiertas de ganchos, aunque ahora solo queda uno. La salida es una puerta al este.
+> colgar la capa
+
+Cuelgas la capa en el gancho.
+
+[Tu puntuación acaba de aumentar en un punto]
+> este
+
+Vestíbulo de la Ópera
+
+Estás en un amplio vestíbulo, espléndidamente decorado en rojo y oro, con lustrosas arañas sobre tu cabeza. La entrada desde la calle está al norte, y hay puertas al sur y al oeste.
+> sur
+
+Bar del Vestíbulo
+
+El bar, mucho más rústico de lo que habrías imaginado después de la opulencia del vestíbulo al norte, está completamente vacío. Parece haber algún tipo de mensaje escrito en el serrín del suelo.
+> leer mensaje
+
+El mensaje, claramente marcado en el serrín, dice...
+
+¡Has ganado!
+
+Has obtenido 2 puntos, en 11 turnos.

@@ -1,0 +1,192 @@
+book(
+   title: "Manto de Oscuridad",
+   author: "Roger Firth"
+) {
+   description {
+      "Una demostración básica de la librería Dragonfly."
+   }
+
+   property(name: "player", value: "player")
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-es2.dfml")
+
+   // Debug
+   /*
+   property(name: "show-parsing-process", value: false)
+   property(name: "parse-clean", value: "")
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml")
+   */
+}
+
+dictionary {
+
+   procedure(name: "show-score") {
+      "Has obtenido $(score) puntos, en $(steps) turnos."
+   }
+
+   // VESTÍBULO
+   noun(names: "Vestíbulo de la Ópera, vestibulo") {
+
+      before(actions: "LookAround") {
+         if-is-not-set(instance: "vestibulo", attr: "described") {
+            print(style: "font-style: italic;") {
+               'Esta aventura es una aventura pequeña diseñada para ser facilmente portada a un sistema autorizado. Es, si lo deseas, el equivalente interactiva de "Hola, mundo!".'
+            }
+
+            "Apresurándote a través de la noche lluviosa de noviembre, te alegra ver las brillantes luces de la Ópera. Es sorprendente que no haya más gente, pero, bueno, ¿qué esperas en un juego de demostración barato...?"
+         }
+      }
+
+      describe-place {
+         "Estás en un amplio vestíbulo, espléndidamente decorado en rojo y oro, con lustrosas arañas sobre tu cabeza. La entrada desde la calle está al norte, y hay puertas al sur y al oeste."
+      }
+
+      noun(names: "player") {
+
+         noun(names: "capa de terciopelo, elegante, oscura, negra, terciopelo, raso, capa") {
+            set { "female" }
+
+            describe-object {
+               "Una capa elegante, de terciopelo con ribetes de raso, y ligeramente salpicada de gotas de lluvia. Su negrura es tan profunda que casi parece absorber la luz de la habitación."
+            }
+
+            after(actions: "TakeObject") {
+               attr(instance: "capa", unset: "colgada")
+            }
+
+            before(actions: "HangObject", cancel: true) {
+               if-contains(container: "guardarropa", instance: "player") {
+                  attr(instance: "capa", set: "colgada")
+               }
+               execute { "dejar capa" }
+            }
+
+            before(actions: "LeaveObject") {
+               if-not-contains(container: "guardarropa", instance: "player") {
+                  "No es el mejor lugar para dejar una capa elegante tirada por ahí."
+                  cancel-event() break()
+               }
+            }
+
+            after(actions: "LeaveObject") {
+               if-is-set(instance: "capa", attr: "colgada") {
+                  "Cuelgas la capa en el gancho."
+                  if-is-not-set(instance: "capa", attr: "general") {
+                     variable-add(name: "score")
+                     "[Tu puntuación acaba de aumentar en un punto]"
+                  }
+                  
+                  cancel-event()
+               }
+            }
+         }
+
+      }
+
+      connection(exit: "sur", destiny: "bar")
+      connection(exit: "oeste", destiny: "guardarropa")
+      connection(exit: "norte", destiny: "calle ...")
+
+      before(actions: "GoTo") {
+         if-direct-equals-exit(exit: "norte") {
+            "Acabas de llegar, y además, el clima afuera parece estar empeorando."
+            cancel-event()
+         }
+      }
+   }
+
+   // GUARDARROPA
+   noun(names: "Guardarropa") {
+      describe-place {
+         "Las paredes de esta pequeña habitación claramente alguna vez estuvieron cubiertas de ganchos, aunque ahora solo queda uno. La salida es una puerta al este."
+      }
+
+      noun(names: "pequeño gancho de latón, gancho, laton") {
+         set { "fixed" "scene" }
+
+         describe-object {
+            "Es solo un pequeño gancho en la pared, "
+            if-current-place-contains(instance: "capa") {
+               if-is-set(instance: "capa", attr: "colgada") {
+                  append() { "con una capa colganda de él." }
+                  break
+               }
+            }
+            append() { "atornillado a la pared." }
+         }
+      }
+
+      connection(exit: "este", destiny: "vestibulo")
+   }
+
+   // BAR
+   noun(names: "Bar del Vestíbulo, bar") {
+      describe-place {
+         if-contains(container: "player", instance: "capa") {
+            "Está todo oscuro y no puedes ver nada."
+            break
+         }
+
+         "El bar, mucho más rústico de lo que habrías imaginado después de la opulencia del vestíbulo al norte, está completamente vacío. Parece haber algún tipo de mensaje escrito en el serrín del suelo."
+      }
+
+      before(actions: "*", except: "GoTo, LookAround, UnknownVerb") {
+         if-contains(container: "player", instance: "capa") {
+            "¿En la oscuridad? ¡Podrías hacer un desastre!"
+
+            // Incrementa "number" en 1 para "arruinar" el mensaje
+            variable-add(instance: "mensaje", name: "number", value: "1")
+            cancel-event() break()
+         }
+      }
+
+      before(actions: "GoTo") {
+         if-direct-equals-exit(exit: "norte") {
+            break
+         }
+         if-contains(container: "player", instance: "capa") {
+            "¡No es buena idea andar a tientas en la oscuridad!"
+
+            // Incrementa "number" en 2 para "arruinar" el mensaje
+            variable-add(instance: "mensaje", name: "number", value: "2")
+            cancel-event()
+         }
+      }
+
+      noun(names: "mensaje escrito, mensaje, suelo, serrin") {
+
+         set { "scene" "fixed" }
+
+         variable(name: "number", value: "0")
+
+         describe-object {
+            // Si "number" es menor a 2, el mensaje es "legible"
+            if-variable-lt(instance: "mensaje", name: "number", value: "2") {
+               variable-add(name: "score")
+               "El mensaje, claramente marcado en el serrín, dice..."
+               print(style: "font-size: 1.5em; color: green;") {
+                  "¡Has ganado!"
+               }
+               call(procedure: "show-score")
+               pause() restart-game() clear() show-title()
+               execute { "x" }
+               break()
+            }
+
+            // Si "number" es mayor o igual a 2, el mensaje está "arruinado"
+            "El mensaje ha sido pisoteado descuidadamente, haciendo difícil de leer. Apenas puedes distinguir las palabras..."
+            print(style: "font-size: 1.5em; color: red;") {
+               "Has perdido"
+            }
+            call(procedure: "show-score")
+            pause() restart-game() clear() show-title()
+            execute { "x" }
+         }
+
+         before(actions: "ReadObject", cancel: true) {
+            execute { "x mensaje" }
+         }
+      }
+
+      connection(exit: "norte", destiny: "vestibulo")
+   }
+}

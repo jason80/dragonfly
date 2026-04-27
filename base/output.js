@@ -284,23 +284,34 @@ export class Output {
 	 */
 	static replaceVariable(params) {
 		const pair = params.split(".");
-		
-		if (pair.length !== 2) {
-			Output.error(`Output: expected noun name and variable name: "${params}"`);
-			return "ERROR";
+
+		// Global variable
+		if (pair.length === 1) {
+			if (!(pair[0] in this.book.dictionary.variables)) {
+				Output.error(`Output: global variable "${pair[0]}" not found in dictionary.`);
+				return "ERROR";
+			}
+			return this.book.dictionary.variables[pair[0]];
 		}
 		
-		const obj = this.book.dictionary.getNouns(pair[0]);
-		if (obj.length === 0) {
-			Output.error(`Output: noun "${pair[0]}" not found in dictionary.`);
-			return "ERROR";
+		// Noun variable
+		if (pair.length === 2) {
+			
+			const obj = this.book.dictionary.getNouns(pair[0]);
+			if (obj.length === 0) {
+				Output.error(`Output: noun "${pair[0]}" not found in dictionary.`);
+				return "ERROR";
+			}
+
+			if (!(pair[1] in obj[0].variables)) {
+				Output.error(`Output: variable "${pair[1]}" not found in noun "${pair[0]}".`);
+				return "ERROR";
+			}
+
+			return obj[0].variables[pair[1]];
 		}
 
-		if (!(pair[1] in obj[0].variables)) {
-			Output.error(`Output: variable "${pair[1]}" not found in noun "${pair[0]}".`);
+		Output.error(`Output: expected noun name and variable name: "${params}"`);
 			return "ERROR";
-		}
-
-		return obj[0].variables[pair[1]];
 	}
 }

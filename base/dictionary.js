@@ -10,6 +10,7 @@ import { ListDialog, ObjectChooserDialog, ProperListDialog,
 import { Conversation } from "./conversation.js";
 
 import { Procedure } from "./procedure.js";
+import { Utils } from "./utils.js";
 
 /**
  * Contains a list of nouns, verbs and exits.
@@ -32,6 +33,7 @@ export class Dictionary {
 		this.exits = [];
 		this.conversations = {};
 		this.procedures = new Map();
+		this.variables = {};
 
 		this.seeListDialog = new ListDialog("You can see: ", ", ", " and ");
 		this.properListDialog = new ProperListDialog("is here", "are here", ", ", " and ");
@@ -216,6 +218,12 @@ export class Dictionary {
 					const proc = new Procedure();
 					proc.load(child);
 					this.procedures.set(proc.name, proc);
+				}
+
+				else if (child.getName() === "variable") {
+					Utils.expectedAttributes(child, "name", "value");
+
+					this.variables[child.getAttr("name").getValue()] = child.getAttr("value").getValue();
 				}
 
 			}

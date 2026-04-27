@@ -195,7 +195,7 @@ export class Attr extends ActionResponse {
 	}
 } responses.Attr = Attr;
 
-export class VariableSet extends ActionResponse {
+class VariableOperation extends ActionResponse {
 	constructor() {
 		super();
 		this.instance = "";
@@ -204,108 +204,89 @@ export class VariableSet extends ActionResponse {
 	}
 
 	toString() {
-		return `Set "${this.value}" to variable "${this.name}", instance: "${this.instance}".`;
+		return this.constructor.name + `${this.instance !== "" ? " (instance: " + this.instance + ")" : ""}` + `: variable=${this.name}, value=${this.value}`;
 	}
 
 	async execute(action) {
-		list = action.book.dictionary.getNouns(this.instance);
-		if (list.length === 0) {
-			Output.error(`On VariableSet response: noun "${this.instance}" not found in dictionary.`);
+
+		let obj = null;
+		let value1 = "";
+		if (this.instance === "") {
+			if (this.name in action.book.dictionary.variables)
+				value1 = action.book.dictionary.variables[this.name];
+			else Output.error(`On ${this.constructor.name} response: variable "${this.name}" not found in dictionary.`);
+		} else {
+			const list = action.book.dictionary.getNouns(this.instance);
+			if (list.length === 0) {
+				Output.error(`On ${this.constructor.name} response: noun "${this.instance}" not found in dictionary.`);
+			}
+			if (this.name in list[0].variables) {
+				obj = list[0];
+				value1 = obj.variables[this.name];
+			} else {
+				Output.error(`On ${this.constructor.name} response: variable "${this.name}" not found in noun "${this.instance}".`);
+			}
 		}
 
-		const obj = list[0];
+		const result = await this.doOperation(value1, Output.replaceObjects(this.value)) + "";
 
-		obj.setVariable(this.name, Output.replaceObjects(this.value));
+		if (this.instance === "") {
+			action.book.dictionary.variables[this.name] =  result;
+		} else {
+			obj.variables[this.name] = result;
+		}
 	}
+
+	async doOperation(value1, value2) { return 0; }
 
 	load(node) {
 
-		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
+		if (!Utils.expectedAttributes(node, "name")) return ;
 
-		this.instance = node.getAttr("instance").getValue();
+		if (node.hasAttr("instance"))
+			this.instance = node.getAttr("instance").getValue();
 		this.name = node.getAttr("name").getValue();
-		this.value = node.getAttr("value").getValue();
+		if (node.hasAttr("value"))
+			this.value = node.getAttr("value").getValue();
 	}
+}
+
+export class VariableSet extends VariableOperation {
+
+	constructor() {
+		super();
+	}
+
+	doOperation(value1, value2) {
+		return value2;
+	}
+
 } responses.VariableSet = VariableSet;
 
-export class VariableAdd extends ActionResponse {
+export class VariableAdd extends VariableOperation {
 	constructor() {
 		super();
-		this.instance = "";
-		this.name = "";
 		this.value = "1";
 	}
 
-	toString() {
-		return `Add "${this.value}" to variable "${this.name}", instance: "${this.instance}".`;
+	async doOperation(value1, value2) {
+		if (isNaN(value1)) value1 = 0;
+		if (isNaN(value2)) value2 = 0;
+		return parseInt(value1) + parseInt(value2);
 	}
 
-	async execute(action) {
-		const list = action.book.dictionary.getNouns(this.instance);
-		if (list.length === 0) {
-			Output.error(`On VariableAdd response: noun "${this.instance}" not found in dictionary.`);
-		}
-
-		const obj = list[0];
-
-		if (this.name in obj.variables) {
-
-			const result = (parseInt(obj.variables[this.name]) + parseInt(Output.replaceObjects(this.value)));
-			obj.variables[this.name] = result + "";
-		} else {
-			Output.error(`On VariableAdd response: variable "${this.name}" not found in noun "${this.instance}".`);
-		}
-	}
-
-	load(node) {
-
-		if (!Utils.expectedAttributes(node, "instance", "name")) return ;
-
-		if (node.hasAttr("value"))
-			this.value = node.getAttr("value").getValue();
-
-		this.instance = node.getAttr("instance").getValue();
-		this.name = node.getAttr("name").getValue();
-	}
 } responses.VariableAdd = VariableAdd;
 
-export class VariableSub extends ActionResponse {
+export class VariableSub extends VariableOperation {
 	constructor() {
 		super();
-		this.instance = "";
-		this.name = "";
 		this.value = "1";
 	}
 
-	toString() {
-		return `Subtract "${this.value}" to variable "${this.name}", instance: "${this.instance}".`;
-	}
-
-	async execute(action) {
-		const list = action.book.dictionary.getNouns(this.instance);
-		if (list.length === 0) {
-			Output.error(`On VariableSub response: noun "${this.instance}" not found in dictionary.`);
-		}
-
-		const obj = list[0];
-
-		if (this.name in obj.variables) {
-			const result = (parseInt(obj.variables[this.name]) - parseInt(Output.replaceObjects(this.value)));
-			obj.variables[this.name] = result + "";
-		} else {
-			Output.error(`On VariableSub response: variable "${this.name}" not found in noun "${this.instance}".`);
-		}
-	}
-
-	load(node) {
-
-		if (!Utils.expectedAttributes(node, "instance", "name")) return ;
-
-		if (node.hasAttr("value"))
-			this.value = node.getAttr("value").getValue();
-
-		this.instance = node.getAttr("instance").getValue();
-		this.name = node.getAttr("name").getValue();
+	async doOperation(value1, value2) {
+		if (isNaN(value1)) value1 = 0;
+		if (isNaN(value2)) value2 = 0;
+		return parseInt(value1) - parseInt(value2);
 	}
 } responses.VariableSub = VariableSub;
 
@@ -1100,7 +1081,7 @@ export class IfIndirectNotEquals extends ConditionResponse {
 	}
 } responses.IfIndirectNotEquals = IfIndirectNotEquals;
 
-export class IfVariableEquals extends ConditionResponse {
+class VariableCondition extends ConditionResponse {
 	constructor() {
 		super();
 		this.instance = "";
@@ -1109,229 +1090,126 @@ export class IfVariableEquals extends ConditionResponse {
 	}
 
 	toString() {
-		return `If variable "${this.name}" equals to "${this.value}."`;
+		return this.constructor.name + `${this.instance !== "" ? " (instance: " + this.instance + ")" : ""}` + `: variable=${this.name}, value=${this.value}`;
 	}
 
 	check(action) {
-		const obj = action.book.dictionary.getNouns(this.instance);
 
-		if (obj.length === 0) {
-			
-			Output.error(`On condition "IfVariableEquals" instance "${this.instance}" not found in dictionary.`);
+		let value1 = "";
+
+		if (this.instance === "") {
+			if (this.name in action.book.dictionary.variables) {
+				value1 = action.book.dictionary.variables[this.name];
+			} else {
+				Output.error(`On condition "${this.constructor.name}" variable "${this.name}" not found in dictionary.`);
+			}
+		} else {
+			const list = action.book.dictionary.getNouns(this.instance);
+			if (list.length === 0) {
+				Output.error(`On condition "${this.constructor.name}" noun "${this.instance}" not found in dictionary.`);
+			}
+			if (this.name in list[0].variables) {
+				value1 = list[0].variables[this.name];
+			} else {
+				Output.error(`On condition "${this.constructor.name}" variable "${this.name}" not found in noun "${this.instance}".`);
+			}
 		}
 
-		return obj[0].getVariable(this.name) === Output.replaceObjects(this.value);
+		return this.checkCondition(value1, Output.replaceObjects(this.value));
+	}
+
+	checkCondition(value1, value2) {
+		return false;
 	}
 
 	load(node) {
 
-		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
+		if (!Utils.expectedAttributes(node, "name", "value")) return ;
 
-		this.instance = node.getAttr("instance").getValue();
+		if (node.hasAttr("instance"))
+			this.instance = node.getAttr("instance").getValue();
 		this.name = node.getAttr("name").getValue();
 		this.value = node.getAttr("value").getValue();
 
 		ConditionResponse.prototype.load.call(this, node);
+	}
+}
+
+export class IfVariableEquals extends VariableCondition {
+	constructor() {
+		super();
+	}
+
+	checkCondition(value1, value2) {
+		return value1 === value2;
 	}
 } responses.IfVariableEquals = IfVariableEquals;
 
-export class IfVariableNotEquals extends ConditionResponse {
+export class IfVariableNotEquals extends VariableCondition {
 	constructor() {
 		super();
-		this.instance = "";
-		this.name = "";
-		this.value = "";
 	}
 
-	toString() {
-		return `If variable "${this.name}" not equals to "${this.value}."`;
-	}
-
-	check(action) {
-		const obj = action.book.dictionary.getNouns(this.instance);
-
-		if (obj.length === 0) {
-			
-			Output.error(`On condition "IfVariableNotEquals" instance "${this.instance}" not found in dictionary.`);
-		}
-
-		return obj[0].getVariable(this.name) !== Output.replaceObjects(this.value);
-	}
-
-	load(node) {
-
-		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
-
-		this.instance = node.getAttr("instance").getValue();
-		this.name = node.getAttr("name").getValue();
-		this.value = node.getAttr("value").getValue();
-
-		ConditionResponse.prototype.load.call(this, node);
+	checkCondition(value1, value2) {
+		return value1 !== value2;
 	}
 } responses.IfVariableNotEquals = IfVariableNotEquals;
 
-export class IfVariableLt extends ConditionResponse {
+export class IfVariableLt extends VariableCondition {
 	constructor() {
 		super();
-		this.instance = "";
-		this.name = "";
-		this.value = "";
 	}
 
-	toString() {
-		return `If variable "${this.name}" less than "${this.value}."`;
-	}
-
-	check(action) {
-		const obj = action.book.dictionary.getNouns(this.instance);
-
-		if (obj.length === 0) {
-			
-			Output.error(`On condition "IfVariableLt" instance "${this.instance}" not found in dictionary.`);
+	checkCondition(value1, value2) {
+		if (isNaN(value1) || isNaN(value2)) {
+			Output.error(`On condition ${this.constructor.name} number convertion on variable "${this.name}".`);
 			return false;
 		}
-
-		if (!(this.name in obj[0].variables)) {
-			Output.error(`On condition "IfVariableLt" variable "${this.name}" not found in noun "${this.instance}".`);
-			return false;
-		}
-
-		return parseInt(obj[0].getVariable(this.name)) < parseInt(Output.replaceObjects(this.value));
-	}
-
-	load(node) {
-
-		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
-
-		this.instance = node.getAttr("instance").getValue();
-		this.name = node.getAttr("name").getValue();
-		this.value = node.getAttr("value").getValue();
-
-		ConditionResponse.prototype.load.call(this, node);
+		return parseInt(value1) < parseInt(value2);
 	}
 } responses.IfVariableLt = IfVariableLt;
 
-export class IfVariableGt extends ConditionResponse {
+export class IfVariableGt extends VariableCondition {
 	constructor() {
 		super();
-		this.instance = "";
-		this.name = "";
-		this.value = "";
 	}
 
-	toString() {
-		return `If variable "${this.name}" greater than "${this.value}."`;
-	}
-
-	check(action) {
-		const obj = action.book.dictionary.getNouns(this.instance);
-
-		if (obj.length === 0) {
-			
-			Output.error(`On condition "IfVariableGt" instance "${this.instance}" not found in dictionary.`);
+	checkCondition(value1, value2) {
+		if (isNaN(value1) || isNaN(value2)) {
+			Output.error(`On condition ${this.constructor.name} number convertion on variable "${this.name}".`);
 			return false;
 		}
-
-		if (!(this.name in obj[0].variables)) {
-			Output.error(`On condition "IfVariableGt" variable "${this.name}" not found in noun "${this.instance}".`);
-			return false;
-		}
-
-		return parseInt(obj[0].getVariable(this.name)) > parseInt(Output.replaceObjects(this.value));
-	}
-
-	load(node) {
-
-		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
-
-		this.instance = node.getAttr("instance").getValue();
-		this.name = node.getAttr("name").getValue();
-		this.value = node.getAttr("value").getValue();
-
-		ConditionResponse.prototype.load.call(this, node);
+		return parseInt(value1) > parseInt(value2);
 	}
 } responses.IfVariableGt = IfVariableGt;
 
-export class IfVariableLte extends ConditionResponse {
+export class IfVariableLte extends VariableCondition {
 	constructor() {
 		super();
-		this.instance = "";
-		this.name = "";
-		this.value = "";
 	}
 
-	toString() {
-		return `If variable "${this.name}" less or equal than "${this.value}."`;
-	}
-
-	check(action) {
-		const obj = action.book.dictionary.getNouns(this.instance);
-
-		if (obj.length === 0) {
-			
-			Output.error(`On condition "IfVariableLte" instance "${this.instance}" not found in dictionary.`);
+	checkCondition(value1, value2) {
+		if (isNaN(value1) || isNaN(value2)) {
+			Output.error(`On condition ${this.constructor.name} number convertion on variable "${this.name}".`);
 			return false;
 		}
-
-		if (!(this.name in obj[0].variables)) {
-			Output.error(`On condition "IfVariableLte" variable "${this.name}" not found in noun "${this.instance}".`);
-			return false;
-		}
-
-		return parseInt(obj[0].getVariable(this.name)) <= parseInt(Output.replaceObjects(this.value));
-	}
-
-	load(node) {
-
-		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
-
-		this.instance = node.getAttr("instance").getValue();
-		this.name = node.getAttr("name").getValue();
-		this.value = node.getAttr("value").getValue();
-
-		ConditionResponse.prototype.load.call(this, node);
+		return parseInt(value1) <= parseInt(value2);
 	}
 } responses.IfVariableLte = IfVariableLte;
 
-export class IfVariableGte extends ConditionResponse {
+export class IfVariableGte extends VariableCondition {
 	constructor() {
 		super();
-		this.instance = "";
-		this.name = "";
-		this.value = "";
 	}
 
-	toString() {
-		return `If variable "${this.name}" greater or equal than "${this.value}."`;
-	}
-
-	check(action) {
-		const obj = action.book.dictionary.getNouns(this.instance);
-
-		if (obj.length === 0) {
-			
-			Output.error(`On condition "IfVariableGte" instance "${this.instance}" not found in dictionary.`);
+	checkCondition(value1, value2) {
+		if (isNaN(value1) || isNaN(value2)) {
+			Output.error(`On condition ${this.constructor.name} number convertion on variable "${this.name}".`);
 			return false;
 		}
-
-		if (!(this.name in obj[0].variables)) {
-			Output.error(`On condition "IfVariableGte" variable "${this.name}" not found in noun "${this.instance}".`);
-			return false;
-		}
-
-		return parseInt(obj[0].getVariable(this.name)) >= parseInt(Output.replaceObjects(this.value));
+		return parseInt(value1) >= parseInt(value2);
 	}
 
-	load(node) {
-
-		if (!Utils.expectedAttributes(node, "instance", "name", "value")) return ;
-
-		this.instance = node.getAttr("instance").getValue();
-		this.name = node.getAttr("name").getValue();
-		this.value = node.getAttr("value").getValue();
-
-		ConditionResponse.prototype.load.call(this, node);
-	}
 } responses.IfVariableGte = IfVariableGte;
 
 export class IfConnectionExists extends ConditionResponse {

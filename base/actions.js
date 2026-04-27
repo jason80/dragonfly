@@ -44,6 +44,7 @@ export class Clear extends Action {
 
 	constructor() {
 		super();
+		this.consumesStep = false;
 	}
 
 	async init() {
@@ -75,6 +76,7 @@ export class SaveGame extends Action {
 
 	constructor() {
 		super();
+		this.consumesStep = false;
 	}
 
 	async init() {
@@ -108,6 +110,7 @@ export class LoadGame extends Action {
 
 	constructor() {
 		super();
+		this.consumesStep = false;
 	}
 
 	async init() {

@@ -25,6 +25,7 @@ export class Action {
 		this.sendingEvents = [];
 
 		this.eventControl = null;
+		this.consumesStep = true;
 	}
 
 	/**

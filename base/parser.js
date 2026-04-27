@@ -129,6 +129,10 @@ export class Parser {
 			}
 		}
 
+		// Increments step
+		this.book.dictionary.variables["steps"] = 
+		(parseInt(this.book.dictionary.variables["steps"]) + 1) + "";
+
 		await action.execute();
 	}
 

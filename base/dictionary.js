@@ -43,6 +43,7 @@ export class Dictionary {
 
 		// Predefined global variables
 		this.variables["score"] = "0";
+		this.variables["steps"] = "0";
 	}
 
 	/**

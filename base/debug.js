@@ -16,6 +16,7 @@ export class Info extends Action {
 
 	constructor() {
 		super();
+		this.consumesStep = false;
 
 		this.nounList = [];
 	}
@@ -71,6 +72,7 @@ export class Tree extends Action {
 
 	constructor() {
 		super();
+		this.consumesStep = false;
 		this.nounList = [];
 	}
 
@@ -109,6 +111,10 @@ export class Tree extends Action {
 } debugActions.Tree = Tree;
 
 export class TreeObject extends Tree {
+	constructor() {
+		super();
+		this.consumesStep = false;
+	}
 	init() {
 		for (const n of this.book.dictionary.getNouns(this.book.parser.directObjectString)) {
 			this.nounList.push(n);
@@ -125,6 +131,7 @@ export class Attr extends Action {
 
 	constructor() {
 		super();
+		this.consumesStep = false;
 		this.obj = null;
 		this.attrs = "";
 		this.command = "";
@@ -178,6 +185,7 @@ export class Attr extends Action {
 export class Move extends Action {
 	constructor() {
 		super();
+		this.consumesStep = false;
 		
 		this.object = null;
 		this.dest = null;
@@ -229,6 +237,7 @@ export class Move extends Action {
 export class Root extends Action {
 	constructor() {
 		super();
+		this.consumesStep = false;
 		this.object = null;
 	}
 
@@ -268,6 +277,7 @@ export class Root extends Action {
 export class VerbInfo extends Action {
 	constructor() {
 		super();
+		this.consumesStep = false;
 		this.verbList = [];
 	}
 
@@ -316,6 +326,7 @@ export class VerbInfo extends Action {
 class ActionInfo extends Action {
 	constructor() {
 		super();
+		this.consumesStep = false;
 		this.action = null;
 	}
 
@@ -359,6 +370,7 @@ debugActions.ActionInfo = ActionInfo;
 export class ExitList extends Action {
 	constructor() {
 		super();
+		this.consumesStep = false;
 	}
 
 	init() {

@@ -27,6 +27,13 @@ export class DFMLPersistenceSystem extends PersistenceSystem {
 	save() {
 		const root = DFMLNode.create("dragonfly");
 
+		for (const key in this.dictionary.variables) {
+			const varNode = DFMLNode.create("global");
+			varNode.setAttrString("name", key);
+			varNode.setAttrString("value", this.dictionary.variables[key]);
+			root.children.push(varNode);
+		}
+
 		for (const noun of this.dictionary.nouns) {
 			root.children.push(this.saveNoun(noun));
 		}
@@ -91,6 +98,8 @@ export class DFMLPersistenceSystem extends PersistenceSystem {
 			if (n.getElementType() === DFMLElement.NODE) {
 				if (n.getName() === "noun") {
 					this.loadNoun(n);
+				} else if (n.getName() === "global") {
+					this.dictionary.variables[n.getAttr("name").getValue()] = n.getAttr("value").getValue();
 				}
 			}
 		}

@@ -40,6 +40,9 @@ export class Dictionary {
 		this.objectChooserDialog = new ObjectChooserDialog(this.book, "Which one?", "Never mind.", "Please, enter the correct option.");
 		this.inventoryDialog = new ListDialog("You have: ", ", ", " and ");
 		this.lookInsideDialog = new ListDialog("Inside there is: ", ", ", " and ");
+
+		// Predefined global variables
+		this.variables["score"] = "0";
 	}
 
 	/**

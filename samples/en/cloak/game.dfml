@@ -7,7 +7,7 @@ book(
    }
 
    property(name: "player", value: "player")
-   include(src: "../../../templates/dict-en2.dfml")
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-en2.dfml")
 
    // Debug
    /*

@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Versión actual: 0.5.0*
+*Versión actual: 0.6.0*
 
 [English](./README.md) | Español
 

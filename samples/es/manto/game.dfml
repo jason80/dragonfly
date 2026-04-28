@@ -29,7 +29,7 @@ dictionary {
       before(actions: "LookAround") {
          if-is-not-set(instance: "vestibulo", attr: "described") {
             print(style: "font-style: italic;") {
-               'Esta aventura es una aventura pequeña diseñada para ser facilmente portada a un sistema autorizado. Es, si lo deseas, el equivalente interactiva de "Hola, mundo!".'
+               'Esta aventura es una aventura pequeña diseñada para ser facilmente portada a un sistema autorizado. Es, si lo deseas, el equivalente interactiva de "Hola, mundo!" https://www.ifwiki.org/Cloak_of_Darkness'
             }
 
             "Apresurándote a través de la noche lluviosa de noviembre, te alegra ver las brillantes luces de la Ópera. Es sorprendente que no haya más gente, pero, bueno, ¿qué esperas en un juego de demostración barato...?"

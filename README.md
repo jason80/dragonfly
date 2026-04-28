@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Current version: 0.5.0*
+*Current version: 0.6.0*
 
 English | [Español](./README.es.md)
 
@@ -26,6 +26,7 @@ Dragonfly is an interactive fiction game engine. It allows you to create and pla
 |---|---|---|
 | [The Forest](https://jason80.github.io/dragonfly/samples/en/forest/forest.html "The Forest") | Simple example with five locations | Basics: Movement, attributes, containers, ending |
 | [Chooser](https://jason80.github.io/dragonfly/samples/en/chooser/chooser.html) | Object dialog test | Basics: Dialog, objects, containers, inventory |
+| [Cloak of Darkness](https://jason80.github.io/dragonfly/samples/en/cloak/index.html) | Port to Dragonfly of "Cloak of Darkness" by Roger Firth written in Inform 6 | Basics: Movement, attributes, containers, ending |
 
 ---
 

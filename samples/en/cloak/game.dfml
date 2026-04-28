@@ -1,0 +1,191 @@
+book(
+   title: "Cloak of Darkness",
+   author: "Roger Firth"
+) {
+   description {
+      "A basic example of the Dragonfly library."
+   }
+
+   property(name: "player", value: "player")
+   include(src: "../../../templates/dict-en2.dfml")
+
+   // Debug
+   /*
+   property(name: "show-parsing-process", value: false)
+   property(name: "parse-clean", value: "")
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml")
+   */
+}
+
+dictionary {
+
+   procedure(name: "show-score") {
+      "You scored $(score) points, in $(steps) turns."
+   }
+
+   // FOYER
+   noun(names: "Foyer of the Opera House, foyer") {
+
+      before(actions: "LookAround") {
+         if-is-not-set(instance: "foyer", attr: "described") {
+            print(style: "font-style: italic;") {
+               'This adventure is a tiny adventure designed to be easy to port to a given Authoring system. It is, if you will, the interactive fiction equivalent of "Hello, world!" https://www.ifwiki.org/Cloak_of_Darkness'
+            }
+
+            "Hurrying through the rainswept November night, you're glad to see the bright lights of the Opera House. It's surprising that there aren't more people about but, hey, what do you expect in a cheap demo game...?"
+         }
+      }
+
+      describe-place {
+         "You are standing in a spacious hall, splendidly decorated in red and gold, with glittering chandeliers overhead. The entrance from the street is to the north, and there are doorways south and west."
+      }
+
+      noun(names: "player") {
+
+         noun(names: "velvet cloak, handsome, dark, black, velvet, satin, cloak") {
+
+            describe-object {
+               "A handsome cloak, of velvet trimmed with satin, and slightly spattered with raindrops. Its blackness is so deep that it almost seems to suck light from the room."
+            }
+
+            after(actions: "TakeObject") {
+               attr(instance: "cloak", unset: "hung")
+            }
+
+            before(actions: "HangObject", cancel: true) {
+               if-contains(container: "cloakroom", instance: "player") {
+                  attr(instance: "cloak", set: "hung")
+               }
+               execute { "leave cloak" }
+            }
+
+            before(actions: "LeaveObject") {
+               if-not-contains(container: "cloakroom", instance: "player") {
+                  "This isn't the best place to leave a smart cloak lying around."
+                  cancel-event() break()
+               }
+            }
+
+            after(actions: "LeaveObject") {
+               if-is-set(instance: "cloak", attr: "hung") {
+                  "You hang the cloak on the hook."
+                  if-is-not-set(instance: "cloak", attr: "general") {
+                     variable-add(name: "score")
+                     "[You score 1 point]"
+                  }
+                  
+                  cancel-event()
+               }
+            }
+         }
+
+      }
+
+      connection(exit: "south", destiny: "bar")
+      connection(exit: "west", destiny: "cloakroom")
+      connection(exit: "north", destiny: "street ...")
+
+      before(actions: "GoTo") {
+         if-direct-equals-exit(exit: "north") {
+            "You've only just arrived, and besides, the weather outside seems to be getting worse."
+            cancel-event()
+         }
+      }
+   }
+
+   // CLOAKROOM
+   noun(names: "Cloakroom") {
+      describe-place {
+         "The walls of this small room were clearly once lined with hooks, though now only one remains. The exit is a door to the east."
+      }
+
+      noun(names: "small brass hook, small, brass, hook, peg") {
+         set { "fixed" "scene" }
+
+         describe-object {
+            "It's just a small brass hook, "
+            if-current-place-contains(instance: "cloak") {
+               if-is-set(instance: "cloak", attr: "hung") {
+                  append() { "with a cloak hanging on it." }
+                  break
+               }
+            }
+            append() { "screwed to the wall." }
+         }
+      }
+
+      connection(exit: "east", destiny: "foyer")
+   }
+
+   // BAR
+   noun(names: "Foyer bar, bar") {
+      describe-place {
+         if-contains(container: "player", instance: "cloak") {
+            "It's completely dark and you can't see anything."
+            break
+         }
+
+         "The bar, much rougher than you'd have guessed after the opulence of the foyer to the north, is completely empty. There seems to be some sort of message scrawled in the sawdust on the floor."
+      }
+
+      before(actions: "*", except: "GoTo, LookAround, UnknownVerb") {
+         if-contains(container: "player", instance: "cloak") {
+            "In the dark? You could easily disturb something!"
+
+            // Increments "number" by 1 to "ruin" the message
+            variable-add(instance: "message", name: "number", value: "1")
+            cancel-event() break()
+         }
+      }
+
+      before(actions: "GoTo") {
+         if-direct-equals-exit(exit: "north") {
+            break
+         }
+         if-contains(container: "player", instance: "cloak") {
+            "Blundering around in the dark isn't a good idea!"
+
+            // Increments "number" by 2 to "ruin" the message
+            variable-add(instance: "message", name: "number", value: "2")
+            cancel-event()
+         }
+      }
+
+      noun(names: "scrawled message, message, sawdust, floor") {
+
+         set { "scene" "fixed" }
+
+         variable(name: "number", value: "0")
+
+         describe-object {
+            // If "number" is less than 2, the message is "legible"
+            if-variable-lt(instance: "message", name: "number", value: "2") {
+               variable-add(name: "score")
+               "The message, neatly marked in the sawdust, reads..."
+               print(style: "font-size: 1.5em; color: green;") {
+                  "¡You have won!"
+               }
+               call(procedure: "show-score")
+               pause() restart-game() clear() show-title()
+               execute { "x" }
+               break()
+            }
+
+            // If "number" is greater than or equal to 2, the message is "ruined"
+            "The message has been carelessly trampled, making it difficult to read. You can just distinguish the words..."
+            print(style: "font-size: 1.5em; color: red;") {
+               "You have lost"
+            }
+            call(procedure: "show-score")
+            pause() restart-game() clear() show-title()
+            execute { "x" }
+         }
+
+         before(actions: "ReadObject", cancel: true) {
+            execute { "x message" }
+         }
+      }
+
+      connection(exit: "north", destiny: "foyer")
+   }
+}

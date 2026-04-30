@@ -360,6 +360,15 @@ dictionary {
 		response(id: "given-to-indirect", string: "Le das #1 a #2.")
 	}
 
+	verb(names: "vestir, viste, vesti, ponerse, ponte, usa, usar", action: "WearObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No ves eso para ponerte.")
+		response(id: "direct-is-the-player", string: "No puedes usarte a ti mismo.")
+		response(id: "direct-is-not-wearable", string: "No puedes ponerte eso.")
+		response(id: "direct-is-worn", string: "Ya tienes puesto eso.")
+		response(id: "direct-moved-to-inventory", string: "(primero tomas #1)")
+		response(id: "direct-now-worn", string: "Ahora llevas puesto #1.")
+	}
+
 	verb(names: "saltar, salta, salte, brincar, brinca", action: "Jump") {
 		response(id: "nothing-happens", string: "Te pones a saltar como un conejo.")
 	}

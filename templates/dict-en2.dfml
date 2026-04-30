@@ -325,6 +325,24 @@ dictionary {
 		response(id: "given-to-indirect", string: "You give #1 to #2.")
 	}
 
+	verb(names: "put", action: "WearObject", syntax: "on, 1") {
+		response(id: "direct-not-found", string: "You don't see that to wear.")
+		response(id: "direct-is-the-player", string: "You cannot wear yourself.")
+		response(id: "direct-is-not-wearable", string: "You cannot wear that.")
+		response(id: "direct-is-worn", string: "You are already wearing that.")
+		response(id: "direct-moved-to-inventory", string: "(first taking #1)")
+		response(id: "direct-now-worn", string: "You are now wearing the #1.")
+	}
+
+	verb(names: "wear, don", action: "WearObject", syntax: "1") {
+		response(id: "direct-not-found", string: "You don't see that to wear.")
+		response(id: "direct-is-the-player", string: "You cannot wear yourself.")
+		response(id: "direct-is-not-wearable", string: "You cannot wear that.")
+		response(id: "direct-is-worn", string: "You are already wearing that.")
+		response(id: "direct-moved-to-inventory", string: "(first taking #1)")
+		response(id: "direct-now-worn", string: "You are now wearing the #1.")
+	}
+
 	verb(names: "jump, leap", action: "Jump") {
       response(id: "nothing-happens", string: "You start jumping on the spot like a rabbit.")
    }

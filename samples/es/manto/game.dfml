@@ -43,7 +43,7 @@ dictionary {
       noun(names: "player") {
 
          noun(names: "capa de terciopelo, elegante, oscura, negra, terciopelo, raso, capa") {
-            set { "female" }
+            set { "female" "wearable" "worn" }
 
             describe-object {
                "Una capa elegante, de terciopelo con ribetes de raso, y ligeramente salpicada de gotas de lluvia. Su negrura es tan profunda que casi parece absorber la luz de la habitación."

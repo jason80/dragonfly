@@ -349,6 +349,12 @@ dictionary {
 		response(id: "direct-now-worn", string: "I am now wearing the #1.")
 	}
 
+	verb(names: "remove", action: "RemoveObject", syntax: "1") {
+		response(id: "direct-not-found", string: "I don't see that on me.")
+		response(id: "direct-is-not-worn", string: "I'm not wearing that.")
+		response(id: "direct-removed", string: "I take off #1.")
+	}
+
 	verb(names: "jump, leap", action: "Jump") {
       response(id: "nothing-happens", string: "I start jumping on the spot like a rabbit.")
    }

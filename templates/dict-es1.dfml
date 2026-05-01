@@ -371,6 +371,12 @@ dictionary {
 		response(id: "direct-now-worn", string: "Ahora llevo puesto #1.")
 	}
 
+	verb(names: "quitar, quitarse, quitarme, quitame, quita, sacar, sacarme, saca, remover, remueve, remove", action: "RemoveObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No veo eso puesto en mí.")
+		response(id: "direct-is-not-worn", string: "No tengo puesto eso.")
+		response(id: "direct-removed", string: "Me quito #1.")
+	}
+
 	verb(names: "saltar, salta, salte, brincar, brinca", action: "Jump") {
 		response(id: "nothing-happens", string: "Como un  conejo me pongo a saltar en mi sitio.")
 	}

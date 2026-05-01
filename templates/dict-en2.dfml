@@ -76,6 +76,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "Put that in you?")
 		response(id: "indirect-is-not-container", string: "You can't put #1 into #2.")
 		response(id: "indirect-is-closed", string: "#^2 @2(is,is,are,are) closed.")
+		response(id: "first-remove", string: "First you must remove it.")
 		response(id: "direct-leaved", string: "You leave #1 in #2.")
 		response(id: "syntax-fail", string: "You need to say what you should leave.")
 	}
@@ -89,6 +90,7 @@ dictionary {
 	verb(names: "leave, release, drop, forget", action: "LeaveObject",
 		syntax: "1") {
 		response(id: "direct-not-found", string: "You don't have that.")
+		response(id: "first-remove", string: "First you must remove it.")
 		response(id: "direct-left", string: "You leave #1.")
 	}
 
@@ -341,6 +343,12 @@ dictionary {
 		response(id: "direct-is-worn", string: "You are already wearing that.")
 		response(id: "direct-moved-to-inventory", string: "(first taking #1)")
 		response(id: "direct-now-worn", string: "You are now wearing the #1.")
+	}
+
+	verb(names: "remove", action: "RemoveObject", syntax: "1") {
+		response(id: "direct-not-found", string: "You don't see that on you.")
+		response(id: "direct-is-not-worn", string: "You aren't wearing that.")
+		response(id: "direct-removed", string: "You take off #1.")
 	}
 
 	verb(names: "jump, leap", action: "Jump") {

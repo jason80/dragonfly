@@ -574,9 +574,51 @@ export class LeaveIn extends Action {
 
 	responses() {
 		return ["direct-not-found", "indirect-not-found", "indirect-is-the-player",
-					"indirect-is-not-container", "indirect-is-closed", "direct-leaved"]
+					"indirect-is-not-container", "indirect-is-closed", "first-remove", "direct-leaved"]
 	}
 } actions.LeaveIn = LeaveIn;
+
+export class RemoveObject extends Action {
+
+	constructor() {
+		super();
+	}
+
+	async init() {
+		let lst = this.book.player.children(this.book.parser.directObjectString);
+		if (lst.length === 0) return this.fireResponse("direct-not-found");
+
+		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst);
+		if (!this.book.parser.directObject) return false;
+
+		this.sendEventLater(this.book.player);
+		this.sendEventLater(this.book.parser.directObject);
+
+		return true;
+	}
+
+	async check() {
+		if (!this.book.parser.directObject.isSet("worn"))
+			return this.fireResponse("direct-is-not-worn");
+		return true;
+	}
+
+	carryOut() {
+		this.book.parser.directObject.unset(["worn"]);
+		this.sendEventLater(this.book.player);
+		this.sendEventLater(this.book.parser.directObject);
+	}
+
+	report() {
+		this.fireResponse("direct-removed");
+	}
+
+	responses() {
+		return ["direct-not-found", "direct-is-not-worn", "direct-removed"];
+	}
+
+} actions.RemoveObject = RemoveObject;
+
 
 export class PullObject extends Action {
 

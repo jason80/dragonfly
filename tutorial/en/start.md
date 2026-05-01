@@ -337,6 +337,10 @@ before(actions: "EatObject", cancel: true) {
 
 In Dragonfly, all nouns that are inside the player are considered part of the inventory. You can check your inventory with: `"inventory"`, `"inv"`, or `"i"`.
 
+#### Wearing
+
+You can "put on" or "take off" an object as long as it is a piece of clothing, by setting the "wearable" attribute. When the object is worn, the "worn" attribute is automatically set. You will have to take it off in order to leave it outside your inventory.
+
 The **Nouns** section will further explain the topic of containers.
 
 ---

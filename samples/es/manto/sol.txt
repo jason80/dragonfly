@@ -19,13 +19,13 @@ Las paredes de esta pequeña habitación claramente alguna vez estuvieron cubier
 > inventario
 
 Tienes puesto: una capa de terciopelo.
-> quitarse capa
+> quitarse la capa
 
 Te quitas la capa de terciopelo.
 > inventario
 
 Tienes en tu poder: una capa de terciopelo.
-> colgar capa
+> colgar la capa
 
 Cuelgas la capa en el gancho.
 
@@ -40,7 +40,7 @@ Estás en un amplio vestíbulo, espléndidamente decorado en rojo y oro, con lus
 Bar del Vestíbulo
 
 El bar, mucho más rústico de lo que habrías imaginado después de la opulencia del vestíbulo al norte, está completamente vacío. Parece haber algún tipo de mensaje escrito en el serrín del suelo.
-> leer mensaje
+> leer el mensaje
 
 El mensaje, claramente marcado en el serrín, dice...
 

@@ -19,7 +19,7 @@ The walls of this small room were clearly once lined with hooks, though now only
 > inventory
 
 You are wearing: a velvet cloak.
-> remove cloak
+> take off cloak
 
 You take off the velvet cloak.
 > inventory

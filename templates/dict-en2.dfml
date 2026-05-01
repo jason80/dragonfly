@@ -60,6 +60,12 @@ dictionary {
 		response(id: "syntax-fail", string: "You need to specify what you should take out.")
 	}
 
+	verb(names: "take", action: "RemoveObject", syntax: "off, 1") {
+		response(id: "direct-not-found", string: "You don't see that on you.")
+		response(id: "direct-is-not-worn", string: "You aren't wearing that.")
+		response(id: "direct-removed", string: "You take off #1.")
+	}
+
 	verb(names: "take, grab, pick, collect, get, obtain, seize",
 		syntax: "1", action: "TakeObject") {
 		response(id: "direct-not-found", string: "There is none of that.")

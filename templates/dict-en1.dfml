@@ -80,6 +80,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "Put that in me?")
 		response(id: "indirect-is-not-container", string: "I can't put #1 into #2.")
 		response(id: "indirect-is-closed", string: "#^2 @2(is,is,are,are) closed.")
+		response(id: "first-remove", string: "First you must remove it.")
 		response(id: "direct-leaved", string: "I leave #1 in #2.")
 		response(id: "syntax-fail", string: "You need to say what I should leave.")
 	}
@@ -93,6 +94,7 @@ dictionary {
 	verb(names: "leave, release, drop, forget", action: "LeaveObject",
 		syntax: "1") {
 		response(id: "direct-not-found", string: "I don't have that.")
+		response(id: "first-remove", string: "First you must remove it.")
 		response(id: "direct-left", string: "I leave #1.")
 	}
 

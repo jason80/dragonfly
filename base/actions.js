@@ -425,6 +425,9 @@ export class LeaveObject extends Action {
 	}
 
 	async check() {
+		if (this.book.parser.directObject.isSet("worn")) {
+			return this.fireResponse("first-remove");
+		}
 		return true;
 	}
 
@@ -443,7 +446,7 @@ export class LeaveObject extends Action {
 	}
 
 	responses() {
-		return ["direct-not-found", "direct-left"]
+		return ["direct-not-found", "first-remove", "direct-left"]
 	}
 } actions.LeaveObject = LeaveObject;
 
@@ -548,6 +551,8 @@ export class LeaveIn extends Action {
 			return this.fireResponse("indirect-is-not-container")
 		if (this.book.parser.indirectObject.isSet("closed"))
 			return this.fireResponse("indirect-is-closed")
+		if (this.book.parser.directObject.isSet("worm"))
+			return this.fireResponse("first-remove");
 
 		return true;
 	}

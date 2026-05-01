@@ -102,6 +102,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "¿Meterte eso?")
 		response(id: "indirect-is-not-container", string: "No puedes meter #1 en #2.")
 		response(id: "indirect-is-closed", string: "#^2 est@2(á,á,án,án) cerrad@2(o,a,os,as).")
+		response(id: "first-remove", string: "Primero debes quitarte@1(lo,la,los,las).")
 		response(id: "direct-leaved", string: "Dejas #1 en #2.")
 		response(id: "syntax-fail", string: "Tienes que decir lo que debes dejar.")
 	}
@@ -124,6 +125,7 @@ dictionary {
 	verb(names: "dejar, tirar, deja, tira", action: "LeaveObject",
 		syntax: "1") {
 		response(id: "direct-not-found", string: "No tienes eso.")
+		response(id: "first-remove", string: "Primero debes quitarte@1(lo,la,los,las).")
 		response(id: "direct-left", string: "@^1(lo,la,los,las) dejas.")
 	}
 

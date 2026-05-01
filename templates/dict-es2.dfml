@@ -6,7 +6,8 @@ dictionary {
 	proper-list-dialog(singular: "está aquí", plural: "están aquí",
 					separator: ", ", and-separator: " y ")
 
-	inventory-dialog(initial-message: "Tienes en tu poder: ",
+	inventory-dialog(you-have: "Tienes en tu poder: ",
+					you-wear: "Tienes puesto: ",
 					separator: ", ", and-separator: " y ")
 
 	look-inside-dialog(initial-message: "Adentro hay: ",

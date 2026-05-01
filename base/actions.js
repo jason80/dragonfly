@@ -160,7 +160,7 @@ export class Inventory extends Action {
 		let lst = this.book.player.children()
 		if (lst.length === 0) { this.fireResponse("inventory-is-empty")
 		} else {
-			this.book.dictionary.inventoryDialog.execute(lst)
+			this.book.dictionary.inventoryDialog.execute(this.book)
 		}
 		this.sendEventLater(this.book.player)
 		this.sendEventLater(this.book.player.container)

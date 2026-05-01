@@ -1,5 +1,9 @@
 dictionary {
 
+	inventory-dialog(you-have: "I have: ",
+					you-wear: "I wear: ",
+					separator: ", ", and-separator: " and ")
+
 	verb(names: "?", action: "UnknownVerb") {
 		response(id: "unknown-verb", string: "I don't know what you're saying.")
 	}

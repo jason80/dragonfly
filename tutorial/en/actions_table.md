@@ -72,7 +72,7 @@ All the actions send events to the player and the place where it is (in that ord
     <tr>
       <td><strong>LeaveObject</strong></td>
       <td>Moves an object from the player's inventory to the current room and marks it with the "leaved" status.</td>
-      <td>direct-not-found, direct-left</td>
+      <td>direct-not-found, first-remove, direct-left</td>
     </tr>
     <tr>
       <td><strong>TakeFrom</strong></td>
@@ -82,7 +82,7 @@ All the actions send events to the player and the place where it is (in that ord
     <tr>
       <td><strong>LeaveIn</strong></td>
       <td>Moves an object from the inventory to a specific container. Validates that the destination is a valid container and is not closed.</td>
-      <td>direct-not-found, indirect-not-found, indirect-is-the-player, indirect-is-not-container, indirect-is-closed, direct-leaved</td>
+      <td>direct-not-found, indirect-not-found, indirect-is-the-player, indirect-is-not-container, indirect-is-closed, first-remove, direct-leaved</td>
     </tr>
     <tr>
       <td><strong>PullObject / PushObject</strong></td>
@@ -118,6 +118,19 @@ All the actions send events to the player and the place where it is (in that ord
       <td><strong>GiveTo</strong></td>
       <td>Transfers an item from the inventory to a receiver in the room, provided the latter is marked as "interactive" in its attributes.</td>
       <td>direct-not-found, indirect-not-found, indirect-is-the-player, indirect-is-not-interactive, given-to-indirect</td>
+    </tr>
+    <tr>
+      <td><strong>WearObject</strong></td>
+      <td>Allows the player to put on a wearable item. The item goes to the inventory and is marked as "worn".</td>
+      <td>direct-not-found, direct-is-the-player, direct-is-not-wearable, direct-is-worn, direct-moved-to-inventory, direct-now-worn</td>
+    </tr>
+    <tr>
+      <td><strong>RemoveObject</strong></td>
+      <td>Allows the player to take off a wearable item that is currently being worn. Checks that the direct object has the "worn" attribute set.</td>
+      <td>direct-not-found
+          direct-is-not-worn
+          direct-removed
+      </td>
     </tr>
     <tr>
       <td><strong>CutWith / TieWith / BreakWith</strong></td>

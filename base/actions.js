@@ -160,7 +160,7 @@ export class Inventory extends Action {
 		let lst = this.book.player.children()
 		if (lst.length === 0) { this.fireResponse("inventory-is-empty")
 		} else {
-			this.book.dictionary.inventoryDialog.execute(lst)
+			this.book.dictionary.inventoryDialog.execute(this.book)
 		}
 		this.sendEventLater(this.book.player)
 		this.sendEventLater(this.book.player.container)
@@ -425,6 +425,9 @@ export class LeaveObject extends Action {
 	}
 
 	async check() {
+		if (this.book.parser.directObject.isSet("worn")) {
+			return this.fireResponse("first-remove");
+		}
 		return true;
 	}
 
@@ -443,7 +446,7 @@ export class LeaveObject extends Action {
 	}
 
 	responses() {
-		return ["direct-not-found", "direct-left"]
+		return ["direct-not-found", "first-remove", "direct-left"]
 	}
 } actions.LeaveObject = LeaveObject;
 
@@ -548,6 +551,8 @@ export class LeaveIn extends Action {
 			return this.fireResponse("indirect-is-not-container")
 		if (this.book.parser.indirectObject.isSet("closed"))
 			return this.fireResponse("indirect-is-closed")
+		if (this.book.parser.directObject.isSet("worm"))
+			return this.fireResponse("first-remove");
 
 		return true;
 	}
@@ -569,9 +574,51 @@ export class LeaveIn extends Action {
 
 	responses() {
 		return ["direct-not-found", "indirect-not-found", "indirect-is-the-player",
-					"indirect-is-not-container", "indirect-is-closed", "direct-leaved"]
+					"indirect-is-not-container", "indirect-is-closed", "first-remove", "direct-leaved"]
 	}
 } actions.LeaveIn = LeaveIn;
+
+export class RemoveObject extends Action {
+
+	constructor() {
+		super();
+	}
+
+	async init() {
+		let lst = this.book.player.children(this.book.parser.directObjectString);
+		if (lst.length === 0) return this.fireResponse("direct-not-found");
+
+		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst);
+		if (!this.book.parser.directObject) return false;
+
+		this.sendEventLater(this.book.player);
+		this.sendEventLater(this.book.parser.directObject);
+
+		return true;
+	}
+
+	async check() {
+		if (!this.book.parser.directObject.isSet("worn"))
+			return this.fireResponse("direct-is-not-worn");
+		return true;
+	}
+
+	carryOut() {
+		this.book.parser.directObject.unset(["worn"]);
+		this.sendEventLater(this.book.player);
+		this.sendEventLater(this.book.parser.directObject);
+	}
+
+	report() {
+		this.fireResponse("direct-removed");
+	}
+
+	responses() {
+		return ["direct-not-found", "direct-is-not-worn", "direct-removed"];
+	}
+
+} actions.RemoveObject = RemoveObject;
+
 
 export class PullObject extends Action {
 
@@ -1100,6 +1147,61 @@ export class GiveTo extends Action {
 				"indirect-is-not-interactive", "given-to-indirect"]
 	}
 } actions.GiveTo = GiveTo;
+
+export class WearObject extends Action {
+
+	constructor() {
+		super();
+	}
+
+	async init() {
+		// Direct Object in inventory and the place
+		let lst = this.book.player.children(this.book.parser.directObjectString);
+		lst.push(...this.book.player.container.children(this.book.parser.directObjectString));
+		if (lst.length === 0) return this.fireResponse("direct-not-found");
+		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst);
+		if (!this.book.parser.directObject) return false;
+
+		this.sendEventLater(this.book.player);
+		this.sendEventLater(this.book.player.container);
+		this.sendEventLater(this.book.parser.directObject);
+
+		return true;
+	}
+
+	async check() {
+		if (this.book.player == this.book.parser.directObject) return this.fireResponse("direct-is-the-player");
+
+		if (!this.book.parser.directObject.isSet("wearable"))
+			return this.fireResponse("direct-is-not-wearable");
+		if (this.book.parser.directObject.isSet("worn")) {
+			return this.fireResponse("direct-is-worn");
+		}
+
+		return true;
+	}
+
+	carryOut() {
+		if (this.book.player.container.contains(this.book.parser.directObjectString)) {
+			// Move the wearing to the inventory
+			this.book.parser.directObject.container = this.book.player;
+			this.fireResponse("direct-moved-to-inventory");
+		}
+
+		this.book.parser.directObject.set(["worn"]);
+		this.sendEventLater(this.book.player);
+		this.sendEventLater(this.book.player.container);
+		this.sendEventLater(this.book.parser.directObject);
+	}
+
+	report() {
+		this.fireResponse("direct-now-worn");
+	}
+
+	responses() {
+		return ["direct-not-found", "direct-is-the-player", "direct-is-not-wearable", "direct-is-worn", "direct-moved-to-inventory", "direct-now-worn"];
+	}
+} actions.WearObject = WearObject;
 
 export class CutWith extends Action {
 

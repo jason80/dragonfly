@@ -72,7 +72,7 @@ Hay que tener en cuenta que, todas las acciones envian eventos al jugador y al l
     <tr>
       <td><strong>LeaveObject</strong></td>
       <td>Mueve un objeto del inventario del jugador a la habitación actual y lo marca con el estado "leaved".</td>
-      <td>direct-not-found, direct-left</td>
+      <td>direct-not-found, first-remove, direct-left</td>
     </tr>
     <tr>
       <td><strong>TakeFrom</strong></td>
@@ -82,7 +82,7 @@ Hay que tener en cuenta que, todas las acciones envian eventos al jugador y al l
     <tr>
       <td><strong>LeaveIn</strong></td>
       <td>Mueve un objeto del inventario a un contenedor específico. Valida que el destino sea un contenedor válido y que no esté cerrado.</td>
-      <td>direct-not-found, indirect-not-found, indirect-is-the-player, indirect-is-not-container, indirect-is-closed, direct-leaved</td>
+      <td>direct-not-found, indirect-not-found, indirect-is-the-player, indirect-is-not-container, indirect-is-closed, first-remove,direct-leaved</td>
     </tr>
     <tr>
       <td><strong>PullObject / PushObject</strong></td>
@@ -118,6 +118,19 @@ Hay que tener en cuenta que, todas las acciones envian eventos al jugador y al l
       <td><strong>GiveTo</strong></td>
       <td>Transfiere un objeto del inventario a un receptor en la habitación, siempre que este último esté marcado como "interactive" en sus atributos.</td>
       <td>direct-not-found, indirect-not-found, indirect-is-the-player, indirect-is-not-interactive, given-to-indirect</td>
+    </tr>
+    <tr>
+      <td><strong>WearObject</strong></td>
+      <td>Intenta poner una vestimenta. La vestimenta pasa al inventario y se marca como "worn".</td>
+      <td>direct-not-found, direct-is-the-player, direct-is-not-wearable, direct-is-worn, direct-moved-to-inventory, direct-now-worn</td>
+    </tr>
+    <tr>
+      <td><strong>RemoveObject</strong></td>
+      <td>Quita una vestimenta del jugador. Requiere que el objeto tenga el atributo "worn" establecido.</td>
+      <td>direct-not-found
+          direct-is-not-worn
+          direct-removed
+      </td>
     </tr>
     <tr>
       <td><strong>CutWith / TieWith / BreakWith</strong></td>

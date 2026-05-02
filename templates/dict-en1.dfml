@@ -1,5 +1,9 @@
 dictionary {
 
+	inventory-dialog(you-have: "I have: ",
+					you-wear: "I wear: ",
+					separator: ", ", and-separator: " and ")
+
 	verb(names: "?", action: "UnknownVerb") {
 		response(id: "unknown-verb", string: "I don't know what you're saying.")
 	}
@@ -60,6 +64,12 @@ dictionary {
 		response(id: "syntax-fail", string: "You need to specify what I should take out.")
 	}
 
+	verb(names: "take", action: "RemoveObject", syntax: "off, 1") {
+		response(id: "direct-not-found", string: "I don't see that on me.")
+		response(id: "direct-is-not-worn", string: "I'm not wearing that.")
+		response(id: "direct-removed", string: "I take off #1.")
+	}
+
 	verb(names: "take, grab, pick, collect, get, obtain, seize",
 		syntax: "1", action: "TakeObject") {
 		response(id: "direct-not-found", string: "There is none of that.")
@@ -76,6 +86,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "Put that in me?")
 		response(id: "indirect-is-not-container", string: "I can't put #1 into #2.")
 		response(id: "indirect-is-closed", string: "#^2 @2(is,is,are,are) closed.")
+		response(id: "first-remove", string: "First you must remove it.")
 		response(id: "direct-leaved", string: "I leave #1 in #2.")
 		response(id: "syntax-fail", string: "You need to say what I should leave.")
 	}
@@ -89,6 +100,7 @@ dictionary {
 	verb(names: "leave, release, drop, forget", action: "LeaveObject",
 		syntax: "1") {
 		response(id: "direct-not-found", string: "I don't have that.")
+		response(id: "first-remove", string: "First you must remove it.")
 		response(id: "direct-left", string: "I leave #1.")
 	}
 
@@ -323,6 +335,30 @@ dictionary {
 		response(id: "indirect-is-the-player", string: "I already have it.")
 		response(id: "indirect-is-not-interactive", string: "I can't give #1 to #2.")
 		response(id: "given-to-indirect", string: "I give #1 to #2.")
+	}
+
+	verb(names: "put", action: "WearObject", syntax: "on, 1") {
+		response(id: "direct-not-found", string: "I don't see that to wear.")
+		response(id: "direct-is-the-player", string: "I cannot wear myself.")
+		response(id: "direct-is-not-wearable", string: "I cannot wear that.")
+		response(id: "direct-is-worn", string: "I am already wearing that.")
+		response(id: "direct-moved-to-inventory", string: "(first taking the #1)")
+		response(id: "direct-now-worn", string: "I am now wearing the #1.")
+	}
+
+	verb(names: "wear, don", action: "WearObject", syntax: "1") {
+		response(id: "direct-not-found", string: "I don't see that to wear.")
+		response(id: "direct-is-the-player", string: "I cannot wear myself.")
+		response(id: "direct-is-not-wearable", string: "I cannot wear that.")
+		response(id: "direct-is-worn", string: "I am already wearing that.")
+		response(id: "direct-moved-to-inventory", string: "(first taking the #1)")
+		response(id: "direct-now-worn", string: "I am now wearing the #1.")
+	}
+
+	verb(names: "remove", action: "RemoveObject", syntax: "1") {
+		response(id: "direct-not-found", string: "I don't see that on me.")
+		response(id: "direct-is-not-worn", string: "I'm not wearing that.")
+		response(id: "direct-removed", string: "I take off #1.")
 	}
 
 	verb(names: "jump, leap", action: "Jump") {

@@ -11,14 +11,20 @@ It's completely dark and you can't see anything.
 Foyer of the Opera House
 
 You are standing in a spacious hall, splendidly decorated in red and gold, with glittering chandeliers overhead. The entrance from the street is to the north, and there are doorways south and west.
-> i
-
-You have: a velvet cloak.
 > west
 
 Cloakroom
 
 The walls of this small room were clearly once lined with hooks, though now only one remains. The exit is a door to the east.
+> inventory
+
+You are wearing: a velvet cloak.
+> take off cloak
+
+You take off the velvet cloak.
+> inventory
+
+You are carrying: a velvet cloak.
 > hang cloak
 
 You hang the cloak on the hook.
@@ -40,4 +46,4 @@ The message, neatly marked in the sawdust, reads...
 
 ¡You have won!
 
-You scored 2 points, in 11 turns.
+You scored 2 points, in 13 turns.

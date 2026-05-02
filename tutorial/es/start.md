@@ -343,6 +343,10 @@ before(actions: "ReadObject", cancel: true) {
 
 En Dragonfly, todos los sustantivos que estén dentro del jugador se consideran parte del inventario. Puedes consultar tu inventario con: `"inventario"`, `"inv"` o `"i"`.
 
+#### Vestimenta:
+
+Te puedes "ponerse" o "quitarse" un objeto siempre y cuando sea una vestimenta estableciendo el atributo "wearable". Cuando el objeto está puesto, automáticamente se establece el atributo "worn". Tendrás que quitártelo para poder dejarlo fuera de tu inventario.
+
 En la sección de **Sustantivos** se explicará el tema de contenedores.
 
 ---

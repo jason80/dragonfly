@@ -4,9 +4,10 @@ import { Book } from "./book.js";
 import { Noun } from "./noun.js";
 import { Verb } from "./verb.js";
 import { Exit } from "./exit.js";
-import { actions } from "./actions.js";
-import { ListDialog, ObjectChooserDialog, ProperListDialog,
-			loadListDialog, loadObjectChooserDialog, loadProperListDialog } from "./dialogs.js";
+import { actions, Inventory } from "./actions.js";
+import { ListDialog, ObjectChooserDialog, ProperListDialog, InventoryDialog,
+			loadListDialog, loadObjectChooserDialog, loadProperListDialog, 
+			loadInventoryDialog} from "./dialogs.js";
 import { Conversation } from "./conversation.js";
 
 import { Procedure } from "./procedure.js";
@@ -38,7 +39,7 @@ export class Dictionary {
 		this.seeListDialog = new ListDialog("You can see: ", ", ", " and ");
 		this.properListDialog = new ProperListDialog("is here", "are here", ", ", " and ");
 		this.objectChooserDialog = new ObjectChooserDialog(this.book, "Which one?", "Never mind.", "Please, enter the correct option.");
-		this.inventoryDialog = new ListDialog("You have: ", ", ", " and ");
+		this.inventoryDialog = new InventoryDialog(this.book, "You are carrying: ", "You are wearing: ", ", ", " and ");
 		this.lookInsideDialog = new ListDialog("Inside there is: ", ", ", " and ");
 
 		// Predefined global variables
@@ -205,7 +206,7 @@ export class Dictionary {
 				else if (child.getName() ===  "proper-list-dialog") {
 					this.properListDialog = loadProperListDialog(child); }
 				else if (child.getName() ===  "inventory-dialog") {
-					this.inventoryDialog = loadListDialog(child); }
+					this.inventoryDialog = loadInventoryDialog(this.book, child); }
 				else if (child.getName() ===  "look-inside-dialog") {
 					this.lookInsideDialog = loadListDialog(child); }
 				else if (child.getName() ===  "object-chooser-dialog") {

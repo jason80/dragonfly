@@ -44,6 +44,8 @@ dictionary {
 
          noun(names: "velvet cloak, handsome, dark, black, velvet, satin, cloak") {
 
+            set { "wearable" "worn" }
+
             describe-object {
                "A handsome cloak, of velvet trimmed with satin, and slightly spattered with raindrops. Its blackness is so deep that it almost seems to suck light from the room."
             }

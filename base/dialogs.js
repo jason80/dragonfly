@@ -144,6 +144,39 @@ export class ObjectChooserDialog {
     }
 }
 
+export class InventoryDialog {
+    constructor(book, youHave, youWear, separator, andSeparator) {
+        this.book = book;
+        this.youHave = youHave;
+        this.youWear = youWear;
+        this.separator = separator;
+        this.andSeparator = andSeparator;
+    }
+
+    async execute() {
+
+        if (this.book.player.children().length === 0) return;
+
+        const items = [];
+        const wear = [];
+
+        this.book.player.children().forEach(n => {
+            if (n.isSet("worn")) wear.push(n);
+            else items.push(n);
+        });
+
+        if (items.length !== 0) {
+            const dialog = new ListDialog(this.youHave, this.separator, this.andSeparator);
+            dialog.execute(items);
+        }
+
+        if (wear.length !== 0) {
+            const dialog = new ListDialog(this.youWear, this.separator, this.andSeparator);
+            dialog.execute(wear);
+        }
+    }
+};
+
 export function loadListDialog(child) {
 
 	if (!Utils.expectedAttributes(child, "initial-message",
@@ -178,5 +211,18 @@ export function loadObjectChooserDialog(book, child) {
         child.getAttr("message").getValue(),
         child.getAttr("cancel").getValue(),
         child.getAttr("error").getValue()
+    );
+}
+
+export function loadInventoryDialog(book, child) {
+
+    if (!Utils.expectedAttributes(child, "you-have", "you-wear", "separator", "and-separator")) return null;
+
+    return new InventoryDialog(
+        book,
+        child.getAttr("you-have").getValue(),
+        child.getAttr("you-wear").getValue(),
+        child.getAttr("separator").getValue(),
+        child.getAttr("and-separator").getValue()
     );
 }

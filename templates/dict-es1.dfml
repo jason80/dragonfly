@@ -6,7 +6,8 @@ dictionary {
 	proper-list-dialog(singular: "está aquí", plural: "están aquí",
 					separator: ", ", and-separator: " y ")
 
-	inventory-dialog(initial-message: "Tengo en mi poder: ",
+	inventory-dialog(you-have: "Tengo en mi poder: ",
+					you-wear: "Tengo puesto: ",
 					separator: ", ", and-separator: " y ")
 
 	look-inside-dialog(initial-message: "Adentro hay: ",
@@ -101,6 +102,7 @@ dictionary {
 		response(id: "indirect-is-not-container", string: "No puedo meter #1 en #2.")
 		response(id: "indirect-is-closed", string: "#^2 est@2(á,á,án,án) cerrad@2(o,a,os,as).")
 		response(id: "direct-leaved", string: "Dejo #1 en #2.")
+		response(id: "first-remove", string: "Primero debo quitarme@1(lo,la,los,las).")
 		response(id: "syntax-fail", string: "Tienes que decir lo que debo dejar.")
 	}
 
@@ -123,6 +125,7 @@ dictionary {
 		syntax: "1") {
 		response(id: "direct-not-found", string: "No tengo eso.")
 		response(id: "direct-left", string: "@^1(lo,la,los,las) dejo")
+		response(id: "first-remove", string: "Primero debo quitarme@1(lo,la,los,las).")
 	}
 
 	verb(names: "abrir, abre", action: "OpenWith",
@@ -357,6 +360,21 @@ dictionary {
 		response(id: "indirect-is-the-player", string: "Ya l@1(o,a,os,as) tengo.")
 		response(id: "indirect-is-not-interactive", string: "No puedo darle #1 a #2.")
 		response(id: "given-to-indirect", string: "Le doy #1 a #2.")
+	}
+
+	verb(names: "vestir, viste, vesti, ponerse, ponte, usa, usar", action: "WearObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No veo eso para ponerme.")
+		response(id: "direct-is-the-player", string: "No puedo usarme a mí mismo.")
+		response(id: "direct-is-not-wearable", string: "No puedo ponerme eso.")
+		response(id: "direct-is-worn", string: "Ya tengo puesto eso.")
+		response(id: "direct-moved-to-inventory", string: "(primero tomo #1)")
+		response(id: "direct-now-worn", string: "Ahora llevo puesto #1.")
+	}
+
+	verb(names: "quitar, quitarse, quitarme, quitame, quita, sacar, sacarme, saca, remover, remueve, remove", action: "RemoveObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No veo eso puesto en mí.")
+		response(id: "direct-is-not-worn", string: "No tengo puesto eso.")
+		response(id: "direct-removed", string: "Me quito #1.")
 	}
 
 	verb(names: "saltar, salta, salte, brincar, brinca", action: "Jump") {

@@ -6,7 +6,8 @@ dictionary {
 	proper-list-dialog(singular: "está aquí", plural: "están aquí",
 					separator: ", ", and-separator: " y ")
 
-	inventory-dialog(initial-message: "Tienes en tu poder: ",
+	inventory-dialog(you-have: "Tienes en tu poder: ",
+					you-wear: "Tienes puesto: ",
 					separator: ", ", and-separator: " y ")
 
 	look-inside-dialog(initial-message: "Adentro hay: ",
@@ -101,6 +102,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "¿Meterte eso?")
 		response(id: "indirect-is-not-container", string: "No puedes meter #1 en #2.")
 		response(id: "indirect-is-closed", string: "#^2 est@2(á,á,án,án) cerrad@2(o,a,os,as).")
+		response(id: "first-remove", string: "Primero debes quitarte@1(lo,la,los,las).")
 		response(id: "direct-leaved", string: "Dejas #1 en #2.")
 		response(id: "syntax-fail", string: "Tienes que decir lo que debes dejar.")
 	}
@@ -123,6 +125,7 @@ dictionary {
 	verb(names: "dejar, tirar, deja, tira", action: "LeaveObject",
 		syntax: "1") {
 		response(id: "direct-not-found", string: "No tienes eso.")
+		response(id: "first-remove", string: "Primero debes quitarte@1(lo,la,los,las).")
 		response(id: "direct-left", string: "@^1(lo,la,los,las) dejas.")
 	}
 
@@ -358,6 +361,21 @@ dictionary {
 		response(id: "indirect-is-the-player", string: "Ya l@1(o,a,os,as) tienes.")
 		response(id: "indirect-is-not-interactive", string: "No puedes darle #1 a #2.")
 		response(id: "given-to-indirect", string: "Le das #1 a #2.")
+	}
+
+	verb(names: "vestir, viste, vesti, ponerse, ponte, usa, usar", action: "WearObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No ves eso para ponerte.")
+		response(id: "direct-is-the-player", string: "No puedes usarte a ti mismo.")
+		response(id: "direct-is-not-wearable", string: "No puedes ponerte eso.")
+		response(id: "direct-is-worn", string: "Ya tienes puesto eso.")
+		response(id: "direct-moved-to-inventory", string: "(primero tomas #1)")
+		response(id: "direct-now-worn", string: "Ahora llevas puesto #1.")
+	}
+
+	verb(names: "quitar, quitarse, quitarme, quitame, quita, sacar, sacarme, saca, remover, remueve, remove", action: "RemoveObject", syntax: "1") {
+		response(id: "direct-not-found", string: "No ves eso puesto en ti.")
+		response(id: "direct-is-not-worn", string: "No llevas puesto eso.")
+		response(id: "direct-removed", string: "Te quitas #1.")
 	}
 
 	verb(names: "saltar, salta, salte, brincar, brinca", action: "Jump") {

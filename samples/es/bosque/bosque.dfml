@@ -59,6 +59,14 @@ dictionary {
          }
       }
 
+      // SONIDO DEL AGUA
+      noun(names: "agua, corriente, arroyo, sonido") {
+         set { "scene" "fixed" }
+
+         describe-object() {
+            "El sonido del agua proviene del sur. Deberia ir a ver."
+         }
+      }
 
       connection(exit: "norte", destiny: "-path")
       connection(exit: "sur", destiny: "-creek")

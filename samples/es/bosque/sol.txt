@@ -1,0 +1,79 @@
+Un Claro en el bosque
+
+Estas parado en el tranquilo claro de un bosque, rodeado de árboles añosos. Hacia el norte, un sendero angosto se adentra en la niebla. Hacia el sur, se puede escuchar el suave sonido de un arroyo.
+> sur
+
+El Arroyo
+
+La corriente fluye tranquila. Cantos rodados definen las orillas, creando una pacífica atmósfera. Cerca de la orilla yace un viejo tronco hueco, su ennegrecida corteza se confunde con el entorno.
+
+Hacia el norte, se vuelve al claro.
+> mirar en el tronco
+
+Adentro hay: una ganzúa.
+> recoge la ganzua del tronco
+
+Sacas la ganzúa de el tronco hueco.
+> norte
+
+Un Claro en el bosque
+
+Estas parado en el tranquilo claro de un bosque, rodeado de árboles añosos. Hacia el norte, un sendero angosto se adentra en la niebla. Hacia el sur, se puede escuchar el suave sonido de un arroyo.
+> norte
+
+En un Sendero Angosto
+
+La niebla se extiende a lo largo del sendero. El suelo está cubierto de hojas secas y crujientes. A la distancia, el sendero dobla hacia el este, adentrándose mas en el bosque. Hacia el sur, conduce de vuelta hacia el claro.
+> este
+
+La Cabaña
+
+Una pintoresca cabaña de madera se encuentra entre los altos árboles. Bocanadas de humo salen perezosamente por la chimenea de piedra. Hacia el oeste, el angosto sendero se torna de regreso a los árboles.
+> entrar
+
+La puerta de la cabaña no cede. Debería buscar algo con lo cual forzar la puerta.
+> forzar la puerta con la ganzua
+
+La ganzúa hace su trabajo y la cerradura hace un suave "clic". Con un leve empujón la puerta se abre, revelando el interior de la cabaña.
+> entrar
+
+Dentro de La Cabaña
+
+El interior de la cabaña apenas está iluminado, con sombras danzando en las paredes de madera producidas por el fuego parpadeante del hogar de piedra. Hay líneas de estantes llenas de polvorientos libros y frascos con contenidos desconocidos. En el centro hay una robusta mesa.
+> examinar la mesa
+
+Hay algunas velas sobre la mesa.
+
+También hay una nota arrugada.
+> leer la nota
+
+"Para aquellos que buscan la verdad:
+
+El bosque esconde muchos secretos, pero sólo los valientes los revelarán.
+
+Sigue la luz dónde la niebla se haga mas densa, y encontrarás lo que buscas."
+> salir
+
+La Cabaña
+
+Una pintoresca cabaña de madera se encuentra entre los altos árboles. Bocanadas de humo salen perezosamente por la chimenea de piedra. Hacia el oeste, el angosto sendero se torna de regreso a los árboles.
+> oeste
+
+En un Sendero Angosto
+
+La niebla se extiende a lo largo del sendero. El suelo está cubierto de hojas secas y crujientes. A la distancia, el sendero dobla hacia el este, adentrándose mas en el bosque. Hacia el sur, conduce de vuelta hacia el claro.
+
+Una luz apenas visible brilla a la distancia, atravezando la niebla.
+> examinar la luz
+
+Una luz tenue y misteriosa brilla a la distancia, como si te estuviera haciendo señas para guiarte a través de la niebla.
+> seguir la luz
+
+La luz está al noroeste. Comienzo a seguirla y me doy cuenta de que un sendero, oculto por la vegetación, se abre en esa dirección.
+> noroeste
+
+¡Ganaste!
+
+Has atravesado el bosque sin riesgos.
+
+(Presiona Enter para reiniciar el juego.)

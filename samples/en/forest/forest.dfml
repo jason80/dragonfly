@@ -59,6 +59,14 @@ dictionary {
          }
       }
 
+      noun(names: "water, stream, creek, sound") {
+         set { "scene" "fixed" }
+
+         describe-object() {
+            "Water sound is coming from the south. I should go see."
+         }
+      }
+
 
       connection(exit: "north", destiny: "-path")
       connection(exit: "south", destiny: "-creek")

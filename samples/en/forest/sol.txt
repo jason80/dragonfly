@@ -1,0 +1,79 @@
+A Clearing in the Forest
+
+You are standing in a peaceful clearing in a forest, surrounded by ancient trees. To the north, a narrow path leads into the fog. To the south, you can hear the soft sound of a creek.
+> south
+
+The Creek
+
+The stream flows gently. Pebbles define the banks, creating a peaceful atmosphere. Near the bank lies an old hollow log, its blackened bark blending into the surroundings.
+
+To the north, it leads back to the clearing.
+> look in the log
+
+Inside there is: a lockpick.
+> take the lockpick from the log
+
+You take the lockpick out of the hollow log.
+> north
+
+A Clearing in the Forest
+
+You are standing in a peaceful clearing in a forest, surrounded by ancient trees. To the north, a narrow path leads into the fog. To the south, you can hear the soft sound of a creek.
+> north
+
+On a Narrow Path
+
+The fog rolls across the path. The ground is covered with dry, crunchy leaves. In the distance, the path bends to the east, leading deeper into the forest. To the south, it leads back to the clearing.
+> east
+
+The Cabin
+
+A picturesque wooden cabin stands among the tall trees. Puffs of smoke drift lazily from the stone chimney. To the west, the narrow path winds back into the trees.
+> enter
+
+The cabin door does not budge. I should look for something to pick the lock with.
+> force the door with the lockpick
+
+The lockpick does its job and the lock makes a soft "click". With a slight push, the door swings open, revealing the inside of the cabin.
+> enter
+
+Inside The Cabin
+
+The inside of the cabin is dimly lit, with shadows dancing on the wooden walls cast by the flickering fire in the stone fireplace. There are rows of shelves filled with dusty books and jars of unknown contents. In the center stands a sturdy table.
+> examine the table
+
+There are a few candles on the table.
+
+There is also a crumpled note.
+> read the note
+
+"To those who seek the truth:
+
+The forest hides many secrets, but only the brave will reveal them.
+
+Follow the light where the fog becomes thickest, and you will find what you seek."
+> exit
+
+The Cabin
+
+A picturesque wooden cabin stands among the tall trees. Puffs of smoke drift lazily from the stone chimney. To the west, the narrow path winds back into the trees.
+> west
+
+On a Narrow Path
+
+The fog rolls across the path. The ground is covered with dry, crunchy leaves. In the distance, the path bends to the east, leading deeper into the forest. To the south, it leads back to the clearing.
+
+A barely visible light shines in the distance, piercing through the fog.
+> examine the light
+
+A faint and mysterious light shines in the distance, as if beckoning you to guide you through the fog.
+> follow the light
+
+The light is to the northwest. I begin to follow it and notice that a path, hidden by the overgrown vegetation, opens up in that direction.
+> northwest
+
+You won!
+
+You have safely made it through the forest.
+
+(Press Enter to restart the game.)

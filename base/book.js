@@ -49,7 +49,7 @@ export class Book {
 			"show-parsing-process": false,
 			"look-around": "always",
 			"hide-title": false,
-			"parser-clean": "-_#$@&+*;/",
+			"parser-clean": "[^A-Za-z0-9\\s]",
 			"player": "",
 			"prompt": "> ",
 			"text-style": "class:df-default-text",

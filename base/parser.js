@@ -43,7 +43,8 @@ export class Parser {
 		}
 
 		// Clean unexpected chars
-		const regex = new RegExp(`[${this.book.getProperty("parser-clean")}]`, 'g');
+		const allowedChars = this.book.getProperty("parser-clean");
+		const regex = new RegExp(`${allowedChars}`, 'g');
 		line = line.replace(regex, '');
 
 		const tokens = line.trim().split(" ").filter(t => t.trim());

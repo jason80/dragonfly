@@ -1,6 +1,7 @@
 import { Action, DefaultAction, SingleAction } from "./action.js"
 import { Output } from "./output.js";
 import { DFMLPersistenceSystem } from "./persistence.js";
+import { check_inventory } from "./inventory.js";
 
 export const actions = {};
 
@@ -381,7 +382,7 @@ export class TakeObject extends Action {
 		if (this.book.parser.directObject.isSet("heavy"))
 			return this.fireResponse("direct-is-heavy")
 
-		return true;
+		return check_inventory(this, this.book.player, this.book.parser.directObject);
 	}
 
 	carryOut() {
@@ -400,7 +401,7 @@ export class TakeObject extends Action {
 
 	responses() {
 		return ["direct-not-found", "direct-is-the-player", "direct-is-fixed",
-					"direct-is-heavy", "direct-taken"]
+					"direct-is-heavy", "inventory-full", "direct-taken"]
 	}
 } actions.TakeObject = TakeObject;
 
@@ -485,6 +486,9 @@ export class TakeFrom extends Action {
 		const lst = container.children(this.book.parser.directObjectString)
 		if (lst.length === 0) return this.fireResponse("direct-not-found")
 
+		if (!check_inventory(this, this.book.player, this.book.parser.directObject))
+			return false;
+
 		this.book.parser.directObject = await this.book.dictionary.objectChooserDialog.execute(lst)
 		if (!this.book.parser.directObject) return false
 
@@ -509,7 +513,7 @@ export class TakeFrom extends Action {
 
 	responses() {
 		return ["indirect-not-found", "indirect-is-not-container", "indirect-is-closed",
-					"direct-not-found", "direct-taken"]
+					"direct-not-found", "inventory-full", "direct-taken"]
 	}
 } actions.TakeFrom = TakeFrom;
 

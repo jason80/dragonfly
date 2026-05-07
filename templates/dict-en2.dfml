@@ -56,6 +56,7 @@ dictionary {
 		response(id: "indirect-is-not-container", string: "You can't take things from #2.")
 		response(id: "indirect-is-closed", string: "#2 @2(is,is,are,are) closed.")
 		response(id: "direct-not-found", string: "#^2 does not contain that.")
+		response(id: "inventory-full", string: "You cannot carry any more.")
 		response(id: "direct-taken", string: "You take #1 out of #2.")
 		response(id: "syntax-fail", string: "You need to specify what you should take out.")
 	}
@@ -72,6 +73,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "You can't take yourself.")
 		response(id: "direct-is-fixed", string: "You can't take #1.")
 		response(id: "direct-is-heavy", string: "#^1 @1(is,is,are,are) too heavy for you to carry @1(it,her,them,them).")
+		response(id: "inventory-full", string: "You cannot carry any more.")
 		response(id: "direct-taken", string: "You pick up #1.")
 	}
 

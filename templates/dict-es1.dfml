@@ -72,6 +72,7 @@ dictionary {
 		response(id: "indirect-is-not-container", string: "No puedo sacar cosas de #2.")
 		response(id: "indirect-is-closed", string: "Est@2(á,á,án,án) cerrad@2(o,a,os,as).")
 		response(id: "direct-not-found", string: "#^2 no contiene eso.")
+		response(id: "inventory-full", string: "No puedo llevar mas.")
 		response(id: "direct-taken", string: "Saco #1 de #2.")
 		response(id: "syntax-fail", string: "Tienes que indicar qué debo sacar.")
 	}
@@ -81,6 +82,7 @@ dictionary {
 		response(id: "direct-not-found", string: "No hay eso.")
 		response(id: "direct-is-the-player", string: "No puedo llevarme a mi mismo.")
 		response(id: "direct-is-fixed", string: "No puedo llevarme #1.")
+		response(id: "inventory-full", string: "No puedo llevar mas.")
 		response(id: "direct-is-heavy", string: "#^1 @1(es,es,son,son) muy pesad@1(o,a,os,as) como para llevárme@1(lo,la,los,las).")
 		response(id: "direct-taken", string: "Recojo #1.")
 	}
@@ -90,6 +92,7 @@ dictionary {
 		response(id: "direct-not-found", string: "No hay eso.")
 		response(id: "direct-is-the-player", string: "No puedo llevarme a mi mismo.")
 		response(id: "direct-is-fixed", string: "No puedo llevarme #1.")
+		response(id: "inventory-full", string: "No puedo llevar mas.")
 		response(id: "direct-is-heavy", string: "#^1 @1(es,es,son,son) muy pesad@1(o,a,os,as) como para llevarme@1(lo,la,los,las).")
 		response(id: "direct-taken", string: "Recojo #1.")
 	}

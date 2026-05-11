@@ -1,0 +1,232 @@
+book (
+   title: "Noé",
+   author: "Javier Candales (Jasón)",
+   version: "0.1",
+   genre: "Puzzle",
+   language: "es",
+   storyLength: "Tiny",
+   parental: 0
+) {
+   description {
+      "Eres Noé, y tu misión casi concluye: cruzar por un puente con los últimos dos animales ... y un repollo."
+   }
+
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-es2.dfml") // Diccionario (segunda persona)
+   property(name: "player", value: "jugador") // Indica quien es el jugador
+
+   // Debug
+   /*
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml") // Verbos para depurar
+   property(name: "show-parsing-process", value: false) // Muestra el proceso de parsing
+   property(name: "parser-clean", value: "") // Habilita caracteres especiales
+   */
+}
+
+dictionary {
+
+   // Agrega el verbo 'ayuda' asociado a la accion 'MHelp' creada en noe.js
+   verb(names: "ayuda", action: "MHelp")
+
+   // Guarda el número de final
+   variable(name: "ending", value: "0")
+
+   // Orilla sur
+   noun(names: "En La Orilla del Río, -sur") {
+      describe-place() {
+
+         // Solo se muestra una vez
+         if-is-not-set(instance: "-sur", attr: "described") {
+            print(style: "font-style: italic;") {
+               'Y Dios dijo: "Noé, solo te faltan dos animales para cruzar el puente. Y no olvides el repollo, te servirá como alimento."'
+            }
+         }
+
+         "Estás frente a un puente colgante que conduce al norte, donde se encuentra el arca. El otro lado te espera."
+
+         // Tip que solo se muestra una vez
+         tip(once) {
+            "Puedes escribir 'ayuda' para saber como jugar."
+         }
+      }
+
+      // El rio
+      noun(names: "rio, río, arroyo, agua, rapido, -rio") {
+         set { "fixed" "scene" }
+         describe-object() {
+            "Fuertes rápidos puedes ver cuando te asomas."
+         }
+      }
+
+      // Puente
+      noun(names: "puente, puente colgante, colgante, -puente") {
+         set { "fixed" "scene" }
+         describe-object() {
+            "¿Hay que cruzar por ahí? Sí, se ve bastante peligroso."
+         }
+      }
+
+      // Jugador
+      noun(names: "jugador, noe, player") {
+
+         variable(name: "capacity", value: "1")
+
+         // Descripción del jugador
+         describe-object() {
+            if-direct-equals(instance: "jugador") {
+               "Eres Noé. No le temes a las bestias. Mucho menos a los vegetales."
+            }
+         }
+
+         // Al depositar la cabra, el lobo o el repollo comprueba la victoria
+         after(actions: "LeaveObject") {
+            call(procedure: "check-victory")
+         }
+
+         // Se considera que el jugador ha saltado al río
+         before(actions: "Jump") {
+            "¡Adiós mundo cruel!"
+
+            variable-set(name: "ending", value: "4")
+
+            call(procedure: "defeat")
+         }
+
+         // Al escribir "ayuda"
+         before(actions: "MHelp", cancel: true) {
+            "Para ganar, debes cruzar a los animales y el repollo al otro lado del puente en el orden correcto."
+            "Utiliza verbos como 'recoge' 'coge' 'toma' <objeto> para trasladarlos."
+            "'Examina' todo lo que se describe en los lugares."
+            "'Deja' 'suelta' <objeto> para dejarlos en el lugar."
+            "Trasládate al otro lado con: 'ir hacia el norte' o simplemente 'norte' 'cruzar'."
+            "Puedes guardar la partida con 'salvar' 'save' o recuperar 'recuperar' 'load'."
+            "Prueba otros verbos, el juego reconoce un montón que aquí no se mencionan."
+         }
+      }
+
+      // El Lobo
+      noun(names: "lobo") {
+         describe-object() {
+            "El lobo, te mira fijamente y te mueve la cola. Dios dijo no te haría daño."
+         }
+      }
+
+      // La Cabra
+      noun(names: "cabra, cabrio") {
+         set { "female" }
+
+         describe-object() {
+            "La cabra está sentada en el suelo como un ser humano. A veces mira de reojo al lobo."
+         }
+      }
+
+      // El Repollo
+      noun(names: "repollo, col") {
+         describe-object() {
+            "Es enorme, pero es alimento y se necesita para los días venideros. Ganó premios en dos ferias agrícolas."
+         }
+      }
+
+      // Comprueba el estado de los objetos para comprobar la derrota.
+      before(actions: "GoTo") {
+         call(procedure: "status")
+      }
+
+      connection(exit: "norte", destiny: "-norte")
+      connection(exit: "otro lado", destiny: "-norte")
+   }
+
+   noun(names: "El Otro Lado, -norte") {
+      describe-place() {
+         "El arca se levanta ante ti. Puedes volver a cruzar el puente por el sur."
+      }
+
+      // Clonar sustantivos significa que serán idénticos, pero ambos serán instancias distintas.
+      clone(instance: "-rio")
+      clone(instance: "-puente")
+
+      // También se comprueba el estado del lobo, la cabra y el repollo
+      before(actions: "GoTo") {
+         call(procedure: "status")
+      }
+
+      connection(exit: "sur", destiny: "-sur")
+      connection(exit: "otro lado", destiny: "-sur")
+   }
+
+   // Comprueba el estado del lobo, la cabra y el repollo
+   procedure(name: "status") {
+      if-current-place-not-contains(instance: "lobo") {
+         if-current-place-contains(instance: "repollo") {
+            if-current-place-contains(instance: "cabra") {
+               "Sientes ruidos y te das la vuelta. Contemplas una masacre vegetal mientras estás en el puente. Se ve que la cabra tenía hambre."
+
+               variable-set(name: "ending", value: "3")
+
+               call(procedure: "defeat") break()
+            }
+         }
+      }
+
+      if-current-place-not-contains(instance: "repollo") {
+         if-current-place-contains(instance: "lobo") {
+            if-current-place-contains(instance: "cabra") {
+               "Caminando por la pasarela, sientes unas gotas tibias en tu espalda. Al darte media vuelta el lobo teñido de rojo te mira y te mueve la cola. Muy en el fondo sabías que algo de esto sucedería."
+
+               variable-set(name: "ending", value: "2")
+
+               call(procedure: "defeat") break()
+            }
+         }
+      }
+
+      if-current-place-contains(instance: "cabra") {
+         if-current-place-contains(instance: "repollo") {
+            if-current-place-contains(instance: "lobo") {
+               "Escuchas ruidos a tus espaldas. Giras sobre tus talones y solo ves una nube de polvo. ¿Qué ha sido de la cabra?. ¿Qué ha sido del repollo?. Bueno... el lobo saldría beneficiado ¿no?."
+
+               variable-set(name: "ending", value: "1")
+
+               call(procedure: "defeat") break()
+            }
+         }
+      }
+   }
+
+   procedure(name: "check-victory") {
+      if-contains(container: "-norte", instance: "player") {
+         if-current-place-contains(instance: "lobo") {
+            if-current-place-contains(instance: "repollo") {
+               if-current-place-contains(instance: "cabra") {
+                  "¡Enhorabuena! Has completado el cruce en paz."
+                  variable-set(name: "ending", value: "5")
+
+                  print(style: "color: green; font-weight: bold;") {
+                     "¡Ganaste!"
+                  }
+
+                  call(procedure: "restart")
+               }
+            }
+         }
+      }
+   }
+
+   procedure(name: "defeat") {
+      print(style: "color: red; font-weight: bold;") {
+         "¡Perdiste!"
+      }
+
+      call(procedure: "restart")
+   }
+
+   procedure(name: "restart") {
+
+      "Final $(ending) de 5."
+
+      "Presiona 'Enter' para volver a jugar."
+
+      cancel-event()
+      pause()
+      restart-game() clear() show-title() execute { "x" }
+   }
+}

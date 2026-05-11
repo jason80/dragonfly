@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Versión actual: 0.7.0*
+*Versión actual: 0.8.0*
 
 [English](./README.md) | Español
 
@@ -27,6 +27,7 @@ Dragonfly es un motor de juegos de ficción interactiva. Permite crear y jugar a
 | [El Bosque](https://jason80.github.io/dragonfly/samples/es/bosque/bosque.html) | Un juego simple con cinco locaciones | Básicos: Movimiento, atributos, contenedores, final ([Solución](./samples/es/bosque/sol.txt)) |
 | [Chooser](https://jason80.github.io/dragonfly/samples/es/chooser/chooser.html) | Prueba de diálogo de objetos | Básicos: Diálogo, objetos, contenedores, inventario |
 | [Manto de Oscuridad](https://jason80.github.io/dragonfly/samples/es/manto/index.html) | Port en español a Dragonfly del juego "Cloak of Darkness" de Roger Firth escrito en Inform 6 | Básicos: Movimiento, finales, oscuridad ([Solución](./samples/es/manto/sol.txt)) |
+| [Noé](https://jason80.github.io/dragonfly/samples/es/noe/index.html) | Juego de lógica | Inventario limitado, varios finales ([Solución](./samples/es/noe/sol.txt))|
 
 ---
 

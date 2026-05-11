@@ -1,0 +1,35 @@
+Final 5 (Bueno):
+> coge cabra
+> norte
+> deja cabra
+> sur
+
+> coge lobo
+> norte
+> deja lobo
+> coge cabra
+> sur
+
+> deja cabra
+> coge repollo
+> norte
+> deja repollo
+> sur
+
+> coge cabra
+> norte
+> deja cabra
+
+Final 4 (Malo):
+Simplemente 'salta'
+
+Final 3 (Malo):
+> coge lobo
+> norte
+
+Final 2 (Malo):
+> coge repollo
+> norte
+
+Final 1 (Malo):
+> norte

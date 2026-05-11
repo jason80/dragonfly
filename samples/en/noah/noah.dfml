@@ -1,0 +1,232 @@
+book (
+   title: "Noah",
+   author: "Javier Candales (Jasón)",
+   version: "0.1",
+   genre: "Puzzle",
+   language: "en",
+   storyLength: "Tiny",
+   parental: 0
+) {
+   description {
+      "You are Noah, and your mission is almost complete: cross a bridge with the last two animals... and a cabbage."
+   }
+
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-en2.dfml") // Dictionary (second person)
+   property(name: "player", value: "player") // Indicates who the player is
+
+   // Debug
+   /*
+   include(src: "https://jason80.github.io/dragonfly/templates/dict-debug.dfml") // Debug verbs
+   property(name: "show-parsing-process", value: false) // Shows the parsing process
+   property(name: "parser-clean", value: "") // Enables special characters
+   */
+}
+
+dictionary {
+
+   // Adds the verb 'help' associated with the action 'MHelp' created in noah.js
+   verb(names: "help", action: "MHelp")
+
+   // Stores the ending number
+   variable(name: "ending", value: "0")
+
+   // South riverbank
+   noun(names: "On The Riverbank, -south") {
+      describe-place() {
+
+         // Only shown once
+         if-is-not-set(instance: "-south", attr: "described") {
+            print(style: "font-style: italic;") {
+               'And God said: "Noah, you only have two animals left to cross the bridge. And do not forget the cabbage, it will serve as food."'
+            }
+         }
+
+         "You stand before a hanging bridge leading north, where the ark awaits. The other side is calling."
+
+         // Tip shown only once
+         tip(once) {
+            "You can type 'help' to learn how to play."
+         }
+      }
+
+      // The river
+      noun(names: "river, stream, water, rapids, -river") {
+         set { "fixed" "scene" }
+         describe-object() {
+            "Strong rapids can be seen when you lean over the edge."
+         }
+      }
+
+      // Bridge
+      noun(names: "bridge, hanging bridge, suspension bridge, -bridge") {
+         set { "fixed" "scene" }
+         describe-object() {
+            "Do we really have to cross over that? Yes, it looks quite dangerous."
+         }
+      }
+
+      // Player
+      noun(names: "player, noah") {
+
+         variable(name: "capacity", value: "1")
+
+         // Player description
+         describe-object() {
+            if-direct-equals(instance: "player") {
+               "You are Noah. You do not fear beasts. Much less vegetables."
+            }
+         }
+
+         // After dropping the goat, the wolf or the cabbage, check victory
+         after(actions: "LeaveObject") {
+            call(procedure: "check-victory")
+         }
+
+         // The player is considered to have jumped into the river
+         before(actions: "Jump") {
+            "Goodbye cruel world!"
+
+            variable-set(name: "ending", value: "4")
+
+            call(procedure: "defeat")
+         }
+
+         // When typing "help"
+         before(actions: "MHelp", cancel: true) {
+            "To win, you must bring the animals and the cabbage across the bridge in the correct order."
+            "Use verbs like 'pick up', 'take' <object> to carry them."
+            "'Examine' everything described in the locations."
+            "'Drop' <object> to leave it in the current place."
+            "Move to the other side with: 'go north' or simply 'north' or 'cross'."
+            "You can save the game with 'save' and restore it with 'load'."
+            "Try other verbs too, the game recognizes many not mentioned here."
+         }
+      }
+
+      // The Wolf
+      noun(names: "wolf") {
+         describe-object() {
+            "The wolf stares at you and wags its tail. God said it would not harm you."
+         }
+      }
+
+      // The Goat
+      noun(names: "goat") {
+         set { "female" }
+
+         describe-object() {
+            "The goat sits on the ground like a human being. Sometimes it glances sideways at the wolf."
+         }
+      }
+
+      // The Cabbage
+      noun(names: "cabbage") {
+         describe-object() {
+            "It is enormous, but it is food and will be needed in the days to come. It won awards at two agricultural fairs."
+         }
+      }
+
+      // Checks object states to determine defeat
+      before(actions: "GoTo") {
+         call(procedure: "status")
+      }
+
+      connection(exit: "north", destiny: "-north")
+      connection(exit: "other side", destiny: "-north")
+   }
+
+   noun(names: "The Other Side, -north") {
+      describe-place() {
+         "The ark rises before you. You can cross the bridge back to the south."
+      }
+
+      // Cloning nouns means they will be identical, but both will be separate instances
+      clone(instance: "-river")
+      clone(instance: "-bridge")
+
+      // The wolf, goat and cabbage states are also checked
+      before(actions: "GoTo") {
+         call(procedure: "status")
+      }
+
+      connection(exit: "south", destiny: "-south")
+      connection(exit: "other side", destiny: "-south")
+   }
+
+   // Checks the state of the wolf, the goat and the cabbage
+   procedure(name: "status") {
+      if-current-place-not-contains(instance: "wolf") {
+         if-current-place-contains(instance: "cabbage") {
+            if-current-place-contains(instance: "goat") {
+               "You hear noises and turn around. You witness a vegetable massacre while standing on the bridge. Apparently, the goat was hungry."
+
+               variable-set(name: "ending", value: "3")
+
+               call(procedure: "defeat") break()
+            }
+         }
+      }
+
+      if-current-place-not-contains(instance: "cabbage") {
+         if-current-place-contains(instance: "wolf") {
+            if-current-place-contains(instance: "goat") {
+               "Walking along the bridge, you feel warm drops on your back. As you turn around, the wolf, stained red, looks at you and wags its tail. Deep down, you knew something like this would happen."
+
+               variable-set(name: "ending", value: "2")
+
+               call(procedure: "defeat") break()
+            }
+         }
+      }
+
+      if-current-place-contains(instance: "goat") {
+         if-current-place-contains(instance: "cabbage") {
+            if-current-place-contains(instance: "wolf") {
+               "You hear noises behind you. You spin on your heels and see nothing but a cloud of dust. What happened to the goat? What happened to the cabbage? Well... the wolf certainly benefited, didn't it?"
+
+               variable-set(name: "ending", value: "1")
+
+               call(procedure: "defeat") break()
+            }
+         }
+      }
+   }
+
+   procedure(name: "check-victory") {
+      if-contains(container: "-north", instance: "player") {
+         if-current-place-contains(instance: "wolf") {
+            if-current-place-contains(instance: "cabbage") {
+               if-current-place-contains(instance: "goat") {
+                  "Congratulations! You completed the crossing in peace."
+                  variable-set(name: "ending", value: "5")
+
+                  print(style: "color: green; font-weight: bold;") {
+                     "You won!"
+                  }
+
+                  call(procedure: "restart")
+               }
+            }
+         }
+      }
+   }
+
+   procedure(name: "defeat") {
+      print(style: "color: red; font-weight: bold;") {
+         "You lost!"
+      }
+
+      call(procedure: "restart")
+   }
+
+   procedure(name: "restart") {
+
+      "Ending $(ending) of 5."
+
+      "Press 'Enter' to play again."
+
+      cancel-event()
+      pause()
+      restart-game() clear() show-title() execute { "x" }
+   }
+}

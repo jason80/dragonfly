@@ -1,0 +1,35 @@
+Ending 5 (Good):
+> take goat
+> north
+> drop goat
+> south
+
+> take wolf
+> north
+> drop wolf
+> take goat
+> south
+
+> drop goat
+> take cabbage
+> north
+> drop cabbage
+> south
+
+> take goat
+> north
+> drop goat
+
+Ending 4 (Bad):
+Simply type 'jump'
+
+Ending 3 (Bad):
+> take wolf
+> north
+
+Ending 2 (Bad):
+> take cabbage
+> north
+
+Ending 1 (Bad):
+> north

@@ -95,6 +95,11 @@ dictionary {
 		response(id: "exit-not-found", string: "You can't go that way.")
 	}
 
+	verb(names: "go, travel, walk", action: "GoTo", syntax: "1") {
+		response(id: "exit-not-exists", string: "You don't know that direction.")
+		response(id: "exit-not-found", string: "You can't go that way.")
+	}
+
 	verb(names: "leave, release, drop, forget", action: "LeaveObject",
 		syntax: "1") {
 		response(id: "direct-not-found", string: "You don't have that.")

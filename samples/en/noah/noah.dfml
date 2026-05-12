@@ -204,6 +204,8 @@ dictionary {
                      "You won!"
                   }
 
+                  "You completed the game in $(steps) turns."
+
                   call(procedure: "restart")
                }
             }

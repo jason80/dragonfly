@@ -201,8 +201,10 @@ dictionary {
                   variable-set(name: "ending", value: "5")
 
                   print(style: "color: green; font-weight: bold;") {
-                     "¡Ganaste!"
+                     "¡Has Ganado!"
                   }
+
+                  "Has completado el juego en $(steps) turnos."
 
                   call(procedure: "restart")
                }
@@ -213,7 +215,7 @@ dictionary {
 
    procedure(name: "defeat") {
       print(style: "color: red; font-weight: bold;") {
-         "¡Perdiste!"
+         "¡Derrota!"
       }
 
       call(procedure: "restart")

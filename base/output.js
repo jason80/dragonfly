@@ -1,3 +1,4 @@
+import { CharIterator } from "../dfml/js/main/parser.js";
 import { Book } from "./book.js";
 import { Utils } from "./utils.js";
 
@@ -148,99 +149,116 @@ export class Output {
 	 */
 	static replaceObjects(text) {
 		let result = "";
-		let i = 0;
+		const iter = new CharIterator(text);
 
-		while (i < text.length) {
-			let ch = text[i];
+		while (!iter.end()) {
+			let ch = iter.nextCh();
 
 			// Escape characters
-			if (i < text.length - 1) {
-				if (ch == "#" && text[i + 1] == "#") { result += "#"; i += 2; continue; }
-				if (ch == "%" && text[i + 1] == "%") { result += "%"; i += 2; continue; }
-				if (ch == "@" && text[i + 1] == "@") { result += "@"; i += 2; continue; }
-				if (ch == "$" && text[i + 1] == "$") { result += "$"; i += 2; continue; }
+			switch(ch) {
+				case "#":
+				case "%":
+				case "@":
+				case "$":
+					if (iter.hasNext(ch)) {
+						result += ch; iter.nextCh();
+						continue;
+					}
+					break;
 			}
 
-			if (ch === "#" || ch === "%" || ch === "@") {
-				let obj = null;
-				let capitalize = false;
-				i++;
-
-				// Check if we need to capitalize the result
-				if (text[i] === "^") {
-					capitalize = true;
-					i++;
-				}
-
-				// Determine the object type
-				if (text[i] === "1") {
-					obj = this.book.parser.directObject;
-				} else if (text[i] === "2") {
-					obj = this.book.parser.indirectObject;
-				} else if (text[i] === "3") {
-					result += this.book.parser.parameters;
-					i++;
-					continue;
-				}
-
-				if (!obj) {
-					result += "(NONE)";
-				} else {
-					let objName = null;
-
-					if (ch === "%") {
-						objName = obj.a(); // Indefinite article
-					} else if (ch === "#") {
-						objName = obj.the(); // Definite article
-					} else if (ch === "@") {
-						i ++;
-						if (text[i] === "(") {
-							i ++;
-							let params = "";
-							while (i < text.length) {
-								if (text[i] === ")") {
-									result += this.replaceGenderNumber(obj, params, capitalize);
-									break;
-								}
-								params += text[i];
-								i ++;
-							}
-							i ++;
-							continue;
-						} else {
-							Output.error('Output: expected character "(" after @.');
-						}
+			switch (ch) {
+				case "#":
+				case "%":
+				case "@": {
+					let obj = null;
+					let capitalize = false;
+					let cmd = ch;
+					ch = iter.nextCh();
+					
+					// Check if we need to capitalize the result
+					if (ch === "^") {
+						capitalize = true;
+						ch = iter.nextCh();
 					}
 
-					// Apply capitalization if required
-					if (capitalize) {
-						result += objName.charAt(0).toUpperCase() + objName.slice(1);
+					// Determine the object type
+					if (ch === "1") {
+						obj = this.book.parser.directObject;
+					} else if (ch === "2") {
+						obj = this.book.parser.indirectObject;
+					} else if (ch === "3") {
+						result += this.book.parser.parameters;
+						i++;
+						continue;
+					}
+
+					if (!obj) {
+						result += "(NONE)";
 					} else {
-						result += objName;
-					}
-				}
-			} else if (ch === "$") {
-				i ++;
-				if (text[i] === "(") {
-					i ++;
-					let params = "";
-					while (i < text.length) {
-						if (text[i] === ")") {
-							result += this.replaceVariable(params);
-							break;
+						let objName = null;
+
+						if (cmd === "%") {
+							objName = obj.a(); // Indefinite article
+						} else if (cmd === "#") {
+							objName = obj.the(); // Definite article
+						} else if (cmd === "@") {
+							ch = iter.nextCh();
+							if (ch === "(") {
+								ch = iter.nextCh();
+								let params = "";
+								while (!iter.end()) {
+									if (ch === ")") {
+										result += this.replaceGenderNumber(obj, params, capitalize);
+										break;
+									}
+									params += ch;
+									ch = iter.nextCh();
+								}
+								//ch = iter.nextCh();
+								continue;
+							} else {
+								Output.error('Output: expected character "(" after @.');
+							}
 						}
-						params += text[i];
-						i ++;
+
+						// Apply capitalization if required
+						if (capitalize) {
+							result += objName.charAt(0).toUpperCase() + objName.slice(1);
+						} else {
+							result += objName;
+						}
 					}
-					i ++;
-					continue;
-				} else {
-					Output.error('Output: expected character "(" after $$.');
+					break;
 				}
-			} else {
-				result += ch;
+
+				case "$": {
+					ch = iter.nextCh();
+					if (ch === "(") {
+						ch = iter.nextCh();
+						let params = "";
+						let i = 0;
+						while (!iter.end()) {
+							if (ch === ")") {
+								result += this.replaceVariable(params);
+								break;
+							}
+							params += ch;
+							ch = iter.nextCh();
+						}
+						//ch = iter.nextCh();
+						continue;
+					} else {
+						Output.error('Output: expected character "(" after $$.');
+					}
+				}
+
+				default: {
+					result += ch;
+				}
 			}
-			i ++;
+			
+			//ch = iter.nextCh();
 		}
 
 		return result;

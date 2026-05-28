@@ -128,7 +128,9 @@ dictionary {
 
       // Checks object states to determine defeat
       before(actions: "GoTo") {
-         call(procedure: "status")
+         if-direct-equals-exit(exit: "north") {
+            call(procedure: "status")
+         }
       }
 
       connection(exit: "north", destiny: "-north")
@@ -146,7 +148,9 @@ dictionary {
 
       // The wolf, goat and cabbage states are also checked
       before(actions: "GoTo") {
-         call(procedure: "status")
+         if-direct-equals-exit(exit: "south") {
+            call(procedure: "status")
+         }
       }
 
       connection(exit: "south", destiny: "-south")

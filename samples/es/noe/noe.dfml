@@ -128,7 +128,9 @@ dictionary {
 
       // Comprueba el estado de los objetos para comprobar la derrota.
       before(actions: "GoTo") {
-         call(procedure: "status")
+         if-direct-equals-exit(exit: "norte") {
+            call(procedure: "status")
+         }
       }
 
       connection(exit: "norte", destiny: "-norte")
@@ -146,7 +148,9 @@ dictionary {
 
       // También se comprueba el estado del lobo, la cabra y el repollo
       before(actions: "GoTo") {
-         call(procedure: "status")
+         if-direct-equals-exit(exit: "sur") {
+            call(procedure: "status")
+         }
       }
 
       connection(exit: "sur", destiny: "-sur")

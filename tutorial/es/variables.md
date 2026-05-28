@@ -53,12 +53,23 @@ Para todas estas condiciones, los parametros son los mismos y se pueden interpol
 
 ---
 
-### Variables globales (No implementado)
+### Variables globales
 
 Las variables globales no están contenidas por sustantivos. La forma de declarar una variable global es dentro del nodo `dictionary`.
 
 La forma de modificar o acceder a una variable global es obviando el atributo `instance` de las respuestas y condiciones.
 
 Y la forma de interpolar una variable global es simplemente `$(variable)` (tambien obviando el sustantivo).
+
+---
+
+### Variables especiales
+
+Existen variables globales especiales que se usan en el juego:
+
+Variable | Descripción
+--- | ---
+`score` | El puntaje actual. Se puede establecer o consultar su valor en cualquier momento.
+`steps` | El conteo de pasos. Se puede establecer o consultar su valor en cualquier momento. El valor va incrementando con cada entrada del jugador (hay acciones que no consumen pasos).
 
 [<<< Procedimientos](procedures.md)

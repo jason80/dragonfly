@@ -53,13 +53,24 @@ All these conditions have the same parameters and they can be interpolated.
 
 ---
 
-### Global variables (Not implemented)
+### Global variables
 
 Global variables are not contained by nouns. The way to declare a global variable is inside the `dictionary` node.
 
 The way to modify or access a global variable is by omitting the `instance` attribute in responses and conditions.
 
 And the way to interpolate a global variable is simply `$(variable)` (also omitting the noun).
+
+---
+
+### Special variables
+
+There are global variables that are used in the game:
+
+Variable | Description
+--- | ---
+`score` | The current score. It can be set or consulted at any time.
+`steps` | The step count. It can be set or consulted at any time. The value is incremented with each player entry (there are actions that do not consume steps).
 
 [<<< Procedures](procedures.md)
 

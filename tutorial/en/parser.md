@@ -12,16 +12,18 @@ Next, we will detail in general the steps that the parser follows to process the
 
 ### 1 - Clean characters.
 
-Removes characters:
+Only passes characters as:
 
 ```
-- _ # $ @ & + * ; /
+A-Z a-z 0-9 ?
 ```
 
-These characters do not provide relevant information for the parser and can interfere with the interpretation of the player's input.
+The parser can be configured to allow all characters, in which case the value of the property `parse-clean` is: `[^A-Za-z0-9\s\?]`.
 
-*Note: you can configure the parser to ignore specific characters by setting the `book` node:*
-*```property(name: "parse-clean", value: "_#$@&+*;/")```*
+Other characters do not provide relevant information for the parser and can interfere with the interpretation of the player's input.
+
+*Note: it is possible to configure the parser to allow all characters:*
+*```property(name: "parse-clean", value: "")```*
 
 ### 2 - Looks for verbs.
 Looks for verbs in the dictionary that match the first word entered by the player. It expects to find one or more verbs that match that word. If it doesn't find any, it goes to step 2A.

@@ -12,16 +12,18 @@ A continuación, se detallarán de forma general los pasos que sigue el parser p
 
 ### 1 - Limpia caracteres indeseados.
 
-Se eliminan caracteres:
+Solo deja pasar caracteres como:
 
 ```
-- _ # $ @ & + * ; /
+A-Z a-z 0-9 ?
 ```
 
-Estos caracteres no aportan información relevante para el parser y pueden interferir con la interpretación de la entrada.
+Se puede modificar mediante la propiedad `parse-clean` de `book` y, por defecto, su valor es: `[^A-Za-z0-9\\s\?]`.
 
-*Nota: se puede configurar el parser para que ignore ciertos caracteres específicos estableciendo en el nodo `book`:*
-*```property(name: "parse-clean", value: "_#$@&+*;/")```*
+Los otros caracteres no aportan información relevante para el parser y pueden interferir con la interpretación de la entrada.
+
+*Nota: se puede configurar el parser para que permita todos los caracter:*
+*```property(name: "parse-clean", value: "")```*
 
 ### 2 - Busca verbos.
 Busca en el diccionario verbos que coincidan con la primera palabra ingresada. Espera encontrar uno o más verbos que coincidan con esa palabra. Si no encuentra ninguno, salta al paso 2A.

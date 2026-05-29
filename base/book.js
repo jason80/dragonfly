@@ -161,7 +161,7 @@ export class Book {
 		};
 
 		// Load theme
-		Utils.loadCSS(this.properties["theme"]);
+		Utils.switchStyle(this.properties["theme"]);
 
 		if (this.title.trim() === "") {
 			Output.error("the book title has not been defined");

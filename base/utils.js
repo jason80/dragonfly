@@ -97,15 +97,24 @@ export class Utils {
 		Output.print(`Description: ${book.description}`);
 	}
 
-	static loadCSS(path) {
-		const style = document.createElement('link');
-		style.rel = 'stylesheet';
-		style.href = path;
+	/**
+	 * Switch css file.
+	 * @param {string} path path to css file.
+	 */
+	static switchStyle(path) {
 
-		style.onerror = () => {
-			Output.error(`Error loading CSS file: ${path}`);
+		const style = document.getElementById('dragonfly-style');
+		if (style) {
+			document.head.removeChild(style);
 		}
-		document.body.appendChild(style);
+
+		const link = document.createElement("link");
+
+		link.id = "dragonfly-style";
+		link.rel = "stylesheet";
+		link.href = path;
+
+		document.head.appendChild(link);
 	}
 
 	static applyStyle(element, style) {

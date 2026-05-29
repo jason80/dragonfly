@@ -192,6 +192,10 @@ export class Book {
 		// Sets the player.
 		this.player = plList[0];
 
+		// Initial save state
+		const p = new DFMLPersistenceSystem(this.dictionary);
+		this.initialState = p.save();
+
 		if (this.properties["look-around"] === "always" ||
 			this.properties["look-around"] === "on-start") {
 			const lookVerb = this.dictionary.verbByAction("LookAround");
@@ -200,10 +204,6 @@ export class Book {
 			else
 				Output.error("Possible missing dictionary template?");
 		}
-
-		// Initial save state
-		const p = new DFMLPersistenceSystem(this.dictionary);
-		this.initialState = p.save();
 
 		await this.input.createInput();
 	}

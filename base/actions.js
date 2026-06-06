@@ -1565,6 +1565,12 @@ export class HangObject extends DefaultAction {
 	}
 } actions.HangObject = HangObject;
 
+export class JumpTo extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.JumpTo = JumpTo;
+
 /**************************************************************/
 /*                                                            */
 /*                      Single Actions                        */

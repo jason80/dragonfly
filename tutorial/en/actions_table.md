@@ -150,7 +150,7 @@ These are actions that expect a direct object as a parameter and do not perform 
 
 They are intended to be intercepted (captured) to perform specific logic.
 
-All default actions have three standard responses: `direct-not-found`, `direct-is-the-player`, `and nothing-happens`.
+All default actions have three standard responses: `direct-not-found`, `direct-is-the-player`, and `nothing-happens`.
 
 They can all be shown in a list:
 
@@ -173,6 +173,7 @@ They can all be shown in a list:
 * **ShootObject**
 * **EatObject**
 * **HangObject**
+* **JumpTo**
 
 ---
 

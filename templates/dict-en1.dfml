@@ -325,6 +325,18 @@ dictionary {
 		response(id: "direct-is-the-player", string: "I'm not that desperate!")
 	}
 
+	verb(names: "jump, leap, hop", action: "JumpObject", syntax: "to/into, 1") {
+		response(id: "nothing-happens", string: "I can't jump that.")
+		response(id: "direct-not-found", string: "I don't jump things that don't exist.")
+		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")
+	}
+
+	verb(names: "jump, leap, hop", action: "JumpObject", syntax: "1") {
+		response(id: "nothing-happens", string: "I can't jump that.")
+		response(id: "direct-not-found", string: "I don't jump things that don't exist.")
+		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")
+	}
+
 	verb(names: "speak, talk, say, pronounce", action: "TalkTo", syntax: "with/to, 1, ...") {
 		response(id: "direct-not-found", string: "The one I want to talk to isn't here.")
 		response(id: "direct-is-the-player", string: "I'm not crazy to talk to myself.")
@@ -368,7 +380,7 @@ dictionary {
 		response(id: "direct-removed", string: "I take off #1.")
 	}
 
-	verb(names: "jump, leap", action: "Jump") {
+	verb(names: "jump, leap, hop", action: "Jump") {
       response(id: "nothing-happens", string: "I start jumping on the spot like a rabbit.")
    }
 

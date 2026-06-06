@@ -346,6 +346,18 @@ dictionary {
 		response(id: "direct-is-the-player", string: "¿Tan desesperado estas?")
 	}
 
+	verb(names: "saltar, salta, salte, brincar, brinca", action: "JumpTo", syntax: "a/hacia/al/en, 1") {
+		response(id: "direct-not-found", string: "No está.")
+		response(id: "direct-is-the-player", string: "No puedes saltarte a ti mismo.")
+		response(id: "nothing-happens", string: "No puedes saltar a eso.")
+	}
+
+	verb(names: "saltar, salta, salte, brincar, brinca", action: "JumpTo", syntax: "1") {
+		response(id: "direct-not-found", string: "No está.")
+		response(id: "direct-is-the-player", string: "No puedes saltarte a ti mismo.")
+		response(id: "nothing-happens", string: "No puedes saltar a eso.")
+	}
+
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
 		response(id: "direct-not-found", string: "Ese al que quieres hablar no está.")
 		response(id: "direct-is-the-player", string: "No estas loco para hablar contigo mismo.")

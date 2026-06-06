@@ -55,6 +55,14 @@ dictionary {
          describe-object() {
             "Fuertes rápidos puedes ver cuando te asomas."
          }
+
+         before(actions: "JumpTo") {
+            "¡Adiós mundo cruel!"
+
+            variable-set(name: "ending", value: "4")
+
+            call(procedure: "defeat")
+         }
       }
 
       // Puente

@@ -171,6 +171,7 @@ Se pueden mostrar todas en una lista:
 * **ShootObject**
 * **EatObject**
 * **HangObject**
+* **JumpTo**
 
 ---
 

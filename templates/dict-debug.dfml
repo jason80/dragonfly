@@ -8,4 +8,5 @@ dictionary {
     verb(names: "verb", action: "VerbInfo", syntax: "1")
 	verb(names: "action", action: "ActionInfo", syntax: "1")
 	verb(names: "exitlist", action: "ExitList")
+    verb(names: "verbtable", action: "VerbTable")
 }

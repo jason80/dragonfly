@@ -323,7 +323,7 @@ export class VerbInfo extends Action {
 	}
 } debugActions.VerbInfo = VerbInfo;
 
-class ActionInfo extends Action {
+export class ActionInfo extends Action {
 	constructor() {
 		super();
 		this.consumesStep = false;
@@ -363,9 +363,7 @@ class ActionInfo extends Action {
 	responses() {
 		return [];
 	}
-}
-
-debugActions.ActionInfo = ActionInfo;
+} debugActions.ActionInfo = ActionInfo;
 
 export class ExitList extends Action {
 	constructor() {
@@ -398,3 +396,56 @@ export class ExitList extends Action {
 	}
 
 } debugActions.ExitList = ExitList;
+
+export class VerbTable extends Action {
+	constructor() {
+		super();
+		this.consumesStep = false;
+	}
+
+	init() {
+		return true;
+	}
+
+	check() {
+		return true;
+	}
+
+	carryOut() {
+		let markdown = "# Dragonfly Verbs\n\n";
+
+		markdown += "| Names | Syntax | Action |\n";
+		markdown += "|-------|--------|--------|\n";
+
+		for (const v of this.book.dictionary.verbs) {
+			// Ignore debug actions
+			if (v.action.name in debugActions) continue;
+
+			markdown += `| ${v.names.join(", ")} | ${v.syntax != "" ? '\`' + v.syntax + '\`' : ""} | ${v.action.name} |\n`;
+		}
+
+
+		const saveAs = (markdown, filename = 'verb-table.md') => {
+			const blob = new Blob([markdown], { type: 'text/markdown' });
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			
+			link.href = url;
+			link.download = filename;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			URL.revokeObjectURL(url);
+		};
+
+		saveAs(markdown);
+	}
+
+	report() {
+
+	}
+
+	responses() {
+		return [];
+	}
+} debugActions.VerbTable = VerbTable;

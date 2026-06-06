@@ -923,6 +923,44 @@ export class IfNotContains extends ConditionResponse {
 	}
 } responses.IfNotContains = IfNotContains;
 
+export class IfIsNextTo extends ConditionResponse {
+	constructor() {
+		super();
+		this.instance = "";
+		this.other = "";
+	}
+
+	toString() {
+		return `If ${this.instance} is next to "${this.other}"`;
+	}
+
+	check(action) {
+		const lst1 = action.book.dictionary.getNouns(this.instance)
+		if (lst1.length === 0) {
+			Output.error(`On IfIsNextTo condition: instance "${this.instance}" not found in dictionary.`);
+		}
+
+		const lst2 = action.book.dictionary.getNouns(this.other)
+		if (lst2.length === 0) {
+			Output.error(`On IfIsNextTo condition: other "${this.other}" not found in dictionary.`);
+		}
+
+		return lst1[0].container === lst2[0].container;
+	}
+
+	load(node) {
+
+		if (!Utils.expectedAttributes(node, "instance", "other")) return ;
+
+		this.instance = node.getAttr("instance").getValue();
+		this.other = node.getAttr("other").getValue();
+
+		ConditionResponse.prototype.load.call(this, node);
+	}
+
+} responses.IfIsNextTo = IfIsNextTo;
+
+
 export class IfCurrentPlaceContains extends ConditionResponse {
 	constructor() {
 		super();

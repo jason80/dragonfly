@@ -115,7 +115,10 @@ dictionary {
          set { "female" }
 
          describe-object() {
-            "The goat sits on the ground like a human being. Sometimes it glances sideways at the wolf."
+            "The goat sits on the ground like a human being."
+            if-is-next-to(instance: "goat", other: "wolf") {
+               append { "Sometimes it glances sideways at the wolf." }
+            }
          }
       }
 

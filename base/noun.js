@@ -340,6 +340,10 @@ export class Noun extends Entity {
 		const copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 		copy.container = container;
 
+		// Assign new id for save state
+		Noun.#idMax ++;
+		copy.id = Noun.#idMax;
+
 		this.dictionary.nouns.push(copy);
 
 	}

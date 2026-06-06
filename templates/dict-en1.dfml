@@ -325,13 +325,13 @@ dictionary {
 		response(id: "direct-is-the-player", string: "I'm not that desperate!")
 	}
 
-	verb(names: "jump, leap, hop", action: "JumpObject", syntax: "to/into, 1") {
+	verb(names: "jump, leap, hop", action: "JumpTo", syntax: "to/into, 1") {
 		response(id: "nothing-happens", string: "I can't jump that.")
 		response(id: "direct-not-found", string: "I don't jump things that don't exist.")
 		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")
 	}
 
-	verb(names: "jump, leap, hop", action: "JumpObject", syntax: "1") {
+	verb(names: "jump, leap, hop", action: "JumpTo", syntax: "1") {
 		response(id: "nothing-happens", string: "I can't jump that.")
 		response(id: "direct-not-found", string: "I don't jump things that don't exist.")
 		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")

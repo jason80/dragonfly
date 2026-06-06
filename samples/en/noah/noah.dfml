@@ -55,6 +55,14 @@ dictionary {
          describe-object() {
             "Strong rapids can be seen when you lean over the edge."
          }
+
+         before(actions: "JumpTo") {
+            "Goodbye cruel world!"
+
+            variable-set(name: "ending", value: "4")
+
+            call(procedure: "defeat")
+         }
       }
 
       // Bridge

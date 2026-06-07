@@ -57,6 +57,11 @@ response(class: "IfContains", container: "player", instance: "magic stone") {
             <td><code>container</code>, <code>instance</code></td>
         </tr>
         <tr>
+            <td><code>if-is-next-to</code></name>
+            <td>Si la instancia comparte el mismo padre con otra instancia.</td>
+            <td><code>instance</code>, <code>other</code></td>
+        </tr>
+        <tr>
             <td><code>if-current-place-contains</code></td>
             <td>Si el lugar actual (contenedor del jugador) contiene la instancia.</td>
             <td><code>instance</code></td>

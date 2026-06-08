@@ -337,6 +337,12 @@ dictionary {
 		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")
 	}
 
+	verb(names: "cross", action: "CrossObject", syntax: "1") {
+		response(id: "nothing-happens", string: "I can't cross that.")
+		response(id: "direct-not-found", string: "I don't cross things that don't exist.")
+		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")
+	}
+
 	verb(names: "speak, talk, say, pronounce", action: "TalkTo", syntax: "with/to, 1, ...") {
 		response(id: "direct-not-found", string: "The one I want to talk to isn't here.")
 		response(id: "direct-is-the-player", string: "I'm not crazy to talk to myself.")

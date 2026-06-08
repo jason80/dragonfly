@@ -1571,6 +1571,12 @@ export class JumpTo extends DefaultAction {
 	}
 } actions.JumpTo = JumpTo;
 
+export class CrossObject extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.CrossObject = CrossObject;
+
 /**************************************************************/
 /*                                                            */
 /*                      Single Actions                        */

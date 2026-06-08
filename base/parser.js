@@ -42,6 +42,9 @@ export class Parser {
 			return;
 		}
 
+		// Remove accents
+		line = Utils.noAccents(line);
+
 		// Clean unexpected chars
 		const allowedChars = this.book.getProperty("parser-clean");
 		const regex = new RegExp(`${allowedChars}`, 'g');
@@ -103,7 +106,7 @@ export class Parser {
 		}
 
 		// Increments step
-		this.book.dictionary.variables["steps"] = 
+		this.book.dictionary.variables["steps"] =
 		(parseInt(this.book.dictionary.variables["steps"]) + 1) + "";
 
 		await action.execute();
@@ -270,7 +273,7 @@ export class Parser {
 	 *
 	 * @param {*} action
 	 * @param {*} tokens
-	 * @return {*} 
+	 * @return {*}
 	 * @memberof Parser
 	 */
 	checkMultiparameterVerb(action, completeTokens) {
@@ -330,7 +333,7 @@ export class Parser {
 
 	/**
 	 * Print a debug message if 'showParsingProcess' is activated.
-	 * 
+	 *
 	 * @param {string} msg debug message.
 	 */
 	debug(msg) {

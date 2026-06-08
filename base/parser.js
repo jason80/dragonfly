@@ -61,13 +61,11 @@ export class Parser {
 			strVerb = strVerb.slice(0, -1); // Remove ":"
 		}
 
-		// Filter the verbs
-		const verbs = this.book.dictionary.getVerbs(strVerb);
+		const action = this.filterVerbs(strVerb, tokens);
 
-		// Verb not found
-		if (!verbs.length) {
+		if (!action) {
 			this.debug("verbs not found.");
-			
+
 			// Check if the token is an exit
 			const exit = this.book.dictionary.getExit(line.trim());
 			if (exit) {
@@ -85,32 +83,6 @@ export class Parser {
 			} else {
 				this.debug("exit not found.");
 				await this.parse("?");
-			}
-			return;
-		}
-
-		this.debug(`for ${tokens[0]}, ${verbs.length} verb(s) found, checking syntax ...`);
-
-		let action = null;
-
-		for (const v of verbs) {
-			this.directObjectString = "";
-			this.indirectObjectString = "";
-			this.keyword = "";
-			this.parameters = "";
-
-			action = this.checkSyntax(v, tokens);
-			if (action) break; // Syntax match found
-		}
-
-		if (!action) {
-			this.debug(`syntax check fails: "${tokens[0]}".`);
-
-			const response = verbs[0].getResponse("syntax-fail").trim();
-			if (response === "") {
-				Output.print(response);
-			} else {
-				this.book.execute("?");
 			}
 			return;
 		}
@@ -135,6 +107,24 @@ export class Parser {
 		(parseInt(this.book.dictionary.variables["steps"]) + 1) + "";
 
 		await action.execute();
+	}
+
+	filterVerbs(strVerb, tokens) {
+		const verbs = this.book.dictionary.getVerbs(strVerb);
+		if (verbs.length === 0) return null;
+
+		this.debug(`for ${tokens[0]}, ${verbs.length} verb(s) found, checking syntax ...`);
+
+		for (const v of verbs) {
+			this.directObjectString = "";
+			this.indirectObjectString = "";
+			this.keyword = "";
+			this.parameters = "";
+
+			const action = this.checkSyntax(v, tokens);
+			if (action) return action; // Syntax match found
+		}
+		return null;
 	}
 
 	/**

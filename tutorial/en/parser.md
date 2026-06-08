@@ -25,26 +25,17 @@ Other characters do not provide relevant information for the parser and can inte
 *Note: it is possible to configure the parser to allow all characters:*
 *```property(name: "parse-clean", value: "")```*
 
-### 2 - Looks for verbs.
+### 2 - Looks for verbs and checks syntax.
 Looks for verbs in the dictionary that match the first word entered by the player. It expects to find one or more verbs that match that word. If it doesn't find any, it goes to step 2A.
+
+Each verb declared in the dictionary has an associated syntax, which indicates what type of objects it expects to receive. The parser searches the sentence entered by the player for objects that match that syntax. Sometimes these involve keywords, such as `with`, `to`, `in`, etc. Other times, they simply expect a direct and/or indirect object. If it doesn't find any objects that match the syntax, it goes to step 2A.
 
 #### 2A - Looks for exits.
 It searches for exits registered in the dictionary, such as `north`, `south`, `east`, `west`, etc. If it finds an exit that matches the entered word, it implicitly executes the `GoTo` action and sets the found exit as the direct object. The process stops here, and the parser starts again with the input `go to "exit"`. Whether the exit exists or not in the current location will be handled by the `GoTo` action.
 
 If no exit is found that matches the entered word, the parser returns the typical message `"I don't know what you are saying"`. The process stops here.
 
-#### 2B - Verbs found.
-
-If it finds one or more verbs that match the entered word, the parser continues to determine which verb is the most appropriate based on the syntax.
-
-### 3 - Check the syntax.
-
-Each verb declared in the dictionary has an associated syntax, which indicates what type of objects it expects to receive. The parser searches the sentence entered by the player for objects that match that syntax. Sometimes these involve keywords, such as `with`, `to`, `in`, etc. Other times, they simply expect a direct and/or indirect object.
-
-If it fails to match the syntax of any verb found, the parser returns the typical message `"I don't know what you are saying"`. The process stops here.
-
-### 4 - Execute the action.
-
+#### 2B - Execute the action.
 It executes the action associated with the found verb, passing the identified objects in the syntax as parameters.
 
 *Note: at this point, it is not yet known whether the direct and indirect objects are valid or not; that is handled within the executed action.*

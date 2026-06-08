@@ -63,6 +63,10 @@ dictionary {
 
             call(procedure: "defeat")
          }
+
+         before(actions: "CrossObject", cancel: true) {
+            execute { "go to the other side" }
+         }
       }
 
       // Bridge
@@ -70,6 +74,10 @@ dictionary {
          set { "fixed" "scene" }
          describe-object() {
             "Do we really have to cross over that? Yes, it looks quite dangerous."
+         }
+
+         before(actions: "CrossObject", cancel: true) {
+            execute { "go to the other side" }
          }
       }
 
@@ -142,6 +150,9 @@ dictionary {
          if-direct-equals-exit(exit: "north") {
             call(procedure: "status")
          }
+         if-direct-equals-exit(exit: "other side") {
+            call(procedure: "status")
+         }
       }
 
       connection(exit: "north", destiny: "-north")
@@ -160,6 +171,9 @@ dictionary {
       // The wolf, goat and cabbage states are also checked
       before(actions: "GoTo") {
          if-direct-equals-exit(exit: "south") {
+            call(procedure: "status")
+         }
+         if-direct-equals-exit(exit: "other side") {
             call(procedure: "status")
          }
       }

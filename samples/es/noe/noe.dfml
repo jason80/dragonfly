@@ -63,6 +63,10 @@ dictionary {
 
             call(procedure: "defeat")
          }
+
+         before(actions: "CrossObject", cancel: true) {
+            execute { "ir hacia el otro lado" }
+         }
       }
 
       // Puente
@@ -70,6 +74,10 @@ dictionary {
          set { "fixed" "scene" }
          describe-object() {
             "¿Hay que cruzar por ahí? Sí, se ve bastante peligroso."
+         }
+
+         before(actions: "CrossObject", cancel: true) {
+            execute { "ir hacia el otro lado" }
          }
       }
 
@@ -142,6 +150,9 @@ dictionary {
          if-direct-equals-exit(exit: "norte") {
             call(procedure: "status")
          }
+         if-direct-equals-exit(exit: "otro lado") {
+            call(procedure: "status")
+         }
       }
 
       connection(exit: "norte", destiny: "-norte")
@@ -160,6 +171,9 @@ dictionary {
       // También se comprueba el estado del lobo, la cabra y el repollo
       before(actions: "GoTo") {
          if-direct-equals-exit(exit: "sur") {
+            call(procedure: "status")
+         }
+         if-direct-equals-exit(exit: "otro lado") {
             call(procedure: "status")
          }
       }

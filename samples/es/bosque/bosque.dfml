@@ -216,6 +216,10 @@ dictionary {
          describe-object() {
             execute() { "x" }
          }
+
+		 before(actions: "Enter", cancel: true) {
+			execute { "entrar" }
+		 }
       }
 
       noun(names: "puerta, puerta de la cabaña, puerta de madera") {

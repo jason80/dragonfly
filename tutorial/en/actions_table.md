@@ -174,6 +174,8 @@ They can all be shown in a list:
 * **EatObject**
 * **HangObject**
 * **JumpTo**
+* **CrossObject**
+* **Enter**
 
 ---
 

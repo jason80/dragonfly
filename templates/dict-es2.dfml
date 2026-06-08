@@ -351,6 +351,18 @@ dictionary {
 		response(id: "direct-is-the-player", string: "No entiendo lo que dices.")
 	}
 
+	verb(names: "entrar, entra, ingresar, ingresa, introducirse, introducete, introducite, adentrarse, adentrate, metete, meterse", action: "Enter", syntax: "a/en/dentro de/dentro, 1") {
+		response(id: "nothing-happens", string: "No puedes entrar ahi.")
+		response(id: "direct-not-found", string: "No existe.")
+		response(id: "direct-is-the-player", string: "No puedes entrar en ti mismo.")
+	}
+
+	verb(names: "entrar, entra, ingresar, ingresa, introducirse, introducete, introducite, adentrarse, adentrate, metete, meterse", action: "Enter", syntax: "1") {
+		response(id: "nothing-happens", string: "No puedes entrar ahi.")
+		response(id: "direct-not-found", string: "No existe.")
+		response(id: "direct-is-the-player", string: "No puedes entrar en ti mismo.")
+	}
+
 	verb(names: "hablar, habla, decir, di, deci, pronuncia, pronunciar", action: "TalkTo", syntax: "con/a/al, 1, ...") {
 		response(id: "direct-not-found", string: "Ese al que quieres hablar no está.")
 		response(id: "direct-is-the-player", string: "No estas loco para hablar contigo mismo.")

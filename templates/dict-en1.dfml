@@ -331,6 +331,12 @@ dictionary {
 		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")
 	}
 
+	verb(names: "enter", action: "Enter", syntax: "1") {
+		response(id: "nothing-happens", string: "I can't enter that.")
+		response(id: "direct-not-found", string: "That doesn't exist.")
+		response(id: "direct-is-the-player", string: "I cannot enter myself.")
+	}
+
 	verb(names: "speak, talk, say, pronounce", action: "TalkTo", syntax: "with/to, 1, ...") {
 		response(id: "direct-not-found", string: "The one I want to talk to isn't here.")
 		response(id: "direct-is-the-player", string: "I'm not crazy to talk to myself.")

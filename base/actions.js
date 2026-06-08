@@ -1577,6 +1577,12 @@ export class CrossObject extends DefaultAction {
 	}
 } actions.CrossObject = CrossObject;
 
+export class Enter extends DefaultAction {
+	constructor() {
+		super();
+	}
+} actions.Enter = Enter;
+
 /**************************************************************/
 /*                                                            */
 /*                      Single Actions                        */

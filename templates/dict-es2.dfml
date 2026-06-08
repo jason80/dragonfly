@@ -39,7 +39,6 @@ dictionary {
 
 	verb(names: "inventario, i, inv, invent, bulto, mochila", action: "Inventory") {
 		response(id: "inventory-is-empty", string: "No tienes nada en tu poder.")
-		response(id: "syntax-fail", string: "Escribe 'inventario' o 'i' para saber lo que llevas.")
 	}
 
 	verb(names: "examinar, examina, mirar, mira, busca, buscar, revisa, revisar, x, m, inspeccionar, inspecciona",
@@ -75,7 +74,6 @@ dictionary {
 		response(id: "direct-not-found", string: "#^2 no contiene eso.")
 		response(id: "inventory-full", string: "No puedes llevar mas.")
 		response(id: "direct-taken", string: "Sacas #1 de #2.")
-		response(id: "syntax-fail", string: "Tienes que indicar qué sacar.")
 	}
 
 	verb(names: "tomar, toma, agarrar, agarra, recoger, recoge, coger, coge, juntar, junta, obtener, obtiene",
@@ -107,7 +105,6 @@ dictionary {
 		response(id: "indirect-is-closed", string: "#^2 est@2(á,á,án,án) cerrad@2(o,a,os,as).")
 		response(id: "first-remove", string: "Primero debes quitarte@1(lo,la,los,las).")
 		response(id: "direct-leaved", string: "Dejas #1 en #2.")
-		response(id: "syntax-fail", string: "Tienes que decir lo que debes dejar.")
 	}
 
 	verb(names: "ir, ve, anda, irse", action: "GoTo",
@@ -122,7 +119,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "Tirar de ti mismo ...")
 		response(id: "direct-is-fixed", string: "No puedes jalar #1.")
 		response(id: "nothing-happens", string: "Tiras de #1 y no ocurre nada.")
-		response(id: "syntax-fail", string: "No se que jalar.")
 	}
 
 	verb(names: "dejar, tirar, deja, tira", action: "LeaveObject",
@@ -141,7 +137,6 @@ dictionary {
 		response(id: "direct-is-not-closable", string: "No se puede abrir #1.")
 		response(id: "direct-is-open", string: "#^1 ya est@1(á,á,án,án) abiert@1(o,a,os,as).")
 		response(id: "nothing-happens", string: "No puedes abrir #1 con eso.")
-		response(id: "syntax-fail", string: "Prueba con 'abrir objeto' o 'abrir objeto con otro'.")
 	}
 
 	verb(names: "cerrar, cierra", action: "CloseWith",
@@ -153,7 +148,6 @@ dictionary {
 		response(id: "direct-is-not-closable", string: "No se puede cerrar #1")
 		response(id: "direct-is-closed", string: "#^1 ya est@1(á,á,án,án) cerrad@1(o,a,os,as).")
 		response(id: "nothing-happens", string: "No puedes cerrar #1 con eso.")
-		response(id: "syntax-fail", string: "Prueba con 'cerrar objeto' o 'cerrar objeto con otro'.")
 	}
 
 	verb(names: "abrir, abre", action: "OpenObject", syntax: "1") {
@@ -177,7 +171,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "¿Tirar de ti mismo?.")
 		response(id: "direct-is-fixed", string: "No puedes tirar de #1.")
 		response(id: "nothing-happens", string: "Tirando de #1, no ocurre nada.")
-		response(id: "syntax-fail", string: "Prueba 'jalar objeto'.")
 	}
 
 	verb(names: "empuja, empujar, mover, mueve, desplaza, desplazar", action: "PushObject", syntax: "1") {
@@ -185,14 +178,12 @@ dictionary {
 		response(id: "direct-is-the-player", string: "No puedes empujarte a ti mismo.")
 		response(id: "direct-is-fixed", string: "#^1 est@1(á,á,án,án) fij@1(o,a,os,as).")
 		response(id: "nothing-happens", string: "No ocurre nada cuando empujas #1.")
-		response(id: "syntax-fail", string: "Prueba 'empujar objeto'.")
 	}
 
 	verb(names: "pulsa, pulsar, presionar, presiona", action: "PressObject", syntax: "1") {
 		response(id: "direct-not-found", string: "No hay eso.")
 		response(id: "direct-is-the-player", string: "No eres un botón.")
 		response(id: "nothing-happens", string: "No tiene sentido hacer eso con #1.")
-		response(id: "syntax-fail", string: "No se que pulsar.")
 	}
 
 	verb(names: "cortar, corta, rajar, raja", action: "CutWith",
@@ -202,7 +193,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "No pensarás cortarte.")
 		response(id: "indirect-is-the-player", string: "No eres una espada.")
 		response(id: "nothing-happens", string: "No puedes cortar #1 con eso.")
-		response(id: "syntax-fail", string: "Prueba con 'cortar objeto' o 'cortar objeto con otro'.")
 	}
 
 	verb(names: "cortar, corta, rajar, raja", action: "CutObject", syntax: "1") {
@@ -217,7 +207,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "¡¿Atarte a ti mismo?!.")
 		response(id: "indirect-is-the-player", string: "Estas loco.")
 		response(id: "nothing-happens", string: "No puedes atar #1 con #2.")
-		response(id: "syntax-fail", string: "Prueba con 'atar objeto', 'atar objeto con otro' o 'atar objeto a otro'.")
 	}
 
 	verb(names: "atar, ata, anudar, anuda", action: "TieTo", syntax: "1, a/al, 2") {
@@ -226,7 +215,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "¡¿ Piensas atarte ?!.")
 		response(id: "indirect-is-the-player", string: "Estas loco.")
 		response(id: "nothing-happens", string: "No puedes atar #1 a #2.")
-		response(id: "syntax-fail", string: "Prueba con 'atar objeto', 'atar objeto con otro' o 'atar objeto a otro'.")
 	}
 
 	verb(names: "atar, ata, anudar, anuda", action: "TieObject", syntax: "1") {
@@ -241,7 +229,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "No entiendo.")
 		response(id: "indirect-is-the-player", string: "No eres una palanca.")
 		response(id: "nothing-happens", string: "No tiene sentido hacer eso.")
-		response(id: "syntax-fail", string: "Prueba con 'romper objeto', 'romper objeto con otro'.")
 	}
 
 	verb(names: "romper, rompe, forzar, forza, fuerza, viola, violar, violenta, violentar, reventar, revienta, reventa", action: "BreakObject", syntax: "1") {

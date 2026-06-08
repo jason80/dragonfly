@@ -22,7 +22,6 @@ dictionary {
 
 	verb(names: "inventory, i, inv", action: "Inventory") {
 		response(id: "inventory-is-empty", string: "You have nothing in your possession.")
-		response(id: "syntax-fail", string: "Type 'inventory' or 'i' to see what you are carrying.")
 	}
 
 	verb(names: "examine, look, see, find, seek, ex, x, l",
@@ -58,7 +57,6 @@ dictionary {
 		response(id: "direct-not-found", string: "#^2 does not contain that.")
 		response(id: "inventory-full", string: "You cannot carry any more.")
 		response(id: "direct-taken", string: "You take #1 out of #2.")
-		response(id: "syntax-fail", string: "You need to specify what you should take out.")
 	}
 
 	verb(names: "take", action: "RemoveObject", syntax: "off, 1") {
@@ -86,7 +84,6 @@ dictionary {
 		response(id: "indirect-is-closed", string: "#^2 @2(is,is,are,are) closed.")
 		response(id: "first-remove", string: "First you must remove it.")
 		response(id: "direct-leaved", string: "You leave #1 in #2.")
-		response(id: "syntax-fail", string: "You need to say what you should leave.")
 	}
 
 	verb(names: "go, travel, walk", action: "GoTo",
@@ -116,7 +113,6 @@ dictionary {
 		response(id: "direct-is-not-closable", string: "#^1 can't be opened.")
 		response(id: "direct-is-open", string: "#^1 @1(is,is,are,are) already open.")
 		response(id: "nothing-happens", string: "You can't open #1 with that.")
-		response(id: "syntax-fail", string: "Try 'open object' or 'open object with another'.")
 	}
 
 	verb(names: "close", action: "CloseWith",
@@ -128,7 +124,6 @@ dictionary {
 		response(id: "direct-is-not-closable", string: "#^1 can't be closed.")
 		response(id: "direct-is-closed", string: "#^1 @1(is,is,are,are) already closed.")
 		response(id: "nothing-happens", string: "You can't close #1 with that.")
-		response(id: "syntax-fail", string: "Try 'close object' or 'close object with another'.")
 	}
 
 	verb(names: "open", action: "OpenObject", syntax: "1") {
@@ -152,7 +147,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "Pull yourself?")
 		response(id: "direct-is-fixed", string: "You can't pull #1.")
 		response(id: "nothing-happens", string: "Pulling #1 doesn’t do anything.")
-		response(id: "syntax-fail", string: "You don't know what to pull.")
 	}
 
 	verb(names: "push, move", action: "PushObject", syntax: "1") {
@@ -160,14 +154,12 @@ dictionary {
 		response(id: "direct-is-the-player", string: "You can't push yourself.")
 		response(id: "direct-is-fixed", string: "#^1 @1(is,is,are,are) fixed.")
 		response(id: "nothing-happens", string: "Nothing happens when you push #1.")
-		response(id: "syntax-fail", string: "You don't know what to push.")
 	}
 
 	verb(names: "press, tap, hold", action: "PressObject", syntax: "1") {
 		response(id: "direct-not-found", string: "That doesn't exist.")
 		response(id: "direct-is-the-player", string: "You're not a button.")
 		response(id: "nothing-happens", string: "It doesn't make sense to do that with #1.")
-		response(id: "syntax-fail", string: "You don't know what to press.")
 	}
 
 	verb(names: "cut, slice, chop, slash", action: "CutWith",
@@ -177,7 +169,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "You're not cutting yourself.")
 		response(id: "indirect-is-the-player", string: "You're not a sword.")
 		response(id: "nothing-happens", string: "You can't cut #1 with that.")
-		response(id: "syntax-fail", string: "Try 'cut object' or 'cut object with another'.")
 	}
 
 	verb(names: "cut, slice, chop, slash", action: "CutObject", syntax: "1") {
@@ -192,7 +183,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "You’re not tying yourself to anything!")
 		response(id: "indirect-is-the-player", string: "You’re crazy.")
 		response(id: "nothing-happens", string: "You can't tie #1 with #2.")
-		response(id: "syntax-fail", string: "Try with 'tie object', 'tie object with another', or 'tie object to another'.")
 	}
 
 	verb(names: "tie, knot", action: "TieTo", syntax: "1, to, 2") {
@@ -201,7 +191,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "You’re not tying yourself to anything!")
 		response(id: "indirect-is-the-player", string: "You’re crazy.")
 		response(id: "nothing-happens", string: "You can't tie #1 to #2.")
-		response(id: "syntax-fail", string: "Try with 'tie object', 'tie object with another', or 'tie object to another'.")
 	}
 
 	verb(names: "tie, knot", action: "TieObject", syntax: "1") {
@@ -216,7 +205,6 @@ dictionary {
 		response(id: "direct-is-the-player", string: "You don't understand.")
 		response(id: "indirect-is-the-player", string: "You're not a crowbar.")
 		response(id: "nothing-happens", string: "It doesn't make sense to do that.")
-		response(id: "syntax-fail", string: "Try 'break object', 'break object with another'.")
 	}
 
 	verb(names: "break, breaks, breaking, force, forces, forcing, violate, violates, violating", action: "BreakObject", syntax: "1") {

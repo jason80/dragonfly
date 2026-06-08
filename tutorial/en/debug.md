@@ -24,6 +24,8 @@ Including the dictionary of debugging dict-debug.dfml, you can include the follo
 
 * **exitlist**: Shows the list of all possible exits. (Usage: `exitlist`).
 
+* **verbtable**: Generates a markdown table with the all verbs, syntax and associated actions. (Usage: `verbtable`).
+
 ## The parser
 
 ### **show-parsing-process**

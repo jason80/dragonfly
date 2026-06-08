@@ -24,6 +24,8 @@ Incluyendo el diccionario de depuración dict-debug.dfml, puedes incluir los sig
 
 * **exitlist**: Muestra la lista de todas las posibles salidas. (Uso: `exitlist`).
 
+* **verbtable**: Genera una tabla con todos los verbos, sintaxis y acciones asociadas. (Uso: `verbtable`).
+
 ## El parser
 
 #### **show-parsing-process**

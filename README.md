@@ -1,6 +1,6 @@
 ![Logo](media/logo.png)
 
-*Current version: 0.8.1*
+*Current version: 0.9.0*
 
 English | [Español](./README.es.md)
 
@@ -134,6 +134,8 @@ The `--recurse-submodules` parameter is used to download the `dfml` module, whic
 [English](./tutorial/en/start.md) | [Español](./tutorial/es/start.md)
 
 #### More documentation:
+* [Inventory limit](./tutorial/en/inventory.md) | [Límite de inventario](./tutorial/es/inventory.md)
+
 * [Doors](./tutorial/en/doors.md) | [Puertas](./tutorial/es/doors.md)
 
 * [Darkness](./tutorial/en/darkness.md) | [Oscuridad](./tutorial/es/darkness.md)

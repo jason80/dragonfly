@@ -134,6 +134,8 @@ The `--recurse-submodules` parameter is used to download the `dfml` module, whic
 [English](./tutorial/en/start.md) | [Español](./tutorial/es/start.md)
 
 #### More documentation:
+* [Output: print, append and CSS styles](./tutorial/en/print_styles.md) | [Salida: print, append y estilos CSS](./tutorial/es/print_styles.md)
+
 * [Inventory limit](./tutorial/en/inventory.md) | [Límite de inventario](./tutorial/es/inventory.md)
 
 * [Doors](./tutorial/en/doors.md) | [Puertas](./tutorial/es/doors.md)

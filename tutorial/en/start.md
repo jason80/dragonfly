@@ -109,6 +109,8 @@ after(actions: "ExamineObject") {
 }
 ```
 
+See [PRINT](print_styles.md) for more information about Dragonfly's output and CSS styles.
+
 ## Adding nouns
 
 We add an apple next to the player, so the structure looks like:

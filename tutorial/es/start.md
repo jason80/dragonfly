@@ -99,13 +99,15 @@ after(actions: "ExamineObject") {
 }
 ```
 
-`"Texto de la descripción"` tambien es una abreviación. El texto solitario entre comillas que se encuentra dentro de un evento, Dragonfly lo reemplazará por una respuesta de acción "Print". Es decir, el texto se imprimirá en la pantalla. Siempre debe estar entre comillas (simples o dobles):
+`"Texto de la descripción"` también es una abreviación. El texto solitario entre comillas que se encuentra dentro de un evento, Dragonfly lo reemplazará por una respuesta de acción "Print". Es decir, el texto se imprimirá en la pantalla. Siempre debe estar entre comillas (simples o dobles):
 
 ```dfml
 after(actions: "ExamineObject") {
    print("Texto de la descripción")
 }
 ```
+
+Consulta [PRINT](print_styles.md) para más información sobre la la salida de Dragonfly y los estilos CSS.
 
 ## Añadiendo sustantivos
 

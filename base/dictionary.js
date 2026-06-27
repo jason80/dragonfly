@@ -3,6 +3,7 @@ import { Article } from "./article.js";
 import { Book } from "./book.js";
 import { Noun } from "./noun.js";
 import { Verb } from "./verb.js";
+import { loadVerb } from "./verbloader.js";
 import { Exit } from "./exit.js";
 import { actions, Inventory } from "./actions.js";
 import { ListDialog, ObjectChooserDialog, ProperListDialog, InventoryDialog,
@@ -187,9 +188,7 @@ export class Dictionary {
 					noun.load(child);
 					this.nouns.push(noun);
 				} else if(child.getName() === "verb") {
-					const verb = new Verb();
-					verb.load(child);
-					this.verbs.push(verb);
+					loadVerb(this, child);
 				} else if (child.getName() === "article") {
 					const article = new Article();
 					article.load(child);

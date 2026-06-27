@@ -51,12 +51,7 @@ dictionary {
 	}
 
 	verb(names: "examinar, examina, mirar, mira, x, m, inspeccionar, inspecciona",
-			action: "ExamineObject", syntax: "a/al, 1") {
-		response(id: "direct-not-found", string: "No hay eso.")
-	}
-
-	verb(names: "examinar, examina, mirar, mira, x, m, inspeccionar, inspecciona",
-			action: "ExamineObject", syntax: "1") {
+			action: "ExamineObject", syntax: "[a/al], 1") {
 		response(id: "direct-not-found", string: "No hay eso.")
 	}
 
@@ -77,22 +72,12 @@ dictionary {
 	}
 
 	verb(names: "tomar, toma, agarrar, agarra, recoger, recoge, coger, coge, juntar, junta, obtener, obtiene",
-		syntax: "a/al, 1", action: "TakeObject") {
+		syntax: "[a/al], 1", action: "TakeObject") {
 		response(id: "direct-not-found", string: "No hay eso.")
 		response(id: "direct-is-the-player", string: "No puedes llevarte a ti mismo.")
 		response(id: "direct-is-fixed", string: "No puedes llevarte #1.")
 		response(id: "inventory-full", string: "No puedes llevar mas.")
 		response(id: "direct-is-heavy", string: "#^1 @1(es,es,son,son) muy pesad@1(o,a,os,as) como para que te @1(lo,la,los,las) lleves.")
-		response(id: "direct-taken", string: "Recoges #1.")
-	}
-
-	verb(names: "tomar, toma, agarrar, agarra, recoger, recoge, coger, coge, juntar, junta, obtener, obtiene",
-		syntax: "1", action: "TakeObject") {
-		response(id: "direct-not-found", string: "No hay eso.")
-		response(id: "direct-is-the-player", string: "No puedes llevarte a ti mismo.")
-		response(id: "direct-is-fixed", string: "No puedes llevarte #1.")
-		response(id: "direct-is-heavy", string: "#^1 @1(es,es,son,son) muy pesad@1(o,a,os,as) como para que te @1(lo,la,los,las) lleves.")
-		response(id: "inventory-full", string: "No puedes llevar mas.")
 		response(id: "direct-taken", string: "Recoges #1.")
 	}
 
@@ -108,7 +93,7 @@ dictionary {
 	}
 
 	verb(names: "ir, ve, anda, irse", action: "GoTo",
-		syntax: "a/al/hacia, 1") {
+		syntax: "[a/al/hacia], 1") {
 		response(id: "exit-not-exists", string: "No conozco esa dirección.")
 		response(id: "exit-not-found", string: "No puedes ir por ahí.")
 	}
@@ -285,19 +270,13 @@ dictionary {
 		response(id: "nothing-happens", string: "No sucede nada.")
 	}
 
-	verb(names: "seguir, segui, sigue, perseguir, persegui, persigue, acompañar, acompaña, acechar, acecha", action: "FollowObject", syntax: "a/al, 1") {
+	verb(names: "seguir, segui, sigue, perseguir, persegui, persigue, acompañar, acompaña, acechar, acecha", action: "FollowObject", syntax: "[a/al], 1") {
 		response(id: "direct-not-found", string: "No se encuentra.")
 		response(id: "direct-is-the-player", string: "Ya estas aquí.")
 		response(id: "nothing-happens", string: "No puedes seguirl@1(o,a,os,as).")
 	}
 
-	verb(names: "seguir, segui, sigue, perseguir, persegui, persigue, acompañar, acompaña, acechar, acecha", action: "FollowObject", syntax: "1") {
-		response(id: "direct-not-found", string: "No se encuentra.")
-		response(id: "direct-is-the-player", string: "Ya estas aquí.")
-		response(id: "nothing-happens", string: "No puedes seguirl@1(o,a,os,as).")
-	}
-
-	verb(names: "trepar, trepa, ascender, ascende, asciende", action: "ClimbObject", syntax: "1") {
+	verb(names: "trepar, trepa, ascender, ascende, asciende", action: "ClimbObject", syntax: "[al/a], 1") {
 		response(id: "direct-not-found", string: "No existe eso.")
 		response(id: "direct-is-the-player", string: "No puedes treparte a ti mismo.")
 		response(id: "nothing-happens", string: "No se puede escalar eso.")
@@ -315,13 +294,7 @@ dictionary {
 		response(id: "nothing-happens", string: "No puedes comer #1.")
 	}
 
-	verb(names: "dispara, disparar, gatillar, gatilla", action: "ShootObject", syntax: "a/al, 1") {
-		response(id: "direct-not-found", string: "No hay eso a lo que disparar.")
-		response(id: "direct-is-the-player", string: "No eres un arma.")
-		response(id: "nothing-happens", string: "No puedes hacer eso.")
-	}
-
-	verb(names: "dispara, disparar, gatillar, gatilla", action: "ShootObject", syntax: "1") {
+	verb(names: "dispara, disparar, gatillar, gatilla", action: "ShootObject", syntax: "[a/al], 1") {
 		response(id: "direct-not-found", string: "No hay eso a lo que disparar.")
 		response(id: "direct-is-the-player", string: "No eres un arma.")
 		response(id: "nothing-happens", string: "No puedes hacer eso.")
@@ -333,13 +306,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "¿Tan desesperado estas?")
 	}
 
-	verb(names: "saltar, salta, salte, brincar, brinca", action: "JumpTo", syntax: "a/hacia/al/en, 1") {
-		response(id: "direct-not-found", string: "No está.")
-		response(id: "direct-is-the-player", string: "No puedes saltarte a ti mismo.")
-		response(id: "nothing-happens", string: "No puedes saltar a eso.")
-	}
-
-	verb(names: "saltar, salta, salte, brincar, brinca", action: "JumpTo", syntax: "1") {
+	verb(names: "saltar, salta, salte, brincar, brinca", action: "JumpTo", syntax: "[a/hacia/al/en], 1") {
 		response(id: "direct-not-found", string: "No está.")
 		response(id: "direct-is-the-player", string: "No puedes saltarte a ti mismo.")
 		response(id: "nothing-happens", string: "No puedes saltar a eso.")
@@ -351,13 +318,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "No entiendo lo que dices.")
 	}
 
-	verb(names: "entrar, entra, ingresar, ingresa, introducirse, introducete, introducite, adentrarse, adentrate, metete, meterse", action: "Enter", syntax: "a/en/dentro de/dentro, 1") {
-		response(id: "nothing-happens", string: "No puedes entrar ahi.")
-		response(id: "direct-not-found", string: "No existe.")
-		response(id: "direct-is-the-player", string: "No puedes entrar en ti mismo.")
-	}
-
-	verb(names: "entrar, entra, ingresar, ingresa, introducirse, introducete, introducite, adentrarse, adentrate, metete, meterse", action: "Enter", syntax: "1") {
+	verb(names: "entrar, entra, ingresar, ingresa, introducirse, introducete, introducite, adentrarse, adentrate, metete, meterse", action: "Enter", syntax: "[a/en/dentro de/dentro], 1") {
 		response(id: "nothing-happens", string: "No puedes entrar ahi.")
 		response(id: "direct-not-found", string: "No existe.")
 		response(id: "direct-is-the-player", string: "No puedes entrar en ti mismo.")

@@ -34,12 +34,7 @@ dictionary {
 	}
 
 	verb(names: "examine, look, see, find, seek, ex, x, l",
-			action: "ExamineObject", syntax: "to, 1") {
-		response(id: "direct-not-found", string: "There is none of that.")
-	}
-
-	verb(names: "examine, look, see, find, seek, ex, x, l",
-			action: "ExamineObject", syntax: "1") {
+			action: "ExamineObject", syntax: "[to], 1") {
 		response(id: "direct-not-found", string: "There is none of that.")
 	}
 
@@ -50,7 +45,7 @@ dictionary {
 			action: "ExamineMe")
 
 	verb(names: "take, grab, pick, collect, get, obtain, seize, extract, gather, snatch",
-		syntax: "1, from, 2", action: "TakeFrom") {
+		syntax: "1, from/out of, 2", action: "TakeFrom") {
 		response(id: "indirect-not-found", string: "You don't know where you want to take it from.")
 		response(id: "indirect-is-not-container", string: "You can't take things from #2.")
 		response(id: "indirect-is-closed", string: "#2 @2(is,is,are,are) closed.")
@@ -87,12 +82,7 @@ dictionary {
 	}
 
 	verb(names: "go, travel, walk", action: "GoTo",
-		syntax: "to/into/towards/for, 1") {
-		response(id: "exit-not-exists", string: "You don't know that direction.")
-		response(id: "exit-not-found", string: "You can't go that way.")
-	}
-
-	verb(names: "go, travel, walk", action: "GoTo", syntax: "1") {
+		syntax: "[to/into/towards/for], 1") {
 		response(id: "exit-not-exists", string: "You don't know that direction.")
 		response(id: "exit-not-found", string: "You can't go that way.")
 	}
@@ -261,13 +251,7 @@ dictionary {
 		response(id: "nothing-happens", string: "Nothing happens.")
 	}
 
-	verb(names: "follow, pursue, accompany, stalk", action: "FollowObject", syntax: "to, 1") {
-		response(id: "direct-not-found", string: "Not found.")
-		response(id: "direct-is-the-player", string: "You are already here.")
-		response(id: "nothing-happens", string: "You cannot follow @1(him, her, them, them).")
-	}
-
-	verb(names: "follow, pursue, accompany, stalk", action: "FollowObject", syntax: "1") {
+	verb(names: "follow, pursue, accompany, stalk", action: "FollowObject", syntax: "[to], 1") {
 		response(id: "direct-not-found", string: "Not found.")
 		response(id: "direct-is-the-player", string: "You are already here.")
 		response(id: "nothing-happens", string: "You cannot follow @1(him, her, them, them).")
@@ -291,13 +275,7 @@ dictionary {
 		response(id: "nothing-happens", string: "You can't eat #1.")
 	}
 
-	verb(names: "shoot, fire", action: "ShootObject", syntax: "to, 1") {
-		response(id: "direct-not-found", string: "That doesn't exist.")
-		response(id: "direct-is-the-player", string: "You're not a gun.")
-		response(id: "nothing-happens", string: "You can't do that.")
-	}
-
-	verb(names: "shoot, fire", action: "ShootObject", syntax: "1") {
+	verb(names: "shoot, fire", action: "ShootObject", syntax: "[to], 1") {
 		response(id: "direct-not-found", string: "That doesn't exist.")
 		response(id: "direct-is-the-player", string: "You're not a gun.")
 		response(id: "nothing-happens", string: "You can't do that.")
@@ -309,13 +287,7 @@ dictionary {
 		response(id: "direct-is-the-player", string: "Are you that desperate?")
 	}
 
-	verb(names: "jump, leap, hop", action: "JumpTo", syntax: "to/into, 1") {
-		response(id: "nothing-happens", string: "You can't jump that.")
-		response(id: "direct-not-found", string: "You can't jump things that don't exist.")
-		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")
-	}
-
-	verb(names: "jump, leap, hop", action: "JumpTo", syntax: "1") {
+	verb(names: "jump, leap, hop", action: "JumpTo", syntax: "[to/into], 1") {
 		response(id: "nothing-happens", string: "You can't jump that.")
 		response(id: "direct-not-found", string: "You can't jump things that don't exist.")
 		response(id: "direct-is-the-player", string: "I don't understand what you're saying.")

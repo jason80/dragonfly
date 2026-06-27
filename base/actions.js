@@ -995,6 +995,9 @@ export class GoTo extends Action {
 		// Move the player
 		this.book.player.container = nouns[0];
 
+		// Set "visited" attribute on container (place)
+		this.book.player.container.set(["visited"]);
+
 		// Visibility behavior
 		if (this.book.getProperty("look-around") === "always") {
 			// Look around verb

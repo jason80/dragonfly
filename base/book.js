@@ -192,6 +192,11 @@ export class Book {
 		// Sets the player.
 		this.player = plList[0];
 
+		// Sets the current place "visited".
+		if (this.player.container != null) {
+			this.player.container.set(["visited"]);
+		}
+
 		// Initial save state
 		const p = new DFMLPersistenceSystem(this.dictionary);
 		this.initialState = p.save();

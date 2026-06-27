@@ -20,6 +20,14 @@ Dragonfly is an interactive fiction game engine. It allows you to create and pla
 
 ---
 
+## DFML Syntax Extension for Visual Studio Code
+
+You can use the [dfml-highlighter-0.1.0.vsix](./dfml/dfml-highlighter/dfml-highlighter-0.1.0.vsix) extension to get syntax highlighting in Visual Studio Code.
+
+In VS Code, go to Extensions -> Install from VSIX (...) -> Select the downloaded file.
+
+---
+
 ## Sample Games
 
 | Game | Description | Topics Covered

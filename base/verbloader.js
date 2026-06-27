@@ -2,6 +2,7 @@ import { Entity } from "./entity.js";
 import { Verb } from "./verb.js";
 import { Utils } from "./utils.js";
 import { actions } from "./actions.js";
+import { debugActions } from "./debug.js";
 import { DFMLElement } from "../dfml/js/main/element.js";
 
 export function loadVerb(dictionary, node) {
